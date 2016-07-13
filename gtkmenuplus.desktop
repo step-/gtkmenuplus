@@ -1,0 +1,15 @@
+
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=gtkmenuplus
+GenericName=gtkmenuplus
+Comment=create a popup menu from a configuration file
+Exec=gtkmenuplus
+Icon=gtkmenuplus
+Terminal=false
+Categories=GNOME;GTK;Utility;
+StartupNotify=true
+GenericName[en_GB.UTF-8]=gtkmenuplus: create a popup menu 
+Comment[en_GB.UTF-8]=
+Name[en_GB]=gtkmenuplus.desktop

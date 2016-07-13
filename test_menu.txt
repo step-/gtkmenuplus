@@ -1,0 +1,166 @@
+#!/usr/bin/env gtkmenuplus
+# test_menu.txt
+# version 1.00, 2013-04-24
+# Default configuration file for the programme "gtkMenuPlus"
+# Usage: ./gtkmenuplus ./test_menu.txt  "$(hostname)"
+
+
+#      ............... Beginning of menu ...............
+
+editor=gedit                                                   # set this to your favourite text editor
+filebrowser=nautilus                                           # set this to your favourite file brownser
+datevar==date +%Y-%m-%d
+
+#menuPosition = 10 10                                          # optional
+
+
+iconsize = 25                                                  # optional
+
+icondirectory=icons_for_test_menu                                   # optional; relative to folder containing this menu configuration file
+
+
+format= color="blue" weight="bold"                             # optional formatting for following items
+
+item = Example Menu - $datevar
+cmd =                                                          # causes item to be disabled
+
+SEPARATOR
+
+format= color="RoyalBlue";color="DodgerBlue"
+tooltipformat = color="blue"
+
+item =  <span color="blue">_GEdit</span> editor
+cmd = $editor                                                  # gedit, using variable
+tooltip = the default editor in gnome
+icon = text-editor.png                                         # icon to be found in directory specified in icondirectory= line
+                                                               # gedit doesn't use an icon called gedit
+
+tooltipformat =                                                # turn off tooltip formatting
+
+item = _calculator
+cmd = gcalctool
+tooltip = this will run gcalctool
+
+item = gimp
+cmd = gimp
+tooltip = this will run the GIMP
+
+SEPARATOR
+
+item = 2 g_ames
+tooltip = this will launch two card games
+cmd = bash -l -c "( /usr/games/sol --variation freecell &) ; (/usr/games/sol --freecell &)"
+icon= games_card.png
+
+
+SEPARATOR
+
+Submenu = Browse Files
+    tooltip = browse specfic locations
+	icon = access.png
+
+#	format= color="DarkGoldenrod";color="RosyBrown"
+
+	item=$filebrowser at /
+	cmd=$filebrowser /
+
+	SEPARATOR
+
+	item = $filebrowser at ~/bin
+	cmd = $filebrowser ~/bin                         #CRASHES HERE
+#	icon = text-editor.png
+
+
+SEPARATOR
+
+
+item = edit bash settings file
+cmd = $editor ~/.bashrc
+tooltip = be careful editing .bashrc; make sure you know what you're doing
+icon = text-editor.png
+
+Submenu = documents to do with gtkmenuplus
+	tooltip=script files, reference material, help files
+#in case install.sh not yet run, test if icon in same directory as script
+if=  [ ! -f './gtkmenuplus.svg'  ]; echo -n $?          # invert logic of [ ], which returns 0 if condition true
+	icon = ./gtkmenuplus.svg
+else
+	icon = gtkmenuplus
+endif
+	
+	item = _edit this menu configuration file
+	cmd = $editor $0
+	icon = gnome-gmenu.png
+
+
+	item = gtkmenuplus README and INSTALL files
+	tooltip = open README and INSTALL in your default editor
+	cmd = README INSTALL                              # assume README, INSTALL in same folder as menu_configuration_file
+
+
+	submenu=edit demo menu configuration files
+		tooltip = uses an include= line
+		icon=document-open                            # freedesktop icon name
+
+	
+		include=examples/demo_menus/*.txt
+		tooltip=yet another menu configuration file   # applies to each item included, as does next line
+		icon=./gtkmenuplus.svg                        # ./: relative to directory in which this menu configuration file lives
+
+
+	item = standard icon names <span color="blue">(online)</span>
+	tooltip = <span color="red">online</span>: icon names referred to in this document should be available on your linux distro
+	cmd = http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+#	absence of icon= not recommended for remote file; gtkmenuplus will hang trying to get file type
+	icon=applications-internet # or maybe text-html
+
+SEPARATOR
+
+
+#include=examples/manpage_menu/manpagesSpecific
+
+Submenu = Music
+	icon = sound.png
+	tooltip=entries in here assume a specific file at a location, which will not be there on your machine
+
+	item = 50s
+	cmd = ~/Music/50s/PlayAll.m3u
+	icon = media-optical.png # icon required, ~/Music/50s/PlayAll.m3u doesn't exist on your machine
+
+	item = 60s
+	cmd = ~/Music/60s/PlayAll.m3u
+	icon = media-optical.png  # icon required, ~/Music/60s/PlayAll.m3u doesn't exist on your machine
+
+	SEPARATOR
+
+	Submenu = Some Band
+		icon =sound.png
+
+		item = Album 1
+		cmd = ~/Music/SomeBand/Album1/PlayAll.m3u
+		icon = media-optical.png  # icon required, Music/SomeBand/Album1/PlayAll.m3u doesn't exist on your machine
+
+		item = Album 2
+		cmd = ~/Music/SomeBand/Album2/PlayAll.m3u
+		icon = media-optical.png  # icon required, ~/Music/SomeBand/Album2/PlayAll.m3u doesn't exist on your machine
+
+	SEPARATOR
+
+	Submenu = Another Band
+		icon =sound.png
+
+		item = Album 1
+		cmd = /home/Music/AnotherBand/Album1/PlayAll.m3u
+		icon = media-optical.png  # icon required, /home/Music/AnotherBand/Album1/PlayAll.m3u doesn't exist on your machine
+
+		item = Album 2
+		cmd =  /home/Music/AnotherBand/Album2/PlayAll.m3u 
+        icon = media-optical.png  # icon required, /home/Music/AnotherBand/Album2/PlayAll.m3u  doesn't exist on your machine
+
+#   back up a level in menu hierarchy
+	SEPARATOR
+
+	item = 70s
+	cmd =  /home/Music/70s/PlayAll.m3u
+	icon = media-optical.png # icon required, /home/Music/70s/PlayAll.m3u doesn't exist on your machine
+

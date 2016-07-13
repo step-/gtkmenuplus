@@ -1,0 +1,19 @@
+# includedMenu.txt
+# version 1.00, 2013-04-24
+# demo configuration file for the programme "gtkmenuplus"
+# invoked by demoMenuLaunchersandInclude.txt
+
+SEPARATOR                                                      
+
+#using icondirectory= from the including menu configuration file. 
+
+item =  _GEdit editor
+cmd = gedit
+tooltip = the default editor in gnome
+icon = text-editor.png                  # icon to be found in directory specified in icondirectory= line
+
+item = _Calculator
+cmd = gcalctool
+
+item =  Gimp
+cmd = gimp

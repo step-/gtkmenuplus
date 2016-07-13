@@ -1,0 +1,99 @@
+#run with gtkmenuplus path_to/manpages
+#version 1.00, 2013-04-24
+#manpageDisplay.sh should be on your path; manpageCommon.sh 
+#should be in the same folder as manpageDisplay.sh
+
+
+#this could be attached via include= as a submenu
+#man.png might be a useful icon for that submenu
+#requires the okular reader, obtained with
+
+# sudo apt-get install okular
+
+#If you prefer to avoid okular and go more traditional, follow the 
+#examples of one of the the last two menu entries which open  
+#man pages in gnome-terminal and xterm, respectively.
+
+PROG_EXISTS="command -v "
+theType=$1
+
+if=[ "$1" != "" ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+error=need a parameter on include= line
+endif
+
+if=[ ! $($PROG_EXISTS xdotool)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=xdotool
+cmd = manpageDisplay.sh xdotool 1 $theType
+endif
+
+if=[ ! $($PROG_EXISTS xclip)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=xclip
+cmd = manpageDisplay.sh xclip 1 $theType
+endif
+
+if=[ ! $($PROG_EXISTS xwininfo)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=xwininfo
+cmd = manpageDisplay.sh xwininfo 1 $theType
+endif
+
+if=[ ! $($PROG_EXISTS pgrep)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=pgrep
+cmd = manpageDisplay.sh pgrep 1 $theType
+endif
+
+if=[ ! $($PROG_EXISTS xdpyinfo)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=xdpyinfo (display info)
+cmd = manpageDisplay.sh xdpyinfo 1 $theType
+endif
+
+if=[ ! $($PROG_EXISTS wmctrl)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=wmctrl
+cmd = manpageDisplay.sh wmctrl 1 $theType
+endif
+
+if=[ ! $($PROG_EXISTS zenity)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=zenity (dialogs)
+cmd = manpageDisplay.sh zenity 1 $theType
+endif
+
+if=[ ! $($PROG_EXISTS perlpod)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=perlpod
+cmd = manpageDisplay.sh perl 1 $theType
+endif
+
+if=[ ! $($PROG_EXISTS pdmenu)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=pdmenurc
+cmd = manpageDisplay.sh pdmenurc 1 $theType
+endif
+
+if=[ ! $($PROG_EXISTS pdmenu)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=pdmenu
+cmd = manpageDisplay.sh pdmenu 1 $theType
+endif
+
+if=[ ! $($PROG_EXISTS qrencode)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=make qr codes
+cmd = manpageDisplay.sh qrencode 1 $theType
+endif
+
+item=man
+cmd = manpageDisplay.sh man 1 $theType
+
+item=BASH builtins
+cmd = bash -l -c "man --html=firefox builtins"
+
+item=man (as html, if you've installed man2html)
+cmd = http://localhost/cgi-bin/man/man2html/usr/share/man/man1/man.1.gz
+
+item=man (on net)
+cmd = http://www.linuxmanpages.com/man1/man.1.php
+#	absence of icon= not recommended for remote file; gtkmenuplus will hang trying to get file type
+icon=applications-internet # or maybe text-html
+	
+item=man (with gnome-terminal)
+cmd = gnome-terminal --command="man man"
+
+
+item=man (with xterm)
+cmd = xterm -e man man
+

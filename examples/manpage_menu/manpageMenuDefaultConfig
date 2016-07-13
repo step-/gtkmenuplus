@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+#manpageMenuDefaultConfig
+#version 1.00, 2013-04-24
+#by Alan Campbell
+
+#set your preferred terminal application; replace '' with your application
+
+readonly TERMINAL_PROG='' # or maybe xterm, terminator
+
+# if you don't have yad, or want to display a different default section for yad dialog, set
+
+nSection=1
+
+# to one of followimng:
+
+# 1:  for general commands
+# 2:  system calls
+# 3:  library functions, covering in particular the c standard library
+# 4:  special files (usually devices, those found in /dev) and drivers
+# 5:  file formats and conventions
+# 6:  games and screensavers
+# 7:  miscellanea
+# 8:  system administration commands and daemons
+# A:  for all sections
+
+###################################################
+
+readonly NO_OPTION_CHOSEN=0
+
+###################################################
+# nProgChooseWith relates to the programme used to display a list of man pages.
+# If you have yad it determines $PROG_EXISTS programme is the default offered in the yad gui.
+# If you don't have yad it determined $PROG_EXISTS programme s used.
+# gtkmenuplus and myGtkMenu are faster to list large numbers of manpages than yad or zenity.
+# set nProgChooseWith
+
+nProgChooseWith=$NO_OPTION_CHOSEN
+
+# to one of integers below: 
+
+# 1: gtkmenuplus # requires that gtkmenuplus be installed
+# 2: myGtkMenu   # requires that myGtkMenu be installed
+# 3: yad         # requires that yad be installed
+# 4: zenity      # requires that zenity be installed
+# 5: pdmenu      # requires that pdmenu be installed
+
+
+###################################################
+# nDisplayWith relates to the programme used to display a chosen man page.
+# If you have yad it determines $PROG_EXISTS programme is the default offered in the yad gui.
+# If you don't have yad it determined $PROG_EXISTS programme s used.
+# set nDisplayWith   
+
+nDisplayWith=$NO_OPTION_CHOSEN 
+
+#to one of integers below: 
+
+# 1: yelp  # requires that yelp be installed
+# 2: html  # man2html can be installed, otherwise will use man --html
+# 3: pdf   # requires that ps2pdf be installed  
+# 4: txt   # convert man page to text in temp file, display in your preferred text editor
+# 5: man   # starts a terminal and runs man in it
+
+readonly MAIN_DIALOG_WITH_YAD=1         # requires that yad be installed
+readonly MAIN_DIALOG_WITH_ZENITY=2      # requires that zenity be installed
+
+readonly EDITORS_NOT_HANDLING_NON_PRINT=":geany:"
+
+readonly ONE_ZENITY_DIALOG=0 
+

@@ -1,0 +1,38 @@
+manPagesMenu.sh
+version 1.00, 2013-04-24
+by Alan Campbell
+
+manPagesMenu is a collection of scripts allowing you to find man pages via a gui, 
+and display them in a variety of ways.
+
+Place manPagesMenu.sh, displayManPage.sh and manPagesFunctions.sh in the same folder.  
+They don't have to be on the path.
+
+Create a launcher to manPagesMenu.sh anywhere, or run from gtkmenuplus or myGtkMenu, 
+or add to main menu, or run from command line.  
+
+manPagesMenu uses yad or zenity to present search options.  
+yad is preferable, and used if installed.  
+See INSTALL on how to get it.
+
+manPagesMenu uses gtkmenuplus, myGtkMenu, yad, zenity or pdmenu to display a list of 
+man pages matching your search criteria. For large numbers (thousands) of results 
+gtkmenuplus, myGtkMenu and pdmenu are faster than yad or zenity.
+
+myGtkMenu is limited to 2000 results; manPagesMenu will exit if you've chosen myGtkMenu to display
+results and there are too many of them.
+
+manPagesMenu displays your chosen man page in yelp, (the GNOME Help Browser); as an html page;
+as a pdf; or as a man page in a terminal.  Display as html will use man2html urls if it's installed, 
+otherwise will use the man --html=<your default brownser> option; 
+display as a pdf requires ps2pdf.  If the relevant packages aren't installed, 
+the yad search options dialog won't offer html or pdf as display options.
+
+
+about 4000 items:
+using gtkmenuplus, with pipe:    2 min 20 sec  
+using gtkmenuplus, without pipe: 2 min 08 sec  
+using yad:                       1 min 50 sec  
+using zenity:                    1 min 30 sec  
+using pdmenu:                    1 min 38 sec  
+using myGtkMenu:                 1 min 33 sec (but stops half way through (2000 menu item count exceeded)

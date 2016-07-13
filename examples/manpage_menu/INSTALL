@@ -1,0 +1,55 @@
+You need to set a few constants in manPagesMenu.sh
+
+set your preferred terminal application; replace '' with your application:
+alter the line:
+
+readonly TERMINAL_PROG=gnome-terminal # or maybe xterm, terminator
+
+If you don't have yad, or want to display a different default section for yad dialog, set
+
+nSection=1
+
+The script uses zenity or yad to construct dialogs. zenity is probably in your default repositories.
+yad is zenity on steroids and is preferred: you can get it via the varias ppas
+
+  http://www.ubuntuupdates.org/package/getdeb_apps/precise/apps/getdeb/yad
+  http://www.ubuntuupdates.org/package/webupd8/precise/main/base/yad
+  
+or from 
+
+  https://code.google.com/p/yad/  
+
+
+nProgChooseWith relates to the programme used to display a list of man pages.
+If you have yad it determines $PROG_EXISTS programme is the default offered in the yad gui.
+If you don't have yad it determined $PROG_EXISTS programme s used.
+gtkmenuplus and myGtkMenu are faster to list large numbers of manpages than yad or zenity.
+set nProgChooseWith
+
+nProgChooseWith=$NO_OPTION_CHOSEN
+
+to one of variables below: 
+
+CHOOSE_WITH_GTKMENUPLUS # requires that gtkmenuplus be installed
+CHOOSE_WITH_MYGTKMENU   # requires that myGtkMenu be installed
+CHOOSE_WITH_YAD         # requires that yad be installed
+CHOOSE_WITH_ZENITY      # requires that zenity be installed
+CHOOSE_WITH_PDMENU      # requires that pdmenu be installed
+
+
+nDisplayWith relates to the programme used to display a chosen man page.
+If you have yad it determines $PROG_EXISTS programme is the default offered in the yad gui.
+If you don't have yad it determined $PROG_EXISTS programme s used.
+set nDisplayWith   
+
+nDisplayWith=$NO_OPTION_CHOSEN 
+
+to one of variables below: 
+
+DISPLAY_WITH_YELP  # requires that yelp be installed
+DISPLAY_HTML       # convert man page to text in temp file, display in your preferred browser; requires that man2html be installed
+DISPLAY_PDF        # convert man page to text in temp file, display in your preferred pdf reader; requires that ps2pdf be installed  
+DISPLAY_MAN        # starts a terminal and runs man in it
+DISPLAY_TXT        # convert man page to text in temp file, display in your preferred text editor
+
+EDITORS_NOT_HANDLING_NON_PRINT

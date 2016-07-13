@@ -1,0 +1,52 @@
+#ubuntu_stop_modes menu
+
+#run with gtkmenuplus path_to/ubuntu_stop_modes
+
+#version $2, dated $now_version
+
+iconsize = 25
+icondirectory=icons    # relative to folder this file is in
+
+#gnome-power-manager
+
+format= color="red" weight="bold"                # optional
+
+item = stop the train
+cmd =                                                # causes item to be disabled
+icon = NULL
+
+format=
+
+item = _suspend     
+#cmd = pm-suspend # requires sudo
+#cmd = /home/alan/bin/suspend.sh
+cmd = bash -c "gnome-screensaver-command --lock && pmi action suspend"
+icon=suspend.png
+
+item = _logout      
+#cmd = gnome-session-quit --logout --no-prompt
+cmd = /usr/lib/indicator-session/gtk-logout-helper --logout
+icon=logout.png
+
+item = lock _screen      
+cmd = /usr/bin/xdg-screensaver lock
+icon=lock.png
+
+item = shut_down
+cmd = /usr/lib/indicator-session/gtk-logout-helper --shutdown
+#cmd = shutdown -P
+icon=shutdown.png
+
+item = _restart      
+cmd = /usr/lib/indicator-session/gtk-logout-helper --restart
+#cmd = reboot
+icon=restart.png
+
+#fails on my machine
+#item = _hibernate
+##cmd = pm-hibernate  # requires sudo
+##cmd = /home/alan/bin/hibernate.sh
+#cmd = bash -c "gnome-screensaver-command --lock && pmi action hibernate"
+#icon=hibernate.png
+
+

@@ -1,0 +1,156 @@
+gtkmenuplus     version 1.00, 2013-04-24
+
+copyright (C) 2013 Alan Campbell
+
+"gtkmenuplus" is a fork of "myGtkMenu" (found at https://sites.google.com/site/jvinla/home).
+
+gtkmenuplus is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License, version 2, as published
+by the Free Software Foundation. gtkmenuplus comes with ABSOLUTELY NO WARRANTY.
+
+See the file COPYING distributed with gtkmenuplus for the complete license.
+
+Usage:
+
+   gtkmenuplus path_to_menu_configuration_file [parameter1 [ parameter2 [ ...]]]
+
+    See below for details of menu_configuration_file and parameters.
+
+    To debug a menu_configuration_file for gtkmenuplus, run
+
+      gtkmenuplus menu_configuration_file
+
+    in a terminal window.  When in doubt, enter the complete pathname of
+    the files:
+
+      /pathto/gtkmenuplus /pathto/menu_configuration_file
+
+    In a terminal window gtkmenuplus will produce status and error messages,
+    including reports of errors or problems with the configuration file.
+
+      |------------------------------------------------------------------------------------|
+      | If a serious error is found in a configuration file, the rest of the file will     |
+      | be scanned for errors but the menu won't be displayed.  So it's always a good idea |
+      | to run a new or changed menu_configuration_file from the command line to see if    |
+      | all's well.                                                                        |
+      |                                                                                    |
+      | Fatal errors (usually memory allocation failures) will stop configuration file     |
+      | processing dead.                                                                   |
+      |                                                                                    |
+      |------------------------------------------------------------------------------------|
+
+   Also possible:
+
+
+      gtkmenuplus
+
+         without arguments, will attempt to run the menu_configuration_file test_menu.txt
+         found in the same directory as gtkmenuplus.
+
+         If you want most of the items in test_menu.txt to actually work. you may want to edit 
+         these lines (they declare variables) so they're right for your system:
+
+           editor=gedit
+           filebrowser=nautilus
+
+         Note most top level items in test_menu.txt have tooltips if you hover over them.
+
+
+       gtkmenuplus -h
+       gtkmenuplus --help
+       gtkmenuplus -v
+       gtkmenuplus --version
+
+
+      gtkmenuplus -
+
+        If B<gtkmenuplus> is followed by a hyphen, it will expect its menu_configuration_file to come in via stdin,
+        so in a bash script you might see:
+
+         {
+          while read line
+          do
+          # process a line of $infoForMenu, get $sEntryDesc, $sCmd
+            echo "item=$sEntryDesc"
+            echo "cmd=$sCmd"
+          echo
+          done <<< "$infoForMenu" #  here document
+         } | gtkmenuplus -
+
+        See manpageMenu.she in the manpageMenu example in the gtkmenuplus archive fo an example.
+        
+        You can also take advantage of absolute paths being valid lines in a configuration file
+        by generating a configuration file on the fly with something like:
+
+         { echo 'configure=abspathparts 0' ; find ~ -name *.conf 2> /dev/null  | grep -v '.netbeans'  | sed -e "s|^$HOME|~|"  | sort ; } | gtkmenuplus -
+
+        If gtkmenuplus is accepting its menu configuration file from stdin, any relative path references will
+        be taken as relative to $HOME.
+
+      gtkmenuplus 'config file line [ ; config file line [ ; config file line ...]'
+      
+        A few interesting menus can be generated with just a few configuration file lines, probably using 
+        a include=path_to_directory line.  In such cases you can submit semicolon-separated lines to 
+        gtkmenuplus like this:
+                  
+         gtkmenuplus  'include=/etc/*.conf * ; cmd=gksudo gedit; icon=preferences-system'        
+         gtkmenuplus  'include=~/bin/*.sh ; cmd=gedit; icon=NULL'        
+
+        Enclose the semicolon-separated lines in single quotes.
+
+      Run a menu_configuration_file:
+      
+        If you begin a menu configuration file with a shebang line invoking gtkmenuplus, e.g. 
+        
+          #!/usr/bin/gtkmenuplus  (assuming gtkmenuplus is in /usr/bin/)
+          #!/usr/bin/env gtkmenuplus (assuming gtkmenuplus is on your PATH, and that there is an env in your distro's /usr/bin/)
+
+        and make the menu configuration file executable, you can invoke gtkmenuplus with that file 
+        just by providing the menu configuration file's name, or, if it's not on your PATH, 
+        its full path and name.  
+
+Typically, one would launch gtkmenuplus (or an executable menu configuration file) from 
+
+  -- an icon (In GNOME: a launcher) on a panel; or
+  -- an (In GNOME: a launcher) icon on the desktop; or
+  -- a shortcut key
+
+You are not limited to one menu. Make several launchers or assign several shortcut keys
+and operate them with different menu configuration files.
+
+
+Parameters:
+
+You can invoke gtkmenuplus with additional parameters.
+If you do, their values can be referred to in _any_ line of
+your menu configuration file as $1 for the first parameter
+beyond the path_to_menu_configuration_file, $2 for the second,
+and so on. $0 refers to the path_to_menu_configuration_file.
+
+Parameter references are likely to be especially useful on if= and elseif= lines.
+See menu_configuration_file_format.txt.
+
+If $ occurs in a line not followed by an integer or a variable name
+(see menu_configuration_file_format.txt), it's treated as
+literal text, not a parameter or variable reference.
+
+If you provide a parameter but never reference it in the menu configuration file,
+there'll be a warning if you've launched from a console window.
+
+The menu configuration file:
+
+ See menu_configuration_file_format.txt
+
+Sample menu configuration files:
+
+  A number of demo menu configuration files for, and small applications using
+  gtkmenuplus are included in the examples directory of this distribution.
+  See demos.txt in that directory.
+
+  See demos.txt in the examples directory of this distribution.
+
+Acknowledgements
+
+  Thanks to John Vorthman for providing myGtkMenu code.
+
+  Idea of importing .desktop files borrowed from popdown, http://www.manatlan.com/page/popdown

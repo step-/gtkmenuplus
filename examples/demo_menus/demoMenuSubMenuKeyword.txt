@@ -1,0 +1,89 @@
+#!/usr/bin/env gtkmenuplus
+
+# demoMenuSubMenuKeyword.txt
+# version 1.00, 2013-04-24
+# demo configuration file for the programme "gtkmenuplus"
+# Usage: <path to>/gtkmenuplus <path to>/demoMenuSubMenuKeyword.txt 
+# or if gtkmenuplus is on your path: gtkmenuplus <path to>/demoMenuSubMenuKeyword.txt 
+
+
+#      ............... Beginning of menu ...............
+
+filebrowser=nautilus                                           # set this to your favourite file brownser
+
+#unusually icon directory is two levels up in directory hierarchy. 
+#We're reusing an icon folder in the directory as gtkmenuplus
+icondirectory=../../icons_for_test_menu                                   # optional; relative to folder containing this menu configuration file
+
+format= color="red" weight="bold"                             # optional formatting for following items
+item = use of fileformat=endsubmenu 
+format=
+
+configure=endsubmenu
+
+Submenu = Browse Files
+tooltip = browse specific locations
+
+icon = access.png
+
+ item=$filebrowser at /
+ cmd=$filebrowser /
+
+ SEPARATOR
+
+ item = $filebrowser at ~/bin
+ cmd = $filebrowser ~/bin
+ icon = text-editor.png
+
+EndSubmenu
+
+Submenu = Music
+icon = sound.png
+tooltip=entries in here assume a specific file at a location, which will not be there on your machine
+
+ item = 50s
+ cmd = ~/Music/50s/PlayAll.m3u
+ icon = media-optical.png
+
+ item = 60s
+ cmd = ~/Music/60s/PlayAll.m3u
+ icon = media-optical.png
+
+ SEPARATOR
+
+ Submenu = Some Band
+ icon =sound.png
+
+  item = Album 1
+  cmd = ~/Music/SomeBand/Album1/PlayAll.m3u
+  icon = media-optical.png
+
+  item = Album 2
+  cmd = ~/Music/SomeBand/Album2/PlayAll.m3u
+  icon = media-optical.png
+
+ EndSubmenu
+	
+ SEPARATOR
+
+ Submenu = Another Band
+ icon =sound.png
+
+  item = Album 1
+  cmd = xmms /home/Music/AnotherBand/Album1/PlayAll.m3u
+  icon = media-optical.png
+
+  item = Album 2
+  cmd = xmms /home/Music/AnotherBand/Album2/PlayAll.m3u
+  icon = media-optical.png
+
+ EndSubmenu
+	
+ SEPARATOR
+
+ item = 70s
+ cmd = xmms /home/Music/70s/PlayAll.m3u
+ icon = media-optical.png
+
+EndSubmenu
+

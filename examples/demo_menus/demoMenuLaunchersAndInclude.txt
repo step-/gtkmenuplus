@@ -1,0 +1,38 @@
+#!/usr/bin/env gtkmenuplus
+
+# demoMenuLaunchersandInclude.txt
+# version 1.00, 2013-04-24
+# demo configuration file for the programme "gtkmenuplus"
+# Usage: <path to>/gtkmenuplus <path to>/demoMenuLaunchersandInclude.txt
+# or if gtkmenuplus is on your path: gtkmenuplus <path to>/demoMenuLaunchersandInclude.txt
+
+
+#      ............... Beginning of menu ...............
+
+
+#unusually icon directory is two levels up in directory hierarchy. 
+#We're reusing an icon folder in the directory as gtkmenuplus
+icondirectory=../../icons_for_test_menu                                
+
+format= color="red" weight="bold"                              # optional formatting for following items
+item = use of include= and launcher=
+format=
+
+Submenu = from launchers
+	icon = gnome-info.png
+	tooltip = .desktop items picked up from launcher subfolder
+
+	launcher=launchers                                         # relative to directory in which this file lives
+
+submenu=edit demo menu configuration files
+	tooltip = uses an include= line
+	icon=document-open                                         # freedesktop icon name
+
+	include=./demo*.txt
+	tooltip=yet another menu configuration file                # applies to each item included, as does next line
+	icon=../../gtkmenuplus.svg                                 # ./: relative to directory in which this menu configuration file lives
+
+	configure=
+
+include=demoMenuIncluded.txt
+

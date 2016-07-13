@@ -1,0 +1,46 @@
+#casechange_menu
+#run with gtkmenuplus path_to/casechange_menu
+#assuming gtkmenuplus is on your path
+#you can use mtyGtkPlus in place of gtkmenuplus
+#caseChanger
+#version 1.00, 2013-04-24
+
+if= [ ! $(command -v ./caseChanger.sh) ]; echo $? # logic reversed, [] returns 0 if true
+ theScript=./caseChanger.sh
+else
+ theScript=caseChanger.sh
+endif
+
+#if caseChanger.sh not on your path, nor in same directory as this file,
+#edit and uncomment:
+#theScript="/full path to/caseChanger.sh"
+#theScript=caseChanger.sh
+
+item =  to UPPER CASE
+cmd = $theScript --toUpper
+icon=NULL 
+
+item =  to lower case
+cmd = $theScript --toLower
+icon=NULL 
+
+#Convert a list of terms in slug format to capitalized words
+#sed -e 's/^./\U&/' -e 's/_./\U&/g' -e 's/_/ /g' /path/to/input
+
+item =  to Title Case
+cmd = $theScript --toTitle  
+icon=NULL 
+
+item =  to SquashedTitleCase
+cmd = $theScript --squashedTitleCase 
+icon=NULL 
+
+item =  to slugged__lower__case
+cmd = $theScript --slugged_lower_case
+icon=NULL 
+
+item =  to white space from__slugged
+cmd = $theScript --slugged_to_spaced
+icon=NULL 
+
+

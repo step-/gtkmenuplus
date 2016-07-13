@@ -1,0 +1,803 @@
+Format of menu configuration files for gtkmenuplus
+version 1.00, 2013-04-24
+
+copyright (C) 2013 Alan Campbell
+
+"gtkmenuplus" is a fork of "myGtkMenu" (found at https://sites.google.com/site/jvinla/home).
+
+
+The executable gtkmenuplus takes a menu_configuration_file as its primary argument, 
+and constructs a menu from what it finds there.  
+
+This document describes the format of those files.
+
+Anything on a line after the "#" character is considered a comment and is ignored by B<gtkmenuplus> and B<myGtkMenu>.
+
+Therefore any line whose first non-whitespace character is a "#" is ignored.
+
+Each line in a menu configuration file will be truncated to 200 characters. If a "#" occurs before 200 characters,
+nothing significant will be lost.
+
+Blank lines are ignored.
+
+Each meaningful line in a menu configuration file contains a keyword (which may be preceded by whitespace).
+Therefore any line whose first non-whitespace character is a "#"  is ignored.
+Keywords identify the type of line.
+
+The case of keywords is ignored.
+
+Seven keywords are inherited from myGtkMenu:
+
+"item=item_description"
+"cmd=command"                (behaviour in gtkmenuplus modified from that in myGtkMenu) (command may be null)
+"icon=path_to_image_file"    (behaviour in gtkmenuplus modified from that in myGtkMenu) (path may be null)
+"separator"
+"submenu=submenu_description"
+
+"iconsize=size"
+"menupos=x y"                (behaviour in gtkmenuplus slightly modified from that in myGtkMenu)
+"menuposition=x y"           (synonym for menupos)
+
+
+The remaining keywords are new in gtkmenuplus:
+
+"icondirectory=path_to_icon_directory"
+
+"format=format_string"
+
+"tooltip=tooltip_text"
+"tooltipformat=format_string"
+
+"launcher=path_to_launcher(s)"
+"launcherdirectory=path_to_launcher_directory"
+"launcherdir=path_to_launcher_directory" (synonym for launcherdirectory)
+
+"include=menu_configuration_file" or
+"include=path_to_directory[/file_glob] [directory_glob]" 
+
+"if=condition"
+"elseif=condition" or "elif=condition"
+"else"
+"endif" or "fi"
+"error=message"
+
+"configure=endsubmenu <and/or> noicons  <and/or> formattinglocal <and/or> menuposition x y <and/or> iconsize size <and/or> abspathparts n <and/or> "errormsgbox"
+"endsubmenu"
+
+/path_to/file
+~/path_to/file
+
+Keywords followed by "=":
+
+  There may be whitespace between keyword and "=".
+  Whitespace between an "="  and the value that follows is ignored, as is trailing whitespace after value.
+
+  An "item=" may be followed by "cmd=" "icon=" and/or "tooltip=" lines, in any order.
+
+Variables
+
+variable_name=value
+variable_name==expression
+
+  Any string preceding "=", aside from the keywords listed above, will
+  be taken to be a declaration of a variable, providing it meets the following conditions.
+
+    A variable_name may not be the same as any existing environmental variable.
+
+    A variable_name must begin with an alphabetic character.  All other characters
+    in a variable_name must be alphabetic, numeric or the underscore.
+
+  Whitespace between a variable_name and "=" is ignored.
+
+  Whitespace following the "=", and trailing whitespace after value or expression is ignored.
+  If you want to include leading or trailing whitespace in a value or expression,
+  enclose it all in single or double quotes, which will be stripped before the value is stored
+  or expression is evaluated.  You can also use quotes if you want a value beginning with "=", e.g.
+
+    myvar="  something smelly "
+
+  If a variable_name is followed by "==", the text after the "==" is interpreted as an expression
+  which is passed to the shell for evaluation;  whatever ends up in stdout becomes the variable value.
+
+  A variable_name can be referred to as $variable_name in _any_ subsequent line. For instance $variable_name
+  can be all or part of a command (in a cmd= line); of a menu item's item_description (in an item= line);
+  or of the condition on if= or elseif= lines.
+
+  If the same variable_name is declared a second time, it's value is redefined or expression
+  re-evaluated.
+
+
+Parameter references:
+
+  Arguments can be provided following the menu_configuration_file on the gtkmenuplus command line. 
+  The arguments can be referred to by the reference $1, $2,... etc, in any line in the
+  menu_configuration_file (except "cmd=command" lines, since $1, $2... may occur in bash one-liners and
+  be confused with gtkmenuplus command line parameter references).
+  
+  You can also refer to the menu configuration file argument with $0, unless gtkmenuplus gets its input from stdin.
+
+Paths:
+
+  The following lines may contain a path or paths:
+
+   "cmd=command"                
+   "icondirectory=path_to_icon_directory"
+   "icon=path_to_image_file"    
+   "launcherdirectory=path_to_launcher_directory"
+   "launcher=path_to_launcher(s)"
+   "include=menu_configuration_file" 
+   "include=path_to_directory" 
+
+  Paths may be absolute (beginning with "/") or relative.  They may begin with the tilde ("~"),
+  which in all cases will be expanded into $HOME, as it would be by the shell.
+  
+  Relative paths may begin with "./" and/or include "../", 
+  begin with the name of a directory or simply name a file.  
+  
+  Paths beginning with a dot will be taken to be relative to the 
+  path of the menu configuration file specified on the gtkmenuplus command line.
+
+  A path which is a plain filename or which begins with a directory name is taken to be relative to 
+  the menu configuration file specified on the gtkmenuplus command line, with the following exceptions:
+
+   "icon="                   directory specified in the last non-null "icondirectory=" line, if any
+   "launcher="               directory specified in the last non-null "launcherdirectory=" line, if any
+   "cmd="                    assumed to be on the system's PATH.
+  
+  the name of a directory paths beginning with a dot will be expanded into an address relative to the 
+  path in of the menu configuration file specified on command line.
+
+  The command on a "cmd=command" line in particular may contain multiple paths requiring expansion
+  (typically multiple arguments to the specified executable).  After expansion the entire command 
+  must be no longer than 1024 characters, otherwise gtkmenuplus will splutter.
+
+item=item_description
+
+  Denotes the item_description to show in the menu. An underscore ("_") indicates
+  the following letter is the mnemonic for the menu item.
+
+  If you want to include an underscore in the item_description but not use it to flag a
+  mnemonic, use two underscores ("__").
+
+  May be immediately followed by any or all of "cmd=", "icon=" and "tooltip=" lines, in any order.
+
+  An "item=" line marks the end of any menu item or submenu preceding it.
+
+
+cmd=command
+
+  Optional.  Denotes the command to run.
+
+  Must be preceded by an "item=", and possibly by am "icon=" or "tooltip=" line.
+  It applies to the menu entry begun by the preceding "item=" line.
+
+  The command that follows "cmd=" on the line must be a legal (error free) command, or nothing.
+
+  "cmd=", on it's own, or an "item=" not followed by a "cmd=", will create a disabled menu item
+  (possibly to use as a menu or section title).
+
+  You can use ~ to refer to your home directory, e.g. ~/bin/myScript.sh.
+  
+  A cmd= line is the only kind of line in which you can't use parameters originating on the gtkmenuplus command line, 
+  or as part of an include line, since $1, $2... may occur in bash one-liners and be confused with gtkmenuplus command 
+  line parameter references.  If you want to use a parameter in a command, set a variable to the parameter e.g.
+  
+    myParam=$1
+    
+  and use the variable ($myParam) in the command.   
+  
+  If the command will not work when independently at a CLI,
+  it will not work from gtkmenuplus.
+
+  However, not everything that will work in at a CLI will work in "cmd=".  
+
+    You can't specify more than one command on a line (using ;, && or |).
+  
+    You can't use environmental variables (e.g. $WINEPREFIX, $HOME).
+
+  However, you _can_ get the shell to do stuff like that for you.
+  Either you can make a small script containing the commands you need, or you
+  can make your command a shell invocation, e.g.:
+
+     cmd=bash -c "(loopy &) ; (sleep 1) ; (wmctrl -F -r Loopy -b add,fullscreen &)"
+     cmd=bash -l -c "( /usr/games/sol --variation freecell &) ; (/usr/games/sol --freecell &)"
+
+  Instructive to search for "ubuntu one liner scripts": I found some at
+
+      http://tuxtweaks.com/2010/10/remove-old-kernels-in-ubuntu-with-one-command/
+
+  If you want a menu item that will trigger a dialogue, look into zenity,
+  available from the repositories.
+
+
+  You also can have:
+
+     cmd=path_to_a_non_executable_file [ path_to_other_non_executable_file ... ] 
+
+  A non_executable_file could for instance be a doc, html, xls or plain text file.
+  path_to_a_non_executable_file can begin with a tilde (for the home directory), 
+  or be a relative or absolute path.
+
+  If a cmd= begins with a non_executable_file, its MINE type is used to determine which 
+  application will be used to execute that file (and any path_to_other_non_executable_files
+  on the same line). 
+  
+
+tooltip=tooltip_text
+
+  Optional.  Adds a tooltip to a menu item or submenu.
+
+  Must be preceded by an "item=", and possibly by an "icon=" and/or (if there's a preceding "item=" line) a "cmd=" line.
+  It applies to the menu entry begun by the preceding "item=" line or submenu begun by the preceding "submenu=" line..
+
+icon=path_to_image_file | icon_name | NULL
+
+  Optional.  Denotes a image to show with the menu item or submenu. 
+  
+  Must be preceded by an "item=", or "submenu=" line, and possibly by an "icon=" and/or (if there's a preceding "item=" line) 
+  a "cmd=" line.  
+  
+  It applies to the menu entry begun by the preceding "item=" line or submenu begun by the preceding "submenu=" line.
+
+  If a menu item lacks an icon line, or has an "icon=" line with nothing following the = sign, gtkmenuplus will attempt to 
+  find an icon associated with the executable named in the menu item's "cmd=" line; or, 
+  if the "cmd=" line specifies only a non-executable file, an attempt will be made to locate an icon associated
+  with the default programme used to open that file.
+
+
+  There are situations when, if you want a meaningful image, you have to supply it yourself:
+
+    -- any submenu
+
+    -- a menu item where the command on the "cmd=command" begins with bash
+       (e.g. to run multiple commands; see test_menu.txt), a terminal emulator
+       (to run a command in a terminal), gksudo or equivalent, 
+       or a general purpose tool like dconf.
+
+    -- successive menu items (e.g. ones opening text files) which, based on command or
+       file type would all have the same icon
+       
+    -- a cmd= consisting of a url to something on the net or on another machine.  If the net isn't accessible,
+       gtkmenuplus will stall while trying to get information about the target file type.  
+       Might be better to use a named icon like.e.g. text-html or applications-internet.
+
+
+  If you do not want an image on your menu item, use the line "icon=NULL", or:  
+
+    If the most recently encountered "configure=" line  in the menu configuration file included the word "noicons",
+    any item without an "icon=path_to_image_file" or "icon=icon_name" line will not be assigned an image.
+    
+    A subsequent "configure=" line containing the word "icons" will cause gtkmenuplus to revert to 
+    its default behaviour of finding icons based on the application or filetype specified on the "cmd=" line.
+
+
+  path_to_image_file:
+  
+    The "path_to_image_file" includes a file extension (i.e. it ends with a dot followed by three or four characters). 
+
+    "path_to_image_file" follows the rules for paths referred to in menu configuration files (see above):
+
+      A "path_to_image_file" can begin with a tilde, which will be expanded as in bash to $HOME.
+
+      It can be absolute.
+
+      Or it can be relative.  If "path_to_image_file" doesn't begin with a dot, and the most recent 
+      "icondirectory=path_to_icon_directory" line has a non-null "path_to_icon_directory",
+      it's relative to that.
+
+        Otherwise a relative "path_to_image_file" is relative to the path in which the configuration file was found
+        (as specified on the gtkmenuplus command line, unless gtkmenuplus is reading from stdin). 
+
+
+    It's easier to maintain a menu configuration file if all icons associated with it
+    reside in a single directory; so all "path_to_image_file"s should point to the same 
+    directory.
+  
+    To speed execution, all icon files associated with a menu configuration file should be 
+    of the same image size.
+
+    You can either search your filesystem for likely icons, or try sites like
+    http://findicons.com for freeware/open source icons.  On linux icons should be
+    png, svg, xpm or gif image files.
+
+ icon_name:
+ 
+   Instead of a "path_to_image_file" you can use an "icon_name".  
+   
+   An "icon_name" is distinguished by not including an extension for one of the strandard icon filetypes.
+  
+   An "icon_name" will be recognised if
+   icons matching it are in one of the standard sets of icon directories (e.g. /usr/share/pixmaps/, 
+   subdirectories of /usr/share/icons, etc); in particular the icon names listed in freedesktop.org's 
+   Icon Naming Specification: 
+  
+     http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+
+   are likely to be available, as are the names of many (but probably not all) applications.
+  
+
+format=formatting 
+
+ formatting=[ format_string [;|, format_string [;|, format_string... ]]]
+
+ Menu items and submenus following a "format" line have the given format_string(s) applied, until the
+ occurrence of the next "format=formatting" line.  
+ 
+ If more than one format_string occurs on a format= line, each format_string is applied in turn to
+ successive following items or submenus at the same level as the menu level in which the format= line occurs.  
+ Items or submenus at any other level in the menu hierachy are _not_ subject to the format_string sequence. 
+
+ If "formatting" contains only one "format_string", that "format_string" applies to everything following, 
+ no matter where it is in the menu hierarchy.
+
+  A "format_string" consists a string of whitespace-separated attribute="value" pairs,
+  attributes and their values must be appropriate for placement
+  within a <span >  tag in the Pango Text Attribute Markup Language
+
+  see http://www.gtk.org/api/2.6/pango/PangoMarkupFormat.html
+  for details (the "convenience tags" mentioned aren't supported).
+
+  e.g.:
+
+   format= font_desc="Sans Italic 12"
+   format= foreground="blue"                                  # colours can be names (defined in an X11/rgb.txt file on your system e.g. in /usr/share/X11)
+   format= style="italic" foreground="red" underline="single"
+   format= weight="bold"	                                  # also possible: "ultralight", "light", "normal", "ultrabold", "heavy", or a numeric weight
+   format= size='12800'                                       # in 1024ths of a point, or one of the absolute sizes 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
+   format= color="RoyalBlue";color="DodgerBlue"               #alternate two shades of blue in successive items
+
+  There can be multiple 
+
+  A "format=" line, i.e. with a null format_string, causes all subsequent menu and submenu items to revert to normal formatting.
+
+  Instead of (or as well as) using "format=" lines to modify some menu and submenu entries,
+  global changes (background colour, font, etc.) can be made to menus using the built-in "gtk theme" mechanism.
+  Try doing a search for:
+
+    gtk themes
+     -or-
+    setting a custom Gtk theme for specific applications
+     -or-
+    env GTK2_RC_FILES
+
+  The text of any menu item or submenu can be formatted by wrapping it in <span format_string>some text</span> tags, e.g.
+
+     <span color="white">some text</span>
+
+   Menu items or submenus formatted by inclusion of <span...>...</span> tags or by preceding format= lines
+   mustn't contain "<" or ">" characters.  Use "&lt;"  or "&gt;" instead.
+
+   If a format= line is in force, that will apply to all parts of a line containing <span...>...</span> tags not
+   within those tags.
+
+
+tooltipformat=format_string
+
+  The text of all tooltips encountered in menu items and submenus is formatted by the preceding tooltipformat=format_string line.
+
+  "format_string" is as for format=>format_string lines.
+
+  A null "format_string" turns off formatting for tooltips in subsequent menu items and submenus.
+
+
+launcher=path_to_launcher(s)
+
+  A launcher is a Gnome .desktop file used to launch an application.
+  It usually includes a name, executable, comment and icon.
+
+  If you provide a path to a single .desktop file, it will be used to create a menu entry.
+  Any preceding "format=format_string" line will apply to that entry, but of course you won't be able to
+  format parts of the entry name or comment using <span>..</span> tags.
+
+  If you provide a path_to_launcher(s) to a directory containing .desktop files, they will all be used to create successive menu entries.
+
+  "path_to_launcher" follows the rules for paths referred to in menu configuration files (see above):
+
+     It can begin with a tilde, which will be expanded as in bash to $HOME.
+
+     It can be absolute.
+
+     Or it can be relative.  If "path_to_launcher" doesn't begin with a dot, and the most recent 
+     "launcherdirectory>=path_to_launcher_directory" line has a non-null "path_to_launcher_directory", 
+     it's relative to that.
+
+     Otherwise a relative "path_to_launcher" is relative to the path in which the configuration file was found
+     (as specified on the gtkmenuplus command line, unless gtkmenuplus is reading from stdin). 
+
+
+  On my Ubuntu 11.10 installation, there are .desktop files for most applications in /usr/share/applications.
+
+  Be careful using nautilus to browse directories containing .desktop files.  It hides the .desktop extension is hidden,
+  and the file name shown is usually not the actual name of the file (which is usually all-lower-case).
+
+  For instance, /usr/share/applications/gnome-sudoku.desktop appears in nautilus browsing the directory /usr/share/applications as "Sudoko".
+
+  To see real .desktop file names, use a file browser like midnight commander or emelFM2, or use ls at a CLI.
+
+  One approach: copy the .desktop files you want from e.g. /usr/share/applications to a directory of your own, e.g. a subdirectory of
+  that holding the menu configuration file.  Then use "launcher>=path_to_launcher" to point to that directory.
+
+
+  If you want to refer to all the .desktops file in the directory specified by launcherdirectory=, use
+
+       launcher=.
+  or
+       launcher=*
+
+
+launcherdirectory=path_to_launcher_directory
+launcherdir=path_to_launcher_directory
+
+  After this line is encountered, in all subsequent "launcher=path_to_launcher(s)" lines,
+  if "path_to_launcher(s)",  doesn't begin with a tilde or forward slash,
+  it's assumed to be relative to "path_to_launcher_directory".
+
+  "path_to_launcher_directory" follows the rules for paths referred to in menu configuration files (see above). 
+
+  If "path_to_launcher_directory" doesn't begin with a tilde or forward slash,
+  it's assumed to be relative to the path in which the configuration file
+  was found (as specified on command line).
+
+  "launcherdirectory=" followed by no text reverts the base path for icons to
+  the path in which the configuration file was found (as specified on command line).
+
+  There can be multiple "launcherdirectory" lines; each sets the base directory
+  for all "launcher=" that follow, until the next "launcherdirectory=" line.
+
+
+include=menu_configuration_file [parameter1 [ parameter2 [ ...]]]
+
+  Inserts the contents of a menu_configuration_file into the one in which
+  the line occurs, at the point at which it occurs.
+
+  "menu_configuration_file" follows the rules for paths referred to in menu configuration files (see above). 
+  
+  If you want the contents of a menu_configuration_file to appear in a submenu,
+  indent the "include=" line as well as everything in the menu_configuration_file
+  just as you would if the contents of the file were found in the including file.
+
+  Be careful not to include recursively.  If a menu_configuration_file includes itself,
+  directly or indirectly, you'll end up with an infinite menu...
+
+  Parameters can be refered to as $1, $2, etc anywhere in the 
+  included menu_configuration_file. 
+  See the "Parameters" section, above, for more detail.
+  
+  As the included menu_configuration_file is processed:
+  
+    Any paths (See the "Paths" section, above) beginning with a dot are taken to be 
+    relative to the directory in which the included file lives; this will of course 
+    change nothing if the including and included file are in the same directory.
+  
+    If "icondirectory=path_to_icon_directory" and or 
+    "launcherdirectory=path_to_launcher_directory" statements are in force in the including
+    file, the "path_to_icon_directory" or "path_to_launcher_directory" remain in force 
+    within the included file.  
+
+    If "icondirectory=path_to_icon_directory" and or 
+    "launcherdirectory=path_to_launcher_directory" statements are encountered in an
+    included file, the "path_to_icon_directory" or "path_to_launcher_directory" remain
+    in force only within the included file; they revert to the values set in the including 
+    file once the included file is processed.
+
+    If the most recently encountered "configure=" line in the menu configuration file included the word "formattinglocal", 
+    the effects of any "format=" or "tooltipformat=" lines that occur within the included menu configuration file will 
+    persist only until the end of that included file.  Formatting then reverts to that specified by the last 
+    encountered "format=" and "tooltipformat=" lines in the including file.
+    
+    This behaviour can be turned off with a "configure=" line containing the word "formattinglocal".
+
+include=path_to_directory[/file_glob] [directory_glob] 
+
+  "path_to_directory" follows the rules for paths referred to in menu configuration files (see above). 
+
+  Inserts a series of menu entries, one per file, including only those files to which the user has read
+  access matching the file_glob specified (e.g. *.txt, d?t*, [a-f]*.txt).  
+  Extended globbing patterns can be used: see
+  
+     http://www.linuxjournal.com/content/bash-extended-globbing
+
+  The generated menu item's name will be the file name; if chosen the command executed will be
+  the full path to the file.
+  
+  There is no recursion into subdirectories under path_to_directory unless there's a directory_glob. 
+  If directory_glob exists it's applied only to subdirectories within path_to_directory, not to the 
+  matching of subdirectories further down the directory tree.
+    
+  Only subdirectories containing a file matching file_glob appear in the generated menu.
+  Subdirectories to which the user doesn't have read access are ignored.
+  
+  Including menu entries for a bunch of files probably only make sense if they
+  fall under a submenu (whose submenu_description would describe the files 
+  collected below it).
+
+  May be immediately followed by any or all of "icon=", "tooltip=" and "cmd=" lines, in any order.
+  If it is, the icon and tooltip will be applied to each of the menu entries created; if there's
+  a command, it will be prepended to the path associated with the chosen item in the menu generated 
+  by the "include=" line.
+
+
+/path_to/file, ~/path_to/file
+
+  A line in a menu configuration file can be an absolute path to a file, beginning
+  with a forward slash or tilde.  No keyword is expected or required, nor is it to be
+  followed by "icon=", "tooltip=" or "cmd=" lines.  
+  
+  By default, menu items generated from such lines will display the file name prefixed by its immediately
+  containing subdirectory.  
+  
+  Each generated item's tooltip will display the full path to the file, as provided in the
+  menu configuration file, before tilde expansion.
+  
+  If a previously encountered "configure=" line includes "abspathparts n", 
+  the lowest n elements of the path (the filename counts as one element) wil be displayed.
+  If "n" is zero, the whole path will be displayed.
+
+  The most likely use of such lines in a menu configuration file is to make it possible to
+  generate a configuration file on the fly and pipe it into gtkmenuplus, with e.g. something like:
+  
+    {echo "configure abspathparts 3" ; find ~ -name *.conf 2> /dev/null | grep -v '.netbeans'} | gtkmenuplus -
+
+submenu=submenu_description
+
+  Denotes a submenu_description to show in the menu listing.
+
+  It may be followed by "icon=" and/or "tooltip=" lines, which, if they are to relate to a given
+  "submenu=", must precede lines with any other keyword except "if=", "elseif=", "else" or "endif".
+
+  By default, (but see "configure=endsubmenu", below):
+
+      The "icon=" and/or "tooltip=" must be indented using the <tab> character.
+      They must be indented by one more tab than the "submenu=" line, as must all menu entries in the submenu.
+
+      The first line that is not indented with the same number of <tab>s signals the end of this submenu.
+
+      The indentation of lines with keywords like "iconsize=", "menupos=", "icondirectory=",
+      "format=", "tooltipformat=", "if=", etc, don't make up part of the definition of a menu item or submenu definition,
+      and therefore is ignored and has no effect on when a submenu ends.
+
+  Submenus can be nested.
+
+A "submenu=" line marks the end of any menu item or submenu preceding it.
+
+
+configure=
+
+  Any of the keywords "endsubmenu", "noendsubmenu", "icons", "noicons", "formattinglocal", "noformattinglocal", 
+  "errormsgbox" , "noerrormsgbox", "abspathparts", "menuposition", and "iconsize" can occur on this line.  
+  
+  "abspathparts" and "iconsize" must be immediately followed by whitespace, then an integer; 
+  "menuposition" must be followed by whitespace, then two whitespace-separated integers.
+
+  For the effects of "endsubmenu/noendsubmenu", see the "endsubmenu" line, just below.
+
+  For the effects of "icons/noicons", see the icon= line.
+
+  For the effects of "formattinglocal/noformattinglocal", see the include=menu_configuration_file line.
+  
+  For the effects of "abspathparts n", see the "/path_to/file, ~/path_to/file" line.
+
+  "menuposition x y" has the same effect as the "menuposition=x y" line.
+  Only one x y menu position, specified by either method, may occur in a menu configuratin file.
+   
+  "iconsize n" has the same effect as the "iconsize=size" line, overrides the effect of that line, 
+  and is overridden by any such following line.
+
+  By default when gtkmenuplus is _not_ launched via a CLI, fatal errors are displayed in a message box.  "errorconsoleonly" prevents such 
+  message boxes from appearing. "noerrorconsoleonly" reverts to the default behaviour.
+  
+endsubmenu
+
+  Once "endsubmenu" is encountered on a "configure=" line, indentation of lines no longer
+  signals which menu entries belong to which submenu.  Instead indentation is ignored, and
+  everything after a "submenu=" line belongs to that submenu until the occurrence of an
+  "endsubmenu" line.  Behaviour reverts to default when "noendsubmenu" occurs on a subsequent 
+  "configure=" line.
+
+  Ignoring indentation means that leading whitespace can be used cosmetically, e.g.
+  to mark lines within "if="/"elseif="/"else"/"endif" blocks (and of course to continue to
+  clarify what belongs to which submenu).
+
+
+separator
+
+  is just that - a line in the menu.
+
+  A separator marks the end of any menu item or submenu preceding it.
+
+
+iconsize=size
+
+  An optional line that changes the dimensions of the image used for succeeding menu items.
+  There can be multiple iconsize lines; each sets the icon size for all menu entries that
+  follow, until the next iconsize line.
+
+  size must be between 20 and 200.
+
+  Icons used in gnome are typically 16, 24, 48 or 96 pixels square.
+
+  If no "iconsize=" is in force size will be 30 unless the gtk framework returns a different size.
+
+  To speed execution, all icon files associated with a menu configuration file should be 
+  of the image size specified by the most recent "iconsize=" line.
+
+  An "iconsize=" line marks the end of any menu item or submenu preceding it.
+
+  You can get the same result by putting "iconsize size" on a "configure=" line.
+
+
+menupos=x y
+menuposition=x y
+
+  An optional line to force the menu to open at a given x-y
+  position (the programme xev can help you find coordinates - see its man page).
+  If no "menupos=" in encountered, the menu is shown at the mouse cursor position.
+  Only one "menupos=" is allowed per configuration file.
+
+  An "menupos=" line marks the end of any menu item or submenu preceding it.
+
+  menupos= is present but commented out in test_menu.txt.
+
+  If you place the menu at a spot where it will not fit, the menu will look odd.  Duh.
+
+  You can get the same result by putting "menuposition x y" on a "configure=" line.
+
+icondirectory=path_to_icon_directory
+
+  After this line is encountered, in all subsequent "icon=path_to_image_file" lines, 
+  if "path_to_image_file", doesn't begin with a tilde or forward slash it's assumed 
+  to be relative to  "path_to_icon_directory".
+
+  "path_to_icon_directory" follows the rules for paths referred to in menu configuration files (see above). 
+
+  "icondirectory=" followed by no text reverts the base path for icons to
+  the path in which the configuration file was found (as specified on command line).
+
+  There can be multiple "icondirectory=" lines; each sets the icon directory
+  for all menu entries that follow, until the next "icondirectory=" line.
+
+  An "icondirectory=" line marks the end of any menu item or submenu preceding it.
+
+
+if=condition
+elseif=condition or elif=condition
+else
+endif or fi
+
+"condition" may be either
+
+  -- a reference to an argument following the menu configuration file on the command line when
+     gtkmenuplus was called, the arguments referred to by the reference $1, $2,... etc, e.g.
+     (You can also get the menu configuration file argument with $0.)
+
+       if= $2  # referring to the third argument on the gtkmenuplus command line
+
+  -- a valid command that the shell can execute that produces a value on STDOUT.
+
+  -- a variable previously defined by a previous var= line in the menu configuration file.
+
+
+  In either case the value is expected to be an integer, "yes", "true", "no" or "false",
+  all case insensitive.
+
+  If the value (either the result of command execution sent to STDOUT
+  or received as a parameter) is non-zero, "true" or "yes",
+  the menu entries following the if= up to the following else or endif will be displayed.
+
+  If that value is zero, "false" or "no" , the menu entries following the if= up to the
+  following else or endif will NOT be displayed, but any after a following "else"
+  line will be.
+
+  An if=/[elseif=]/[else]endif block can be embedded within another.
+
+  If if=$n or elseif=$n lines when there are less than n parameters on the
+  gtkmenuplus command line, all lines from the line up to the matching elseif or endif
+  will be processed into the menu.
+
+  If you want to test some condition requiring a call to the shell, and you want to use the same condition in various
+  if= lines in your menu configuration file, you might be best to invoke the shell command within an argument on the command line;
+  that way the shell needs to be invoked only once, instead of multiple times for multiple if= statements.
+
+  "if=", "elseif=", "else" and "endif" lines do NOT mark the end of any menu item or submenu preceding it.
+  So you can have tooltip= or icon= lines apply to any of several items= that might appear conditionally
+  before them e.g.
+
+
+      if=     [ ! $(date +%H) -gt 18 ]; echo -n $?          # logic reversed; [] returns 0 if it succeeds
+
+        item = evening game
+        cmd = mahjongg
+
+      else
+
+       item = daytime game
+       cmd = mines
+
+      endif
+
+     #these will apply to whichever of the previous commands is allowed to show by the above if=/else lines
+     tooltip = the item you see here depends on the time of day
+     icon=games_package.png
+
+  "if=", "elseif=", "else" and "endif" lines are scoped to each menu configuration file.  If you include= a
+  menu configuration file, an "endif" line must follow an "if=" line within that file, and won't relate to a "if=" line  in the including file..
+
+
+  "error=message" can be used to stop menu configuration file processing, the need for which would generally be detected by
+  "if=", "elseif=", "else" and "endif" lines.
+
+
+Sample conditions in if=condition, elseif=condition or command line parameters
+
+
+  show menu entries following the if= line only in PM hours:
+
+    if=    if [ `date +%p` = "PM" ]; then echo 1; else echo 0; fi
+    if=    [ ! $(date +%p) = 'PM' ]; echo -n $?                      # inverting result of [ ], which returns 0 if expression true
+
+      negation (!) because test returns 0 for true;
+      $() is alternative to backticks
+
+     on the command line:
+
+      gtkmenuplus path_to_menu_configuration_file "[ ! $(date +%p) = 'PM' ]; echo -n $?"
+
+      and then use if= $1
+
+    date can be only show menu items on certain days of week, days of the month, week of the year, etc.
+
+
+  show menu entries following the if= line only if using a particular physical screen:
+
+    if=    xrandr --current | grep "VGA-0 connected" | wc -l
+
+     xrandr may have to fetched from repositories
+
+     on the command line:
+
+      gtkmenuplus path_to_menu_configuration_file "xrandr --current | grep 'VGA-0 connected' | wc -l"
+
+      and then use if= $1
+
+  show menu entries following the if= line only if firefox is running:
+
+    if=   xdotool search --name Firefox  | wc -l
+
+     xdotool may have to fetched from repositories
+
+     on the command line:
+
+      gtkmenuplus path_to_menu_configuration_file "$(xdotool search --name Firefox  | wc -l)"
+
+      and then use if= $1
+
+
+  $HOME works correctly, so you can test files relative to your home directory;
+  this one will be true if MIRRORS.ALL is larger than 2k:
+
+    if=   if [ `ls -l $HOME/MIRRORS.ALL  | cut -d\ -f5` -gt 2000 ]; then echo 1; else echo 0; fi
+    if=   [ !  $(ls -l $HOME/MIRRORS.ALL  | cut -d\ -f5) -gt 2000 ]; echo -n $?
+
+     on the command line:
+
+      gtkmenuplus path_to_menu_configuration_file "[ ! $(ls -l $HOME/MIRRORS.ALL  | cut -d\  -f5) -gt 2000 ]; echo -n $?"
+
+      and then use if= $1
+
+
+  test if a particular memory stick is mounted (inverting result of [ ], which returns 0 if expression true):
+
+    if=  [ ! -d '/media/VOL_LABEL'  ]; echo -n $?
+
+     on the command line:
+
+      gtkmenuplus path_to_menu_configuration_file "[ -d '/media/VOL_LABEL'  ]; echo -n $?"
+
+      and then use if= $1
+
+
+  test if partition $HOME resides on is more than 90% full (inverting result of [ ], which returns 0 if expression true):
+
+    if=  [ ! $(df $HOME | grep / | awk -F' ' '{print $5}' | awk -F'%' '{print $1}') -gt 90  ]; echo -n $?
+
+

@@ -1,0 +1,59 @@
+README for the programme "gtkMenuPlus"
+
+version 1,00, 2013-04-24
+
+The purpose of gtkmenuplus is to read a description file and display a menu.
+This program requires GTK+-2.4.x (or later) libraries.
+
+You should have received these files:
+
+  gtkmenuplus (two versions of a 32 bit linux executable, one using GTK+-2.x, one GTK+-3.x)
+  
+  the doc directory, containing: 
+  
+     README (this file), usage.txt, INSTALL (how to install gtkmenuplus), COPYING, changelog
+
+  test_menu.txt (an example menu configuration file read by gtkmenuplus)
+
+  the source directory, containing: 
+  
+    gtkmenuplus.c common.c common.h launcher.c launcher.h menuInput.c menuInput.h
+    the gtk2 directory containing a makefile to produce gtkmenuplus compiled with gtk+2
+    the gtk3 directory containing a makefile to produce gtkmenuplus compiled with gtk+3, and the gtk+3 executable
+
+  install.sh:   puts the executable gtkmenuplus into /usr/bin, and copies icon and desktop file.  Run with sudo or su.
+  uninstall.sh: removes gtkmenuplus and icon.  Run with sudo or su.
+
+  gtkmenuplus.svg: an icon that can be used in a launcher to start gtkmenuplus
+    This icon was originally kmenuedit.png and was produced under a GNU/GPL license by
+    YellowIcon (www.yellowicon.com; contact@yellowicon.com)
+    
+    install.sh will put it in /usr/share/icons/hicolor/scalable/apps.
+
+  gtkmenuplus.desktop: install.sh will put it in /usr/share/applications.
+
+  the directory icons_for_test_menu: containing icons used by test_menu.txt
+
+  the directory examples, containing:
+
+    the subdirectories manpage_menu, case_changer and ubuntu_stop_modes, 
+    each containing an small application making use of gtkmenuplus
+ 
+    demo scripts, each of which uses a menu configuration file in the directory demo_menus:
+
+     demoMenu1small.sh
+     demoMenu2large.sh
+     demoMenu3launchersAndInclude.sh
+     demoMenu4ifVarsParams.sh
+     demoMenu5subMenuKeyword.sh
+     demoMenu6caseChanger.sh
+     demoMenuAll.sh which runs all the above scripts in turn
+     demos.txt, which dewscribes the demo scripts.
+     
+     the subdirectory demo_menus also contains the subdirectory launchers,
+     containing launchers referred to by the menu configuration file
+     demoMenuLaunchersAndInclude.txt
+
+
+
+

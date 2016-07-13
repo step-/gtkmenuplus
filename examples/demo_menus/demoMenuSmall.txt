@@ -1,0 +1,57 @@
+#!/usr/bin/env gtkmenuplus
+
+# demoMenuSmall.txt
+# version 1.00, 2013-04-24
+# demo configuration file for the programme "gtkmenuplus"
+# Usage: <path to>/gtkmenuplus <path to>/demoMenuSmall.txt
+# or if gtkmenuplus is on your path: gtkmenuplus <path to>/demoMenuSmall.txt
+
+
+
+#      ............... Beginning of menu ...............
+
+filebrowser=nautilus                                           # set this to your favourite file brownser
+editor=gedit                                                   # set this to your favourite text editor
+
+iconsize = 10                                                  # optional
+
+#unusually icon directory is two levels up in directory hierarchy. 
+#We're reusing an icon folder in the directory as gtkmenuplus
+icondirectory=../../icons_for_test_menu                                
+
+format= color="red" weight="bold" size='10240'                 # optional formatting for following items
+item = use of small icons and font
+format= size='10240'                                           # 1024ths of a point
+
+item =  _GEdit editor
+cmd = $editor
+tooltip = the default editor in gnome
+icon = text-editor.png                                         # icon to be found in directory specified in icondirectory= line
+
+item = _notes
+cmd = $editor ~/notes.txt
+tooltip = this will open a document that probably doesn't exist in your $HOME
+icon = text-editor.png
+
+item = _calculator
+cmd = gcalctool
+tooltip = this will run gcalctool
+
+item = gimp
+cmd = gimp
+tooltip = this will run the GIMP
+
+
+Submenu = Browse Files
+    tooltip = browse specfic locations
+	icon = access.png
+
+	item=$filebrowser at /
+	cmd=$filebrowser /
+
+	item = $filebrowser at ~/bin
+	cmd = $filebrowser ~/bin
+	icon = text-editor.png
+
+
+

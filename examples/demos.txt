@@ -1,0 +1,93 @@
+demo menu configuration files for gtkMenuPlus     
+version 1.00, 2013-04-24
+
+copyright (C) 2013 Alan Campbell
+
+"gtkMenuPlus" is a fork of "myGtkMenu" (found at https://sites.google.com/site/jvinla/home).
+
+gtkMenuPlus is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License, version 2, as published
+by the Free Software Foundation. gtkMenuPlus comes with ABSOLUTELY NO WARRANTY.
+
+See the file COPYING distributed with gtkMenuPlus for the complete license.
+
+Most menus created by the following scripts use tooltips extensively, 
+so have a look at what's there if you hover over menu items.
+
+demoMenu1small.sh:               demonstrates use of format= to set font size and iconsize=
+demoMenu2large.sh:               demonstrates use of format= to set font size and iconsize=
+demoMenu3launchersAndInclude.sh: demonstrates use of launcher=, include= lines
+demoMenu4ifVarsParams.sh:        demonstrates use of variables, if=/else/endif and parameters
+demoMenu5subMenuKeyword.sh:      demonstrates use of endsubmenu instead of indentation 
+demoMenu6caseChanger.sh:         demonstrates use of    
+
+demoMenuAll.sh:                  runs all of the above demos in turn.
+
+There are several miniature applications in subdirectories of the examples directory, 
+each including a menu configuration file and supporting files, e.g. scripts and icons:
+
+ The ubuntu_stop_modes directory: 
+ 
+   A menu configuration file and icons to shutdown, reboot, suspend, and lock screen,
+
+   Works for me on Ubuntu 11.10, but I can't find a command to cause hibernation on my machine.
+
+   Quite probably won't work on other distros, maybe not even on other Ubuntu releases.
+
+   It invokes xdg-screensaver, /usr/lib/indicator-session/gtk-logout-helper, gnome-screensaver-command, and pmi.
+
+   To make sure you have all those, do
+
+     sudo apt-get install powermangement-interface xdg-utils gnome-screensaver indicator-session
+
+   It includes a demonstration of a menu choice (suspend) running multiple commands via bash.
+
+   To run, Assign a keyboard shortcut or launcher to
+
+      gtkmenuplus path_to/ubuntu_stop_modes
+
+
+ The case_changer directory: 
+ 
+   A menu configuration file and script invoked by it to change case of text in editable controls.
+
+   The script requires sed, tr, xclip and xdotool, the latter two of which you'll have to fetch from repositories.
+   Also invokes zenity (if installed) for error messages, so you could fetch that too.
+
+     sudo apt-get install xclip xdotool zenity
+
+   Put caseChanger.sh in a directory on your path (typically $HOME/bin);
+   Put the menu configuration file (clip_menu) anywhere.  Assign a keyboard
+   shortcut to
+
+     gtkmenuplus path_to/clip_menu
+
+   Highlight text in any editable control.
+   Make sure the window containing that control has focus.
+   Hit the shortcut key, choose an option on the popup menu.
+
+   As a special case, if you have a file selected in nautilus same script should work.
+   If you want to make the same feature work for another file manager, you'll have to edit
+   caseChanger.sh at at least three points (all commented).
+
+
+ The manpage_menu directory: 
+ 
+  A set of scripts (using gtkmenuplus and/or myGtkMenu, and other programmes)
+  to display a menu of man pages and display your choice of one (as text, html, a pdf, in yelp or
+  in man in a terminal.  Run manpageMenu.sh, with the other scripts in the same directory.
+
+  Includes a menu configuration file, manpagesSpecific, which presents a menu
+  of man pages.  It invokes the script manpageDisplay.sh which should be on your path,
+  as should manpageCommon.sh.
+  
+  manpagesSpecific (invoked either on the gtkmenuplus command line or in an include= line)
+  must be followed by a parameter indicating the display you with (pdf, text, html, man)
+
+  manpage.png might be a useful icon for a submenu containing include=manpagesSpecific,
+  or a launcher for Run manpageMenu.sh
+
+  The man pages named in manpagesSpecific cmd= lines may not exist on your system
+  if you haven't installed the programmes in question.  Each item is surrounded by
+  if=/endif lines so the item won't appear if you don't have the programme.
+

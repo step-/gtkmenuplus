@@ -1,0 +1,13 @@
+PROG_EXISTS="command -v "
+theType=$1
+
+#this is ok
+#if=[ "$1" != "" ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+#error=need a parameter on include= line
+#endif
+
+#ok without if
+if=[ ! $($PROG_EXISTS xdotool)  ]; echo -n $?     # logic reversed PROG_EXISTS returns 1 if found
+item=xdotool
+cmd = manpageDisplay.sh xdotool 1 $theType
+endif

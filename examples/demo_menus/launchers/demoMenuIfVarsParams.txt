@@ -1,0 +1,56 @@
+#!/usr/bin/env gtkmenuplus
+
+# demoMenuIfVarsParams.txt
+# version 1.00, 2013-02-18
+# demo configuration file for the programme "gtkmenuplus"
+# Usage: <path to>/gtkmenuplus <path to>/demoMenuIfVarsParams.txt 
+# or if gtkmenuplus is on your path: gtkmenuplus <path to>/demoMenuIfVarsParams.txt 
+
+
+#      ............... Beginning of menu ...............
+
+datevar==date +%Y-%m-%d
+datehour==date +%H
+gameExplain= (this item depends on time of day)
+
+#unusually icon directory is two levels up in directory hierarchy. 
+#We're reusing an icon folder in the directory as gtkmenuplusicondirectory=../../icons_for_test_menu                                   # optional; relative to folder containing this menu configuration file
+
+format= color="blue" weight="bold"                             # optional formatting for following items
+
+item = use of variables, params,and if tests              # disabled item, no cmd=
+item=datevar contains $datevar
+item=first param is $1
+
+format=
+
+SEPARATOR
+
+if=     [ ! $datehour -gt 18 ]; echo -n $?          # logic reversed; [] returns 0 if it succeeds
+
+item = evening game $gameExplain
+cmd = mahjongg
+
+
+elseif= [ ! $datehour  -gt 12 ]; echo -n $?      # logic reversed; [] returns 0 if it succeeds
+
+item = afternoon game $gameExplain
+cmd = mines
+
+
+elseif= [ ! $datehour  -gt 6 ]; echo -n $?      # logic reversed; [] returns 0 if it succeeds
+
+item = morning game $gameExplain
+cmd = mines
+
+else
+
+item = wee hours game $gameExplain
+cmd = mines
+
+endif
+
+#these will apply to whichever of the previous commands is allowed to show by the above if=/elseif=/else lines
+tooltip = the item you see here depends on the time of day
+icon=games_package.png
+

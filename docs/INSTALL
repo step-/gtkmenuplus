@@ -1,0 +1,95 @@
+gtkmenuplus
+
+version 1.00, 2013-04-24
+
+Tested and works on Fedora 17, Ubuntu 11.10 and the Knoppix 7.0.4 live CD.
+
+INSTALLATION:
+
+(1) If you are running 64-bit linux, open a console in either the 
+    gtk2 (for a gtk+ 2 version) or gtk3 (for a gtk+ 3 version) 
+    subdirectory and run make there. 
+      
+    Otherwise just copy a gtkmenuplus executable compiled for 32-bit linux from either 
+    the gtk2 or gtk3 subdirectory of the distribution to somewhere on your path.
+    ~/bin is one possible, /usr/bin (using sudo or su) is traditional.  
+
+(2) Will also require recompilation on any version of linux using a Gtk+ 2 version 
+    lower than 2.18.0, e.g. Fedora 12, Ubuntu 9.04.
+
+(3) Otherwise unzip gtkmenuplus to a convenient directory, 
+    probably one on your path, e.g. ~/bin.
+    Check gtkmenuplus file permissions to make sure it's executable.
+
+(4) Unzip testMenu.txt and the directories icons_for_menu and launchers anywhere, 
+    preserving the directory structure. Check file permissions to make sure 
+    testMenu.txt is readable.
+
+(5) Run "pathto/gtkmenuplus pathto/testMenu.txt" in a terminal window to make sure it works.
+    Obviously if gtkmenuplus is on your path you can skip pathto/ for gtkmenuplus.
+ 
+(6) Using testMenu.txt as a guide, create a new menu description file
+    (here called newMenu.txt).
+
+(7) Run "gtkmenuplus pathto/newMenu.txt" in a terminal window to check for errors.
+
+(8) Create a keyboard shortcut, or launcher on the desktop or on a panel that runs
+    "gtkmenuplus pathto/newMenu.txt".
+
+gtkmenuplus should work with Gnome keyboard shortcuts (hot keys). 
+
+To set up a hot key in Ubuntu, use system settings | keyboard | shortcuts.
+
+Or, on any system with GNOME, use gconf-editor:
+
+  (1) Using gconf-editor, place the command
+      /*PATH*/gtkmenuplus  /*PATH*/newMenu.txt
+      at
+      apps -> metacity -> keybinding_commands -> command_3
+
+  (2) Assign the corresponding hot key at
+      apps -> metacity -> global_keybindings -> run_command_3
+
+-------------------------------------------------------------------------
+
+Some hot keys (keybindings) get carried away and start many instances of the
+same program. To make sure that only one instance of gtkmenuplus runs at
+a given time, a (hidden) lock-file is created in your home directory. If
+this causes problems, feel free to comment out that part of the code and
+recompile.
+
+-------------------------------------------------------------------------
+
+Recent versions of GNOME disable icons in menus (and buttons).
+
+One way to re enable the icons is to use gconftool-2 (Gnome-2):
+
+gconftool-2 --type boolean --set /desktop/gnome/interface/buttons_have_icons true
+gconftool-2 --type boolean --set /desktop/gnome/interface/menus_have_icons true
+
+Use gsettings in Gnome-3:
+
+gsettings set org.gnome.desktop.interface menus-have-icons true
+gsettings set org.gnome.desktop.interface buttons-have-icons true
+
+-------------------------------------------------------------------------
+
+You can eliminate various features from your compile (and thus shrink the executable)
+by defining (-D) any or all of the following symbols:
+
+  _GTKMENUPLUS_NO_FORMAT_    : do not look for or use keywords format= or tooltipformat=; if encountered they will be errors
+  _GTKMENUPLUS_NO_TOOLTIPS_  : do not look for or use keywords tooltip= tooltipformat=; if encountered they will be errors
+  _GTKMENUPLUS_NO_IF_        : do not look for or use keywords if=, else, elseif= or endif; if encountered they will be errors
+  _GTKMENUPLUS_NO_PARAMS_    : do not look for or use parameters on command line
+  _GTKMENUPLUS_NO_LAUNCHERS_ : do not look for or use keyword launcher=
+  _GTKMENUPLUS_NO_VARIABLES_ : do not look for or use varialbe= lines
+
+Easiest way to add these is by editing the makefile in either the gtk2 or gtk3 folders to uncomment the defines you want.
+
+If you define all of the above, you're left with the same functionality as myGtkmenu, plus
+preferredapplauncher=programme" and "icondirectory=path" keywords and tilde processing.
+
+With none of the above symbols and compiling with -Os I get an executable size of 43k.
+With all of the above symbols I get it down to 26.7k.
+
+-------------------------------------------------------------------------
