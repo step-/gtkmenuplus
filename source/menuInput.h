@@ -27,6 +27,7 @@ gchar       gl_sScriptDirectory[MAX_PATH_LEN + 1];
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 gchar       gl_sLauncherDirectory[MAX_PATH_LEN + 1]; // used by onLauncher(), set by onLauncherDir()
+gchar       gl_sLauncherArguments[MAX_PATH_LEN + 1]; // used by processLauncher(), set by onLauncherArgs()
 #endif
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
@@ -92,18 +93,19 @@ enum LineType {                         // returned by readLine
  LINE_ELSEIF                       = 16,
  LINE_ENDIF                        = 17,
  LINE_LAUNCHER                     = 18,
- LINE_LAUNCHER_DIR                 = 19,
- LINE_INCLUDE                      = 20,
- LINE_SUBMENU_END                  = 21,
- LINE_CONFIGURE                    = 22,
- LINE_EOF                          = 23,
- LINE_ERROR                        = 24,  // the error keyword
- LINE_KEYWORD_IS_VARIABLE          = 25,  // will become variable def, not error
- LINE_ABSOLUTE_PATH                = 26,
- LINE_BAD_LIMIT_LOW                = 27,  //move when LINE_KEYWORD_IS_VARIABLE not an error
- LINE_BAD_LEN                      = 27,
- LINE_BAD_NO_EQ                    = 28,
- LINE_BAD_LIMIT_HI                 = 28
+ LINE_LAUNCHER_ARGS                = 19,
+ LINE_LAUNCHER_DIR                 = 20,
+ LINE_INCLUDE                      = 21,
+ LINE_SUBMENU_END                  = 22,
+ LINE_CONFIGURE                    = 23,
+ LINE_EOF                          = 24,
+ LINE_ERROR                        = 25,  // the error keyword
+ LINE_KEYWORD_IS_VARIABLE          = 26,  // will become variable def, not error
+ LINE_ABSOLUTE_PATH                = 27,
+ LINE_BAD_LIMIT_LOW                = 28,  //move when LINE_KEYWORD_IS_VARIABLE not an error
+ LINE_BAD_LEN                      = 28,
+ LINE_BAD_NO_EQ                    = 29,
+ LINE_BAD_LIMIT_HI                 = 29
 };
 
 struct Keyword
@@ -238,6 +240,7 @@ enum LineParseResult onAbsolutePath(INOUT struct MenuEntry* pMenuEntryPending);
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending);
+enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDir(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onIconForLauncher(IN guint uiDepth, OUT gchar* sErrMsg);
 #endif

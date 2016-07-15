@@ -5,10 +5,8 @@
 
 /*
  * gtkmenuplus - read a description file and generate a menu.
- * version 1.00, 2013-04-24
-
-
- * by Alan Campbell, 2013
+ * version 1.00, 2013-04-24, by Alan Campbell, 2013
+ * version 1.10, 2016-07-15, by step, 2016, forked from Alan Campbell's 1.00
  *
  * based partially on code in myGtkMenu, copyright (C) 2004-2011 John Vorthman
  * (https://sites.google.com/site/jvinla/home).
@@ -74,7 +72,7 @@
 
 #define PARAM_REF_TAG '$'
 
-#define VERSION_TEXT "1.00, 2013-04-24"
+#define VERSION_TEXT "1.10, 2016-07-15"
 
 #define DEFAULT_CONFIG_FILE  "test_menu.txt"
 
@@ -363,6 +361,7 @@ If this check causes you problems, take it out.
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
  *gl_sLauncherDirectory = '\0';
+ *gl_sLauncherArguments = '\0';
 
 // late, so no need to do  regfree(&gl_rgxLauncherExecArg) except at end
  if (regcomp(&gl_rgxLauncherExecArg, gl_sLauncherExecArg, 0))
@@ -1887,6 +1886,14 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  return lineParseOk;
 }
 
+// ----------------------------------------------------------------------
+enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending)
+// ----------------------------------------------------------------------
+{
+ strcpy(gl_sLauncherArguments, gl_sLinePostEq);
+ return lineParseOk;
+}
+
 // ---------------------------------------------------------------------- AC
 enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, IN guint uiDepth, OUT gchar* sErrMsg)
 // ----------------------------------------------------------------------
@@ -1951,6 +1958,13 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
    char *p;
    for(p = sValue + pmatch[0].rm_so; p < sValue + pmatch[0].rm_eo; p++)
      *p = ' ';
+  }
+  if(*gl_sLauncherArguments)
+  {
+   // Append "launcherargs=" arguments, if any.
+   gchar buf[MAX_PATH_LEN + 1];
+   snprintf(buf, MAX_PATH_LEN, "%s %s", sValue, gl_sLauncherArguments);
+   sValue = buf;
   }
   if (strlen(sValue) > MAX_PATH_LEN - 1)
   {
