@@ -304,7 +304,7 @@ extern const gchar*  gl_sUriSchema;
 
 //TO DO not same in launchers_to_menu
 
-const gchar*    gl_sLauncherExecArg = "[ \t]%[fFuUdDnNickvm][ \n\t]";
+const gchar*    gl_sLauncherExecArg = "[ \t]\\+%[fFuUdDnNickvm][ \t]*";
 //regex_t       gl_rgxLauncherExecArg in launcher.c
 
 //enum LineParseResult { lineParseOk = 0, lineParseWarn = 1, lineParseFail = 3, lineParseFailFatal = 3};
@@ -1946,7 +1946,12 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  {
   regmatch_t pmatch[2];
   if (regexec(&gl_rgxLauncherExecArg, sValue, 1, pmatch, 0) == 0)
-   *(sValue + pmatch[0].rm_so)= '\0';
+  {
+   // Blank out the first %f token in entry Exec= (%F, %u, etc.)
+   char *p;
+   for(p = sValue + pmatch[0].rm_so; p < sValue + pmatch[0].rm_eo; p++)
+     *p = ' ';
+  }
   if (strlen(sValue) > MAX_PATH_LEN - 1)
   {
    snprintf(sErrMsg, MAX_LINE_LENGTH, "cmd for launcher too long (%s) \n", sValue);
