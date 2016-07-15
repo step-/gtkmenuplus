@@ -47,7 +47,7 @@ Usage:
          without arguments, will attempt to run the menu_configuration_file test_menu.txt
          found in the same directory as gtkmenuplus.
 
-         If you want most of the items in test_menu.txt to actually work. you may want to edit 
+         If you want most of the items in test_menu.txt to actually work. you may want to edit
          these lines (they declare variables) so they're right for your system:
 
            editor=gedit
