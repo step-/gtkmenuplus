@@ -1002,12 +1002,13 @@ enum LineParseResult getGtkImage(INOUT struct MenuEntry* pMenuEntryPending, OUT 
   gchar* sExt = (*sIcon) ? strrchr(sIcon, '.') : NULL;
   if (sExt && regexec(&gl_rgxIconExt, sExt, 0, NULL, 0) != 0) sExt = NULL;
 
-  if (sExt)
+  gboolean bIsPath = (*sIcon) && strchr(sIcon, '/') != NULL;
+  if (sExt || bIsPath)
    return getGtkImageFromFile(pMenuEntryPending->m_sIcon, pMenuEntryPending->m_sErrMsg, ppGtkImage);
-  else // is sIncon, but no extension
+  else // is sIcon, but no extension, and not a filepath
    *ppGtkImage = getGtkImageFromName(pMenuEntryPending->m_sIcon);
  }
- else //if (!*sIcon): no cion line
+ else //if (!*sIcon): no icon line
   *ppGtkImage = getGtkImageFromCmd(pMenuEntryPending->m_sCmd);
 
  return lineParseOk;
