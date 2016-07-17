@@ -1990,19 +1990,26 @@ enum LineParseResult onIconForLauncher(IN guint uiDepth, OUT gchar* sErrMsg)
 
  if (sIconPath)
  {
+  gchar* sIconExt = strrchr(sIconPath, '.');
+  if (sIconExt && regexec(&gl_rgxIconExt, sIconExt, 0, NULL, 0) != 0) sIconExt = NULL;
+
   GdkPixbuf* pGdkPixbuf = NULL;
-  if (strchr(sIconPath, '/') == NULL && strchr(sIconPath, '.') == NULL)
+  if (strchr(sIconPath, '/') == NULL && sIconExt == NULL)
   {
+   // sIconPath isn't a full path and doesn't match an icon file name extension
    gchar* sIconPathNew = getIconPath(sIconPath, gl_iW, FALSE);
    if (sIconPathNew)
    {
     g_free(gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue);
     gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue = sIconPathNew;
    }
-  } // if (strchr(sIconPath, '/') == NULL && strchr(sIconPath, '.') == NULL)
+  } // if (strchr(sIconPath, '/') == NULL && sIconExt == NULL)
 
   sIconPath = gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue;
-  if (strchr(sIconPath, '/') == NULL && strchr(sIconPath, '.') == NULL)
+  sIconExt = strrchr(sIconPath, '.');
+  if (sIconExt && regexec(&gl_rgxIconExt, sIconExt, 0, NULL, 0) != 0) sIconExt = NULL;
+   // if sIconPath isn't a full path and doesn't match an icon file name extension
+  if (strchr(sIconPath, '/') == NULL && sIconExt == NULL)
    pGdkPixbuf = getIconBuiltInPixBuf(sIconPath, gl_iW, FALSE);
   else
    pGdkPixbuf = fileToPixBuf(sIconPath, gl_iW, FALSE, sErrMsg); // resizes
