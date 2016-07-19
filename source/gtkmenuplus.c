@@ -1876,8 +1876,8 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   gchar sLauncherPath1[MAX_PATH_LEN + 1];
   snprintf(sLauncherPath1, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, namelist[i]->d_name);
   free(namelist[i]);//
-  enum LineParseResult lineParseResult = processLauncher(sLauncherPath1, lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg); // stateIfNotDesktopFile == TRUE i.e. not stoppign if hit non-.desktop file in directory
-  if (lineParseResult != lineParseOk)
+  enum LineParseResult lineParseResult = processLauncher(sLauncherPath1, lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg); // stateIfNotDesktopFile == TRUE i.e. not stopping if hit non-.desktop file in directory
+  if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
    return lineParseResult;
  }
 
