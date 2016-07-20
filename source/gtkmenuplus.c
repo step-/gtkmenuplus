@@ -1893,7 +1893,11 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 #endif
   {
    if('.' == sLauncherPath1[len1 -1]) continue; // exclude . and ..
-    //TODO dir
+   gchar gl_sLinePostEq1[MAX_LINE_LENGTH];
+   strcpy(gl_sLinePostEq1, gl_sLinePostEq);
+   strcpy(gl_sLinePostEq, sLauncherPath1);
+   enum LineParseResult lineParseResult = onLauncher(pMenuEntryPending);
+   strcpy(gl_sLinePostEq, gl_sLinePostEq1);
    continue;
   }
   else if (strcmp(sLauncherPath1 + len1 - 8, ".desktop") != 0)
