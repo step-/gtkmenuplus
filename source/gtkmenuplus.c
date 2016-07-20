@@ -1853,7 +1853,7 @@ int filterLauncher(const struct dirent* e) // used by onLauncher
 #endif
     gchar buf[MAX_PATH_LEN + 1];
     if(NULL == realpath(sLauncherPath, buf)) {
-      strncat(sLauncherPath, ": Warning: ", MAX_PATH_LEN);
+      strncat(sLauncherPath, ": symbolick link warning", MAX_PATH_LEN);
       perror(sLauncherPath);
       return 0;
     }
