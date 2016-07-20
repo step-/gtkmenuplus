@@ -1829,6 +1829,38 @@ struct Variable* variableFind(IN gchar* sName)
 
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
+// ----------------------------------------------------------------------
+int filterLauncher(const struct dirent* e) // used by onLauncher
+// ----------------------------------------------------------------------
+{
+  gchar *sName = (gchar *) e->d_name;
+  int iNameLen = _D_EXACT_NAMLEN(e);
+  // Exclude non-.desktop.
+  if (strcmp(sName + iNameLen - 8, ".desktop") != 0) return 0;
+
+  // Exclude invalid sym links (Warn).
+  gchar sLauncherPath[MAX_PATH_LEN + 1];
+#ifdef _DIRENT_HAVE_D_TYPE
+  if (DT_LNK == e->d_type)
+  {
+    snprintf(sLauncherPath, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, sName);
+#else
+  //FIXME doesn't stat as symlink
+  snprintf(sLauncherPath, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, sName);
+  struct stat statbuf;
+  if(stat(sLauncherPath, &statbuf) == 0 && S_ISLNK(statbuf.st_mode))
+  {
+#endif
+    gchar buf[MAX_PATH_LEN + 1];
+    if(NULL == realpath(sLauncherPath, buf)) {
+      strncat(sLauncherPath, ": Warning: ", MAX_PATH_LEN);
+      perror(sLauncherPath);
+      return 0;
+    }
+  }
+  return 1;
+}
+
 // ---------------------------------------------------------------------- AC
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
@@ -1869,7 +1901,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     strcat(gl_sLinePostEq, "/");
 
  struct dirent **namelist;
- int n = scandir(gl_sLinePostEq, &namelist, 0, alphasort);
+ int n = scandir(gl_sLinePostEq, &namelist, &filterLauncher, alphasort);
  int i = 0;
  for (i = 0; i < n; i++)
  {
@@ -1898,7 +1930,7 @@ enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending)
 enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, IN guint uiDepth, OUT gchar* sErrMsg)
 // ----------------------------------------------------------------------
 {
- if (strcmp(sLauncherPath + strlen(sLauncherPath) - 8, ".desktop") != 0) return stateIfNotDesktopFile;
+ //if (strcmp(sLauncherPath + strlen(sLauncherPath) - 8, ".desktop") != 0) return stateIfNotDesktopFile;
 
  clearLauncherElements(); // (gl_launcherElement, sizeof(gl_launcherElement)/sizeof(struct LauncherElement));
 
@@ -1955,7 +1987,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
   if (regexec(&gl_rgxLauncherExecArg, sValue, 1, pmatch, 0) == 0)
   {
    // Blank out the first %f token in entry Exec= (%F, %u, etc.)
-   char *p;
+   gchar *p;
    for(p = sValue + pmatch[0].rm_so; p < sValue + pmatch[0].rm_eo; p++)
      *p = ' ';
   }
