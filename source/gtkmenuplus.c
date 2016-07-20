@@ -1829,37 +1829,6 @@ struct Variable* variableFind(IN gchar* sName)
 
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
-// ----------------------------------------------------------------------
-int filterLauncher(const struct dirent* e) // used by onLauncher
-// ----------------------------------------------------------------------
-{
-  gchar *sName = (gchar *) e->d_name;
-  int iNameLen = _D_EXACT_NAMLEN(e);
-  // Exclude non-.desktop.
-  if (strcmp(sName + iNameLen - 8, ".desktop") != 0) return 0;
-
-  // Exclude invalid sym links (Warn).
-  gchar sLauncherPath[MAX_PATH_LEN + 1];
-#ifdef _DIRENT_HAVE_D_TYPE
-  if (DT_LNK == e->d_type)
-  {
-    snprintf(sLauncherPath, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, sName);
-#else
-  snprintf(sLauncherPath, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, sName);
-  struct stat statbuf;
-  if(lstat(sLauncherPath, &statbuf) == 0 && S_ISLNK(statbuf.st_mode))
-  {
-#endif
-    gchar buf[MAX_PATH_LEN + 1];
-    if(NULL == realpath(sLauncherPath, buf)) {
-      strncat(sLauncherPath, " -> symlink warning", MAX_PATH_LEN);
-      perror(sLauncherPath);
-      return 0;
-    }
-  }
-  return 1;
-}
-
 // ---------------------------------------------------------------------- AC
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
@@ -1900,16 +1869,46 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     strcat(gl_sLinePostEq, "/");
 
  struct dirent **namelist;
- int n = scandir(gl_sLinePostEq, &namelist, &filterLauncher, alphasort);
- int i = 0;
+ int n = scandir(gl_sLinePostEq, &namelist, 0, alphasort);
+ int i;
  for (i = 0; i < n; i++)
  {
-  gchar sLauncherPath1[MAX_PATH_LEN + 1];
-  snprintf(sLauncherPath1, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, namelist[i]->d_name);
-  free(namelist[i]);//
-  enum LineParseResult lineParseResult = processLauncher(sLauncherPath1, lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg); // stateIfNotDesktopFile == TRUE i.e. not stopping if hit non-.desktop file in directory
-  if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
-   return lineParseResult;
+  // Exclude non-.desktop.
+  if (strcmp(namelist[i]->d_name + _D_EXACT_NAMLEN(namelist[i]) - 8, ".desktop") != 0)
+   free(namelist[i]);
+  else
+  {
+   gchar sLauncherPath1[MAX_PATH_LEN + 1];
+   snprintf(sLauncherPath1, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, namelist[i]->d_name);
+   free(namelist[i]);//
+
+   // Exclude invalid symlinks (Warn).
+#ifdef _DIRENT_HAVE_D_TYPE
+   if (DT_LNK == namelist[i]->d_type)
+#else
+   if(lstat(sLauncherPath1, &statbuf) == 0 && S_ISLNK(statbuf.st_mode))
+#endif
+   {
+    gchar buf[MAX_PATH_LEN + 1];
+    if(NULL == realpath(sLauncherPath1, buf))
+    {
+     strncat(sLauncherPath1, " -> symlink warning", MAX_PATH_LEN);
+     perror(sLauncherPath1);
+     *sLauncherPath1 = '\0';
+    }
+   }
+   else
+   {
+    //TODO ISDIR
+   }
+
+   if(*sLauncherPath1 != '\0')
+   {
+    enum LineParseResult lineParseResult = processLauncher(sLauncherPath1, lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg); // stateIfNotDesktopFile == TRUE i.e. not stopping if hit non-.desktop file in directory
+    if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
+     return lineParseResult;
+   }
+  } // if non-.desktop
  }
 
  if (namelist) free(namelist);
