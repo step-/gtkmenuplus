@@ -1845,15 +1845,14 @@ int filterLauncher(const struct dirent* e) // used by onLauncher
   {
     snprintf(sLauncherPath, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, sName);
 #else
-  //FIXME doesn't stat as symlink
   snprintf(sLauncherPath, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, sName);
   struct stat statbuf;
-  if(stat(sLauncherPath, &statbuf) == 0 && S_ISLNK(statbuf.st_mode))
+  if(lstat(sLauncherPath, &statbuf) == 0 && S_ISLNK(statbuf.st_mode))
   {
 #endif
     gchar buf[MAX_PATH_LEN + 1];
     if(NULL == realpath(sLauncherPath, buf)) {
-      strncat(sLauncherPath, ": symbolick link warning", MAX_PATH_LEN);
+      strncat(sLauncherPath, " -> symlink warning", MAX_PATH_LEN);
       perror(sLauncherPath);
       return 0;
     }
