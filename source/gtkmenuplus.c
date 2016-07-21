@@ -1958,8 +1958,8 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    lineParseResult = onSubMenu(pMenuEntryPending); // sets pending commitSubmenu, which we reset after this loop
    if (lineParseResult != lineParseOk) goto out;
    lineParseResult = commitSubMenu(pMenuEntryPending); // because we need to commitSubmenu here
+   if (lineParseResult != lineParseFail) pMenuEntryPending->m_uiDepth++;
    if (lineParseResult != lineParseOk) goto out;
-   pMenuEntryPending->m_uiDepth++;
 
    strcpy(gl_sLinePostEq, sLauncherPath1);
    lineParseResult = onLauncher(pMenuEntryPending);
