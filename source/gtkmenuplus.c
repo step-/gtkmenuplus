@@ -87,6 +87,7 @@ typedef gchar   GLOB_SPEC_TYPE;
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 extern struct LauncherElement gl_launcherElement[];
 extern guint                  gl_nLauncherElements;
+gchar gl_survey[MAX_PATH_LEN + 1]; // launcher=dir/ survey result file
 #endif
 
 struct Params;
@@ -1829,6 +1830,40 @@ struct Variable* variableFind(IN gchar* sName)
 
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
+// ----------------------------------------------------------------------
+off_t surveyLaunchers(const gchar *rpath, gchar *outf) // used by onLauncher
+// ----------------------------------------------------------------------
+/*
+ * *outf - survey file name in /tmp - caller must allocate
+ * return:
+ *   >  0 : size of survey file - caller must unlink *outf
+ *   == 0 : empty survey - nothing to unlink
+ *   <  0 : errors - nothing to unlink
+ */
+{
+ if (NULL == tmpnam(outf)) // sic tmpnam, it's good enough
+ {
+   perror("making temp file");
+   *outf = '\0';
+   return -1;
+ }
+ gchar cmd[MAX_LINE_LENGTH + 1];
+ if (sprintf(cmd, "find '%s' '(' -type f -o -type l ')' -name '*.desktop' > '%s'", rpath, outf))
+ {
+  system(cmd);
+  struct stat sb;
+  if (stat(outf, &sb) == -1)
+  {
+    unlink(outf);
+    *outf = '\0';
+    return -3;
+  }
+  if(0 == sb.st_size) unlink(outf);
+  return sb.st_size;
+ }
+ return -1;
+}
+
 // ---------------------------------------------------------------------- AC
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
@@ -1897,6 +1932,27 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    gchar gl_sLinePostEq1[MAX_LINE_LENGTH];
    strcpy(gl_sLinePostEq1, gl_sLinePostEq);
 
+if (0 == gl_uiCurDepth) // create survey file for depth-1 branch
+{
+ *gl_survey = '\0';
+ off_t size;
+ size = surveyLaunchers(sLauncherPath1, gl_survey);
+ if (0 > size)
+ {
+  unlink(gl_survey);
+  return lineParseFail;
+ }
+ else if (0 == size) continue; // prune empty depth-1 branch
+}
+else // lookup survey file
+{
+  gchar lookup[MAX_PATH_LEN + 1];
+  if (sprintf(lookup, "grep -q '^%s' '%s'", sLauncherPath1, gl_survey) <= 0
+   || 0 != system(lookup))
+   continue; // prune empty sub-branch
+}
+//below this comment unlink(gl_survey);
+
    strcpy(gl_sLinePostEq, sLauncherPath1 + len0);
    enum LineParseResult lineParseResult;
    lineParseResult = onSubMenu(pMenuEntryPending); // sets pending commitSubmenu, which we reset after this loop
@@ -1937,12 +1993,16 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    }
   }
 
-  enum LineParseResult lineParseResult = processLauncher(sLauncherPath1, lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg); // stateIfNotDesktopFile == TRUE i.e. not stopping if hit non-.desktop file in directory
+  enum LineParseResult lineParseResult = processLauncher(sLauncherPath1,
+      lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
   if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
+  {
+   if (*gl_survey != '\0') unlink(gl_survey);
    return lineParseResult;
-
+  }
  }
 
+ if (*gl_survey != '\0') unlink(gl_survey);
  if (namelist) free(namelist);
  // Reset pending commitSubmenu, which onSubMenu set
  menuEntrySet(pMenuEntryPending, NULL, LINE_LAUNCHER, "launcher=", FALSE, TRUE, gl_uiCurDepth); // bCmdOk, bIconTooltipOk
