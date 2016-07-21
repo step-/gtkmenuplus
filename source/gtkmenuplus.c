@@ -1893,10 +1893,27 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 #endif
   {
    if('.' == sLauncherPath1[len1 -1]) continue; // exclude . and ..
+
    gchar gl_sLinePostEq1[MAX_LINE_LENGTH];
    strcpy(gl_sLinePostEq1, gl_sLinePostEq);
+
+   strcpy(gl_sLinePostEq, sLauncherPath1 + len0);
+   enum LineParseResult lineParseResult;
+   lineParseResult = onSubMenu(pMenuEntryPending); // sets pending commitSubmenu, which we reset after this loop
+   if (lineParseResult != lineParseOk) return lineParseResult;
+   lineParseResult = commitSubMenu(pMenuEntryPending); // because we need to commitSubmenu here
+   if (lineParseResult != lineParseOk) return lineParseResult;
+   pMenuEntryPending->m_uiDepth++;
+
    strcpy(gl_sLinePostEq, sLauncherPath1);
-   enum LineParseResult lineParseResult = onLauncher(pMenuEntryPending);
+   lineParseResult = onLauncher(pMenuEntryPending);
+
+   gboolean sav = gl_bConfigKeywordUseEndSubMenu;
+   gl_bConfigKeywordUseEndSubMenu = TRUE;
+   lineParseResult = onSubMenuEnd(pMenuEntryPending);
+   pMenuEntryPending->m_uiDepth--;
+   gl_bConfigKeywordUseEndSubMenu = sav;
+
    strcpy(gl_sLinePostEq, gl_sLinePostEq1);
    continue;
   }
@@ -1927,6 +1944,9 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  }
 
  if (namelist) free(namelist);
+ // Reset pending commitSubmenu, which onSubMenu set
+ menuEntrySet(pMenuEntryPending, NULL, LINE_LAUNCHER, "launcher=", FALSE, TRUE, gl_uiCurDepth); // bCmdOk, bIconTooltipOk
+
 // closedir(aDir);
  return lineParseOk;
 }
