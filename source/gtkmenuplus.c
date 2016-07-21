@@ -1932,26 +1932,26 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    gchar gl_sLinePostEq1[MAX_LINE_LENGTH];
    strcpy(gl_sLinePostEq1, gl_sLinePostEq);
 
-if (0 == gl_uiCurDepth) // create survey file for depth-1 branch
-{
- *gl_survey = '\0';
- off_t size;
- size = surveyLaunchers(sLauncherPath1, gl_survey);
- if (0 > size)
- {
-  unlink(gl_survey);
-  return lineParseFail;
- }
- else if (0 == size) continue; // prune empty depth-1 branch
-}
-else // lookup survey file
-{
-  gchar lookup[MAX_PATH_LEN + 1];
-  if (sprintf(lookup, "grep -q '^%s' '%s'", sLauncherPath1, gl_survey) <= 0
-   || 0 != system(lookup))
-   continue; // prune empty sub-branch
-}
-//below this comment unlink(gl_survey);
+   if (0 == gl_uiCurDepth) // create survey file for depth-1 branch
+   {
+    *gl_survey = '\0';
+    off_t size;
+    size = surveyLaunchers(sLauncherPath1, gl_survey);
+    if (0 > size)
+    {
+     unlink(gl_survey);
+     return lineParseFail;
+    }
+    else if (0 == size) continue; // prune empty depth-1 branch
+   }
+   else // lookup survey file
+   {
+     gchar lookup[MAX_PATH_LEN + 1];
+     if (sprintf(lookup, "grep -q '^%s' '%s'", sLauncherPath1, gl_survey) <= 0
+      || 0 != system(lookup))
+      continue; // prune empty sub-branch
+   }
+   //below this comment unlink(gl_survey);
 
    strcpy(gl_sLinePostEq, sLauncherPath1 + len0);
    enum LineParseResult lineParseResult;
