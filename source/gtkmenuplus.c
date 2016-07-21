@@ -1988,7 +1988,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     {
      strncat(sLauncherPath1, " -> symlink warning", MAX_PATH_LEN);
      perror(sLauncherPath1);
-     continue; // exclude invalid symlinks (warning)
+     continue; // exclude invalid symlinks
     }
    }
   }
@@ -1998,6 +1998,8 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
   {
    if (*gl_survey != '\0') unlink(gl_survey);
+   for(i = i + 1; i < n; i++) free(namelist[i]);
+   free(namelist);
    return lineParseResult;
   }
  }
