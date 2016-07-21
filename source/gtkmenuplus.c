@@ -1921,19 +1921,19 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 #endif
   free(namelist[i]);
 
-  // Recurse into directories.
+  // Walk depth-1 directory tree
 #ifdef _DIRENT_HAVE_D_TYPE
   if (DT_DIR == d_type)
 #else
   if(lstat(sLauncherPath1, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
 #endif
   {
-   if('.' == sLauncherPath1[len1 -1]) continue; // exclude . and ..
+   if('.' == sLauncherPath1[len1 -1]) continue; // skip . and ..
 
    gchar gl_sLinePostEq1[MAX_LINE_LENGTH];
    strcpy(gl_sLinePostEq1, gl_sLinePostEq);
 
-   if (0 == gl_uiCurDepth) // create survey file for depth-1 branch
+   if (0 == gl_uiCurDepth) // create survey of .desktop files under depth-1 directory
    {
     *gl_survey = '\0';
     off_t size;
@@ -1943,14 +1943,14 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
      lineParseResult = lineParseFail;
      goto out;
     }
-    else if (0 == size) continue; // prune empty depth-1 branch
+    else if (0 == size) continue; // prune empty depth-1 directory
    }
    else // lookup survey file
    {
      gchar lookup[MAX_PATH_LEN + 1];
      if (sprintf(lookup, "grep -q '^%s' '%s'", sLauncherPath1, gl_survey) <= 0
       || 0 != system(lookup))
-      continue; // prune empty sub-branch
+      continue; // prune empty sub-directory tree
    }
    //below this comment unlink(gl_survey);
 
@@ -1965,16 +1965,17 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    lineParseResult = onLauncher(pMenuEntryPending);
 
    gboolean sav = gl_bConfigKeywordUseEndSubMenu;
-   gl_bConfigKeywordUseEndSubMenu = TRUE;
+   gl_bConfigKeywordUseEndSubMenu = TRUE; // as if "configure=submenuend"
    lineParseResult = onSubMenuEnd(pMenuEntryPending);
-   pMenuEntryPending->m_uiDepth--;
    gl_bConfigKeywordUseEndSubMenu = sav;
+   if (lineParseResult != lineParseOk) goto out;
+   pMenuEntryPending->m_uiDepth--;
 
    strcpy(gl_sLinePostEq, gl_sLinePostEq1);
    continue;
   }
   else if (strcmp(sLauncherPath1 + len1 - 8, ".desktop") != 0)
-    continue; // exclude non-.desktop
+    continue; // skip non-.desktop
   else
   {
 #ifdef _DIRENT_HAVE_D_TYPE
@@ -1988,7 +1989,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     {
      strncat(sLauncherPath1, " -> symlink warning", MAX_PATH_LEN);
      perror(sLauncherPath1);
-     continue; // exclude invalid symlinks
+     continue; // skip invalid symlinks
     }
    }
   }
