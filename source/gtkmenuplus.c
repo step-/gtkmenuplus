@@ -1912,6 +1912,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  int i;
  for (i = 0; i < n; i++)
  {
+  enum LineParseResult lineParseResult;
   gchar sLauncherPath1[MAX_PATH_LEN + 1];
   snprintf(sLauncherPath1, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, namelist[i]->d_name);
   int len1 = len0 + _D_EXACT_NAMLEN(namelist[i]);
@@ -1939,8 +1940,8 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     size = surveyLaunchers(sLauncherPath1, gl_survey);
     if (0 > size)
     {
-     unlink(gl_survey);
-     return lineParseFail;
+     lineParseResult = lineParseFail;
+     goto out;
     }
     else if (0 == size) continue; // prune empty depth-1 branch
    }
@@ -1954,11 +1955,10 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    //below this comment unlink(gl_survey);
 
    strcpy(gl_sLinePostEq, sLauncherPath1 + len0);
-   enum LineParseResult lineParseResult;
    lineParseResult = onSubMenu(pMenuEntryPending); // sets pending commitSubmenu, which we reset after this loop
-   if (lineParseResult != lineParseOk) return lineParseResult;
+   if (lineParseResult != lineParseOk) goto out;
    lineParseResult = commitSubMenu(pMenuEntryPending); // because we need to commitSubmenu here
-   if (lineParseResult != lineParseOk) return lineParseResult;
+   if (lineParseResult != lineParseOk) goto out;
    pMenuEntryPending->m_uiDepth++;
 
    strcpy(gl_sLinePostEq, sLauncherPath1);
@@ -1993,10 +1993,11 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    }
   }
 
-  enum LineParseResult lineParseResult = processLauncher(sLauncherPath1,
+  lineParseResult = processLauncher(sLauncherPath1,
       lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
   if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
   {
+out:
    if (*gl_survey != '\0') unlink(gl_survey);
    for(i = i + 1; i < n; i++) free(namelist[i]);
    free(namelist);
