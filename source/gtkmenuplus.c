@@ -49,6 +49,7 @@
 #include <fcntl.h> // flock
 //#include <sys/sysctl.h>  // sysctl
 //#include <dirent.h>
+#include <errno.h>
 
 #ifndef PATH_ELEMENT_SPEC_USES_REGEX
  #include <fnmatch.h>
@@ -1831,7 +1832,7 @@ struct Variable* variableFind(IN gchar* sName)
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 // ----------------------------------------------------------------------
-off_t surveyLaunchers(const gchar *rpath, gchar *outf) // used by onLauncher
+off_t surveyLaunchers(const gchar *rpath, gchar *outf, OUT gchar* sErrMsg) // used by onLauncher
 // ----------------------------------------------------------------------
 /*
  * *outf - survey file name in /tmp - caller must allocate
@@ -1843,7 +1844,7 @@ off_t surveyLaunchers(const gchar *rpath, gchar *outf) // used by onLauncher
 {
  if (NULL == tmpnam(outf)) // sic tmpnam, it's good enough
  {
-   perror("making temp file");
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "tmpnam %s", strerror(errno));
    *outf = '\0';
    return -1;
  }
@@ -1855,8 +1856,9 @@ off_t surveyLaunchers(const gchar *rpath, gchar *outf) // used by onLauncher
   if (stat(outf, &sb) == -1)
   {
     unlink(outf);
+    snprintf(sErrMsg, MAX_LINE_LENGTH, "stat '%s' %s", outf, strerror(errno));
     *outf = '\0';
-    return -3;
+    return -1;
   }
   if(0 == sb.st_size) unlink(outf);
   return sb.st_size;
@@ -1937,7 +1939,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    {
     *gl_survey = '\0';
     off_t size;
-    size = surveyLaunchers(sLauncherPath1, gl_survey);
+    size = surveyLaunchers(sLauncherPath1, gl_survey, pMenuEntryPending->m_sErrMsg);
     if (0 > size)
     {
      lineParseResult = lineParseFail;
