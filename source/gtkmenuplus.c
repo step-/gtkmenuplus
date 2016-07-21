@@ -89,6 +89,7 @@ typedef gchar   GLOB_SPEC_TYPE;
 extern struct LauncherElement gl_launcherElement[];
 extern guint                  gl_nLauncherElements;
 gchar gl_survey[MAX_PATH_LEN + 1]; // launcher=dir/ survey result file
+gchar gl_sLauncherErrMsg[MAX_LINE_LENGTH + 1]; // launcher=dir/ cumulative errors
 #endif
 
 struct Params;
@@ -1937,7 +1938,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 
    if (0 == gl_uiCurDepth) // create survey of .desktop files under depth-1 directory
    {
-    *gl_survey = '\0';
+    *gl_survey = *gl_sLauncherErrMsg = '\0';
     off_t size;
     size = surveyLaunchers(sLauncherPath1, gl_survey, pMenuEntryPending->m_sErrMsg);
     if (0 > size)
@@ -2001,8 +2002,16 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
   {
 out:
+   if (*(pMenuEntryPending->m_sErrMsg))
+   {
+    gchar buf[MAX_LINE_LENGTH + 1];
+    snprintf(buf, MAX_LINE_LENGTH, "%s%slauncher=%s %s",
+        gl_sLauncherErrMsg, *gl_sLauncherErrMsg ? "\n" : "",
+        sLauncherPath1, pMenuEntryPending->m_sErrMsg);
+    strcpy(gl_sLauncherErrMsg, buf);
+   }
    if (*gl_survey != '\0') unlink(gl_survey);
-   for(i = i + 1; i < n; i++) free(namelist[i]);
+   for (i = i + 1; i < n; i++) free(namelist[i]);
    free(namelist);
    return lineParseResult;
   }
@@ -2014,6 +2023,11 @@ out:
  menuEntrySet(pMenuEntryPending, NULL, LINE_LAUNCHER, "launcher=", FALSE, TRUE, gl_uiCurDepth); // bCmdOk, bIconTooltipOk
 
 // closedir(aDir);
+ if (*(gl_sLauncherErrMsg))
+ {
+   strcpy(pMenuEntryPending->m_sErrMsg, gl_sLauncherErrMsg);
+   return lineParseWarn;
+ }
  return lineParseOk;
 }
 
