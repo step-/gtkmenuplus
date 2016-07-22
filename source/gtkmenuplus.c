@@ -403,6 +403,7 @@ If this check causes you problems, take it out.
   // Needed to support onLauncher recursion. See common.c
   if(*gl_sScriptDirectory != '/') // may change gl_sScriptDirectory
    make_absolute_path(gl_sScriptDirectory, gl_sScriptDirectory);
+  gl_nScriptDirectory = strlen(gl_sScriptDirectory);
 
   strcpy(gl_sLauncherDirectory, gl_sScriptDirectory);
 #endif
@@ -1836,14 +1837,14 @@ struct Variable* variableFind(IN gchar* sName)
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 // ----------------------------------------------------------------------
-off_t surveyLaunchers(const gchar *rpath, gchar *outf, OUT gchar* sErrMsg) // used by onLauncher
+off_t surveyLaunchers(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMsg) // used by onLauncher
 // ----------------------------------------------------------------------
 /*
- * *outf - survey file name in /tmp - caller must allocate
+ * *outf - return temporary file name
  * return:
  *   >  0 : size of survey file - caller must unlink *outf
- *   == 0 : empty survey - nothing to unlink
- *   <  0 : errors - nothing to unlink
+ *   == 0 : empty survey - no need to unlink
+ *   <  0 : errors - no need to unlink
  */
 {
  if (NULL == tmpnam(outf)) // sic tmpnam, it's good enough
@@ -1854,8 +1855,7 @@ off_t surveyLaunchers(const gchar *rpath, gchar *outf, OUT gchar* sErrMsg) // us
  }
  gchar cmd[MAX_PATH_LEN + 1];
  if (snprintf(cmd, MAX_PATH_LEN,
-       "\"${GTKMENUPLUS_FIND:-find}\" '%s' -maxdepth %d '(' -type f -o -type l ')' -name '*.desktop' > '%s'",
-       rpath, MAX_SUBMENU_DEPTH, outf))
+       "\"${GTKMENUPLUS_FIND:-find}\" '%s' '(' -type f -o -type l ')' -name '*.desktop' > '%s'", rpath, outf))
  {
   system(cmd);
   struct stat sb;
@@ -1908,6 +1908,15 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   return lineParseFail;
  }
 
+ //explore directory unless max menu depth exceeded
+ if (gl_uiCurDepth >= MAX_SUBMENU_DEPTH - 1)
+ {
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
+      "Maximum submenu depth exceeded '%s'\n",
+      gl_sLinePostEq + gl_nScriptDirectory);
+  return lineParseFail;
+ }
+
  int len0 = strlen(gl_sLinePostEq);
  if (*(gl_sLinePostEq + len0 - 1) != '/')
  {
@@ -1922,6 +1931,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  {
   // Note: the clean way to break out of this loop is 'goto break_this_loop'
   enum LineParseResult lineParseResult;
+  enum LineParseResult wholeResult;
   gchar sLauncherPath1[MAX_PATH_LEN + 1];
   snprintf(sLauncherPath1, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, namelist[i]->d_name);
   int len1 = len0 + _D_EXACT_NAMLEN(namelist[i]);
@@ -1930,12 +1940,12 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 #endif
   free(namelist[i]);
 
-  // Walk depth-1 directory tree
 #ifdef _DIRENT_HAVE_D_TYPE
   if (DT_DIR == d_type)
 #else
   if(lstat(sLauncherPath1, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
 #endif
+  // Walk depth-1 directory tree
   {
    if('.' == sLauncherPath1[len1 -1]) continue; // skip . and ..
 
@@ -1944,7 +1954,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 
    if (0 == gl_uiCurDepth) // create survey of .desktop files under depth-1 directory
    {
-    *gl_survey = *gl_sLauncherErrMsg = '\0';
+    *gl_survey = '\0';
     off_t size;
     size = surveyLaunchers(sLauncherPath1, gl_survey, pMenuEntryPending->m_sErrMsg);
     if (0 > size)
@@ -1961,27 +1971,37 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
       || 0 != system(lookup))
       continue; // prune empty sub-directory tree
    }
-   //below this comment unlink(gl_survey);
 
+   // Pretend readLine read "submenu=".
    strcpy(gl_sLinePostEq, sLauncherPath1 + len0);
    lineParseResult = onSubMenu(pMenuEntryPending); // sets pending commitSubmenu, which we reset after this loop
    if (lineParseResult != lineParseOk) goto break_this_loop;
-   lineParseResult = commitSubMenu(pMenuEntryPending); // because we need to commitSubmenu here
-   if (lineParseResult != lineParseFail) pMenuEntryPending->m_uiDepth++;
-   if (lineParseResult != lineParseOk) goto break_this_loop;
+   // Pretend to commit the sub-menu, which normally readLine commits automatically.
+   lineParseResult = commitSubMenu(pMenuEntryPending);
+   if (lineParseResult == lineParseOk)
+   {
+    pMenuEntryPending->m_uiDepth++; // commitSubMenu increments gl_uiCurDepth
+    // Recursive onLauncher+onEndSubMenu calls as a single block.
+    strcpy(gl_sLinePostEq, sLauncherPath1);
+    wholeResult = onLauncher(pMenuEntryPending);
+    // Reap error message.
+    if (*pMenuEntryPending->m_sErrMsg)
+    {
+     strncat(gl_sLauncherErrMsg, pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH);
+     *pMenuEntryPending->m_sErrMsg = '\0';
+    }
 
-   strcpy(gl_sLinePostEq, sLauncherPath1);
-   lineParseResult = onLauncher(pMenuEntryPending);
-
-   gboolean sav = gl_bConfigKeywordUseEndSubMenu;
-   gl_bConfigKeywordUseEndSubMenu = TRUE; // as if "configure=submenuend"
-   lineParseResult = onSubMenuEnd(pMenuEntryPending);
-   gl_bConfigKeywordUseEndSubMenu = sav;
+    gboolean sav = gl_bConfigKeywordUseEndSubMenu;
+    gl_bConfigKeywordUseEndSubMenu = TRUE; // pretend "configure=submenuend"
+    lineParseResult = onSubMenuEnd(pMenuEntryPending);
+    gl_bConfigKeywordUseEndSubMenu = sav;
+    lineParseResult = wholeResult != lineParseOk ? wholeResult : lineParseResult;
+   }
    if (lineParseResult != lineParseOk) goto break_this_loop;
-   pMenuEntryPending->m_uiDepth--;
+   pMenuEntryPending->m_uiDepth--; // onSubMenuEnd decrements gl_uiCurDepth
 
    strcpy(gl_sLinePostEq, gl_sLinePostEq1);
-   continue;
+   continue; // on to the next item
   }
   else if (strcmp(sLauncherPath1 + len1 - 8, ".desktop") != 0)
     continue; // skip non-.desktop
@@ -2008,30 +2028,41 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
   {
 break_this_loop:
-   if (*(pMenuEntryPending->m_sErrMsg))
-   {
-    gchar buf[MAX_LINE_LENGTH + 1];
-    snprintf(buf, MAX_LINE_LENGTH, "%s\nlauncher=%s %s",
-        gl_sLauncherErrMsg, sLauncherPath1, pMenuEntryPending->m_sErrMsg);
-    strcpy(gl_sLauncherErrMsg, buf);
-   }
-   if (0 == gl_uiCurDepth && *gl_survey != '\0') unlink(gl_survey);
-   for (i = i + 1; i < n; i++) free(namelist[i]);
-   free(namelist);
-   return lineParseResult;
+   continue; // don't break - go back and treat all inferior errors as soft errors
+
+   // If instead really want to bail out on the first error:
+   /* if (0 == gl_uiCurDepth && *gl_survey != '\0') unlink(gl_survey); */
+   /* for (i = i + 1; i < n; i++) free(namelist[i]); */
+   /* free(namelist); */
+   /* return lineParseResult; */
   }
  }
 
- if (0 == gl_uiCurDepth && *gl_survey != '\0') unlink(gl_survey);
  if (namelist) free(namelist);
- // Reset pending commitSubmenu, which onSubMenu set
- menuEntrySet(pMenuEntryPending, NULL, LINE_LAUNCHER, "launcher=", FALSE, TRUE, gl_uiCurDepth); // bCmdOk, bIconTooltipOk
 
-// closedir(aDir);
- if (*(gl_sLauncherErrMsg))
+ // Reset pending commitSubmenu, which onSubMenu set. Resets pMenuEntryPending->m_sErrorMsg.
  {
-   strcpy(pMenuEntryPending->m_sErrMsg, gl_sLauncherErrMsg + 1);
-   return lineParseWarn;
+  gchar sav[MAX_LINE_LENGTH + 1];
+  strncpy(sav, pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH);
+  menuEntrySet(pMenuEntryPending, NULL, LINE_LAUNCHER, "launcher=", FALSE, TRUE, gl_uiCurDepth); // bCmdOk, bIconTooltipOk
+  // Saw error message.
+  strcpy(pMenuEntryPending->m_sErrMsg, sav);
+ }
+
+ switch (gl_uiCurDepth)
+ {
+  case 1: // On exiting a level-1 tree walk
+   if (*gl_survey != '\0') unlink(gl_survey);
+  break;
+  case 0: // On exiting the whole tree walk
+   if (*gl_survey != '\0') unlink(gl_survey);
+   if (*gl_sLauncherErrMsg != '\0')
+   {
+    strncpy(pMenuEntryPending->m_sErrMsg, gl_sLauncherErrMsg, MAX_LINE_LENGTH);
+    return lineParseWarn;
+    // In this case warning vs. error is a matter of personal preference.
+   }
+  break;
  }
  return lineParseOk;
 }
