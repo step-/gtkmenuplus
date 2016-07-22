@@ -1918,6 +1918,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  int i;
  for (i = 0; i < n; i++)
  {
+  // Note: the clean way to break out of this loop is 'goto break_this_loop'
   enum LineParseResult lineParseResult;
   gchar sLauncherPath1[MAX_PATH_LEN + 1];
   snprintf(sLauncherPath1, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, namelist[i]->d_name);
@@ -1947,7 +1948,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     if (0 > size)
     {
      lineParseResult = lineParseFail;
-     goto out;
+     goto break_this_loop;
     }
     else if (0 == size) continue; // prune empty depth-1 directory
    }
@@ -1962,10 +1963,10 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 
    strcpy(gl_sLinePostEq, sLauncherPath1 + len0);
    lineParseResult = onSubMenu(pMenuEntryPending); // sets pending commitSubmenu, which we reset after this loop
-   if (lineParseResult != lineParseOk) goto out;
+   if (lineParseResult != lineParseOk) goto break_this_loop;
    lineParseResult = commitSubMenu(pMenuEntryPending); // because we need to commitSubmenu here
    if (lineParseResult != lineParseFail) pMenuEntryPending->m_uiDepth++;
-   if (lineParseResult != lineParseOk) goto out;
+   if (lineParseResult != lineParseOk) goto break_this_loop;
 
    strcpy(gl_sLinePostEq, sLauncherPath1);
    lineParseResult = onLauncher(pMenuEntryPending);
@@ -1974,7 +1975,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    gl_bConfigKeywordUseEndSubMenu = TRUE; // as if "configure=submenuend"
    lineParseResult = onSubMenuEnd(pMenuEntryPending);
    gl_bConfigKeywordUseEndSubMenu = sav;
-   if (lineParseResult != lineParseOk) goto out;
+   if (lineParseResult != lineParseOk) goto break_this_loop;
    pMenuEntryPending->m_uiDepth--;
 
    strcpy(gl_sLinePostEq, gl_sLinePostEq1);
@@ -2004,7 +2005,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
       lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
   if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
   {
-out:
+break_this_loop:
    if (*(pMenuEntryPending->m_sErrMsg))
    {
     gchar buf[MAX_LINE_LENGTH + 1];
