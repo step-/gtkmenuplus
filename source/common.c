@@ -81,6 +81,35 @@ GdkPixbuf* fileToPixBuf(gchar* sPathToIcon, IN guint uiIconSize, IN gboolean bSu
  return pGdkPixbuf;
 }
 
+// Make an absolute path. This is necessary to support onLauncher
+// recursion because expand_path() isn't designed to deal with expanding
+// the same RELATIVE path for gl_sScriptPath (sBasePath) more than once.
+// Note: Replacement is purely syntactic, sPath may not even exist.
+// TODO replace system() with pure C code.
+int make_absolute_path(IN const gchar *sPath, OUT gchar *sAbs)
+// ----------------------------------------------------------------------
+{
+ gchar outf[MAX_PATH_LEN + 1] = "";
+ int err;
+
+ if (NULL == tmpnam(outf)) // sic tmpnam, it's good enough
+   return -1;
+ gchar cmd[MAX_PATH_LEN + 1];
+ if (sprintf(cmd, "realpath -m '%s' > '%s'", sPath, outf)
+  && 0 == (err = system(cmd)))
+ {
+  FILE *fp;
+  if (NULL != (fp = fopen(outf, "r")))
+  {
+   err = 1 == fscanf(fp, "%s", sAbs);
+   strncat(sAbs, "/", MAX_PATH_LEN);
+  }
+  fclose(fp);
+ }
+ if (*outf) unlink(outf);
+ return err; // 0(Ok) <>0(error)
+}
+
 //deals with ./, ~.
 gchar * expand_path_tilda_dot(IN const gchar *sPath, IN const gchar* sBasePath)
 // ----------------------------------------------------------------------

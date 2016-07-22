@@ -33,6 +33,7 @@ void          clearPathRegex();
 
 void          errorExit(IN gchar* sMsg);
 
+int           make_absolute_path(IN const gchar *sPath, OUT gchar *sAbs);
 gchar*        expand_path_tilda_dot(IN const gchar *sCmd, IN const gchar* sBasePath);
 GdkPixbuf*    fileToPixBuf(gchar* sPathToIcon, IN guint uiIconSize, IN gboolean bSuppressErrors, OUT gchar* sErrMsg);
 gboolean      is_line_file(IN gchar* sPath, OUT gchar* sErrMsg);

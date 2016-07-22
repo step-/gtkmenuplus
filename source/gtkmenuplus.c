@@ -399,8 +399,11 @@ If this check causes you problems, take it out.
    exit(EXIT_FAILURE);
 
   strcpy(gl_sScriptDirectory, gl_sIconDirectory);
-
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
+  // Needed to support onLauncher recursion. See common.c
+  if(*gl_sScriptDirectory != '/') // may change gl_sScriptDirectory
+   make_absolute_path(gl_sScriptDirectory, gl_sScriptDirectory);
+
   strcpy(gl_sLauncherDirectory, gl_sScriptDirectory);
 #endif
  }
