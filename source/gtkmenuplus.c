@@ -1852,8 +1852,10 @@ off_t surveyLaunchers(const gchar *rpath, gchar *outf, OUT gchar* sErrMsg) // us
    *outf = '\0';
    return -1;
  }
- gchar cmd[MAX_LINE_LENGTH + 1];
- if (sprintf(cmd, "find '%s' '(' -type f -o -type l ')' -name '*.desktop' > '%s'", rpath, outf))
+ gchar cmd[MAX_PATH_LEN + 1];
+ if (snprintf(cmd, MAX_PATH_LEN,
+       "\"${GTKMENUPLUS_FIND:-find}\" '%s' -maxdepth %d '(' -type f -o -type l ')' -name '*.desktop' > '%s'",
+       rpath, MAX_SUBMENU_DEPTH, outf))
  {
   system(cmd);
   struct stat sb;
@@ -2009,19 +2011,18 @@ break_this_loop:
    if (*(pMenuEntryPending->m_sErrMsg))
    {
     gchar buf[MAX_LINE_LENGTH + 1];
-    snprintf(buf, MAX_LINE_LENGTH, "%s%slauncher=%s %s",
-        gl_sLauncherErrMsg, *gl_sLauncherErrMsg ? "\n" : "",
-        sLauncherPath1, pMenuEntryPending->m_sErrMsg);
+    snprintf(buf, MAX_LINE_LENGTH, "%s\nlauncher=%s %s",
+        gl_sLauncherErrMsg, sLauncherPath1, pMenuEntryPending->m_sErrMsg);
     strcpy(gl_sLauncherErrMsg, buf);
    }
-   if (*gl_survey != '\0') unlink(gl_survey);
+   if (0 == gl_uiCurDepth && *gl_survey != '\0') unlink(gl_survey);
    for (i = i + 1; i < n; i++) free(namelist[i]);
    free(namelist);
    return lineParseResult;
   }
  }
 
- if (*gl_survey != '\0') unlink(gl_survey);
+ if (0 == gl_uiCurDepth && *gl_survey != '\0') unlink(gl_survey);
  if (namelist) free(namelist);
  // Reset pending commitSubmenu, which onSubMenu set
  menuEntrySet(pMenuEntryPending, NULL, LINE_LAUNCHER, "launcher=", FALSE, TRUE, gl_uiCurDepth); // bCmdOk, bIconTooltipOk
@@ -2029,7 +2030,7 @@ break_this_loop:
 // closedir(aDir);
  if (*(gl_sLauncherErrMsg))
  {
-   strcpy(pMenuEntryPending->m_sErrMsg, gl_sLauncherErrMsg);
+   strcpy(pMenuEntryPending->m_sErrMsg, gl_sLauncherErrMsg + 1);
    return lineParseWarn;
  }
  return lineParseOk;
