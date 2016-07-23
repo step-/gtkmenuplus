@@ -1873,6 +1873,15 @@ off_t createLauncherDB(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMs
 }
 
 // ----------------------------------------------------------------------
+gboolean lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used by onLauncher
+// ----------------------------------------------------------------------
+{
+ gchar cmd[MAX_PATH_LEN + 1];
+ return 2 == sprintf(cmd, "grep -q '^%s' '%s'", needle, dbf)
+   && 0 == system(cmd);
+}
+
+// ----------------------------------------------------------------------
 void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* at) // used by onLauncher
 // ----------------------------------------------------------------------
 {
@@ -1984,13 +1993,10 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     }
     else if (0 == size) continue; // prune empty depth-1 directory
    }
-   else // lookup launcher data base file
+   else // depth >= 1: are there any .desktop files at or below this path?
    {
-
-     gchar lookup[MAX_PATH_LEN + 1];
-     if (sprintf(lookup, "grep -q '^%s' '%s'", sLauncherPath1, gl_survey) <= 0
-      || 0 != system(lookup))
-      continue; // prune empty sub-directory tree
+    if (! lookupLauncherDB(sLauncherPath1, gl_sLauncherDB))
+     continue; // prune empty sub-directory tree
    }
 
    // Pretend readLine read "submenu=".
