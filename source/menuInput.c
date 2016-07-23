@@ -449,7 +449,7 @@ enum LineParseResult onIcon(INOUT struct MenuEntry* pMenuEntryPending) // access
 enum LineParseResult onSubMenu(INOUT struct MenuEntry* pMenuEntryPending) // accesses gl_sLinePostEq
 // ----------------------------------------------------------------------
 {
- if (gl_uiCurDepth >= MAX_SUBMENU_DEPTH)
+ if (gl_uiCurDepth >= MAX_SUBMENU_DEPTH - 1)
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", "Maximum submenu depth exceeded");
   return lineParseFail;
