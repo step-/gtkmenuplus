@@ -878,6 +878,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
  }
  *pbIndentMatters = TRUE;
 
+ //fprintf(stderr, "DEBUG >readLine %s\n", tmp);
  if (*tmp == '/' || *tmp == '~')
  {
   strcpy(gl_sLinePostEq, tmp);
