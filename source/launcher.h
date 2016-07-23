@@ -12,7 +12,7 @@ extern "C" {
 #include <regex.h>
 #include "common.h"
 
-regex_t gl_rgxLauncherExecArg; // used to check laucher exec fiedls for %f etc
+regex_t gl_rgxLauncherExecArg; // used to check launcher exec fields for %f etc
 
 struct LauncherElement
 {

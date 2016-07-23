@@ -6,7 +6,7 @@
 /*
  * gtkmenuplus - read a description file and generate a menu.
  * version 1.00, 2013-04-24, by Alan Campbell, 2013
- * version 1.10, 2016-07-15, by step, 2016, forked from Alan Campbell's 1.00
+ * version 1.10, 2016-07-25, by step, 2016, forked from Alan Campbell's 1.00
  *
  * based partially on code in myGtkMenu, copyright (C) 2004-2011 John Vorthman
  * (https://sites.google.com/site/jvinla/home).
@@ -306,7 +306,7 @@ extern const gchar*  gl_sUriSchema;
 //TO DO not same in launchers_to_menu
 
 const gchar*    gl_sLauncherExecArg = "[ \t]\\+%[fFuUdDnNickvm][ \t]*";
-//regex_t       gl_rgxLauncherExecArg in launcher.c
+//regex_t       gl_rgxLauncherExecArg in launcher.h
 
 //enum LineParseResult { lineParseOk = 0, lineParseWarn = 1, lineParseFail = 3, lineParseFailFatal = 3};
 const gchar*    gl_sLineParseLabel[] = {"programming error", "warning", "error", "fatal error"} ;
@@ -1872,6 +1872,30 @@ off_t surveyLaunchers(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMsg
  return -1;
 }
 
+// ----------------------------------------------------------------------
+void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* at) // used by onLauncher
+// ----------------------------------------------------------------------
+{
+ if (*pMenuEntryPending->m_sErrMsg)
+ {
+  void *mp = malloc(MAX_LINE_LENGTH + 1);
+  if (mp)
+  {
+   snprintf(mp, MAX_LINE_LENGTH, "%s%s%s%s%s",
+    gl_sLauncherErrMsg,
+    at ? "at " : "", at, at ? ": " : "", pMenuEntryPending->m_sErrMsg);
+   strncpy(gl_sLauncherErrMsg, mp, MAX_LINE_LENGTH);
+   free(mp);
+   *pMenuEntryPending->m_sErrMsg = '\0';
+  }
+  else
+  {
+    perror("malloc");
+    fprintf(stderr, pMenuEntryPending->m_sErrMsg);
+  }
+ }
+}
+
 // ---------------------------------------------------------------------- AC
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
@@ -1898,25 +1922,22 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   return lineParseFail;
  }
 
+ // permit file
  if (S_ISREG(statbuf.st_mode))
   return processLauncher(gl_sLinePostEq, lineParseFail, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
 
-//could be a directory
+// forbid non-directory
  if (!S_ISDIR(statbuf.st_mode))
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "launcher=: %s is not a launcher file or a directory\n", gl_sLinePostEq);
   return lineParseFail;
  }
 
- //explore directory unless max menu depth exceeded
- if (gl_uiCurDepth >= MAX_SUBMENU_DEPTH - 1)
- {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
-      "Maximum submenu depth exceeded '%s'\n",
-      gl_sLinePostEq + gl_nScriptDirectory);
-  return lineParseFail;
- }
-
+ //permit directory unless max menu depth exceeded
+ if (gl_uiCurDepth >= MAX_SUBMENU_DEPTH)
+  return lineParseWarn;
+ 
+ //scan directory -- will recurse
  int len0 = strlen(gl_sLinePostEq);
  if (*(gl_sLinePostEq + len0 - 1) != '/')
  {
@@ -1931,7 +1952,6 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  {
   // Note: the clean way to break out of this loop is 'goto break_this_loop'
   enum LineParseResult lineParseResult;
-  enum LineParseResult wholeResult;
   gchar sLauncherPath1[MAX_PATH_LEN + 1];
   snprintf(sLauncherPath1, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, namelist[i]->d_name);
   int len1 = len0 + _D_EXACT_NAMLEN(namelist[i]);
@@ -1974,31 +1994,34 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 
    // Pretend readLine read "submenu=".
    strcpy(gl_sLinePostEq, sLauncherPath1 + len0);
-   lineParseResult = onSubMenu(pMenuEntryPending); // sets pending commitSubmenu, which we reset after this loop
-   if (lineParseResult != lineParseOk) goto break_this_loop;
-   // Pretend to commit the sub-menu, which normally readLine commits automatically.
+   lineParseResult = onSubMenu(pMenuEntryPending); // if Ok: sets pending commitSubmenu and gl_uiCurDepth++
+   if (lineParseResult != lineParseOk)
+   {
+    reapErrMsg(pMenuEntryPending, sLauncherPath1 + gl_nScriptDirectory);
+    strcpy(gl_sLinePostEq, gl_sLinePostEq1);
+    // On to the next sibling: a file will succeed, another directory will fail.
+    continue;
+   }
+   // Manually commit the sub-menu, which normally readLine commits automatically.
    lineParseResult = commitSubMenu(pMenuEntryPending);
    if (lineParseResult == lineParseOk)
    {
-    pMenuEntryPending->m_uiDepth++; // commitSubMenu increments gl_uiCurDepth
-    // Recursive onLauncher+onEndSubMenu calls as a single block.
+    pMenuEntryPending->m_uiDepth++; // since Ok: m_uiDepth <- gl_uiCurDepth
+    // Recursive pretend "launcher=": pair onLauncher and onEndSubMenu together
     strcpy(gl_sLinePostEq, sLauncherPath1);
-    wholeResult = onLauncher(pMenuEntryPending);
-    // Reap error message.
-    if (*pMenuEntryPending->m_sErrMsg)
-    {
-     strncat(gl_sLauncherErrMsg, pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH);
-     *pMenuEntryPending->m_sErrMsg = '\0';
-    }
-
+    enum LineParseResult pairedResult = onLauncher(pMenuEntryPending);
+    reapErrMsg(pMenuEntryPending, sLauncherPath1 + gl_nScriptDirectory); // if any
+    // Pretend "submenuend"
     gboolean sav = gl_bConfigKeywordUseEndSubMenu;
     gl_bConfigKeywordUseEndSubMenu = TRUE; // pretend "configure=submenuend"
-    lineParseResult = onSubMenuEnd(pMenuEntryPending);
+    lineParseResult = onSubMenuEnd(pMenuEntryPending); // if Ok: gl_uiCurDepth--
     gl_bConfigKeywordUseEndSubMenu = sav;
-    lineParseResult = wholeResult != lineParseOk ? wholeResult : lineParseResult;
+    reapErrMsg(pMenuEntryPending, NULL); // if any
+    lineParseResult = pairedResult != lineParseOk ? pairedResult : lineParseResult;
    }
-   if (lineParseResult != lineParseOk) goto break_this_loop;
-   pMenuEntryPending->m_uiDepth--; // onSubMenuEnd decrements gl_uiCurDepth
+   if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
+    goto break_this_loop;
+   pMenuEntryPending->m_uiDepth--; // since Ok: m_uiDepth <- gl_uiCurDepth
 
    strcpy(gl_sLinePostEq, gl_sLinePostEq1);
    continue; // on to the next item
@@ -2027,10 +2050,10 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
       lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
   if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
   {
-break_this_loop:
+break_this_loop: // IN lineParseResult
    continue; // don't break - go back and treat all inferior errors as soft errors
 
-   // If instead really want to bail out on the first error:
+   // If instead you really want to bail out on the first error:
    /* if (0 == gl_uiCurDepth && *gl_survey != '\0') unlink(gl_survey); */
    /* for (i = i + 1; i < n; i++) free(namelist[i]); */
    /* free(namelist); */
