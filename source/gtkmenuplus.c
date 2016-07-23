@@ -1877,7 +1877,7 @@ gboolean lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used b
 // ----------------------------------------------------------------------
 {
  gchar cmd[MAX_PATH_LEN + 1];
- return 2 == sprintf(cmd, "grep -q '^%s' '%s'", needle, dbf)
+ return 0 < sprintf(cmd, "grep -q '^%s' '%s'", needle, dbf)
    && 0 == system(cmd);
 }
 
@@ -1903,6 +1903,72 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* at) // use
     fprintf(stderr, pMenuEntryPending->m_sErrMsg);
   }
  }
+}
+
+// ----------------------------------------------------------------------
+enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struct MenuEntry* pme) // used by onLauncher
+// ----------------------------------------------------------------------
+{
+ int fd;
+ gchar launcher[MAX_PATH_LEN + 1];
+ if (0 < snprintf(launcher, MAX_PATH_LEN, "%s/.gtkmenuplus.desktop", sLauncherPath)
+     && -1 != (fd = open(launcher, O_RDONLY
+#ifdef _GNU_SOURCE
+         | O_NOATIME
+#endif
+         )))
+ {
+  close(fd);
+  // Parse launcher .desktop file.
+  // Code taken from processLauncher. See comments there.
+  clearLauncherElements();
+  GKeyFile* pGKeyFile = g_key_file_new();
+  GError* gerror = NULL;
+  if (!g_key_file_load_from_file(pGKeyFile, launcher, 0, &gerror))
+  {
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "launcher=: can't open %s.\n", launcher);
+   g_error("%s\n", gerror->message); //TO DO
+   g_error_free(gerror);
+   return lineParseFail;
+  }
+
+  int i = 0;
+  gboolean bOk = TRUE;
+  gchar * sValue = NULL;
+  for (i=0; i < gl_nLauncherElements; i++)
+  {
+   sValue = NULL;
+   gerror = NULL;
+   if (gl_launcherElement[i].m_bTryLocalised)
+    sValue = g_key_file_get_locale_string(pGKeyFile, "Desktop Entry",
+        gl_launcherElement[i].m_sKeyword, NULL, NULL);
+   if (!sValue)
+   {
+    gerror = NULL;
+    sValue = g_key_file_get_string(pGKeyFile, "Desktop Entry",
+        gl_launcherElement[i].m_sKeyword, NULL);
+   }
+   gl_launcherElement[i].sValue = sValue;
+
+   /* if (!sValue && gl_launcherElement[i].bRequired) */
+   /* { */
+   /*  snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in launcher %s.\n", */
+   /*      gl_launcherElement[i].m_sKeyword, launcher); */
+   /*  bOk = FALSE; */
+   /*  break; */
+   /* } */
+  }
+  g_key_file_free(pGKeyFile);
+  if (!bOk) return lineParseFail;
+
+  strcpy(pme->m_sTitle, gl_launcherElement[LAUNCHER_ELEMENT_NAME].sValue);
+  strcpy(pme->m_sIcon,  gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue);
+#if  !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
+  strcpy(pme->m_sTooltip, gl_launcherElement[LAUNCHER_ELEMENT_COMMENT].sValue);
+#endif
+  return lineParseOk;
+ }
+ else return lineParseOk; // no configuration data found: fallback to default.
 }
 
 // ---------------------------------------------------------------------- AC
@@ -1974,18 +2040,18 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 #else
   if(lstat(sLauncherPath1, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
 #endif
-  // Walk depth-1 directory tree
+  // Directory path: walk the tree.
   {
    if('.' == sLauncherPath1[len1 -1]) continue; // skip . and ..
 
    gchar gl_sLinePostEq1[MAX_LINE_LENGTH];
    strcpy(gl_sLinePostEq1, gl_sLinePostEq);
 
-   if (0 == gl_uiCurDepth) // create data base of .desktop files under depth-1 directory
+   if (0 == gl_uiCurDepth) // Depth-1 directory path
    {
+    // Create data base of .desktop files in and under depth-1 directory path.
     *gl_sLauncherDB = '\0';
-    off_t size;
-    size = createLauncherDB(sLauncherPath1, gl_sLauncherDB, pMenuEntryPending->m_sErrMsg);
+    off_t size = createLauncherDB(sLauncherPath1, gl_sLauncherDB, pMenuEntryPending->m_sErrMsg);
     if (0 > size)
     {
      lineParseResult = lineParseFail;
@@ -1993,11 +2059,13 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     }
     else if (0 == size) continue; // prune empty depth-1 directory
    }
-   else // depth >= 1: are there any .desktop files at or below this path?
+   else // Depth > 1: are there any .desktop files at or below this path?
    {
     if (! lookupLauncherDB(sLauncherPath1, gl_sLauncherDB))
-     continue; // prune empty sub-directory tree
+     continue; // prune "empty" sub-directory tree
    }
+   // Getting here means that there are some .desktop files in or under
+   // directory path sLauncherPath1.
 
    // Pretend readLine read "submenu=".
    strcpy(gl_sLinePostEq, sLauncherPath1 + len0);
@@ -2009,6 +2077,15 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     // On to the next sibling: a file will succeed, another directory will fail.
     continue;
    }
+
+   // Fill sub-menu elements from in-node configuration files, if any.
+   lineParseResult = fillSubMenuEntry(sLauncherPath1, pMenuEntryPending);
+   if (lineParseResult != lineParseOk)
+   {
+    reapErrMsg(pMenuEntryPending, sLauncherPath1 + gl_nScriptDirectory); // if any
+    // And carry on: *pMenuEntryPending is filled with fallback values anyway.
+   }
+ 
    // Manually commit the sub-menu, which normally readLine commits automatically.
    lineParseResult = commitSubMenu(pMenuEntryPending);
    if (lineParseResult == lineParseOk)
@@ -2033,25 +2110,34 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    strcpy(gl_sLinePostEq, gl_sLinePostEq1);
    continue; // on to the next item
   }
-  else if (strcmp(sLauncherPath1 + len1 - 8, ".desktop") != 0)
-    continue; // skip non-.desktop
-  else
+  else // Non-directory path.
   {
-#ifdef _DIRENT_HAVE_D_TYPE
-   if (DT_LNK == d_type)
-#else
-   if(S_ISLNK(statbuf.st_mode))
-#endif
+   if (
+    // skip non-.desktop
+    strcmp(sLauncherPath1 + len1 - 8, ".desktop") != 0
+    // skip sub-menu configuration file
+    || strcmp(sLauncherPath1 + len1 - 21, "/.gtkmenuplus.desktop") == 0)
+     continue;
+   else
    {
-    gchar buf[MAX_PATH_LEN + 1];
-    if(NULL == realpath(sLauncherPath1, buf))
-    {
-     strncat(sLauncherPath1, " -> symlink warning", MAX_PATH_LEN);
-     perror(sLauncherPath1);
-     continue; // skip invalid symlinks
+#ifdef _DIRENT_HAVE_D_TYPE
+    if (DT_LNK == d_type)
+#else
+    if(S_ISLNK(statbuf.st_mode))
+#endif
+    { // Symlink.
+     gchar buf[MAX_PATH_LEN + 1];
+     if(NULL == realpath(sLauncherPath1, buf))
+     {
+      strncat(sLauncherPath1, " -> symlink warning", MAX_PATH_LEN);
+      perror(sLauncherPath1);
+      continue; // skip invalid symlinks
+     }
     }
    }
   }
+  // Getting here means that there is a non-directory path (file,
+  // symlink) that can be processed as a launcher file.
 
   lineParseResult = processLauncher(sLauncherPath1,
       lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
