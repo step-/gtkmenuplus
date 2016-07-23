@@ -384,7 +384,7 @@ tooltipformat=format_string
 launcher=path_to_launcher(s)
 
   A launcher is a Gnome .desktop file used to launch an application.
-  It usually includes a name, executable, comment and icon.
+  It usually includes a name, executable, comment (tooltip) and icon.
 
   If you provide a path to a single .desktop file, it will be used to create a menu entry.
 
@@ -394,6 +394,8 @@ launcher=path_to_launcher(s)
   Any preceding "launcherargs=arguments" line will apply to that entry, that is, the "arguments" string will be appended to the command entry for the shell to execute. Quote "arguments" as needed.
 
   If you provide a path_to_launcher(s) to a directory containing .desktop files, they will all be used to create successive menu entries.
+
+  If the directory includes sub-directories containing .desktop files, they will all be used to create successive menu entries in nested submenus. More info further down in this section.
 
   "path_to_launcher" follows the rules for paths referred to in menu configuration files (see above):
 
@@ -428,6 +430,17 @@ launcher=path_to_launcher(s)
   or
        launcher=*
 
+  More on nested submenus.
+  
+    Submenus are created automatically, you do not need to add "submenu=" keywords.
+
+    Up to 5 levels are automatically nested (see MAX_SUBMENU_DEPTH).
+
+    Two more sub-directory levels past MAX_SUBMENU_DEPTH are scanned for .desktop files, and a warning is printed to the console if more menu levels would be needed to accommodate additional .desktop files.
+
+    Unlike the "submenu=" keyword, which exits with a fatal error if the maximum allowed submenu level is exceeded, launcher=directory will carry on and display as many launcher files as possible.
+
+    By default the name of a submenu is the name of the sub-directory that includes its .desktop files, and the icon is undefined. Alternatively and more flexibly, name, icon and tooltip can be specified in a hidden desktop file named ".gtkmenuplus.desktop" located in the sub-directory.
 
 launcherargs=arguments
 
@@ -572,7 +585,7 @@ submenu=submenu_description
       "format=", "tooltipformat=", "if=", etc, don't make up part of the definition of a menu item or submenu definition,
       and therefore is ignored and has no effect on when a submenu ends.
 
-  Submenus can be nested.
+  Submenus can be nested up to a maximum of 5 levels. Changing this limit requires recompiling the source code: look for and change the value of MAX_SUBMENU_DEPTH.
 
 A "submenu=" line marks the end of any menu item or submenu preceding it.
 
