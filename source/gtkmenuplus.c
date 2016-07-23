@@ -2314,7 +2314,16 @@ enum LineParseResult onIconForLauncher(IN guint uiDepth, OUT gchar* sErrMsg)
 
   if (!pGdkPixbuf)
   {
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n", "Can't get icon from .desktop spec");
+   void *pm = malloc(MAX_LINE_LENGTH + 1);
+   if(pm)
+   {
+    snprintf(pm, MAX_LINE_LENGTH, "%s: %s",
+       "Can't get icon from .desktop spec", sErrMsg);
+    strcpy(sErrMsg, pm);
+    free(pm);
+   }
+   else snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n",
+       "Can't get icon from .desktop spec");
    return lineParseWarn;
   }
 
