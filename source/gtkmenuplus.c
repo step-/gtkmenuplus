@@ -88,7 +88,7 @@ typedef gchar   GLOB_SPEC_TYPE;
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 extern struct LauncherElement gl_launcherElement[];
 extern guint                  gl_nLauncherElements;
-gchar gl_survey[MAX_PATH_LEN + 1]; // launcher=dir/ survey result file
+gchar gl_sLauncherDB[MAX_PATH_LEN + 1]; // launcher=dir/** list file
 gchar gl_sLauncherErrMsg[MAX_LINE_LENGTH + 1]; // launcher=dir/ cumulative errors
 #endif
 
@@ -1837,13 +1837,13 @@ struct Variable* variableFind(IN gchar* sName)
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 // ----------------------------------------------------------------------
-off_t surveyLaunchers(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMsg) // used by onLauncher
+off_t createLauncherDB(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMsg) // used by onLauncher
 // ----------------------------------------------------------------------
 /*
  * *outf - return temporary file name
  * return:
- *   >  0 : size of survey file - caller must unlink *outf
- *   == 0 : empty survey - no need to unlink
+ *   >  0 : size of *outf file - caller must unlink *outf
+ *   == 0 : empty *outf - no need to unlink
  *   <  0 : errors - no need to unlink
  */
 {
@@ -1972,11 +1972,11 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    gchar gl_sLinePostEq1[MAX_LINE_LENGTH];
    strcpy(gl_sLinePostEq1, gl_sLinePostEq);
 
-   if (0 == gl_uiCurDepth) // create survey of .desktop files under depth-1 directory
+   if (0 == gl_uiCurDepth) // create data base of .desktop files under depth-1 directory
    {
-    *gl_survey = '\0';
+    *gl_sLauncherDB = '\0';
     off_t size;
-    size = surveyLaunchers(sLauncherPath1, gl_survey, pMenuEntryPending->m_sErrMsg);
+    size = createLauncherDB(sLauncherPath1, gl_sLauncherDB, pMenuEntryPending->m_sErrMsg);
     if (0 > size)
     {
      lineParseResult = lineParseFail;
@@ -1984,8 +1984,9 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     }
     else if (0 == size) continue; // prune empty depth-1 directory
    }
-   else // lookup survey file
+   else // lookup launcher data base file
    {
+
      gchar lookup[MAX_PATH_LEN + 1];
      if (sprintf(lookup, "grep -q '^%s' '%s'", sLauncherPath1, gl_survey) <= 0
       || 0 != system(lookup))
@@ -2007,7 +2008,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    if (lineParseResult == lineParseOk)
    {
     pMenuEntryPending->m_uiDepth++; // since Ok: m_uiDepth <- gl_uiCurDepth
-    // Recursive pretend "launcher=": pair onLauncher and onEndSubMenu together
+    // Recursive pretend "launcher=": pair onLauncher and onSubMenuEnd together
     strcpy(gl_sLinePostEq, sLauncherPath1);
     enum LineParseResult pairedResult = onLauncher(pMenuEntryPending);
     reapErrMsg(pMenuEntryPending, sLauncherPath1 + gl_nScriptDirectory); // if any
@@ -2054,7 +2055,7 @@ break_this_loop: // IN lineParseResult
    continue; // don't break - go back and treat all inferior errors as soft errors
 
    // If instead you really want to bail out on the first error:
-   /* if (0 == gl_uiCurDepth && *gl_survey != '\0') unlink(gl_survey); */
+   /* if (0 == gl_uiCurDepth && *gl_sLauncherDB != '\0') unlink(gl_sLauncherDB); */
    /* for (i = i + 1; i < n; i++) free(namelist[i]); */
    /* free(namelist); */
    /* return lineParseResult; */
@@ -2075,10 +2076,10 @@ break_this_loop: // IN lineParseResult
  switch (gl_uiCurDepth)
  {
   case 1: // On exiting a level-1 tree walk
-   if (*gl_survey != '\0') unlink(gl_survey);
+   if (*gl_sLauncherDB != '\0') unlink(gl_sLauncherDB);
   break;
   case 0: // On exiting the whole tree walk
-   if (*gl_survey != '\0') unlink(gl_survey);
+   if (*gl_sLauncherDB != '\0') unlink(gl_sLauncherDB);
    if (*gl_sLauncherErrMsg != '\0')
    {
     strncpy(pMenuEntryPending->m_sErrMsg, gl_sLauncherErrMsg, MAX_LINE_LENGTH);
