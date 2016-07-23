@@ -1855,7 +1855,8 @@ off_t createLauncherDB(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMs
  }
  gchar cmd[MAX_PATH_LEN + 1];
  if (snprintf(cmd, MAX_PATH_LEN,
-       "\"${GTKMENUPLUS_FIND:-find}\" '%s' '(' -type f -o -type l ')' -name '*.desktop' > '%s'", rpath, outf))
+       "\"${GTKMENUPLUS_FIND:-find}\" '%s' -maxdepth %d '(' -type f -o -type l ')' -name '*.desktop' > '%s'",
+         rpath, MAX_SUBMENU_DEPTH + 2, outf))
  {
   system(cmd);
   struct stat sb;
