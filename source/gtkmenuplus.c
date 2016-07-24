@@ -1877,9 +1877,27 @@ off_t createLauncherDB(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMs
 gboolean lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used by onLauncher
 // ----------------------------------------------------------------------
 {
- gchar cmd[MAX_PATH_LEN + 1];
- return 0 < sprintf(cmd, "grep -q '^%s' '%s'", needle, dbf)
-   && 0 == system(cmd);
+ /* gchar cmd[MAX_PATH_LEN + 1]; */
+ /* return 0 < sprintf(cmd, "grep -q '^%s' '%s'", needle, dbf) */
+ /*   && 0 == system(cmd); */
+ 
+ gchar s[MAX_LINE_LENGTH + 1];
+ gboolean found = FALSE;
+ FILE *fp;
+ 
+ if ((fp = fopen(dbf, "r")))
+ {
+  while (fgets(s, MAX_LINE_LENGTH + 1, fp)) // ends with \n\0
+  {
+   if (0 == strstr(s, needle) - s)
+   {
+    found = TRUE; // matched needle at ^
+    break;
+   }
+  }
+  fclose(fp);
+ }
+ return found;
 }
 
 // ----------------------------------------------------------------------
