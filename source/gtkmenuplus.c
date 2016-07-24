@@ -90,6 +90,7 @@ extern struct LauncherElement gl_launcherElement[];
 extern guint                  gl_nLauncherElements;
 gchar gl_sLauncherDB[MAX_PATH_LEN + 1]; // launcher=dir/** list file
 gchar gl_sLauncherErrMsg[MAX_LINE_LENGTH + 1]; // launcher=dir/ cumulative errors
+int   gl_nLauncherReadLineDepth; // set by main()@readLine when it reads "launcher="
 #endif
 
 struct Params;
@@ -588,6 +589,9 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
    if (linetype == LINE_EOF && pFile) fclose(pFile); // pFile may be NULL if command line is lne string
   } // if (gl_bOkToDisplay)
 
+#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
+  gl_nLauncherReadLineDepth = gl_uiCurDepth;
+#endif
   if (gl_bOkToDisplay && pLinetypeAction)
    lineParseResult = pLinetypeAction->m_pActionFunc(&menuEntryPending);  // onSubMenu will bump gl_uiCurDepth
 
@@ -1856,9 +1860,11 @@ off_t createLauncherDB(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMs
    return -1;
  }
  gchar cmd[MAX_PATH_LEN + 1];
+ int maxdepth = MAX_SUBMENU_DEPTH - gl_nLauncherReadLineDepth;
+ maxdepth = maxdepth > 0 ? maxdepth : 1;
  if (snprintf(cmd, MAX_PATH_LEN,
        "\"${GTKMENUPLUS_FIND:-find}\" '%s' -maxdepth ${GTKMENUPLUS_SCAN_DEPTH:-%d} '(' -type f -o -type l ')' -name '*.desktop' > '%s'",
-         rpath, MAX_SUBMENU_DEPTH - 1, outf))
+         rpath, maxdepth, outf))
  {
   system(cmd);
   struct stat sb;
@@ -1876,30 +1882,32 @@ off_t createLauncherDB(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMs
 }
 
 // ----------------------------------------------------------------------
-gboolean lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used by onLauncher
+int lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used by onLauncher
 // ----------------------------------------------------------------------
 {
  /* gchar cmd[MAX_PATH_LEN + 1]; */
  /* return 0 < sprintf(cmd, "grep -q '^%s' '%s'", needle, dbf) */
- /*   && 0 == system(cmd); */
+ /*   ? system(cmd) : -1; */
 
  gchar s[MAX_LINE_LENGTH + 1];
- gboolean found = FALSE;
  FILE *fp;
 
- if ((fp = fopen(dbf, "r")))
+ if (NULL == (fp = fopen(dbf, "r")))
  {
-  while (fgets(s, MAX_LINE_LENGTH + 1, fp)) // ends with \n\0
-  {
-   if (0 == strstr(s, needle) - s)
-   {
-    found = TRUE; // matched needle at ^
-    break;
-   }
-  }
-  fclose(fp);
+  perror("in fopen");
+  return -1;
  }
- return found;
+ int result = 1; // not-found(1), found(0)
+ while (fgets(s, MAX_LINE_LENGTH + 1, fp)) // ends with \n\0
+ {
+  if (0 == strstr(s, needle) - s)
+  {
+   result = 0; // matched needle at ^
+   break;
+  }
+ }
+ fclose(fp);
+ return result;
 }
 
 // ----------------------------------------------------------------------
@@ -2018,6 +2026,9 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   return lineParseFail;
  }
 
+ // Correction needed when readLine gets "launcher=dir" embedded in "submenu=".
+ pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
+
  // permit file
  if (S_ISREG(statbuf.st_mode))
   return processLauncher(gl_sLinePostEq, lineParseFail, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
@@ -2068,7 +2079,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    gchar gl_sLinePostEq1[MAX_LINE_LENGTH];
    strcpy(gl_sLinePostEq1, gl_sLinePostEq);
 
-   if (0 == gl_uiCurDepth) // Depth-1 directory path
+   if (0 == gl_uiCurDepth - gl_nLauncherReadLineDepth) // Depth-1 directory path
    {
     // Create data base of .desktop files in and under depth-1 directory path.
     *gl_sLauncherDB = '\0';
@@ -2082,7 +2093,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    }
    else // Depth > 1: are there any .desktop files at or below this path?
    {
-    if (! lookupLauncherDB(sLauncherPath1, gl_sLauncherDB))
+    if (0 != lookupLauncherDB(sLauncherPath1, gl_sLauncherDB))
      continue; // prune "empty" sub-directory tree
    }
    // Getting here means that there are some .desktop files in or under
@@ -2168,10 +2179,11 @@ break_this_loop: // IN lineParseResult
    continue; // don't break - go back and treat all inferior errors as soft errors
 
    // If instead you really want to bail out on the first error:
-   /* if (0 == gl_uiCurDepth && *gl_sLauncherDB != '\0') unlink(gl_sLauncherDB); */
+   /* if (0 == gl_uiCurDepth - gl_LauncherReadLineDepth && *gl_sLauncherDB != '\0') unlink(gl_sLauncherDB); */
    /* for (i = i + 1; i < n; i++) free(namelist[i]); */
    /* free(namelist); */
    /* return lineParseResult; */
+ 
   }
  }
 
@@ -2186,7 +2198,7 @@ break_this_loop: // IN lineParseResult
   strcpy(pMenuEntryPending->m_sErrMsg, sav);
  }
 
- switch (gl_uiCurDepth)
+ switch (gl_uiCurDepth - gl_nLauncherReadLineDepth)
  {
   case 1: // On exiting a level-1 tree walk
    if (*gl_sLauncherDB != '\0') unlink(gl_sLauncherDB);
