@@ -26,7 +26,6 @@ gchar       gl_sIconDirectory[MAX_PATH_LEN + 1];
 gchar       gl_sScriptDirectory[MAX_PATH_LEN + 1];
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
-int         gl_nScriptDirectory;                     // used by onLauncher()
 gchar       gl_sLauncherDirectory[MAX_PATH_LEN + 1]; // used by onLauncher(), set by onLauncherDir()
 gchar       gl_sLauncherArguments[MAX_PATH_LEN + 1]; // used by processLauncher(), set by onLauncherArgs()
 #endif

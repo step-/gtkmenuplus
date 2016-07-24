@@ -400,11 +400,6 @@ If this check causes you problems, take it out.
 
   strcpy(gl_sScriptDirectory, gl_sIconDirectory);
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
-  // Needed to support onLauncher recursion. See common.c
-  if(*gl_sScriptDirectory != '/') // may change gl_sScriptDirectory
-   make_absolute_path(gl_sScriptDirectory, gl_sScriptDirectory);
-  gl_nScriptDirectory = strlen(gl_sScriptDirectory);
-
   strcpy(gl_sLauncherDirectory, gl_sScriptDirectory);
 #endif
  }
@@ -710,14 +705,21 @@ gboolean initDirectory(OUT gchar* sDirBuff, IN guint nBuffSize, IN gchar* sFileN
   return TRUE;
  }
 
- gchar* pLastSep = strrchr(sFileName, '/');
+ gchar sAbsPath[MAX_PATH_LEN + 1];
+ strcpy(sAbsPath, sFileName);
+ if (*sAbsPath != '/') // work-around for a problem in expand_path
+  make_absolute_path(sAbsPath, sAbsPath); // ignore error, if any
+ // If an error occurred here, there are still chances that it won't
+ // matter.  If it will matter then other errors will be caught later.
+
+ gchar* pLastSep = strrchr(sAbsPath, '/');
  gboolean bNoPath = FALSE;
  if (pLastSep)
  {
-  guint nLen = pLastSep - sFileName + 1;
+  guint nLen = pLastSep - sAbsPath + 1;
   if (nLen < nBuffSize - 1)
   {
-   strncpy(sDirBuff, sFileName, nLen++);
+   strncpy(sDirBuff, sAbsPath, nLen++);
    *(sDirBuff + nLen) = '\0'; // TO DO CORRECT?
   }
   else
@@ -1880,11 +1882,11 @@ gboolean lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used b
  /* gchar cmd[MAX_PATH_LEN + 1]; */
  /* return 0 < sprintf(cmd, "grep -q '^%s' '%s'", needle, dbf) */
  /*   && 0 == system(cmd); */
- 
+
  gchar s[MAX_LINE_LENGTH + 1];
  gboolean found = FALSE;
  FILE *fp;
- 
+
  if ((fp = fopen(dbf, "r")))
  {
   while (fgets(s, MAX_LINE_LENGTH + 1, fp)) // ends with \n\0
@@ -2091,7 +2093,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    lineParseResult = onSubMenu(pMenuEntryPending); // if Ok: sets pending commitSubmenu and gl_uiCurDepth++
    if (lineParseResult != lineParseOk)
    {
-    reapErrMsg(pMenuEntryPending, sLauncherPath1 + gl_nScriptDirectory);
+    reapErrMsg(pMenuEntryPending, sLauncherPath1);
     strcpy(gl_sLinePostEq, gl_sLinePostEq1);
     // On to the next sibling: a file will succeed, another directory will fail.
     continue;
@@ -2101,7 +2103,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    lineParseResult = fillSubMenuEntry(sLauncherPath1, pMenuEntryPending);
    if (lineParseResult != lineParseOk)
    {
-    reapErrMsg(pMenuEntryPending, sLauncherPath1 + gl_nScriptDirectory); // if any
+    reapErrMsg(pMenuEntryPending, sLauncherPath1);// if any
     // And carry on: *pMenuEntryPending is filled with fallback values anyway.
    }
 
@@ -2113,7 +2115,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     // Recursive pretend "launcher=": pair onLauncher and onSubMenuEnd together
     strcpy(gl_sLinePostEq, sLauncherPath1);
     enum LineParseResult pairedResult = onLauncher(pMenuEntryPending);
-    reapErrMsg(pMenuEntryPending, sLauncherPath1 + gl_nScriptDirectory); // if any
+    reapErrMsg(pMenuEntryPending, sLauncherPath1); // if any
     // Pretend "submenuend"
     gboolean sav = gl_bConfigKeywordUseEndSubMenu;
     gl_bConfigKeywordUseEndSubMenu = TRUE; // pretend "configure=submenuend"

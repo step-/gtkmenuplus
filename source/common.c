@@ -81,12 +81,14 @@ GdkPixbuf* fileToPixBuf(gchar* sPathToIcon, IN guint uiIconSize, IN gboolean bSu
  return pGdkPixbuf;
 }
 
-// Make an absolute path. This is necessary to support onLauncher
-// recursion because expand_path() isn't designed to deal with expanding
-// the same RELATIVE path for gl_sScriptPath (sBasePath) more than once.
-// Note: Replacement is purely syntactic, sPath may not even exist.
-// TODO replace system() with pure C code.
-int make_absolute_path(IN const gchar *sPath, OUT gchar *sAbs)
+// Make an absolute path. This is a work around for a problem in
+// expand_path, which I, step, don't want to touch at the moment.
+// expand_path returns an invalid path when argv[1] and the path
+// after a "keyword=" are both relative paths.
+// Note: GNU realpath(1) command chosen because, unlike realpath(3),
+// realpath(1) -m ignores non-existent path elements.
+// TODO re-write entirely based on library calls rather than system().
+int make_absolute_path(IN const gchar *sPath, OUT gchar *sAbs) // used by initDirectory
 // ----------------------------------------------------------------------
 {
  gchar outf[MAX_PATH_LEN + 1] = "";
@@ -101,8 +103,9 @@ int make_absolute_path(IN const gchar *sPath, OUT gchar *sAbs)
   FILE *fp;
   if (NULL != (fp = fopen(outf, "r")))
   {
-   err = 1 == fscanf(fp, "%s", sAbs);
-   strncat(sAbs, "/", MAX_PATH_LEN);
+   err = fgets(sAbs, MAX_PATH_LEN + 1, fp) <= 0;
+   if (*(sAbs + MAX_PATH_LEN + 1) == '\n')
+    *(sAbs + MAX_PATH_LEN + 1) = '\0';
   }
   fclose(fp);
  }
