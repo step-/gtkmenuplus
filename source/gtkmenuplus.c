@@ -1855,7 +1855,7 @@ off_t createLauncherDB(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMs
  }
  gchar cmd[MAX_PATH_LEN + 1];
  if (snprintf(cmd, MAX_PATH_LEN,
-       "\"${GTKMENUPLUS_FIND:-find}\" '%s' -maxdepth %d '(' -type f -o -type l ')' -name '*.desktop' > '%s'",
+       "\"${GTKMENUPLUS_FIND:-find}\" '%s' -maxdepth ${GTKMENUPLUS_SCAN_DEPTH:-%d} '(' -type f -o -type l ')' -name '*.desktop' > '%s'",
          rpath, MAX_SUBMENU_DEPTH - 1, outf))
  {
   system(cmd);
@@ -2012,7 +2012,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  //permit directory unless max menu depth exceeded
  if (gl_uiCurDepth >= MAX_SUBMENU_DEPTH)
   return lineParseWarn;
- 
+
  //scan directory -- will recurse
  int len0 = strlen(gl_sLinePostEq);
  if (*(gl_sLinePostEq + len0 - 1) != '/')
@@ -2086,7 +2086,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     reapErrMsg(pMenuEntryPending, sLauncherPath1 + gl_nScriptDirectory); // if any
     // And carry on: *pMenuEntryPending is filled with fallback values anyway.
    }
- 
+
    // Manually commit the sub-menu, which normally readLine commits automatically.
    lineParseResult = commitSubMenu(pMenuEntryPending);
    if (lineParseResult == lineParseOk)

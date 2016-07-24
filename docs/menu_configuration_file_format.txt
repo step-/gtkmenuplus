@@ -436,11 +436,13 @@ launcher=path_to_launcher(s)
 
     Up to 5 levels are automatically nested (see MAX_SUBMENU_DEPTH).
 
-    Two more sub-directory levels past MAX_SUBMENU_DEPTH are scanned for .desktop files, and a warning is printed to the console if more menu levels would be needed to accommodate additional .desktop files.
-
-    Unlike the "submenu=" keyword, which exits with a fatal error if the maximum allowed submenu level is exceeded, launcher=directory will carry on and display as many launcher files as possible.
-
     By default the name of a submenu is the name of the sub-directory that includes its .desktop files, and the icon is undefined. Alternatively and more flexibly, name, icon and tooltip can be specified in a hidden desktop file named ".gtkmenuplus.desktop" located in the sub-directory.
+
+    Unlike the "submenu=" keyword, which exits with a fatal error if the maximum allowed submenu depth is exceeded, launcher=directory will carry on and display as many launcher files as depth allows.
+
+    By default sub-directory scanning depth is set to fill at most 5 submenu levels. If launcher files exist in lower sub-directories they will be ignored without warnings.
+    
+    For menu testing purposes you can force printing warnings by telling gtkmenuplus to scan for launcher files at deeper levels. Then if such files exist and they can't be displayed within the MAX_SUBMENU_DEPTH hard limit, a warning message is printed to the console. To increase the scan depth set environment variable GTKMENUPLUS_SCAN_DEPTH=5 or higher.
 
 launcherargs=arguments
 
