@@ -242,7 +242,7 @@ enum LineParseResult onAbsolutePath(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDir(INOUT struct MenuEntry* pMenuEntryPending);
-enum LineParseResult onIconForLauncher(IN guint uiDepth, OUT gchar* sErrMsg);
+enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg);
 #endif
 
 enum LineParseResult onInclude(INOUT struct MenuEntry* pMenuEntryPending);

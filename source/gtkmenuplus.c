@@ -1913,7 +1913,7 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* at) // use
   {
    snprintf(mp, MAX_LINE_LENGTH, "%s%s%s%s%s",
     gl_sLauncherErrMsg,
-    at ? "at " : "", at, at ? ": " : "", pMenuEntryPending->m_sErrMsg);
+    at ? "" : "", at, at ? ": " : "", pMenuEntryPending->m_sErrMsg);
    strncpy(gl_sLauncherErrMsg, mp, MAX_LINE_LENGTH);
    free(mp);
    *pMenuEntryPending->m_sErrMsg = '\0';
@@ -2291,11 +2291,11 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
   }  // if (strlen(sValue) > MAX_PATH_LEN - 1)
   strcpy(gl_sCmds[gl_uiCurItem], sValue);
  } // if (sValue)
- return onIconForLauncher(uiDepth, sErrMsg);
+ return onIconForLauncher(sLauncherPath, uiDepth, sErrMsg);
 }
 
 // ---------------------------------------------------------------------- AC
-enum LineParseResult onIconForLauncher(IN guint uiDepth, OUT gchar* sErrMsg)
+enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg)
 // ----------------------------------------------------------------------
 {
  GtkWidget *pGtkWdgtCurrent = makeItem(gl_launcherElement[LAUNCHER_ELEMENT_NAME].sValue,
@@ -2335,15 +2335,14 @@ enum LineParseResult onIconForLauncher(IN guint uiDepth, OUT gchar* sErrMsg)
   if (!pGdkPixbuf)
   {
    void *pm = malloc(MAX_LINE_LENGTH + 1);
+   gchar m[] = "Can't get icon from .desktop spec";
    if(pm)
    {
-    snprintf(pm, MAX_LINE_LENGTH, "%s: %s",
-       "Can't get icon from .desktop spec", sErrMsg);
+    snprintf(pm, MAX_LINE_LENGTH, "%s: %s: %s", sLauncherPath, m, sErrMsg);
     strcpy(sErrMsg, pm);
     free(pm);
    }
-   else snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n",
-       "Can't get icon from .desktop spec");
+   else snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n", m);
    return lineParseWarn;
   }
 
