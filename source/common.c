@@ -92,10 +92,10 @@ int make_absolute_path(IN const gchar *sPath, OUT gchar *sAbs) // used by initDi
 // ----------------------------------------------------------------------
 {
  gchar outf[MAX_PATH_LEN + 1] = "";
- int err;
+ int err = -1;
 
  if (NULL == tmpnam(outf)) // sic tmpnam, it's good enough
-   return -1;
+   return err;
  gchar cmd[MAX_PATH_LEN + 1];
  if (sprintf(cmd, "realpath -m '%s' > '%s'", sPath, outf)
   && 0 == (err = system(cmd)))
