@@ -1,11 +1,18 @@
+#version 1.10, 2016-07-25
 
-#version 1.00, 2013-04-24
+.PHONY: all clean test
+
+GTK_CFLAGS=$(shell pkg-config --cflags gtk+-2.0)
+GTK_LIBS=$(shell pkg-config --libs gtk+-2.0)
+
+DEBUG=-O0 -g
+DEBUG=-s -O3
 
 CC = gcc
 
-CFLAGS = -Wall			 	\
-	-DG_DISABLE_DEPRECATED 	 	\
-	-DGDK_DISABLE_DEPRECATED 	\
+CFLAGS = $(GTK_CFLAGS) $(DEBUG) -Wall \
+	-DG_DISABLE_DEPRECATED \
+	-DGDK_DISABLE_DEPRECATED \
 	-DGDK_PIXBUF_DISABLE_DEPRECATED \
 	-DGTK_DISABLE_DEPRECATED \
 #	-D_GTKMENUPLUS_NO_LAUNCHERS_ \
@@ -14,14 +21,17 @@ CFLAGS = -Wall			 	\
 #	-D_GTKMENUPLUS_NO_IF_ \
 #	-D_GTKMENUPLUS_NO_PARAMS_ \
 #	-D_GTKMENUPLUS_NO_VARIABLES_ \
-	-s -O3
 
-GKT2 =  `pkg-config gtk+-2.0 --cflags --libs`
+LIBS=$(GTK_LIBS)
+FILES=../gtkmenuplus.c ../common.c ../launcher.c ../menuInput.c
 
 all: gtkmenuplus
 
-gtkmenuplus: ../gtkmenuplus.c ../common.c ../launcher.c ../menuInput.c
-	$(CC) ../gtkmenuplus.c ../common.c ../launcher.c ../menuInput.c -o gtkmenuplus $(CFLAGS) $(GKT2)
+gtkmenuplus: $(FILES)
+	$(CC) $(FILES) -o gtkmenuplus $(CFLAGS) $(LIBS)
 
 clean:
 	rm -f *.o gtkmenuplus
+
+test: all
+	./gtkmenuplus ../../test/1.gtkmenuplus
