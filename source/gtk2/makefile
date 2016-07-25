@@ -5,8 +5,8 @@
 GTK_CFLAGS=$(shell pkg-config --cflags gtk+-2.0)
 GTK_LIBS=$(shell pkg-config --libs gtk+-2.0)
 
-DEBUG=-O0 -g
 DEBUG=-s -O3
+DEBUG=-O0 -g
 
 CC = gcc
 
