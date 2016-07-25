@@ -7,7 +7,7 @@ retrieved on 17-Apr-2016. Version 1.00 was released on 24-Apr-2013.
 Thanks to Alan Campbell, gtkmenuplus author, for making his source code
 available under the GLPv2 FOSS license.
 
-Version 1.10 adds:
+Version 1.1.0 adds:
 
  * Nested launcher menus. Keyword `launcher=`_directory_ automatically
    produces nested sub-menus if _directory_ includes sub-directories that

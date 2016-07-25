@@ -1,4 +1,4 @@
-gtkmenuplus     version 1.10, 2016-07-15
+gtkmenuplus     version 1.1.0, 2016-07-15
 
 copyright (C) 2013 Alan Campbell, (C) 2016 step
 
