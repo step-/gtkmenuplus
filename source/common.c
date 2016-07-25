@@ -93,9 +93,12 @@ int make_absolute_path(IN const gchar *sPath, OUT gchar *sAbs) // used by initDi
 {
  gchar outf[MAX_PATH_LEN + 1] = "";
  int err = -1;
+ int fd;
 
- if (NULL == tmpnam(outf)) // sic tmpnam, it's good enough
-   return err;
+ if (0 >= snprintf(outf, MAX_PATH_LEN, "%s/.gtkmenuplus-XXXXXX", P_tmpdir)
+  || -1 == (fd = mkstemp(outf)))
+  return err;
+ close(fd);
  gchar cmd[MAX_PATH_LEN + 1];
  if (sprintf(cmd, "realpath -m '%s' > '%s'", sPath, outf)
   && 0 == (err = system(cmd)))

@@ -1846,19 +1846,22 @@ struct Variable* variableFind(IN gchar* sName)
 off_t createLauncherDB(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMsg) // used by onLauncher
 // ----------------------------------------------------------------------
 /*
- * *outf - return temporary file name
+ * *outf - return launcher data base file path (in /tmp).
  * return:
  *   >  0 : size of *outf file - caller must unlink *outf
  *   == 0 : empty *outf - no need to unlink
  *   <  0 : errors - no need to unlink
  */
 {
- if (NULL == tmpnam(outf)) // sic tmpnam, it's good enough
+ int fd;
+ if (0 >= snprintf(outf, MAX_PATH_LEN, "%s/.gtkmenuplus-XXXXXX", P_tmpdir)
+  || -1 == (fd = mkstemp(outf)))
  {
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "tmpnam %s", strerror(errno));
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "mkstemp %s", strerror(errno));
    *outf = '\0';
    return -1;
  }
+ close(fd);
  gchar cmd[MAX_PATH_LEN + 1];
  int maxdepth = MAX_SUBMENU_DEPTH - gl_nLauncherReadLineDepth;
  maxdepth = maxdepth > 0 ? maxdepth : 1;
@@ -2183,7 +2186,7 @@ break_this_loop: // IN lineParseResult
    /* for (i = i + 1; i < n; i++) free(namelist[i]); */
    /* free(namelist); */
    /* return lineParseResult; */
- 
+
   }
  }
 
