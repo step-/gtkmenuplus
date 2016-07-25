@@ -6,7 +6,7 @@
 
 #include "menuInput.h"
 
-// version 1.00, 2013-04-24
+// version 1.10, 2016-07-25
 
 //required because __USE_GNU
 char * strcasestr (const char *haystack, const char *needle);

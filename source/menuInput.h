@@ -1,7 +1,7 @@
 #ifndef _MENUINPUT_H
 #define _MENUINPUT_H 1
 
-// version 1.00, 2013-04-24
+// version 1.10, 2016-07-25
 
 /* Allow the use in C++ code.  */
 #ifdef __cplusplus

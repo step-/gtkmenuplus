@@ -73,7 +73,7 @@
 
 #define PARAM_REF_TAG '$'
 
-#define VERSION_TEXT "1.10, 2016-07-15"
+#define VERSION_TEXT "1.10, 2016-07-25"
 
 #define DEFAULT_CONFIG_FILE  "test_menu.txt"
 
@@ -2026,7 +2026,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   return lineParseFail;
  }
 
- // Correction needed when readLine gets "launcher=dir" embedded in "submenu=".
+ // Correction needed when readLine gets "launcher=dir" nested in "submenu=".
  pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
 
  // permit file
