@@ -321,14 +321,15 @@ format=formatting
 
  formatting=[ format_string [;|, format_string [;|, format_string... ]]]
 
- Menu items and submenus following a "format" line have the given format_string(s) applied, until the
+ Menu items and submenu labels following a "format" line have the given format_string(s) applied, until the
  occurrence of the next "format=formatting" line.  
  
  If more than one format_string occurs on a format= line, each format_string is applied in turn to
- successive following items or submenus at the same level as the menu level in which the format= line occurs.  
- Items or submenus at any other level in the menu hierachy are _not_ subject to the format_string sequence. 
+ successive following items or submenu labels at the same level as the menu level in which the format= line occurs.  
+ Items or submenu labels at any other level in the menu hierachy are _not_ subject to the format_string sequence. 
 
- If "formatting" contains only one "format_string", that "format_string" applies to everything following, 
+**step: The following statement isn't true:**
+If "formatting" contains only one "format_string", that "format_string" applies to everything following, 
  no matter where it is in the menu hierarchy.
 
   A "format_string" consists a string of whitespace-separated attribute="value" pairs,
@@ -361,7 +362,7 @@ format=formatting
      -or-
     env GTK2_RC_FILES
 
-  The text of any menu item or submenu can be formatted by wrapping it in <span format_string>some text</span> tags, e.g.
+  The text of any menu item or submenu label can be formatted by wrapping it in <span format_string>some text</span> tags, e.g.
 
      <span color="white">some text</span>
 
