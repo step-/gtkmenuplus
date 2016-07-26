@@ -329,7 +329,7 @@ If this check causes you problems, take it out.
  gint i_all_ready_running = all_ready_running();
  if (i_all_ready_running == 1)
  {
-  fprintf(stderr, "All ready running, will quit.\n");
+  fprintf(stderr, "Already running, will quit.\n");
   exit(EXIT_FAILURE);
  }
  else if (i_all_ready_running == 2)
