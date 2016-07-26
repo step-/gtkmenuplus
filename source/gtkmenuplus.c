@@ -2321,6 +2321,7 @@ enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth
 
  gchar* sIconPath = gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue;
 
+retry:
  if (sIconPath)
  {
   gchar* sIconExt = strrchr(sIconPath, '.');
@@ -2349,9 +2350,14 @@ enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth
 
   if (!pGdkPixbuf)
   {
+    if (sIconExt)
+    {
+      *sIconExt = *sErrMsg = '\0';
+      goto retry;
+    }
    void *pm = malloc(MAX_LINE_LENGTH + 1);
    gchar m[] = "Can't get icon from .desktop spec";
-   if(pm)
+   if (pm)
    {
     snprintf(pm, MAX_LINE_LENGTH, "%s: %s: %s", sLauncherPath, m, sErrMsg);
     strcpy(sErrMsg, pm);

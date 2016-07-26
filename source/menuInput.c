@@ -998,6 +998,7 @@ enum LineParseResult getGtkImage(INOUT struct MenuEntry* pMenuEntryPending, OUT 
 
  if (*sIcon == '\0' && (!gl_bConfigKeywordIcons || *(pMenuEntryPending->m_sCmd) == '\0')) return lineParseOk; // icon=, or no icon= line !gl_bFindAbsentIcons ||
 
+retry:
  if (*sIcon)
  {
   gchar* sExt = (*sIcon) ? strrchr(sIcon, '.') : NULL;
@@ -1005,7 +1006,15 @@ enum LineParseResult getGtkImage(INOUT struct MenuEntry* pMenuEntryPending, OUT 
 
   gboolean bIsPath = (*sIcon) && strchr(sIcon, '/') != NULL;
   if (sExt || bIsPath)
-   return getGtkImageFromFile(pMenuEntryPending->m_sIcon, pMenuEntryPending->m_sErrMsg, ppGtkImage);
+  {
+   enum LineParseResult lineParseResult =
+    getGtkImageFromFile(pMenuEntryPending->m_sIcon, pMenuEntryPending->m_sErrMsg, ppGtkImage);
+   if(lineParseResult != lineParseOk)
+   {
+     *sExt = *pMenuEntryPending->m_sErrMsg = '\0';
+     goto retry;
+   }
+  }
   else // is sIcon, but no extension, and not a filepath
    *ppGtkImage = getGtkImageFromName(pMenuEntryPending->m_sIcon);
  }
@@ -1033,6 +1042,7 @@ enum LineParseResult getGtkImageFromFile(IN const gchar* sFileName, OUT gchar* s
   *ppGtkImage = gtk_image_new_from_pixbuf(pGdkPixbuf);
  return lineParseOk;
 }
+
 // ---------------------------------------------------------------------- AC
 GtkWidget* getGtkImageFromName(IN const gchar* sIcon)
 // ----------------------------------------------------------------------
