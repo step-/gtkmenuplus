@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Yes symlink
+Comment=green dot
+Exec=true
+Terminal=false
+Type=Application
+Icon=gtk-yes
+Categories=Utility;

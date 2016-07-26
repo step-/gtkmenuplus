@@ -1,0 +1,63 @@
+#!/root/bin/gtkmenuplus
+
+configure = endsubmenu noicons
+
+DO_ITEMS=no
+
+submenu = Applications
+launcher=/usr/share/applications
+endsubmenu
+
+if= $DO_ITEMS
+separator
+
+#submenu = _1
+item = 1a
+item = 1b
+
+submenu = _2
+item = 2a
+item = 2b
+submenu = _3
+submenu = _4
+  item = 4a
+  item = 4b
+  submenu = _5A
+  item = 5a
+  item = 5b
+  endsubmenu # _5A
+  # submenu = _5B
+  # submenu = _6C
+  # item = a
+  # item = b
+  # endsubmenu # _6C
+  # endsubmenu # _5B
+endsubmenu # _4
+endsubmenu # _3
+endsubmenu # _2
+
+submenu = _2bis
+item = 2a
+item = 2b
+submenu = _3
+submenu = _4
+  item = 4a
+  item = 4b
+#  submenu = _5A
+#  item = 5a
+#  item = 5b
+#  endsubmenu # _5A
+  # submenu = _5B
+  # submenu = _6C
+  # item = a
+  # item = b
+  # endsubmenu # _6C
+  # endsubmenu # _5B
+endsubmenu # _4
+endsubmenu # _3
+endsubmenu # _2bis
+
+#endsubmenu # _1
+endif
+
+#:vim ft=sh:

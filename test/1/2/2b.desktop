@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=2b (different)
+Icon=/usr/share/pixmaps/midi-icons/go48.png
+Comment=different tooltip
+Exec=true
+Terminal=false
+Type=Application
+Categories=DesktopSettings

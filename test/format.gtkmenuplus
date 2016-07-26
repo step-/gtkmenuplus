@@ -1,0 +1,94 @@
+#!/root/bin/gtkmenuplus
+
+# Test format=
+# gdb breakpoints:
+#  formattingInit if *sFormat --/these two pair up, in a sense
+#  commitSubMenu @memcpy ------'
+#  onFormat
+#  applyFormatting
+#  addFormatting
+
+configure = endsubmenu noicons
+
+item = tooltipformat: PASS if all tooltips are magenta regardless of level
+tooltipformat= foreground="magenta"
+
+separator
+format=
+item = submenu=: PASS if all levels of "A" are blue
+format = foreground="blue"
+submenu = A submenu=... to item=
+submenu = B
+submenu = C
+item = last item
+endsubmenu # C
+endsubmenu # B
+endsubmenu # A submenu=... to item=
+
+separator
+format=
+item = submenu=: PASS if "A","B" are blue, "C","item" are red
+format = foreground="blue"
+submenu = A submenu=... to item=
+submenu = B
+format = foreground="red"
+submenu = C
+item = last item
+endsubmenu # C
+endsubmenu # B
+endsubmenu # A submenu=... to item=
+
+separator
+format=
+item = submenu=+launcher=dir: PASS if all levels of "A" are blue
+format = foreground="blue"
+ submenu = A submenu=... to launcher=
+ submenu = B
+ submenu = C
+ # submenu = D
+ launcher=../test/1
+ # endsubmenu # D
+ endsubmenu # C
+ endsubmenu # B
+ endsubmenu # A submenu=... to launcher=
+
+separator
+format=
+item = submenu=+launcher=dir: PASS if "A","B" are blue, and lower level items are red
+format = foreground="blue"
+ submenu = A submenu=... to launcher=
+ submenu = B
+ format = foreground="red"
+ submenu = C
+ # submenu = D
+ launcher=../test/1
+ # endsubmenu # D
+ endsubmenu # C
+ endsubmenu # B
+ endsubmenu # A submenu=... to launcher=
+
+separator
+format=
+item = launcher=dir: PASS if all items are blue regardless of level
+format = foreground="blue"
+launcher=../test/1
+
+separator
+format =
+item = launcher=dir: PASS if all items are black regardless of level
+launcher=../test/1
+
+separator
+item = launcher=dir: PASS if the first half (nested) entries are blue and the last half (nested) entries are red
+format = foreground="blue"
+launcher=../test/1/2
+format = foreground="red"
+launcher=../test/1/2
+
+# Now use .gtkmenuplus.desktop files to specify formatting
+
+separator
+format=
+item = launcher=dir: PASS if @0 green+blue>, @1 blue+red>, @2 red+magenta>, @3 magenta
+format = foreground="green"
+launcher=../test/format
