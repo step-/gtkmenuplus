@@ -29,7 +29,9 @@ Version 1.1.0 adds:
  * `Format=`_single-format-string_ now works to export formatting to
    cascaded sub-menus (nested with `submenu=`).
 
+ * Some icon specifications that couldn't be loaded now can.
+
 For an application of the launcherargs feature see my shell script
-[roxmm](https://github.com/step-/rox-filer-trove/tree/master/usr/bin/roxmm),
+[roxmm](https://github.com/step-/rox-filer-trove/),
 which generates a ROX-Filer right-click menu look-alike for a given file
 or directory.
