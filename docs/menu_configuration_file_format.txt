@@ -328,7 +328,6 @@ format=formatting
  successive following items or submenu labels at the same level as the menu level in which the format= line occurs.  
  Items or submenu labels at any other level in the menu hierachy are _not_ subject to the format_string sequence. 
 
-**step: The following statement isn't true:**
 If "formatting" contains only one "format_string", that "format_string" applies to everything following, 
  no matter where it is in the menu hierarchy.
 
@@ -347,8 +346,6 @@ If "formatting" contains only one "format_string", that "format_string" applies 
    format= weight="bold"	                                  # also possible: "ultralight", "light", "normal", "ultrabold", "heavy", or a numeric weight
    format= size='12800'                                       # in 1024ths of a point, or one of the absolute sizes 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
    format= color="RoyalBlue";color="DodgerBlue"               #alternate two shades of blue in successive items
-
-  There can be multiple 
 
   A "format=" line, i.e. with a null format_string, causes all subsequent menu and submenu items to revert to normal formatting.
 

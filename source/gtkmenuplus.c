@@ -1464,9 +1464,12 @@ enum LineParseResult commitSubMenu(INOUT struct MenuEntry* pMenuEntryPending)
  enum LineParseResult lineParseResult = addIcon(pMenuEntryPending, pGtkWdgtCurrentSubMenu); // add icon to item; ALWAYS RETURN TRUE, SOFT ERROR IF ICON MISSING
 
 #if !defined(_GTKMENUPLUS_NO_FORMAT_)
- if (lineParseResult != lineParseFail && !gl_FormattingSubMenu[gl_uiCurDepth].m_cFormatDivider &&
-     gl_uiCurDepth + 1 < MAX_SUBMENU_DEPTH) //m_cFormatDivider 0 if formatting not compound
-  memcpy(&(gl_FormattingSubMenu[gl_uiCurDepth + 1]), &(gl_FormattingSubMenu[gl_uiCurDepth]), sizeof(struct Formatting));
+ // Note: Since onSubMenu has already incremented gl_uiCurDepth, here
+ // gl_FormattingSubMenu[gl_uiCurDepth - 1] is the formatting record of
+ // the sub-menu that contains the sub-menu we are committing.
+ if (lineParseResult != lineParseFail && !gl_FormattingSubMenu[gl_uiCurDepth - 1].m_cFormatDivider &&
+     gl_uiCurDepth < MAX_SUBMENU_DEPTH) //m_cFormatDivider 0 if formatting not compound
+  memcpy(&(gl_FormattingSubMenu[gl_uiCurDepth]), &(gl_FormattingSubMenu[gl_uiCurDepth - 1]), sizeof(struct Formatting));
 #endif
 
  return lineParseResult;
