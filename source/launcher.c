@@ -20,6 +20,8 @@ struct LauncherElement gl_launcherElement[] =
  {"Exec",        "cmd",         FALSE,        TRUE,     TRUE,          NULL,   NULL,        NULL },
  {"Comment",     "tooltip",     TRUE,         FALSE,    FALSE,         NULL,   NULL,        NULL },
  {"Icon",        "icon",        FALSE,        FALSE,    TRUE,          NULL,   NULL,        NULL },
+ {"Format",      "icon",        FALSE,        FALSE,    FALSE,         NULL,   NULL,        NULL },
+ //Format= not in .desktop spec, it's for .gtkmenuplus.desktop only
 };
 
 guint gl_nLauncherElements = sizeof(gl_launcherElement)/sizeof(struct LauncherElement);

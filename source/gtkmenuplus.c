@@ -2001,6 +2001,24 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
 #if  !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
   strcpy(pme->m_sTooltip, gl_launcherElement[LAUNCHER_ELEMENT_COMMENT].sValue);
 #endif
+#if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+  gchar *fmt;
+  if((fmt = gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue))
+  { // pretend "format=" - code extracted from onFormat, cf. for comments
+   if (strlen(fmt) + 15 > MAX_PATH_LEN)
+   {
+    snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", ".gtkmenuplus.desktop format= line too long");
+    return lineParseFail;
+   }
+   // Note: this pretend "format=" for "launcher=dir" operates on
+   // level gl_uiCurDepth -1 because the simulated input sequence that
+   // leads us here is ~submenu=~ followed by ~format=~. Contrast that
+   // with the real formatting for "submenu=", which operates on level
+   // gl_uiCurDepth, because the actual input sequence is "format="
+   // followed by "submenu=".
+   formattingInit(&(gl_FormattingSubMenu[gl_uiCurDepth - 1]), fmt, gl_uiCurDepth - 1);
+  }
+#endif
   return lineParseOk;
  }
  else return lineParseOk; // no configuration data found: fallback to default.

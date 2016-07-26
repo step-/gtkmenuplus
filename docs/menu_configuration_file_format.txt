@@ -386,7 +386,7 @@ launcher=path_to_launcher(s)
 
   If you provide a path to a single .desktop file, it will be used to create a menu entry.
 
-  Any preceding "format=format_string" line will apply to that entry, but of course you won't be able to
+  Any preceding "format=format_string" line will apply to that entry, but of course you won't be likely to
   format parts of the entry name or comment using <span>..</span> tags.
 
   Any preceding "launcherargs=arguments" line will apply to that entry, that is, the "arguments" string will be appended to the command entry for the shell to execute. Quote "arguments" as needed.
@@ -430,17 +430,35 @@ launcher=path_to_launcher(s)
 
   More on nested submenus.
   
-    Submenus are created automatically, you do not need to add "submenu=" keywords.
+    When you use "launcher=dirpath" submenus are created automatically for each sub-directory. You do not need to add "submenu=" keywords.
 
-    Up to 5 levels are automatically nested (see MAX_SUBMENU_DEPTH).
+    Up to 5 menu levels are automatically nested (see MAX_SUBMENU_DEPTH).
 
-    By default the name of a submenu is the name of the sub-directory that includes its .desktop files, and the icon is undefined. Alternatively and more flexibly, name, icon and tooltip can be specified in a hidden desktop file named ".gtkmenuplus.desktop" located in the sub-directory.
+    By default the name of a submenu is the name of the sub-directory that includes its .desktop files, and the icon is undefined. Alternatively and more flexibly, name, icon, tooltip, and item format can be specified in a hidden desktop file named ".gtkmenuplus.desktop" located in the sub-directory.
 
-    Unlike the "submenu=" keyword, which exits with a fatal error if the maximum allowed submenu depth is exceeded, launcher=directory will carry on and display as many launcher files as depth allows.
+    If the maximum allowed submenu depth is exceeded, launcher=directory reports a warning and displays the menu. Contract that with the "submenu=" keyword, which exits with a fatal error if submenu depth is exceeded.
 
     By default sub-directory scanning depth is set to fill at most 5 submenu levels. If launcher files exist in lower sub-directories they will be ignored without warnings.
     
     For menu testing purposes you can force printing warnings by telling gtkmenuplus to scan for launcher files at deeper levels. Then if such files exist and they can't be displayed within the MAX_SUBMENU_DEPTH hard limit, a warning message is printed to the console. To increase the scan depth set environment variable GTKMENUPLUS_SCAN_DEPTH=5 or higher.
+
+    Item formatting for the items in dirpath of "launcher=dirpath" is set by any preceding "format=" and "tooltipformat=" keywords before "laucher=dirpath". For nested sub-directories, you can control item formatting by specifying format_strings in file .gtkmenuplus.desktop. See section "format=formatting" about format_strings, and directory "test" in the distribution package for advanced formatting examples.
+
+    Summary of file .gtkmenuplus.desktop:
+
+    # Note: This file is ignored if its dirpath is used as "launcher=dirpath".
+    [Desktop Entry]
+    Encoding=UTF-8
+    Name=submenu name (redirect)
+    Comment=redirected from .gtkmenuplus.desktop
+    Name[es]=example localized name
+    Comment[es]=example localized comment
+    Icon=gimp
+    # Format applies to contained items, and cascades.
+    Format=background="purple"
+    # You can also apply direct (local) formatting to Name= and Comment=
+    # (label and tooltip), i.e.
+    # Name=<span>background="green">submenu name</span>
 
 launcherargs=arguments
 
