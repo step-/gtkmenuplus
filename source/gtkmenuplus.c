@@ -2248,6 +2248,14 @@ enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending)
  return lineParseOk;
 }
 
+// ----------------------------------------------------------------------
+enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending)
+// ----------------------------------------------------------------------
+{
+ strcpy(gl_sLauncherDirFile, gl_sLinePostEq);
+ return lineParseOk;
+}
+
 // ---------------------------------------------------------------------- AC
 enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, IN guint uiDepth, OUT gchar* sErrMsg)
 // ----------------------------------------------------------------------

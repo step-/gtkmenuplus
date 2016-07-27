@@ -26,8 +26,9 @@ gchar       gl_sIconDirectory[MAX_PATH_LEN + 1];
 gchar       gl_sScriptDirectory[MAX_PATH_LEN + 1];
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
-gchar       gl_sLauncherDirectory[MAX_PATH_LEN + 1]; // used by onLauncher(), set by onLauncherDir()
 gchar       gl_sLauncherArguments[MAX_PATH_LEN + 1]; // used by processLauncher(), set by onLauncherArgs()
+gchar       gl_sLauncherDirFile[MAX_PATH_LEN + 1]; // used by processLauncher(), set by onLauncherDirFile()
+gchar       gl_sLauncherDirectory[MAX_PATH_LEN + 1]; // used by onLauncher(), set by onLauncherDir()
 #endif
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
@@ -94,18 +95,19 @@ enum LineType {                         // returned by readLine
  LINE_ENDIF                        = 17,
  LINE_LAUNCHER                     = 18,
  LINE_LAUNCHER_ARGS                = 19,
- LINE_LAUNCHER_DIR                 = 20,
- LINE_INCLUDE                      = 21,
- LINE_SUBMENU_END                  = 22,
- LINE_CONFIGURE                    = 23,
- LINE_EOF                          = 24,
- LINE_ERROR                        = 25,  // the error keyword
- LINE_KEYWORD_IS_VARIABLE          = 26,  // will become variable def, not error
- LINE_ABSOLUTE_PATH                = 27,
- LINE_BAD_LIMIT_LOW                = 28,  //move when LINE_KEYWORD_IS_VARIABLE not an error
- LINE_BAD_LEN                      = 28,
- LINE_BAD_NO_EQ                    = 29,
- LINE_BAD_LIMIT_HI                 = 29
+ LINE_LAUNCHER_DIRFILE             = 20,
+ LINE_LAUNCHER_DIR                 = 21,
+ LINE_INCLUDE                      = 22,
+ LINE_SUBMENU_END                  = 23,
+ LINE_CONFIGURE                    = 24,
+ LINE_EOF                          = 25,
+ LINE_ERROR                        = 26,  // the error keyword
+ LINE_KEYWORD_IS_VARIABLE          = 27,  // will become variable def, not error
+ LINE_ABSOLUTE_PATH                = 28,
+ LINE_BAD_LIMIT_LOW                = 29,  //move when LINE_KEYWORD_IS_VARIABLE not an error
+ LINE_BAD_LEN                      = 29,
+ LINE_BAD_NO_EQ                    = 30,
+ LINE_BAD_LIMIT_HI                 = 30
 };
 
 struct Keyword
@@ -241,6 +243,7 @@ enum LineParseResult onAbsolutePath(INOUT struct MenuEntry* pMenuEntryPending);
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending);
+enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDir(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg);
 #endif
