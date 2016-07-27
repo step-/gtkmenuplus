@@ -453,7 +453,12 @@ launcherdirfile=launcher_dirfile
 
   A launcher_dirfile is a .desktop file, which omits "Exec=", and may include "Type=Directory" and "Format=formatting".
 
-  It sets the menu entry label, icon, and tooltip of each scanned dirpath. Formatting is applied to all contained items and cascades to sub-directories of dirpath.
+  It sets the menu entry label, icon, and tooltip of each scanned dirpath.
+
+  Formatting is applied to all contained items and cascades to sub-directories of dirpath.
+
+  Entry "Categories=directory_list", if any, is used to filter which .desktop files to display in the menu as follows.
+  For each .desktop file, if both directory_list and my_list are non-empty, omit file if the intersection between directory_list members and my_list members is empty, otherwise include file.
 
   "launcherdirfile=" followed by no text clears out the launcher_dirpath string for all subsequent "launcher=dirpath" lines.
 
@@ -473,12 +478,13 @@ launcherdirfile=launcher_dirfile
     Name[es]=localized label example
     Comment[es]=localized tooltip example
     Icon=icon_name_no_extension or full_path_to_icon_file_with_extension
+    Type=Directory
+    Categories=
     # Format applies to contained items, and cascades.
     Format=background="purple" etc.
     # You can also apply direct (local) formatting to Name= and Comment=
     # (label and tooltip), i.e.
     # Name=<span>background="green">submenu name</span>
-    Type=Directory
 
 launcherargs=arguments
 
