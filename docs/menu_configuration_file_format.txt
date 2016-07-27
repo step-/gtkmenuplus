@@ -434,7 +434,7 @@ launcher=path_to_launcher(s)
 
     Up to 5 menu levels are automatically nested (see MAX_SUBMENU_DEPTH).
 
-    By default the name of a submenu is the name of the sub-directory that includes its .desktop files, and the icon is undefined. Alternatively and more flexibly, name, icon, tooltip, and item format can be specified in a hidden desktop file named ".gtkmenuplus.desktop" located in the sub-directory.
+    By default the name of a submenu is the name of the sub-directory that includes its .desktop files, and the icon is undefined. Alternatively and more flexibly, name, icon, tooltip, and item format can be specified in a hidden desktop file named ".directory.desktop" located in the sub-directory.
 
     If the maximum allowed submenu depth is exceeded, launcher=directory reports a warning and displays the menu. Contract that with the "submenu=" keyword, which exits with a fatal error if submenu depth is exceeded.
 
@@ -442,23 +442,24 @@ launcher=path_to_launcher(s)
     
     For menu testing purposes you can force printing warnings by telling gtkmenuplus to scan for launcher files at deeper levels. Then if such files exist and they can't be displayed within the MAX_SUBMENU_DEPTH hard limit, a warning message is printed to the console. To increase the scan depth set environment variable GTKMENUPLUS_SCAN_DEPTH=5 or higher.
 
-    Item formatting for the items in dirpath of "launcher=dirpath" is set by any preceding "format=" and "tooltipformat=" keywords before "laucher=dirpath". For nested sub-directories, you can control item formatting by specifying format_strings in file .gtkmenuplus.desktop. See section "format=formatting" about format_strings, and directory "test" in the distribution package for advanced formatting examples.
+    Item formatting for the items in dirpath of "launcher=dirpath" is set by any preceding "format=" and "tooltipformat=" keywords before "laucher=dirpath". For nested sub-directories, you can control item formatting by specifying format_strings in file .directory.desktop. See section "format=formatting" about format_strings, and directory "test" in the distribution package for advanced formatting examples.
 
-    Summary of file .gtkmenuplus.desktop:
+    Summary of file .directory.desktop:
 
-    # Note: This file is ignored if its dirpath is used as "launcher=dirpath".
+    # Note: This file is ignored if its dirpath is used in "launcher=dirpath".
     [Desktop Entry]
     Encoding=UTF-8
-    Name=submenu name (redirect)
-    Comment=redirected from .gtkmenuplus.desktop
+    Name=submenu_name
+    Comment=redirected from .directory.desktop
     Name[es]=example localized name
     Comment[es]=example localized comment
-    Icon=gimp
+    Icon=icon_name_no_extension or full_path_to_icon_file_with_extension
     # Format applies to contained items, and cascades.
-    Format=background="purple"
+    Format=background="purple" etc.
     # You can also apply direct (local) formatting to Name= and Comment=
     # (label and tooltip), i.e.
     # Name=<span>background="green">submenu name</span>
+    Type=Directory
 
 launcherargs=arguments
 

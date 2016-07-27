@@ -1946,7 +1946,7 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
 {
  int fd;
  gchar launcher[MAX_PATH_LEN + 1];
- if (0 < snprintf(launcher, MAX_PATH_LEN, "%s/.gtkmenuplus.desktop", sLauncherPath)
+ if (0 < snprintf(launcher, MAX_PATH_LEN, "%s/.directory.desktop", sLauncherPath)
      && -1 != (fd = open(launcher, O_RDONLY
 #ifdef _GNU_SOURCE
          | O_NOATIME
@@ -2007,7 +2007,7 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
   { // pretend "format=" - code extracted from onFormat, cf. for comments
    if (strlen(fmt) + 15 > MAX_PATH_LEN)
    {
-    snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", ".gtkmenuplus.desktop format= line too long");
+    snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", ".directory.desktop format= line too long");
     return lineParseFail;
    }
    // Note: this pretend "format=" for "launcher=dir" operates on
@@ -2172,7 +2172,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     // skip non-.desktop
     strcmp(sLauncherPath1 + len1 - 8, ".desktop") != 0
     // skip sub-menu configuration file
-    || strcmp(sLauncherPath1 + len1 - 21, "/.gtkmenuplus.desktop") == 0)
+    || strcmp(sLauncherPath1 + len1 - 21, "/.directory.desktop") == 0)
      continue;
    else
    {
