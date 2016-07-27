@@ -2252,6 +2252,22 @@ enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending)
 enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
 {
+ if (!(*gl_sLinePostEq))
+ {
+  *gl_sLauncherDirFile = '\0';
+  return lineParseOk;
+ }
+ enum LineParseResult lineParseResult = expand_path(gl_sLinePostEq, gl_sScriptDirectory,
+     "launcherdirfile", pMenuEntryPending->m_sErrMsg); // can rewrite gl_sLinePostEq
+ if (lineParseResult != lineParseOk)
+  return lineParseResult;
+ struct stat sb;
+ if (stat(gl_sLinePostEq, &sb) == -1 || !(S_ISREG(sb.st_mode) || S_ISLNK(sb.st_mode)))
+ {
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
+      "launcherdirfile='%s': file not found.\n", gl_sLinePostEq);
+  return lineParseFail;
+ }
  strcpy(gl_sLauncherDirFile, gl_sLinePostEq);
  return lineParseOk;
 }
