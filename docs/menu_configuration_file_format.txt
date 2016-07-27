@@ -319,17 +319,17 @@ icon=path_to_image_file | icon_name | NULL
 
 format=formatting 
 
- formatting=[ format_string [;|, format_string [;|, format_string... ]]]
+  formatting=[ format_string [;|, format_string [;|, format_string... ]]]
 
- Menu items and submenu labels following a "format" line have the given format_string(s) applied, until the
- occurrence of the next "format=formatting" line.  
+  Menu items and submenu labels following a "format" line have the given format_string(s) applied, until the
+  occurrence of the next "format=formatting" line.  
  
- If more than one format_string occurs on a format= line, each format_string is applied in turn to
- successive following items or submenu labels at the same level as the menu level in which the format= line occurs.  
- Items or submenu labels at any other level in the menu hierachy are _not_ subject to the format_string sequence. 
+  If more than one format_string occurs on a format= line, each format_string is applied in turn to
+  successive following items or submenu labels at the same level as the menu level in which the format= line occurs.  
+  Items or submenu labels at any other level in the menu hierachy are _not_ subject to the format_string sequence. 
 
-If "formatting" contains only one "format_string", that "format_string" applies to everything following, 
- no matter where it is in the menu hierarchy.
+  If "formatting" contains only one "format_string", that "format_string" applies to everything following, 
+  no matter where it is in the menu hierarchy.
 
   A "format_string" consists a string of whitespace-separated attribute="value" pairs,
   attributes and their values must be appropriate for placement
@@ -391,21 +391,23 @@ launcher=path_to_launcher(s)
 
   Any preceding "launcherargs=arguments" line will apply to that entry, that is, the "arguments" string will be appended to the command entry for the shell to execute. Quote "arguments" as needed.
 
-  If you provide a path_to_launcher(s) to a directory containing .desktop files, they will all be used to create successive menu entries.
+  If path_to_launcher(s) is a directory path (dirpath), it will be scanned for .desktop file, which will all be used to create successive menu entries.
 
-  If the directory includes sub-directories containing .desktop files, they will all be used to create successive menu entries in nested submenus. More info further down in this section.
+  If dirpath includes sub-directories they will be scanned too, and their .desktop files will be used to create successive menu entries in nested submenus. More information follows further down in this section.
 
-  "path_to_launcher" follows the rules for paths referred to in menu configuration files (see above):
+  Any preceding "launcherdirfile=launcher_dirfile" line will apply to the menu entry of each scanned dirpath.
+
+  "path_to_launcher(s)" follows the rules for paths referred to in menu configuration files (see above):
 
      It can begin with a tilde, which will be expanded as in bash to $HOME.
 
      It can be absolute.
 
-     Or it can be relative.  If "path_to_launcher" doesn't begin with a dot, and the most recent 
+     Or it can be relative.  If "path_to_launcher(s)" doesn't begin with a dot, and the most recent 
      "launcherdirectory=path_to_launcher_directory" line has a non-null "path_to_launcher_directory", 
      it's relative to that.
 
-     Otherwise a relative "path_to_launcher" is relative to the path in which the configuration file was found
+     Otherwise a relative "path_to_launcher(s)" is relative to the path in which the configuration file was found
      (as specified on the gtkmenuplus command line, unless gtkmenuplus is reading from stdin). 
 
 
@@ -422,7 +424,7 @@ launcher=path_to_launcher(s)
   that holding the menu configuration file.  Then use "launcher>=path_to_launcher" to point to that directory.
 
 
-  If you want to refer to all the .desktops file in the directory specified by launcherdirectory=, use
+  If you want to refer to all the .desktop files in the directory specified by launcherdirectory=, use
 
        launcher=.
   or
@@ -430,29 +432,46 @@ launcher=path_to_launcher(s)
 
   More on nested submenus.
   
-    When you use "launcher=dirpath" submenus are created automatically for each sub-directory. You do not need to add "submenu=" keywords.
+    When "launcher=dirpath" is encounted submenus are created automatically for dirpath and each scanned sub-directory.
 
     Up to 5 menu levels are automatically nested (see MAX_SUBMENU_DEPTH).
 
-    By default the name of a submenu is the name of the sub-directory that includes its .desktop files, and the icon is undefined. Alternatively and more flexibly, name, icon, tooltip, and item format can be specified in a hidden desktop file named ".directory.desktop" located in the sub-directory.
+    By default the submenu label is the name of the sub-directory that includes its .desktop files, and the submenu icon is undefined. To specify diffent values and other properties use keyword "launcherdirfile=".
 
-    If the maximum allowed submenu depth is exceeded, launcher=directory reports a warning and displays the menu. Contract that with the "submenu=" keyword, which exits with a fatal error if submenu depth is exceeded.
+    If the maximum allowed submenu depth is exceeded, launcher=dirpath reports a warning and displays the menu. Contract that with the "submenu=" keyword, which exits with a fatal error if submenu depth is exceeded.
 
     By default sub-directory scanning depth is set to fill at most 5 submenu levels. If launcher files exist in lower sub-directories they will be ignored without warnings.
     
     For menu testing purposes you can force printing warnings by telling gtkmenuplus to scan for launcher files at deeper levels. Then if such files exist and they can't be displayed within the MAX_SUBMENU_DEPTH hard limit, a warning message is printed to the console. To increase the scan depth set environment variable GTKMENUPLUS_SCAN_DEPTH=5 or higher.
 
-    Item formatting for the items in dirpath of "launcher=dirpath" is set by any preceding "format=" and "tooltipformat=" keywords before "laucher=dirpath". For nested sub-directories, you can control item formatting by specifying format_strings in file .directory.desktop. See section "format=formatting" about format_strings, and directory "test" in the distribution package for advanced formatting examples.
+    Item formatting for the items in dirpath of "launcher=dirpath" is set by any preceding "format=" and "tooltipformat=" keywords before "launcher=dirpath". For nested sub-directories, you can control item formatting by specifying format_strings in file .directory.desktop. See section "format=formatting" about format_strings, and directory "test" in the distribution package for advanced formatting examples.
 
-    Summary of file .directory.desktop:
+
+launcherdirfile=launcher_dirfile
+
+  After this line is encountered, properties of dirpath in all subsequent "launcher=dirpath" lines are read from launcher_dirfile.
+
+  A launcher_dirfile is a .desktop file, which omits "Exec=", and may include "Type=Directory" and "Format=formatting".
+
+  It sets the menu entry label, icon, and tooltip of each scanned dirpath. Formatting is applied to all contained items and cascades to sub-directories of dirpath.
+
+  "launcherdirfile=" followed by no text clears out the launcher_dirpath string for all subsequent "launcher=dirpath" lines.
+
+  There can be multiple "launcherdirfiles" lines; each sets the launcher_dirfile for all "launcher=dirpath" that follow, until the next "launcherdirfile=" line.
+
+  "launcher_dirfile" follows the rules for paths referred to in menu configuration files (see above): tilde expansion and relative paths.
+
+  An alternative method to provide a dirfile for launcher=dirpath lines is to place a hidden dirfile named ".directory.desktop" in each sub-directory. If this file exists, it overrides the launcher_dirfile specified by "launcherdirfile=launcher_dirfile".
+
+  Example of launcher_dirfile
 
     # Note: This file is ignored if its dirpath is used in "launcher=dirpath".
     [Desktop Entry]
     Encoding=UTF-8
-    Name=submenu_name
-    Comment=redirected from .directory.desktop
-    Name[es]=example localized name
-    Comment[es]=example localized comment
+    Name=submenu label
+    Comment=redirected from .directory.desktop (tooltip)
+    Name[es]=localized label example
+    Comment[es]=localized tooltip example
     Icon=icon_name_no_extension or full_path_to_icon_file_with_extension
     # Format applies to contained items, and cascades.
     Format=background="purple" etc.
