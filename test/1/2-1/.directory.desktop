@@ -1,13 +1,14 @@
-# Note: This file is ignored if its dirpath is used as "launcher=dirpath".
+# Note: This file is ignored if its dirpath is used in "launcher=dirpath".
 [Desktop Entry]
 Encoding=UTF-8
-Name=submenu name (redirect)
-Comment=redirected from .gtkmenuplus.desktop
-Name[es]=example localized name
-Comment[es]=example localized comment
+Name=submenu label (redirect)
+Comment=redirected from .directory.desktop
+Name[es]=example localized label
+Comment[es]=example localized tooltip
 Icon=gimp
 # Format applies to contained items, and cascades.
 Format=
 # You can also apply direct (local) formatting to Name= and Comment=
 # (label and tooltip), i.e.
-# Name=<span>background="green">submenu name</span>
+# Name=<span>background="green">submenu label</span>
+Type=Directory

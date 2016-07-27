@@ -1,11 +1,12 @@
-# Note: This file is ignored if its dirpath is used as "launcher=dirpath".
+# Note: This file is ignored if its dirpath is used in "launcher=dirpath".
 [Desktop Entry]
 Encoding=UTF-8
 Name=<span foreground="purple">purple (redirect)</span>
-Comment=redirected from .gtkmenuplus.desktop
+Comment=redirected from .directory.desktop
 Icon=gimp
 # Format applies to contained items, and cascades.
 Format=foreground="purple"
 # You can also apply direct (local) formatting to Name= and Comment=
 # (label and tooltip), i.e.
-# Name=<span>background="green">submenu name</span>
+# Name=<span>background="green">submenu label</span>
+Type=Directory
