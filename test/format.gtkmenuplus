@@ -52,6 +52,9 @@ format = foreground="blue"
  endsubmenu # B
  endsubmenu # A submenu=... to launcher=
 
+DO_ITEMS=yes
+if= $DO_ITEMS
+
 separator
 format=
 item = submenu=+launcher=dir: PASS if "A","B" are blue, and lower level items are red
@@ -92,3 +95,5 @@ format=
 item = launcher=dir: PASS if @0 green+blue>, @1 blue+red>, @2 red+magenta>, @3 magenta
 format = foreground="green"
 launcher=../test/format
+
+endif
