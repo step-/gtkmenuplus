@@ -628,6 +628,39 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
 }
 
 // ----------------------------------------------------------------------
+guint shorten(IN gchar *in, OUT gchar *out) //called by msgToUser, reapErrMsg
+// ----------------------------------------------------------------------
+{ // Shorten string by erasing obvious paths.
+ gchar *p; gchar *q; gchar *r;
+ gchar *path; guint npath;
+ path = gl_sScriptDirectory; // obvious path
+ npath = strlen(path);
+ char *result = strdup(in);
+ if (!result)
+  perror("strdup");
+ else
+ {
+  p = in;
+  q = in;
+  r = result;
+  while((q = strstr(q, path)))
+  {
+   while (p != q)
+    *r++ = *p++;
+   *r = '\0';
+   p += npath;
+   q += npath;
+  }
+  while (*p)
+   *r++ = *p++;
+  *r = '\0';
+  strcpy(out, result);
+ }
+ if (result) free(result);
+ return 0;
+}
+
+// ----------------------------------------------------------------------
 //called once from readFile
 void  msgToUser(IN enum LineParseResult lineParseResult, IN gchar* sErrMsg, IN guint uiLineNum, IN gchar* sLineAsRead)
 // ----------------------------------------------------------------------
@@ -635,14 +668,17 @@ void  msgToUser(IN enum LineParseResult lineParseResult, IN gchar* sErrMsg, IN g
  if (lineParseResult == lineParseOk)
   fprintf(stderr, "%s: in msgToUser at line # %d\n", gl_sLineParseLabel[lineParseResult], uiLineNum);
  else
-  fprintf(stderr, "%s: at line # %d: %s\n>>>  %s\n", gl_sLineParseLabel[lineParseResult], uiLineNum, sErrMsg, sLineAsRead);
+ {
+  shorten(sErrMsg, sErrMsg);
+  fprintf(stderr, "%s: at line # %d:\n%s\n>>>  %s\n", gl_sLineParseLabel[lineParseResult], uiLineNum, sErrMsg, sLineAsRead);
+ }
 
  gboolean bLaunchedFromCLI = isatty(fileno(stdin));  // http://stackoverflow.com/questions/13204177/how-to-find-out-if-running-from-terminal-or-gui
 
  if (lineParseResult == lineParseFail && !gl_bErrorsInConsoleOnly && !bLaunchedFromCLI)
  {
   GtkWidget* pGtkMsgDlg = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-                                  "%s: at line # %d: %s\n>>>  %s\n", gl_sLineParseLabel[lineParseResult], uiLineNum, sErrMsg, sLineAsRead);
+                                  "%s: at line # %d:\n%s\n>>>  %s\n", gl_sLineParseLabel[lineParseResult], uiLineNum, sErrMsg, sLineAsRead);
   if (pGtkMsgDlg)
   {
    gtk_dialog_run(GTK_DIALOG(pGtkMsgDlg));
@@ -1928,6 +1964,7 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* at) // use
    snprintf(mp, MAX_LINE_LENGTH, "%s%s%s%s%s",
     gl_sLauncherErrMsg,
     at ? "" : "", at, at ? ": " : "", pMenuEntryPending->m_sErrMsg);
+   shorten(mp, mp);
    strncpy(gl_sLauncherErrMsg, mp, MAX_LINE_LENGTH);
    free(mp);
    *pMenuEntryPending->m_sErrMsg = '\0';
