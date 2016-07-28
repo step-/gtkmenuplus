@@ -629,7 +629,7 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
 }
 
 // ----------------------------------------------------------------------
-guint shorten(IN gchar *in, OUT gchar *out) //called by msgToUser, reapErrMsg
+gchar* shorten(IN gchar *in, OUT gchar *out) //called by msgToUser, reapErrMsg
 // ----------------------------------------------------------------------
 { // Shorten string by erasing obvious paths.
  gchar *p; gchar *q; gchar *r;
@@ -658,7 +658,7 @@ guint shorten(IN gchar *in, OUT gchar *out) //called by msgToUser, reapErrMsg
   strcpy(out, result);
  }
  if (result) free(result);
- return 0;
+ return out;
 }
 
 // ----------------------------------------------------------------------
@@ -1575,7 +1575,7 @@ enum LineParseResult set_base_dir(OUT gchar* sDirBuff, IN const gchar* sLabelFor
  struct stat statbuf;
  if (stat(gl_sLinePostEq, &statbuf) == -1 || !S_ISDIR(statbuf.st_mode))
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH, "%s value not a directory.\n", sLabelForErr);
+  snprintf(sErrMsg, MAX_LINE_LENGTH, "'%s' value not a directory\n", sLabelForErr);
   return lineParseFail;
  }
 
@@ -1732,7 +1732,7 @@ enum LineParseResult getMenuPosArg(IN gchar* sBuff, OUT gchar* sErrMsg)
 {
  if (gl_bSetMenuPos)
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH,  "on \"configure=\" line, menu position set twice.\n");
+  snprintf(sErrMsg, MAX_LINE_LENGTH,  "on \"configure=\" line, menu position set twice\n");
   return lineParseFail;
  }
 
@@ -1742,7 +1742,7 @@ enum LineParseResult getMenuPosArg(IN gchar* sBuff, OUT gchar* sErrMsg)
  if (lineParseResult == lineParseOk)
   g_print("Menu position = %d, %d.\n", gl_uiMenuX, gl_uiMenuY);
  else
-  snprintf(sErrMsg, MAX_LINE_LENGTH,  "on \"configure=\" line, illegal menu position arguments.\n");
+  snprintf(sErrMsg, MAX_LINE_LENGTH,  "on \"configure=\" line, illegal menu position arguments\n");
  return lineParseOk;
 }
 
@@ -1997,7 +1997,7 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   GError* gerror = NULL;
   if (!g_key_file_load_from_file(pGKeyFile, sFilePath, 0, &gerror))
   {
-   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "can't open desktop file '%s'.\n", sFilePath);
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "can't open desktop file '%s'\n", sFilePath);
    g_error("%s\n", gerror->message); //TO DO
    g_error_free(gerror);
    return lineParseFail;
@@ -2025,7 +2025,7 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
    {
     if (!sValue && gl_launcherElement[i].bRequired)
     {
-     snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in desktop file '%s'.\n",
+     snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in desktop file '%s'\n",
          gl_launcherElement[i].m_sKeyword, sFilePath);
      bOk = FALSE;
      break;
@@ -2102,9 +2102,10 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
 {
+ gchar msg[] = "launcher= requires file or directory\n";
  if (!(*gl_sLinePostEq))
  {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,  "launcher= requires file or directory.\n");
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg);
   return lineParseFail;
  }
 
@@ -2120,7 +2121,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  struct stat statbuf;
  if (stat(gl_sLinePostEq, &statbuf) == -1)
  {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,  "launcher= requires file or directory.\n");
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg);
   return lineParseFail;
  }
 
@@ -2134,7 +2135,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 // forbid non-directory
  if (!S_ISDIR(statbuf.st_mode))
  {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "launcher=: %s is not a launcher file or a directory\n", gl_sLinePostEq);
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "launcher= '%s' is not a launcher file or a directory\n", gl_sLinePostEq);
   return lineParseFail;
  }
 
@@ -2342,7 +2343,7 @@ enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending
  if (stat(gl_sLinePostEq, &sb) == -1 || !(S_ISREG(sb.st_mode) || S_ISLNK(sb.st_mode)))
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
-      "launcherdirfile='%s': file not found.\n", gl_sLinePostEq);
+      "launcherdirfile='%s': file not found\n", gl_sLinePostEq);
   return lineParseFail;
  }
 
@@ -2350,8 +2351,12 @@ lineParseResult = fillMenuEntry(gl_sLinePostEq, &gl_launcherDirFile.m_menuEntry,
  if (lineParseResult != lineParseOk)
   return lineParseResult;
 
- strcpy(gl_launcherDirFile.m_sPath, gl_sLinePostEq);
  strcpy(gl_launcherDirFile.m_sFormatEq, gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue);
+
+ // after this, dirfile path is only used for error messages, so we shorten it
+ strcpy(gl_launcherDirFile.m_sPath, gl_sLinePostEq);
+ shorten(gl_launcherDirFile.m_sPath, gl_launcherDirFile.m_sPath);
+
  return lineParseOk;
 }
 
@@ -2391,7 +2396,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  GError* gerror = NULL;
  if (!g_key_file_load_from_file(pGKeyFile, sLauncherPath, 0, &gerror)) // GKeyFileFlags flags GError **gerror
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH, "launcher=: can't open %s.\n", sLauncherPath);
+  snprintf(sErrMsg, MAX_LINE_LENGTH, "launcher=: can't open '%s'\n", sLauncherPath);
   g_error("%s\n", gerror->message); //TO DO
   g_error_free(gerror);
   return lineParseFail;
@@ -2419,7 +2424,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
 
   if (!sValue && gl_launcherElement[i].bRequired)
   {
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in launcher %s.\n", gl_launcherElement[i].m_sKeyword, sLauncherPath);
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in launcher '%s'\n", gl_launcherElement[i].m_sKeyword, sLauncherPath);
    bOk = FALSE;
    break;
   } // if (!sValue && gl_launcherElement[i].bRequired)
@@ -2441,8 +2446,9 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
       && ! intersectQ(p, q))
   {
    if (p) free(p); if (q) free(q);
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "directory file '%s' excludes launcher '%s'.\n",
-       gl_launcherDirFile.m_sPath, sLauncherPath);
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "dirfile '%s' excludes '%s'\n",
+       gl_launcherDirFile.m_sPath,
+       sLauncherPath);
    return lineParseWarn;
   }
  free(p); free(q);
@@ -2471,7 +2477,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
   }
   if (strlen(sValue) > MAX_PATH_LEN - 1)
   {
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "cmd for launcher too long (%s) \n", sValue);
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "cmd for launcher too long (%s)\n", sValue);
    return lineParseFail;
   }  // if (strlen(sValue) > MAX_PATH_LEN - 1)
   strcpy(gl_sCmds[gl_uiCurItem], sValue);
