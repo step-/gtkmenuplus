@@ -2,7 +2,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=<span foreground="purple">purple (redirect)</span>
-Comment=redirected from .directory.desktop
+Comment=redirected from .desktop.directory
 Icon=gimp
 # Format applies to contained items, and cascades.
 Format=foreground="purple"
