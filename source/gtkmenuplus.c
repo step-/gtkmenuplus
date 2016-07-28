@@ -2058,7 +2058,11 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
 
  if (*gl_launcherDirFile.m_sPath) // TODO reverse precedence: .directory.desktop > dirfile ? TODO sync docs
  { // Fill pme from launcherdirfile=dirfile cached values.
+   // Don't overwrite m_uiDepth otherwise the sub-menu will nest at a higher level.
+  guint sav = pme->m_uiDepth;
   memcpy(pme, &gl_launcherDirFile.m_menuEntry, sizeof(struct MenuEntry));
+  pme->m_uiDepth = sav;
+
   gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue = gl_launcherDirFile.m_sFormatEq;
   // ^^^ To cascade formatting further down.
  }
