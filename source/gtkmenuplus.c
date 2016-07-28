@@ -2053,32 +2053,39 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
 enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struct MenuEntry* pme) // used by onLauncher
 // ----------------------------------------------------------------------
 {
+ // Is there a local dirfile?
  int fd = -1;
  gboolean bLocalDirFile = FALSE;
+ void *dirfile = malloc(MAX_PATH_LEN + 1);
+ snprintf(dirfile, MAX_PATH_LEN, "%s/.directory.desktop", sLauncherPath);
+ bLocalDirFile = -1 != (fd = open(dirfile, O_RDONLY | O_NOATIME)); // #define _GNU_SOURCE_
 
- if (*gl_launcherDirFile.m_sPath) // TODO reverse precedence: .directory.desktop > dirfile ? TODO sync docs
+#if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+ gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue = NULL; //init cascade
+#endif
+
+ if (bLocalDirFile)
+ { // Fill pme from local dirfile ".directory.desktop".
+
+  close(fd);
+  enum LineParseResult lineParseResult = fillMenuEntry(dirfile, pme, FALSE); //sets gl_LauncherElement[]
+  free(dirfile);
+  if (lineParseResult != lineParseOk)
+   return lineParseResult;
+ }
+ else if (*gl_launcherDirFile.m_sPath)
  { // Fill pme from launcherdirfile=dirfile cached values.
-   // Don't overwrite m_uiDepth otherwise the sub-menu will nest at a higher level.
+
+  // Don't overwrite m_uiDepth otherwise the sub-menu will nest at a higher level.
   guint sav = pme->m_uiDepth;
   memcpy(pme, &gl_launcherDirFile.m_menuEntry, sizeof(struct MenuEntry));
   pme->m_uiDepth = sav;
 
-  gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue = gl_launcherDirFile.m_sFormatEq;
-  // ^^^ To cascade formatting further down.
+#if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+  gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue = gl_launcherDirFile.m_sFormatEq; //set cascade
+#endif
  }
- else
- { // Fill pme from local dirfile ".directory.desktop".
-  gchar dirfile[MAX_PATH_LEN + 1];
-  snprintf(dirfile, MAX_PATH_LEN, "%s/.directory.desktop", sLauncherPath);
-  bLocalDirFile = -1 != (fd = open(dirfile, O_RDONLY | O_NOATIME)); // #define _GNU_SOURCE_
-  if (!bLocalDirFile)
-   return lineParseOk; // no configuration data found: fallback to *pme.
-  close(fd);
-
-  enum LineParseResult lineParseResult = fillMenuEntry(dirfile, pme, FALSE); //sets gl_LauncherElement[]
-  if (lineParseResult != lineParseOk)
-   return lineParseResult;
- }
+ // If none of the above cases, fall back to the sufficient values that onSubMenu for pme.
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
  // Cascade formatting.
