@@ -91,6 +91,7 @@ extern guint                  gl_nLauncherElements;
 gchar gl_sLauncherDB[MAX_PATH_LEN + 1]; // launcher=dir/** list file
 gchar gl_sLauncherErrMsg[MAX_LINE_LENGTH + 1]; // launcher=dir/ cumulative errors
 int   gl_nLauncherReadLineDepth; // set by main()@readLine when it reads "launcher="
+struct DirFile gl_launcherDirFile; // set by onLauncherDirFile
 #endif
 
 struct Params;
@@ -1978,27 +1979,25 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* at) // use
 }
 
 // ----------------------------------------------------------------------
-enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struct MenuEntry* pme) // used by onLauncher
+enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuEntry* pme, gboolean bRequired) // used by fillSubMenuEntry, dirFileInit
 // ----------------------------------------------------------------------
 {
  int fd;
- gchar launcher[MAX_PATH_LEN + 1];
- if (0 < snprintf(launcher, MAX_PATH_LEN, "%s/.directory.desktop", sLauncherPath)
-     && -1 != (fd = open(launcher, O_RDONLY
+ if (-1 != (fd = open(sFilePath, O_RDONLY
 #ifdef _GNU_SOURCE
          | O_NOATIME
 #endif
          )))
  {
   close(fd);
-  // Parse launcher .desktop file.
+  // Parse .desktop file sFilePath.
   // Code taken from processLauncher. See comments there.
   clearLauncherElements();
   GKeyFile* pGKeyFile = g_key_file_new();
   GError* gerror = NULL;
-  if (!g_key_file_load_from_file(pGKeyFile, launcher, 0, &gerror))
+  if (!g_key_file_load_from_file(pGKeyFile, sFilePath, 0, &gerror))
   {
-   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "launcher=: can't open %s.\n", launcher);
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "can't open desktop file '%s'.\n", sFilePath);
    g_error("%s\n", gerror->message); //TO DO
    g_error_free(gerror);
    return lineParseFail;
@@ -2022,43 +2021,81 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
    }
    gl_launcherElement[i].sValue = sValue;
 
-   /* if (!sValue && gl_launcherElement[i].bRequired) */
-   /* { */
-   /*  snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in launcher %s.\n", */
-   /*      gl_launcherElement[i].m_sKeyword, launcher); */
-   /*  bOk = FALSE; */
-   /*  break; */
-   /* } */
+   if (bRequired)
+   {
+    if (!sValue && gl_launcherElement[i].bRequired)
+    {
+     snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in desktop file '%s'.\n",
+         gl_launcherElement[i].m_sKeyword, sFilePath);
+     bOk = FALSE;
+     break;
+    }
+   }
   }
   g_key_file_free(pGKeyFile);
   if (!bOk) return lineParseFail;
 
-  strcpy(pme->m_sTitle, gl_launcherElement[LAUNCHER_ELEMENT_NAME].sValue);
-  strcpy(pme->m_sIcon,  gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue);
+  STRCPY_IF(pme->m_sTitle, gl_launcherElement[LAUNCHER_ELEMENT_NAME].sValue);
+  STRCPY_IF(pme->m_sIcon,  gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue);
 #if  !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
-  strcpy(pme->m_sTooltip, gl_launcherElement[LAUNCHER_ELEMENT_COMMENT].sValue);
+  STRCPY_IF(pme->m_sTooltip, gl_launcherElement[LAUNCHER_ELEMENT_COMMENT].sValue);
 #endif
+  STRCPY_IF(pme->m_sCategory, gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue);
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
-  gchar *fmt;
-  if((fmt = gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue))
-  { // pretend "format=" - code extracted from onFormat, cf. for comments
-   if (strlen(fmt) + 15 > MAX_PATH_LEN)
-   {
-    snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", ".directory.desktop format= line too long");
-    return lineParseFail;
-   }
-   // Note: this pretend "format=" for "launcher=dir" operates on
-   // level gl_uiCurDepth -1 because the simulated input sequence that
-   // leads us here is ~submenu=~ followed by ~format=~. Contrast that
-   // with the real formatting for "submenu=", which operates on level
-   // gl_uiCurDepth, because the actual input sequence is "format="
-   // followed by "submenu=".
-   formattingInit(&(gl_FormattingSubMenu[gl_uiCurDepth - 1]), fmt, gl_uiCurDepth - 1);
-  }
+  // "LauncherDirFile=dirfile"'s Format=value is in gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue
 #endif
   return lineParseOk;
  }
- else return lineParseOk; // no configuration data found: fallback to default.
+ return lineParseFail;
+}
+
+// ----------------------------------------------------------------------
+enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struct MenuEntry* pme) // used by onLauncher
+// ----------------------------------------------------------------------
+{
+ int fd = -1;
+ gboolean bLocalDirFile = FALSE;
+
+ if (*gl_launcherDirFile.m_sPath) // TODO reverse precedence: .directory.desktop > dirfile ? TODO sync docs
+ { // Fill pme from launcherdirfile=dirfile cached values.
+  memcpy(pme, &gl_launcherDirFile.m_menuEntry, sizeof(struct MenuEntry));
+  gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue = gl_launcherDirFile.m_sFormatEq;
+  // ^^^ To cascade formatting further down.
+ }
+ else
+ { // Fill pme from local dirfile ".directory.desktop".
+  gchar dirfile[MAX_PATH_LEN + 1];
+  snprintf(dirfile, MAX_PATH_LEN, "%s/.directory.desktop", sLauncherPath);
+  bLocalDirFile = -1 != (fd = open(dirfile, O_RDONLY | O_NOATIME)); // #define _GNU_SOURCE_
+  if (!bLocalDirFile)
+   return lineParseOk; // no configuration data found: fallback to *pme.
+  close(fd);
+
+  enum LineParseResult lineParseResult = fillMenuEntry(dirfile, pme, FALSE); //sets gl_LauncherElement[]
+  if (lineParseResult != lineParseOk)
+   return lineParseResult;
+ }
+
+#if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+ // Cascade formatting.
+ gchar *fmt;
+ if((fmt = gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue) && *fmt)
+ { // pretend "format=" - code extracted from onFormat, cf. for comments
+  if (strlen(fmt) + 15 > MAX_PATH_LEN)
+  {
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", ".desktop Format= line too long");
+   return lineParseFail;
+  }
+  // Note: this pretend "format=" for "launcher=dir" operates on
+  // level gl_uiCurDepth -1 because the simulated input sequence that
+  // leads us here is ~submenu=~ followed by ~format=~. Contrast that
+  // with the real formatting for "submenu=", which operates on level
+  // gl_uiCurDepth, because the actual input sequence is "format="
+  // followed by "submenu=".
+  formattingInit(&(gl_FormattingSubMenu[gl_uiCurDepth - 1]), fmt, gl_uiCurDepth - 1);
+ }
+#endif
+ return lineParseOk;
 }
 
 // ---------------------------------------------------------------------- AC
@@ -2234,6 +2271,8 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 
   lineParseResult = processLauncher(sLauncherPath1,
       lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
+  if (lineParseResult != lineParseOk)
+    reapErrMsg(pMenuEntryPending, sLauncherPath1);
   if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
   {
 break_this_loop: // IN lineParseResult
@@ -2291,13 +2330,14 @@ enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending
 {
  if (!(*gl_sLinePostEq))
  {
-  *gl_sLauncherDirFile = '\0';
+  *gl_launcherDirFile.m_sPath = '\0';
   return lineParseOk;
  }
  enum LineParseResult lineParseResult = expand_path(gl_sLinePostEq, gl_sScriptDirectory,
      "launcherdirfile", pMenuEntryPending->m_sErrMsg); // can rewrite gl_sLinePostEq
  if (lineParseResult != lineParseOk)
   return lineParseResult;
+
  struct stat sb;
  if (stat(gl_sLinePostEq, &sb) == -1 || !(S_ISREG(sb.st_mode) || S_ISLNK(sb.st_mode)))
  {
@@ -2305,8 +2345,37 @@ enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending
       "launcherdirfile='%s': file not found.\n", gl_sLinePostEq);
   return lineParseFail;
  }
- strcpy(gl_sLauncherDirFile, gl_sLinePostEq);
+
+lineParseResult = fillMenuEntry(gl_sLinePostEq, &gl_launcherDirFile.m_menuEntry, FALSE); //no check for required
+ if (lineParseResult != lineParseOk)
+  return lineParseResult;
+
+ strcpy(gl_launcherDirFile.m_sPath, gl_sLinePostEq);
+ strcpy(gl_launcherDirFile.m_sFormatEq, gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue);
  return lineParseOk;
+}
+
+// ----------------------------------------------------------------------
+gboolean intersectQ(IN gchar *a, IN gchar *b) //used by processLauncher
+// ----------------------------------------------------------------------
+{
+ gchar *at; gchar *as; gchar *bt; gchar *bs;
+
+ at = strtok_r(a, ";", &as);
+ while (at)
+ {
+  bt = strtok_r(b, ";", &bs);
+  while (bt)
+  {
+   if (0 == strcmp(at, bt))
+   {
+    return TRUE;
+   }
+   bt = strtok_r(NULL, ";", &bs);
+  }
+  at = strtok_r(NULL, ";", &as);
+ }
+ return FALSE;
 }
 
 // ---------------------------------------------------------------------- AC
@@ -2359,6 +2428,25 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  g_key_file_free(pGKeyFile);
 
  if (!bOk) return lineParseFail;
+
+ // Apply Category=filter_list, if any.
+  //TODO global *gl_sLauncherDirFile' categories vs. local .directory.desktop categories
+ sValue = gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue;
+ if (*sValue && *gl_launcherDirFile.m_menuEntry.m_sCategory)
+ {
+  void *p = malloc(MAX_LINE_LENGTH + 1);
+  void *q = malloc(MAX_LINE_LENGTH + 1);
+  if (p && q && strcpy(p, sValue)
+      && strcpy(q, gl_launcherDirFile.m_menuEntry.m_sCategory)
+      && ! intersectQ(p, q))
+  {
+   if (p) free(p); if (q) free(q);
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "directory file '%s' excludes launcher '%s'.\n",
+       gl_launcherDirFile.m_sPath, sLauncherPath);
+   return lineParseWarn;
+  }
+ free(p); free(q);
+ }
 
  sValue = gl_launcherElement[LAUNCHER_ELEMENT_EXEC].sValue;
 //http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html

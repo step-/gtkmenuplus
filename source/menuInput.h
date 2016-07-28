@@ -26,9 +26,10 @@ gchar       gl_sIconDirectory[MAX_PATH_LEN + 1];
 gchar       gl_sScriptDirectory[MAX_PATH_LEN + 1];
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
+
 gchar       gl_sLauncherArguments[MAX_PATH_LEN + 1]; // used by processLauncher(), set by onLauncherArgs()
-gchar       gl_sLauncherDirFile[MAX_PATH_LEN + 1]; // used by processLauncher(), set by onLauncherDirFile()
 gchar       gl_sLauncherDirectory[MAX_PATH_LEN + 1]; // used by onLauncher(), set by onLauncherDir()
+
 #endif
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
@@ -149,6 +150,9 @@ struct MenuEntry
  gchar           m_sTooltip[MAX_LINE_LENGTH + 1];
 #endif
 
+#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
+ gchar           m_sCategory[MAX_LINE_LENGTH + 1];
+#endif
 };
 
 void                 menuEntrySet(struct MenuEntry* pmeCurrent, IN funcOnMenuEntry fnCommitIn, IN enum LineType lineTypeNow, IN gchar* sMenuEntryType,
@@ -158,6 +162,17 @@ enum LineParseResult menuEntryCheckFieldValidity(INOUT gchar* sField, IN gchar* 
 void                 menuEntryFieldOverride(IN gchar* sTarget, IN gchar* sSource);
 
 //==============================================================================================
+#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
+
+struct DirFile
+{
+ gchar      m_sPath[MAX_PATH_LEN + 1];
+ struct MenuEntry m_menuEntry;
+ gchar      m_sFormatEq[MAX_LINE_LENGTH + 1]; //Format= in .directory.desktop file
+ guint      m_uiMenuLevel; // needed for check for submenu lines
+};
+
+#endif
 //==============================================================================================
 
 gboolean      gl_bConfigKeywordUseEndSubMenu;   // set by onConfigure, used by onSubMenuEnd, readFile
