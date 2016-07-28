@@ -243,13 +243,13 @@ struct Keyword gl_keyword[] = // used in getLineTypeName, readLine
  {"elif",                     4, FALSE,  LINE_ELSEIF},
 #endif
 
-#if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
  {"launcher",                 8, TRUE,   LINE_LAUNCHER},
  {"launcherargs",            12, FALSE,  LINE_LAUNCHER_ARGS},
  {"launcherdirfile",         15, FALSE,  LINE_LAUNCHER_DIRFILE},
  {"launcherdirectory",       17, FALSE,  LINE_LAUNCHER_DIR},
  {"launcherdir",             11, FALSE,  LINE_LAUNCHER_DIR},
-#endif // #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+#endif // #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 
  {"include",                  7, TRUE,   LINE_INCLUDE},
  {"menupos",                  7, FALSE,  LINE_POSITION},
