@@ -21,7 +21,7 @@ struct LauncherElement gl_launcherElement[] =
  {"Comment",     "tooltip",     TRUE,         FALSE,    FALSE,         NULL,   NULL,        NULL },
  {"Icon",        "icon",        FALSE,        FALSE,    TRUE,          NULL,   NULL,        NULL },
  {"Format",      "#format",     FALSE,        FALSE,    FALSE,         NULL,   NULL,        NULL },
- //Format= not in .desktop spec, it's for .directory.desktop only
+ //Format= not in .desktop spec, it's for .desktop.directory only
  {"Type",        "#type",       FALSE,        FALSE,    FALSE,         NULL,   NULL,        NULL },
 };
 

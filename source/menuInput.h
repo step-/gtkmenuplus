@@ -168,7 +168,7 @@ struct DirFile
 {
  gchar      m_sPath[MAX_PATH_LEN + 1];
  struct MenuEntry m_menuEntry;
- gchar      m_sFormatEq[MAX_LINE_LENGTH + 1]; //Format= in .directory.desktop file
+ gchar      m_sFormatEq[MAX_LINE_LENGTH + 1]; //Format= in .desktop.directory file
  guint      m_uiMenuLevel; // needed for check for submenu lines
 };
 

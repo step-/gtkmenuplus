@@ -444,7 +444,7 @@ launcher=path_to_launcher(s)
     
     For menu testing purposes you can force printing warnings by telling gtkmenuplus to scan for launcher files at deeper levels. Then if such files exist and they can't be displayed within the MAX_SUBMENU_DEPTH hard limit, a warning message is printed to the console. To increase the scan depth set environment variable GTKMENUPLUS_SCAN_DEPTH=5 or higher.
 
-    Item formatting for the items in dirpath of "launcher=dirpath" is set by any preceding "format=" and "tooltipformat=" keywords before "launcher=dirpath". For nested sub-directories, you can control item formatting by specifying format_strings in file .directory.desktop. See section "format=formatting" about format_strings, and directory "test" in the distribution package for advanced formatting examples.
+    Item formatting for the items in dirpath of "launcher=dirpath" is set by any preceding "format=" and "tooltipformat=" keywords before "launcher=dirpath". For nested sub-directories, you can control item formatting by specifying format_strings in file .desktop.directory. See section "format=formatting" about format_strings, and directory "test" in the distribution package for advanced formatting examples.
 
 
 launcherdirfile=launcher_dirfile
@@ -466,7 +466,7 @@ launcherdirfile=launcher_dirfile
 
   "launcher_dirfile" follows the rules for paths referred to in menu configuration files (see above): tilde expansion and relative paths.
 
-  An alternative method to provide a dirfile for launcher=dirpath lines is to place a hidden dirfile named ".directory.desktop" in each sub-directory. If this file exists, it overrides the launcher_dirfile specified by "launcherdirfile=launcher_dirfile".
+  An alternative method to provide a dirfile for launcher=dirpath lines is to place a hidden dirfile named ".desktop.directory" in each sub-directory. If this file exists, it overrides the launcher_dirfile specified by "launcherdirfile=launcher_dirfile".
 
   Example of launcher_dirfile
 
@@ -474,7 +474,7 @@ launcherdirfile=launcher_dirfile
     [Desktop Entry]
     Encoding=UTF-8
     Name=submenu label
-    Comment=redirected from .directory.desktop (tooltip)
+    Comment=redirected from .desktop.directory (tooltip)
     Name[es]=localized label example
     Comment[es]=localized tooltip example
     Icon=icon_name_no_extension or full_path_to_icon_file_with_extension

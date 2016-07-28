@@ -2057,7 +2057,7 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
  int fd = -1;
  gboolean bLocalDirFile = FALSE;
  void *dirfile = malloc(MAX_PATH_LEN + 1);
- snprintf(dirfile, MAX_PATH_LEN, "%s/.directory.desktop", sLauncherPath);
+ snprintf(dirfile, MAX_PATH_LEN, "%s/.desktop.directory", sLauncherPath);
  bLocalDirFile = -1 != (fd = open(dirfile, O_RDONLY | O_NOATIME)); // #define _GNU_SOURCE_
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
@@ -2065,7 +2065,7 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
 #endif
 
  if (bLocalDirFile)
- { // Fill pme from local dirfile ".directory.desktop".
+ { // Fill pme from local dirfile ".desktop.directory".
 
   close(fd);
   enum LineParseResult lineParseResult = fillMenuEntry(dirfile, pme, FALSE); //sets gl_LauncherElement[]
@@ -2257,8 +2257,6 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    if (
     // skip non-.desktop
     strcmp(sLauncherPath1 + len1 - 8, ".desktop") != 0
-    // skip sub-menu configuration file
-    || strcmp(sLauncherPath1 + len1 - 21, "/.directory.desktop") == 0)
      continue;
    else
    {
@@ -2446,7 +2444,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  if (!bOk) return lineParseFail;
 
  // Apply Category=filter_list, if any.
-  //TODO global *gl_sLauncherDirFile' categories vs. local .directory.desktop categories
+  //TODO global *gl_sLauncherDirFile' categories vs. local .desktop.directory categories
  sValue = gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue;
  if (*sValue && *gl_launcherDirFile.m_menuEntry.m_sCategory)
  {
