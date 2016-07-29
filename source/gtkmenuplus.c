@@ -2270,8 +2270,16 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
      gchar buf[MAX_PATH_LEN + 1];
      if(NULL == realpath(sLauncherPath1, buf))
      {
-      strncat(sLauncherPath1, " -> symlink warning", MAX_PATH_LEN);
-      perror(sLauncherPath1);
+      gchar *s = strndup(sLauncherPath1, MAX_CMD_LEN);
+      if (!s)
+        perror("strndup");
+      else
+      {
+       shorten(s, s);
+       strncat(s, " -> symlink warning", MAX_PATH_LEN);
+       perror(s);
+       free(s);
+      }
       continue; // skip invalid symlinks
      }
     }
