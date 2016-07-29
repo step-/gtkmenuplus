@@ -2257,6 +2257,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    if (
     // skip non-.desktop
     strcmp(sLauncherPath1 + len1 - 8, ".desktop") != 0
+    )
      continue;
    else
    {
@@ -2370,7 +2371,7 @@ lineParseResult = fillMenuEntry(gl_sLinePostEq, &gl_launcherDirFile.m_menuEntry,
 }
 
 // ----------------------------------------------------------------------
-gboolean intersectQ(IN gchar *a, IN gchar *b) //used by processLauncher
+gboolean intersectQ(IN gchar *a, IN gchar *b)
 // ----------------------------------------------------------------------
 {
  gchar *at; gchar *as; gchar *bt; gchar *bs;
@@ -2390,6 +2391,25 @@ gboolean intersectQ(IN gchar *a, IN gchar *b) //used by processLauncher
   at = strtok_r(NULL, ";", &as);
  }
  return FALSE;
+}
+
+// ----------------------------------------------------------------------
+gboolean intersectingCategoriesQ(IN const gchar *a, IN const gchar *b) //used by processLauncher
+// ----------------------------------------------------------------------
+{
+ if (!(a && *a && b && *b))
+  return TRUE;
+ void *p = strdup(a);
+ void *q = strdup(b);
+ if (!p || !q)
+ {
+  perror("strdup");
+  return TRUE;
+ }
+ gboolean bIntersecting = intersectQ(p, q);
+ free(p);
+ free(q);
+ return bIntersecting;
 }
 
 // ---------------------------------------------------------------------- AC
@@ -2444,23 +2464,15 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  if (!bOk) return lineParseFail;
 
  // Apply Category=filter_list, if any.
-  //TODO global *gl_sLauncherDirFile' categories vs. local .desktop.directory categories
- sValue = gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue;
- if (*sValue && *gl_launcherDirFile.m_menuEntry.m_sCategory)
+ //TODO global *gl_sLauncherDirFile' categories vs. local .desktop.directory categories
+ if (! intersectingCategoriesQ(
+     gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue,
+     gl_launcherDirFile.m_menuEntry.m_sCategory))
  {
-  void *p = malloc(MAX_LINE_LENGTH + 1);
-  void *q = malloc(MAX_LINE_LENGTH + 1);
-  if (p && q && strcpy(p, sValue)
-      && strcpy(q, gl_launcherDirFile.m_menuEntry.m_sCategory)
-      && ! intersectQ(p, q))
-  {
-   if (p) free(p); if (q) free(q);
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "dirfile '%s' excludes '%s'\n",
-       gl_launcherDirFile.m_sPath,
-       sLauncherPath);
-   return lineParseWarn;
-  }
- free(p); free(q);
+  snprintf(sErrMsg, MAX_LINE_LENGTH, "dirfile '%s' excludes '%s'\n",
+      gl_launcherDirFile.m_sPath,
+      sLauncherPath);
+  return lineParseWarn;
  }
 
  sValue = gl_launcherElement[LAUNCHER_ELEMENT_EXEC].sValue;
