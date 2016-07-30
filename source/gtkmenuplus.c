@@ -1183,6 +1183,7 @@ enum LineParseResult variableEvaluate(INOUT struct Variable* pVariable, OUT gcha
   return lineParseFail;
  }
  strcpy(pVariable->m_sValue, sEvalResult);
+ pVariable->m_nValueLen = strlen(pVariable->m_sValue);
  return lineParseOk;
 }
 
