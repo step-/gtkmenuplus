@@ -10,14 +10,14 @@ submenu = A
 submenu = B
 submenu = C
 # submenu = D
-launcher=../test/1
+launcher=nest
 # endsubmenu
 endsubmenu
 endsubmenu
 endsubmenu
 
 separator
-launcher=../test/1
+launcher=nest
 
 #separator
 #launcher=~/Downloads
