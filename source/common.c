@@ -81,6 +81,21 @@ GdkPixbuf* fileToPixBuf(gchar* sPathToIcon, IN guint uiIconSize, IN gboolean bSu
  return pGdkPixbuf;
 }
 
+// Update: {{{
+// make_absolute_path isn't needed after all. The reason is that version
+// 1.00 defines all script paths to be relative to the path of the menu
+// configuration file.  So, specifying argv[1] as a relative path might
+// lead to unexpected results, because different relative path bases
+// could be compounded (working dir vs. configuration file path), i.e.:
+//   cd test/../source/gtk2
+//   gtkmenuplus ../../test/START <- relative to dir gtk2
+//   # in START:
+//   scriptfile = $0  <- value: ../../START
+//   mWORKDIR == echo $scriptfile <- relative to dir test
+//   # end result:  $mWORKDIR != working dir!
+
+#if NEVER_DEFINED
+
 // Make an absolute path. This is a work around for a problem in
 // expand_path, which I, step, don't want to touch at the moment.
 // expand_path returns an invalid path when argv[1] and the path
@@ -115,6 +130,8 @@ int make_absolute_path(IN const gchar *sPath, OUT gchar *sAbs) // used by initDi
  if (*outf) unlink(outf);
  return err; // 0(Ok) <>0(error)
 }
+
+#endif //NEVER_DEFINED }}}
 
 //deals with ./, ~.
 gchar * expand_path_tilda_dot(IN const gchar *sPath, IN const gchar* sBasePath)

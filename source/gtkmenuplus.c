@@ -748,10 +748,12 @@ gboolean initDirectory(OUT gchar* sDirBuff, IN guint nBuffSize, IN gchar* sFileN
 
  gchar sAbsPath[MAX_PATH_LEN + 1];
  strcpy(sAbsPath, sFileName);
+#ifdef NEVER_DEFINED
  if (*sAbsPath != '/') // work-around for a problem in expand_path
   make_absolute_path(sAbsPath, sAbsPath); // ignore error, if any
  // If an error occurred here, there are still chances that it won't
  // matter.  If it will matter then other errors will be caught later.
+#endif //NEVER_DEFINED
 
  gchar* pLastSep = strrchr(sAbsPath, '/');
  gboolean bNoPath = FALSE;

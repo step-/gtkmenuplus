@@ -134,9 +134,28 @@ Paths:
   
   Relative paths may begin with "./" and/or include "../", 
   begin with the name of a directory or simply name a file.  
-  
+
   Paths beginning with a dot will be taken to be relative to the 
   path of the menu configuration file specified on the gtkmenuplus command line.
+
+    Warning: If the path specified on the command line is itself relative,
+    your script lines might end up resolving that path relative to the
+    path of the configuration file rather that to the working directory.
+    This is almost certainly going to lead to unexpected results and errors.
+    It is recommended to specify the path on the command line as a full
+    path - or as a relative path only in case the working directory
+    coincides with the script directory.
+
+    This warning applies to the remainder of this section.
+
+    Simple example of how things might break in your script
+
+      cd test/../source/gtk2
+      gtkmenuplus ../../test/START <- relative to dir gtk2
+      # in START:
+      scriptfile = $0  <- value: ../../START
+      mWORKDIR == echo $scriptfile <- relative to dir test
+      # end result:  $mWORKDIR != working dir!
 
   A path which is a plain filename or which begins with a directory name is taken to be relative to 
   the menu configuration file specified on the gtkmenuplus command line, with the following exceptions:
