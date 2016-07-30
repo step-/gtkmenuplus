@@ -1,0 +1,23 @@
+#!/root/bin/gtkmenuplus
+
+configure = endsubmenu noicons
+
+submenu = _test tools
+icon = gtkmenuplus
+if= [ -n "$mTESTFILE" ] && echo yes || echo no
+item = _edit
+cmd = geany $mTESTFILE
+tooltip = edit $mTESTFILE
+endif
+if= [ -n "$mDIR" ] && echo yes || echo no
+item = _tree
+cmd = env TESTFILE=$mTESTFILE ./lib/common.sh tree $mDIR
+tooltip = show tree of $mDIR
+endif
+
+separator
+item = _select
+icon = gtk-select-color
+tooltip = select and run a different test
+cmd = env TESTFILE=$mTESTFILE ./lib/common.sh list
+endsubmenu

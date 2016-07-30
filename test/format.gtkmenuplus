@@ -1,14 +1,10 @@
 #!/root/bin/gtkmenuplus
 
-# Test format=
-# gdb breakpoints:
-#  formattingInit if *sFormat --/these two pair up, in a sense
-#  commitSubMenu @memcpy ------'
-#  onFormat
-#  applyFormatting
-#  addFormatting
-
+#-------------------------------------------
 configure = endsubmenu noicons
+mTESTFILE = $0 # required
+include = lib/common.gtkmenuplus
+#-------------------------------------------
 
 item = tooltipformat: PASS if all tooltips are magenta regardless of level
 tooltipformat= foreground="magenta"

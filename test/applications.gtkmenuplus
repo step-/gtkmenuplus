@@ -1,6 +1,10 @@
 #!/root/bin/gtkmenuplus
 
+#-------------------------------------------
 configure = endsubmenu noicons
+mTESTFILE = $0 # required
+include = lib/common.gtkmenuplus
+#-------------------------------------------
 
 DO_ITEMS=no
 

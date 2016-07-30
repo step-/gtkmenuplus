@@ -34,4 +34,4 @@ clean:
 	rm -f *.o gtkmenuplus
 
 test: all
-	./gtkmenuplus ../../test/1.gtkmenuplus
+	./gtkmenuplus $(shell realpath ../../test/START)

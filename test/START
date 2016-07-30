@@ -1,0 +1,10 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+mTESTFILE = $0 # required
+#-------------------------------------------
+
+format = size="x-large"
+tooltipformat = size="x-large"
+include = lib/common.gtkmenuplus
