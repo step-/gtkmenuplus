@@ -31,7 +31,7 @@ Version 1.1.0 adds:
 
  * Some icon specifications that couldn't be loaded now can.
 
-For an application of the launcherargs feature see my shell script
-[roxmm](https://github.com/step-/rox-filer-trove/),
+For an application of `launcher=` nesting and `launcherargs=` features
+see my shell script [roxmm](https://github.com/step-/script-trove/),
 which generates a ROX-Filer right-click menu look-alike for a given file
 or directory.
