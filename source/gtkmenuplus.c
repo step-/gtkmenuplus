@@ -1990,7 +1990,7 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* sLocation)
 }
 
 // ----------------------------------------------------------------------
-enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuEntry* pme, gboolean bRequired) // used by fillSubMenuEntry, dirFileInit
+enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuEntry* pme, gboolean bRequired) // used by fillSubMenuEntry, onLauncherDirFile
 // ----------------------------------------------------------------------
 {
  int fd;
@@ -2053,7 +2053,9 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
 #endif
   STRCPY_IF(pme->m_sCategory, gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue);
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
-  // "LauncherDirFile=dirfile"'s Format=value is in gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue
+  // .desktop file entry "format=value" pertains to keyword
+  // "launcherdirfile=" only, so it's copied in onLauncherDirFile()
+  // instead of here.
 #endif
   return lineParseOk;
  }
@@ -2380,7 +2382,9 @@ lineParseResult = fillMenuEntry(gl_sLinePostEq, &gl_launcherDirFile.m_menuEntry,
  if (lineParseResult != lineParseOk)
   return lineParseResult;
 
- strcpy(gl_launcherDirFile.m_sFormatEq, gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue);
+#if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+ STRCPY_IF(gl_launcherDirFile.m_sFormatEq, gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue);
+#endif
 
  // after this, dirfile path is only used for error messages, so we shorten it
  strcpy(gl_launcherDirFile.m_sPath, gl_sLinePostEq);
