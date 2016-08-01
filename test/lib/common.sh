@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 # All relative paths are based in the configuration file directory.
 if ! cd "${TESTFILE%/*}"; then
@@ -17,7 +17,7 @@ case $1 in
     sed 's/..//' |
     yad --geometry 500x500+60+60 \
       --list --listen --column="Test file:TEXT" \
-      --dclick-action="sh -c 'set -x; unset TESTFILE; \"$GTKMENUPLUS\" \"\$0\"'"
+      --dclick-action="sh -c 'unset TESTFILE; \"$GTKMENUPLUS\" \"\$0\"'"
     ;;
   tree) # $2-DIR
     tree -a "$2" |
