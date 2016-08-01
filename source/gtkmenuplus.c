@@ -1957,26 +1957,34 @@ int lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used by onL
 }
 
 // ----------------------------------------------------------------------
-void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* at) // used by onLauncher
+void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* sLocation) // used by onLauncher
 // ----------------------------------------------------------------------
 {
- if (*pMenuEntryPending->m_sErrMsg)
+ gchar *sErrMsg = pMenuEntryPending->m_sErrMsg;
+ if(sErrMsg && *sErrMsg)
  {
-  void *mp = malloc(MAX_LINE_LENGTH + 1);
+  gchar *mp = malloc(MAX_LINE_LENGTH + 1);
   if (mp)
   {
-   snprintf(mp, MAX_LINE_LENGTH, "%s%s%s%s%s",
-    gl_sLauncherErrMsg,
-    at ? "" : "", at, at ? ": " : "", pMenuEntryPending->m_sErrMsg);
+   // While reaping the ErrMsg, check if it starts with its Location. If
+   // it doesn't then prepend the Location+": " to the ErrMsg.
+   gboolean bPrepended = sLocation
+     && sErrMsg == strstr(sErrMsg, sLocation)
+     && ':' == *(sErrMsg + strlen(sLocation));
+   snprintf(mp, MAX_LINE_LENGTH, "%s%s%s%s",
+       gl_sLauncherErrMsg,
+       bPrepended ? "" : sLocation,
+       bPrepended ? "" : ": ",
+       sErrMsg);
    shorten(mp, mp);
    strncpy(gl_sLauncherErrMsg, mp, MAX_LINE_LENGTH);
    free(mp);
-   *pMenuEntryPending->m_sErrMsg = '\0';
+   *sErrMsg = '\0';
   }
   else
   {
     perror("malloc");
-    fprintf(stderr, pMenuEntryPending->m_sErrMsg);
+    fprintf(stderr, "%s: %s\n", sLocation, sErrMsg);
   }
  }
 }
@@ -2279,7 +2287,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
       else
       {
        shorten(sLauncherPath1, s);
-       strncat(s, " -> symlink warning", MAX_PATH_LEN);
+       strncat(s, " -> warning", MAX_PATH_LEN);
        perror(s);
        free(s);
       }
@@ -2563,15 +2571,8 @@ retry:
       *sIconExt = *sErrMsg = '\0';
       goto retry;
     }
-   void *pm = malloc(MAX_LINE_LENGTH + 1);
    gchar m[] = "Can't get icon from .desktop spec";
-   if (pm)
-   {
-    snprintf(pm, MAX_LINE_LENGTH, "%s: %s: %s", sLauncherPath, m, sErrMsg);
-    strcpy(sErrMsg, pm);
-    free(pm);
-   }
-   else snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n", m);
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n", m);
    return lineParseWarn;
   }
 
