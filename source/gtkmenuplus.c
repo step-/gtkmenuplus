@@ -1970,6 +1970,7 @@ int lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used by onL
 void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* sLocation) // used by onLauncher
 // ----------------------------------------------------------------------
 {
+ // TODO rewrite to hold an unlimited list of strings, which msgToUser dumps on exit.
  gchar *sErrMsg = pMenuEntryPending->m_sErrMsg;
  if(sErrMsg && *sErrMsg)
  {
