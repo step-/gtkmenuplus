@@ -635,6 +635,12 @@ gchar* shorten(IN gchar *in, OUT gchar *out) //called by msgToUser, reapErrMsg
  gchar *p; gchar *q; gchar *r;
  gchar *path; guint npath;
  path = gl_sScriptDirectory; // obvious path
+ if (!*path)
+ {
+  if(in != out)
+   strcpy(out, in);
+  return out;
+ }
  npath = strlen(path);
  char *result = strdup(in);
  if (!result)
@@ -2152,18 +2158,18 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  // Correction needed when readLine gets "launcher=dir" nested in "submenu=".
  pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
 
- // permit file
+ // permit launcher=file and launcher=symlink-to-file (stat(2) follows)
  if (S_ISREG(statbuf.st_mode))
   return processLauncher(gl_sLinePostEq, lineParseFail, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
 
-// forbid non-directory
+// forbid launcher=non-directory or launcher=non-symlink-to-directory
  if (!S_ISDIR(statbuf.st_mode))
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "launcher= '%s' is not a launcher file or a directory\n", gl_sLinePostEq);
   return lineParseFail;
  }
 
- //permit directory unless max menu depth exceeded
+ //enter (linked-to) directory unless max menu depth exceeded
  if (gl_uiCurDepth >= MAX_SUBMENU_DEPTH)
   return lineParseWarn;
 
