@@ -956,6 +956,7 @@ void menuEntrySet(struct MenuEntry* pmeCurrent, IN funcOnMenuEntry fnCommitIn, I
  pmeCurrent->m_uiDepth = uiCurDepth;
  *(pmeCurrent->m_sErrMsg) = '\0';
  *(pmeCurrent->m_sCategory) = '\0';
+ pmeCurrent->m_gtkWidget = NULL;
 }
 
 // ---------------------------------------------------------------------- AC

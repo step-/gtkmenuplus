@@ -1496,6 +1496,8 @@ enum LineParseResult commitSubMenu(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
 {
  GtkWidget* pGtkWdgtCurrentSubMenu = gtk_image_menu_item_new_with_mnemonic(pMenuEntryPending->m_sTitle);
+ // Pass the sub-menu entry widget up to the caller, should it need to destroy the widget.
+ pMenuEntryPending->m_gtkWidget = pGtkWdgtCurrentSubMenu;
  gtk_menu_shell_append(GTK_MENU_SHELL (gl_gtkWmenu[pMenuEntryPending->m_uiDepth]), pGtkWdgtCurrentSubMenu);
  gl_gtkWmenu[pMenuEntryPending->m_uiDepth + 1] = gtk_menu_new();
  gtk_menu_item_set_submenu(GTK_MENU_ITEM (pGtkWdgtCurrentSubMenu), gl_gtkWmenu[pMenuEntryPending->m_uiDepth + 1]);
@@ -2280,8 +2282,8 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     if (gl_nLauncherCount == nCountBefore)
     { //No
      fprintf(stderr, "No launchers displayed for %s\n", sLauncherPath1);
-     // Uncommit the sub-menu. TODO
-     //gtk_widget_destroy(gl_gtkWmenu[pMenuEntryPending->m_uiDepth +1]);
+     // Uncommit the sub-menu entry.
+     gtk_widget_destroy(pMenuEntryPending->m_gtkWidget);
     }
    }
    if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
