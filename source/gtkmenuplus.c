@@ -50,6 +50,7 @@
 //#include <sys/sysctl.h>  // sysctl
 //#include <dirent.h>
 #include <errno.h>
+#include <assert.h>
 
 #ifndef PATH_ELEMENT_SPEC_USES_REGEX
  #include <fnmatch.h>
@@ -92,6 +93,7 @@ gchar gl_sLauncherDB[MAX_PATH_LEN + 1]; // launcher=dir/** list file
 gchar gl_sLauncherErrMsg[MAX_LINE_LENGTH + 1]; // launcher=dir/ cumulative errors
 int   gl_nLauncherReadLineDepth; // set by main()@readLine when it reads "launcher="
 struct DirFile gl_launcherDirFile; // set by onLauncherDirFile
+uint gl_nLauncherCount = 0; // how many .desktop files did effectively display
 #endif
 
 struct Params;
@@ -2255,22 +2257,35 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    lineParseResult = commitSubMenu(pMenuEntryPending);
    if (lineParseResult == lineParseOk)
    {
-    pMenuEntryPending->m_uiDepth++; // since Ok: m_uiDepth <- gl_uiCurDepth
-    // Recursive pretend "launcher=": pair onLauncher and onSubMenuEnd together
+    pMenuEntryPending->m_uiDepth++; // since commitSubMenu Ok: m_uiDepth <- gl_uiCurDepth
+
+    // Recursive pretend "launcher="
+    //   After onLauncher thou shall call onSubMenuEnd and their results be paired
     strcpy(gl_sLinePostEq, sLauncherPath1);
+    uint nCountBefore = gl_nLauncherCount;
     enum LineParseResult pairedResult = onLauncher(pMenuEntryPending);
     reapErrMsg(pMenuEntryPending, sLauncherPath1); // if any
+    //
     // Pretend "submenuend"
     gboolean sav = gl_bConfigKeywordUseEndSubMenu;
     gl_bConfigKeywordUseEndSubMenu = TRUE; // pretend "configure=submenuend"
     lineParseResult = onSubMenuEnd(pMenuEntryPending); // if Ok: gl_uiCurDepth--
+    assert(lineParseResult == lineParseOk);
+    pMenuEntryPending->m_uiDepth--; // since onSubMenuEnd Ok: m_uiDepth <- gl_uiCurDepth
     gl_bConfigKeywordUseEndSubMenu = sav;
-    reapErrMsg(pMenuEntryPending, NULL); // if any
+    //reapErrMsg(pMenuEntryPending, NULL); // if any
     lineParseResult = pairedResult != lineParseOk ? pairedResult : lineParseResult;
+
+    // Did we actually add any entries to the committed sub-menu?
+    if (gl_nLauncherCount == nCountBefore)
+    { //No
+     fprintf(stderr, "No launchers displayed for %s\n", sLauncherPath1);
+     // Uncommit the sub-menu. TODO
+     //gtk_widget_destroy(gl_gtkWmenu[pMenuEntryPending->m_uiDepth +1]);
+    }
    }
    if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
     goto break_this_loop;
-   pMenuEntryPending->m_uiDepth--; // since Ok: m_uiDepth <- gl_uiCurDepth
 
    strcpy(gl_sLinePostEq, gl_sLinePostEq1);
    continue; // on to the next item
@@ -2543,7 +2558,10 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
   }  // if (strlen(sValue) > MAX_PATH_LEN - 1)
   strcpy(gl_sCmds[gl_uiCurItem], sValue);
  } // if (sValue)
- return onIconForLauncher(sLauncherPath, uiDepth, sErrMsg);
+ enum LineParseResult lineParseResult = onIconForLauncher(sLauncherPath, uiDepth, sErrMsg);
+ if (lineParseResult == lineParseOk)
+  ++gl_nLauncherCount;
+ return lineParseResult;
 }
 
 // ---------------------------------------------------------------------- AC
