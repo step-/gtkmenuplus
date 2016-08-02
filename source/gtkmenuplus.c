@@ -1915,7 +1915,7 @@ off_t createLauncherDB(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMs
  int maxdepth = MAX_SUBMENU_DEPTH - gl_nLauncherReadLineDepth - 1;
  maxdepth = maxdepth > 0 ? maxdepth : 1;
  if (snprintf(cmd, MAX_PATH_LEN,
-       "\"${GTKMENUPLUS_FIND:-find}\" '%s' -maxdepth ${GTKMENUPLUS_SCAN_DEPTH:-%d} '(' -type f -o -type l ')' -name '*.desktop' > '%s'",
+       "\"${GTKMENUPLUS_FIND:-find}\" -L '%s' -maxdepth ${GTKMENUPLUS_SCAN_DEPTH:-%d} '(' -type f -o -type l ')' -name '*.desktop' > '%s'",
          rpath, maxdepth, outf))
  {
   system(cmd);
@@ -2196,12 +2196,12 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 #endif
   free(namelist[i]);
 
+  if (
 #ifdef _DIRENT_HAVE_D_TYPE
-  if (DT_DIR == d_type)
-#else
-  if(lstat(sLauncherPath1, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
+   DT_DIR == d_type || // speed up common case "directory"
 #endif
-  // Directory path: walk the tree.
+   (stat(sLauncherPath1, &statbuf) == 0 && S_ISDIR(statbuf.st_mode)))
+  // Path of directory or of symlink-to-directory : walk the tree.
   {
    if('.' == sLauncherPath1[len1 -1]) continue; // skip . and ..
 
