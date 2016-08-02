@@ -70,7 +70,10 @@ void                 trim_trailing(IN gchar* sPosBeg, IN gchar* sPos);
 //==============================================================================================
 //==============================================================================================
 
-enum LineParseResult { lineParseOk = 0, lineParseWarn = 1, lineParseFail = 3, lineParseFailFatal = 3}; // gl_sLineParseLabel depends on order
+enum LineParseResult { lineParseOk = 0, lineParseWarn = 1,
+  lineParseNoDisplay = 2,
+  lineParseFail = 4, lineParseFailFatal = 4}; // gl_sLineParseLabel depends on order
+
 
 enum LineType {                         // returned by readLine
  LINE_UNDEFINED                    = 0, // never returned by readLine

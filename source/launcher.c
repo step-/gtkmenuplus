@@ -23,6 +23,7 @@ struct LauncherElement gl_launcherElement[] =
  {"Format",      "#format",     FALSE,        FALSE,    FALSE,         NULL,   NULL,        NULL },
  //Format= not in .desktop spec, it's for .desktop.directory only
  {"Type",        "#type",       FALSE,        FALSE,    FALSE,         NULL,   NULL,        NULL },
+ {"NoDisplay",   "#nodisplay",  FALSE,        FALSE,    FALSE,         NULL,   NULL,        NULL },
 };
 
 guint gl_nLauncherElements = sizeof(gl_launcherElement)/sizeof(struct LauncherElement);

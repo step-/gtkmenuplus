@@ -2052,6 +2052,10 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   g_key_file_free(pGKeyFile);
   if (!bOk) return lineParseFail;
 
+  /*
+   * Callers don't need NoDisplay= value, so not implemented here.
+  */
+
   STRCPY_IF(pme->m_sTitle, gl_launcherElement[LAUNCHER_ELEMENT_NAME].sValue);
   STRCPY_IF(pme->m_sIcon,  gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue);
 #if  !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
@@ -2311,7 +2315,9 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
       lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
   if (lineParseResult != lineParseOk)
     reapErrMsg(pMenuEntryPending, sLauncherPath1);
-  if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
+  if (lineParseResult != lineParseOk
+      && lineParseResult != lineParseWarn
+      && lineParseResult != lineParseNoDisplay)
   {
 break_this_loop: // IN lineParseResult
    continue; // don't break - go back and treat all inferior errors as soft errors
@@ -2491,6 +2497,11 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  g_key_file_free(pGKeyFile);
 
  if (!bOk) return lineParseFail;
+
+ // If "NoDisplay=true" parsed then discard this launcher.
+ sValue = gl_launcherElement[LAUNCHER_ELEMENT_NODISPLAY].sValue;
+ if (sValue && 0 == strcmp(sValue, "true"))
+  return lineParseNoDisplay;
 
  // Apply Category=filter_list, if any.
  //TODO global *gl_sLauncherDirFile' categories vs. local .desktop.directory categories
