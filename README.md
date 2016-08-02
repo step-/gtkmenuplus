@@ -21,15 +21,17 @@ Version 1.1.0 adds:
    `launcher=` generates. This makes it possible to pass parameters to
    menu entries that derive from launcher files.
 
- Some issues of the original 1.00 source code are fixed. Notably:
+ Some errors or omissions of the original 1.00 source code are fixed. Notably:
 
  * No more core dumps on deeply nested sub-menus. There was and there is
    a hard limit of 5 on sub-menu depth.
  
- * `Format=`_single-format-string_ now works to export formatting to
+ * `Format=`_single-format-string_ works to export formatting to
    cascaded sub-menus (nested with `submenu=`).
 
  * Some icon specifications that couldn't be loaded now can.
+
+ * `launcher=` ignores a .desktop file that includes line _NoDisplay=true_.
 
 For an application of `launcher=` nesting and `launcherargs=` features
 see my shell script [roxmm](https://github.com/step-/script-trove/),

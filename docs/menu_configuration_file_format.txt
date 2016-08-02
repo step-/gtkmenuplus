@@ -403,7 +403,8 @@ launcher=path_to_launcher(s)
   A launcher is a Gnome .desktop file used to launch an application.
   It usually includes a name, executable, comment (tooltip) and icon.
 
-  If you provide a path to a single .desktop file, it will be used to create a menu entry.
+  If you provide a path to a single .desktop file, it will be used to create a menu entry,
+  unless it includes a line "NoDisplay=true".
 
   Any preceding "format=format_string" line will apply to that entry, but of course you won't be likely to
   format parts of the entry name or comment using <span>..</span> tags.
