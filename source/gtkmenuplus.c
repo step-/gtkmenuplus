@@ -1917,7 +1917,7 @@ off_t createLauncherDB(IN const gchar *rpath, OUT gchar *outf, OUT gchar* sErrMs
  int maxdepth = MAX_SUBMENU_DEPTH - gl_nLauncherReadLineDepth - 1;
  maxdepth = maxdepth > 0 ? maxdepth : 1;
  if (snprintf(cmd, MAX_PATH_LEN,
-       "\"${GTKMENUPLUS_FIND:-find}\" -L '%s' -maxdepth ${GTKMENUPLUS_SCAN_DEPTH:-%d} '(' -type f -o -type l ')' -name '*.desktop' > '%s'",
+       "\"${GTKMENUPLUS_FIND:-find}\" -L '%s' -maxdepth ${GTKMENUPLUS_SCAN_DEPTH:-%d} '(' -type f -o -type l ')' -name '*.desktop' > '%s' 2>&1",
          rpath, maxdepth, outf))
  {
   system(cmd);
