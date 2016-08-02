@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=launcherdirfile= PASS if yes=0 no=1 background=lime
+Comment=dirfile 2.directory Categories=omit-this-file;
+Icon=gtk-close
+Type=Directory
+Categories=omit-this-file;
+# Format applies to contained items, and cascades.
+Format=background="lime"
+# You can also apply direct (local) formatting to Name= and Comment=
+# (label and tooltip), i.e.
+# Name=<span>background="green">submenu label</span>

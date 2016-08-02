@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=1d (no category)
+Comment=this item has no categories
+Exec=true
+Terminal=false
+Type=Application
+Icon=gtk-yes
+Categories=

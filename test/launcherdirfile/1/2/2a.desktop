@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=1a (c1)
+Comment=category c1
+Exec=true
+Terminal=false
+Type=Application
+Icon=gtk-yes
+Categories=c1;

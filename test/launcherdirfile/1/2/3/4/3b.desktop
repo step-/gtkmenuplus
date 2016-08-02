@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=1b (omit-this-file)
+Comment=category omit-this-file
+Exec=true
+Terminal=false
+Type=Application
+Icon=gtk-no
+Categories=omit-this-file;

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=dirfile 0.directory Categories=c1;c2; background=yellow
+Comment=Categories=c1;c2;
+Icon=gtk-close
+Type=Directory
+Categories=c1;c2;
+# Format applies to contained items, and cascades.
+Format=background="yellow"
+# You can also apply direct (local) formatting to Name= and Comment=
+# (label and tooltip), i.e.
+# Name=<span>background="green">submenu label</span>
