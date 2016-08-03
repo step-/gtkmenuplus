@@ -120,7 +120,7 @@ gboolean                  gl_bSetMenuPos =         FALSE;                       
 
 guint                     gl_nMenuEntries =      INITIAL_NUMB_MENU_ENTRIES;
 
-gchar                     (*gl_sCmds)[MAX_PATH_LEN + 1];
+gchar                     (*gl_sCmds)[MAX_PATH_LEN + 1]; //dynamically reallocated, varies with gl_nMenuEntries
 
 
 GtkWidget*                gl_gtkWmenu[MAX_SUBMENU_DEPTH];
@@ -1359,7 +1359,7 @@ enum LineParseResult commitItem(INOUT struct MenuEntry* pMenuEntryPending)
 GtkWidget* makeItem(IN gchar* sItem, IN gchar* sCmd, IN gchar* sTooltip, IN guint uiDepth) // counts up gl_uiCurItem
 // ----------------------------------------------------------------------
 {
-//insert item into menu
+ //insert item into menu
  if (!sItem)
   return NULL;
 
@@ -2562,7 +2562,10 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
   }  // if (strlen(sValue) > MAX_PATH_LEN - 1)
   strcpy(gl_sCmds[gl_uiCurItem], sValue);
  } // if (sValue)
- enum LineParseResult lineParseResult = onIconForLauncher(sLauncherPath, uiDepth, sErrMsg);
+ enum LineParseResult lineParseResult = resizeCommandBuffer(sErrMsg);
+ if (lineParseResult != lineParseOk)
+  return lineParseResult;
+ lineParseResult = onIconForLauncher(sLauncherPath, uiDepth, sErrMsg);
  if (lineParseResult == lineParseOk)
   ++gl_nLauncherCount;
  return lineParseResult;
@@ -2574,7 +2577,7 @@ enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth
 {
  GtkWidget *pGtkWdgtCurrent = makeItem(gl_launcherElement[LAUNCHER_ELEMENT_NAME].sValue,
                                        gl_sCmds[gl_uiCurItem], // need to be available at runItem time
-                                       gl_launcherElement[LAUNCHER_ELEMENT_COMMENT].sValue, uiDepth); // counts up makeItem
+                                       gl_launcherElement[LAUNCHER_ELEMENT_COMMENT].sValue, uiDepth); // counts up gl_uiCurItem
  if (!pGtkWdgtCurrent)
   return lineParseFail;
 
@@ -2616,6 +2619,7 @@ retry:
     }
    gchar m[] = "Can't get icon from .desktop spec";
    snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n", m);
+   gtk_widget_destroy(pGtkWdgtCurrent);
    return lineParseWarn;
   }
 
