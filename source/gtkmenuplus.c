@@ -545,7 +545,7 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
    }
    else
    {
-    snprintf(menuEntryPending.m_sErrMsg, MAX_LINE_LENGTH, "%s\n", "programming error: getLinetypeAction( returns LINE_UNDEFINED"); // both MAX_LINE_LENGTH
+    snprintf(menuEntryPending.m_sErrMsg, MAX_LINE_LENGTH, "%s\n", "programming error: getLinetypeAction returns LINE_UNDEFINED"); // both MAX_LINE_LENGTH
     lineParseResult = lineParseFail;
     gl_bOkToDisplay = FALSE;
    } // // if (pLinetypeAction)
@@ -2002,7 +2002,7 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* sLocation)
 }
 
 // ----------------------------------------------------------------------
-enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuEntry* pme, gboolean bRequired) // used by fillSubMenuEntry, onLauncherDirFile
+enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuEntry* pme, gboolean bRequired) // used by fillSubMenuEntry, onLauncherDirFile, onLauncherSubMenu
 // ----------------------------------------------------------------------
 {
  int fd;
@@ -2421,6 +2421,49 @@ lineParseResult = fillMenuEntry(gl_sLinePostEq, &gl_launcherDirFile.m_menuEntry,
  // after this, dirfile path is only used for error messages, so we shorten it
  strcpy(gl_launcherDirFile.m_sPath, gl_sLinePostEq);
  shorten(gl_launcherDirFile.m_sPath, gl_launcherDirFile.m_sPath);
+
+ return lineParseOk;
+}
+
+// ----------------------------------------------------------------------
+enum LineParseResult onLauncherSubMenu(INOUT struct MenuEntry* pMenuEntryPending)
+// ----------------------------------------------------------------------
+{
+ gchar msg[] = "launchersubmenu= requires file\n";
+ if (!(*gl_sLinePostEq))
+ {
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg);
+  return lineParseFail;
+ }
+
+ enum LineParseResult lineParseResult = expand_path(gl_sLinePostEq, gl_sScriptDirectory,
+     "launchersubmenu", pMenuEntryPending->m_sErrMsg); // can rewrite gl_sLinePostEq
+ if (lineParseResult != lineParseOk)
+  return lineParseResult;
+
+ struct stat sb;
+ if (stat(gl_sLinePostEq, &sb) == -1 || !(S_ISREG(sb.st_mode) || S_ISLNK(sb.st_mode)))
+ {
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
+      "launchersubmenu='%s': file not found\n", gl_sLinePostEq);
+  return lineParseFail;
+ }
+
+ lineParseResult = onSubMenu(pMenuEntryPending); // if OK ++gl_uiCurDepth
+ if (lineParseResult != lineParseOk)
+  return lineParseResult;
+
+ strcpy(pMenuEntryPending->m_sMenuEntryType, "launchersubmenu=");
+ lineParseResult = fillMenuEntry(gl_sLinePostEq, pMenuEntryPending, FALSE); //no check for required
+ if (lineParseResult != lineParseOk)
+  return lineParseResult;
+
+#if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+ // TODO not sure what to do about "Format=" which DirFile may carry in
+ // gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue); Ultimately,
+ // commitSubMenu >> addFormatting to handle formatting stored in
+ // gl_FormattingSubMenu[uiCurDepth]
+#endif
 
  return lineParseOk;
 }

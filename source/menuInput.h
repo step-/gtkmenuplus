@@ -100,18 +100,19 @@ enum LineType {                         // returned by readLine
  LINE_LAUNCHER                     = 18,
  LINE_LAUNCHER_ARGS                = 19,
  LINE_LAUNCHER_DIRFILE             = 20,
- LINE_LAUNCHER_DIR                 = 21,
- LINE_INCLUDE                      = 22,
- LINE_SUBMENU_END                  = 23,
- LINE_CONFIGURE                    = 24,
- LINE_EOF                          = 25,
- LINE_ERROR                        = 26,  // the error keyword
- LINE_KEYWORD_IS_VARIABLE          = 27,  // will become variable def, not error
- LINE_ABSOLUTE_PATH                = 28,
- LINE_BAD_LIMIT_LOW                = 29,  //move when LINE_KEYWORD_IS_VARIABLE not an error
- LINE_BAD_LEN                      = 29,
- LINE_BAD_NO_EQ                    = 30,
- LINE_BAD_LIMIT_HI                 = 30
+ LINE_LAUNCHER_SUBMENU             = 21,
+ LINE_LAUNCHER_DIR                 = 22,
+ LINE_INCLUDE                      = 23,
+ LINE_SUBMENU_END                  = 24,
+ LINE_CONFIGURE                    = 25,
+ LINE_EOF                          = 26,
+ LINE_ERROR                        = 27,  // the error keyword
+ LINE_KEYWORD_IS_VARIABLE          = 28,  // will become variable def, not error
+ LINE_ABSOLUTE_PATH                = 29,
+ LINE_BAD_LIMIT_LOW                = 30,  //move when LINE_KEYWORD_IS_VARIABLE not an error
+ LINE_BAD_LEN                      = 30,
+ LINE_BAD_NO_EQ                    = 31,
+ LINE_BAD_LIMIT_HI                 = 31
 };
 
 struct Keyword
@@ -262,6 +263,7 @@ enum LineParseResult onAbsolutePath(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending);
+enum LineParseResult onLauncherSubMenu(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDir(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg);
 #endif
