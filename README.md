@@ -14,7 +14,7 @@ Version 1.1.0 adds:
    contain launcher (.desktop) files. Nested sub-menu labels, tooltips,
    icons _and formatting_ can be controlled.
 
- * `launcher=`_directory_ can be nested in one or more `submenu=`
+ * `launcher=`_directory_ can also be nested in one or more `submenu=`
    keywords.
 
  * New keyword `launcherargs=` appends its argument to the command that
@@ -33,7 +33,6 @@ Version 1.1.0 adds:
 
  * `launcher=` ignores a .desktop file that includes line _NoDisplay=true_.
 
-For an application of `launcher=` nesting and `launcherargs=` features
-see my shell script [roxmm](https://github.com/step-/script-trove/),
-which generates a ROX-Filer right-click menu look-alike for a given file
-or directory.
+For an application of `launcher=` nesting and `launcherargs=` see my shell
+script [roxmm](https://github.com/step-/scripts-to-go/), which generates
+a ROX-Filer SendTo menu look-alike for a given file or directory.
