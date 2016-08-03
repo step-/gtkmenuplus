@@ -124,6 +124,7 @@ gchar                     (*gl_sCmds)[MAX_PATH_LEN + 1];
 
 
 GtkWidget*                gl_gtkWmenu[MAX_SUBMENU_DEPTH];
+GtkWidget*                gl_gtkMenuEntry[MAX_SUBMENU_DEPTH];
 
 #if !defined(_GTKMENUPLUS_NO_FORMAT_)
 struct Formatting        gl_FormattingSubMenu[MAX_SUBMENU_DEPTH];
@@ -1497,7 +1498,7 @@ enum LineParseResult commitSubMenu(INOUT struct MenuEntry* pMenuEntryPending)
 {
  GtkWidget* pGtkWdgtCurrentSubMenu = gtk_image_menu_item_new_with_mnemonic(pMenuEntryPending->m_sTitle);
  // Pass the sub-menu entry widget up to the caller, should it need to destroy the widget.
- pMenuEntryPending->m_gtkWidget = pGtkWdgtCurrentSubMenu;
+ gl_gtkMenuEntry[pMenuEntryPending->m_uiDepth] = pGtkWdgtCurrentSubMenu;
  gtk_menu_shell_append(GTK_MENU_SHELL (gl_gtkWmenu[pMenuEntryPending->m_uiDepth]), pGtkWdgtCurrentSubMenu);
  gl_gtkWmenu[pMenuEntryPending->m_uiDepth + 1] = gtk_menu_new();
  gtk_menu_item_set_submenu(GTK_MENU_ITEM (pGtkWdgtCurrentSubMenu), gl_gtkWmenu[pMenuEntryPending->m_uiDepth + 1]);
@@ -2284,7 +2285,8 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     { //No
      fprintf(stderr, "No launchers displayed for %s\n", sLauncherPath1);
      // Uncommit the sub-menu entry.
-     gtk_widget_destroy(pMenuEntryPending->m_gtkWidget);
+     gtk_widget_destroy(gl_gtkMenuEntry[pMenuEntryPending->m_uiDepth]);
+     gl_gtkMenuEntry[pMenuEntryPending->m_uiDepth] = NULL;
     }
    }
    if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)

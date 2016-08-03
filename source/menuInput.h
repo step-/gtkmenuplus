@@ -148,7 +148,6 @@ struct MenuEntry
  gchar           m_sIcon[MAX_PATH_LEN + 1];
  gchar           m_sMenuEntryType[20];
  gchar           m_sErrMsg[MAX_LINE_LENGTH + 1];
- GtkWidget*      m_gtkWidget; // to uncommit commitSubMenu
 
 #if !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
  gchar           m_sTooltip[MAX_LINE_LENGTH + 1];
