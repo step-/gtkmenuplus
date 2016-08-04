@@ -52,6 +52,8 @@ The remaining keywords are new in gtkmenuplus:
 "launcherdirectory=path_to_launcher_directory"
 "launcherdir=path_to_launcher_directory" (synonym for launcherdirectory)
 "launcherargs=arguments"
+"launcherdirfile=launcher_dirfile"
+"launchersubmenu=launcher_dirfile"
 
 "include=menu_configuration_file" or
 "include=path_to_directory[/file_glob] [directory_glob]" 
@@ -469,7 +471,7 @@ launcher=path_to_launcher(s)
 
 launcherdirfile=launcher_dirfile
 
-  After this line is encountered, properties of dirpath in all subsequent "launcher=dirpath" lines are read from launcher_dirfile.
+  After this line is encountered, properties of dirpath in all subsequent "launcher=dirpath" lines are read from launcher_dirfile (a short form of "launcher desktop directory file").
 
   A launcher_dirfile is a .desktop file, which omits "Exec=", and may include "Type=Directory" and "Format=formatting".
 
@@ -505,6 +507,13 @@ launcherdirfile=launcher_dirfile
     # You can also apply direct (local) formatting to Name= and Comment=
     # (label and tooltip), i.e.
     # Name=<span>background="green">submenu name</span>
+
+launchersubmenu=launcher_dirfile
+
+  "launchersubmenu=", in alternative to "submenu=", specifies a submenu_description to show in the menu listing.
+
+  Label, icon, and tooltip are read from launcher_dirfile instead of being specified through "icon=", etc.
+  In all other aspects, "launchersubmenu" works like ->"submenu".
 
 launcherargs=arguments
 
@@ -633,7 +642,7 @@ include=path_to_directory[/file_glob] [directory_glob]
 
 submenu=submenu_description
 
-  Denotes a submenu_description to show in the menu listing.
+  Denotes a submenu_description to show in the menu listing. See also "launchersubmenu=".
 
   It may be followed by "icon=" and/or "tooltip=" lines, which, if they are to relate to a given
   "submenu=", must precede lines with any other keyword except "if=", "elseif=", "else" or "endif".
