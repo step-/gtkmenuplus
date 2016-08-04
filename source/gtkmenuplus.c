@@ -146,7 +146,7 @@ const gchar*              gl_sHelpMsg = "\ngtkmenuplus version %s, copyright (C)
                                          "based on myGtkMenu.\n\n"
                                          "gtkmenuplus comes with ABSOLUTELY NO WARRANTY - see license file COPYING.\n\n"
                                          "Purpose: display a popup menu based on a menu configuration file.\n\n"
-                                         "Usage: gtkmenuplus menu_configuration_file\n\n"
+                                         "Usage: gtkmenuplus [Options '--'] menu_configuration_file\n\n"
                                          "test_menu.txt is an example menu_configuration_file.\n\n"
                                          "See README and usage.txt for further help.\n\n";
 
@@ -232,7 +232,9 @@ gboolean               expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffP
 
 #endif  // #if !defined(_GTKMENUPLUS_NO_VARIABLES_)
 
+void                  onDashDash();
 void                  onHelp();
+void                  onInfo();
 void                  onVersion();
 
 //vars, structs, const arrays
@@ -294,16 +296,20 @@ typedef void (*funcOption)(void);
 //alternative: http://developer.gnome.org/glib/2.33/glib-Commandline-option-parser.html
 struct CommandLineOption
 {
- const gchar* m_sOpt;
+ const gchar*  m_sOpt;
  gchar         m_cOpt;
  funcOption    m_pActionFunc;
- };
+};
 
- struct CommandLineOption gl_commandLineOption[] =
- {
-  {"help",    'h', onHelp},
-  {"version", 'v', onVersion}
- };
+struct CommandLineOption gl_commandLineOption[] =
+{
+ {"",        '-', onDashDash},
+ {"help",    'h', onHelp},
+ {"info",    'i', onInfo},
+ {"version", 'v', onVersion}
+};
+
+guint gl_nLastOption = 0; // command-line menu arguments start at this index +1
 
 extern const gchar*  gl_sIconRegexPat;
 extern const gchar*  gl_sUriSchema;
@@ -353,11 +359,13 @@ If this check causes you problems, take it out.
  g_set_prgname(PROGNAME);                    // Used to find PROGNAME.desktop file
  gtk_window_set_default_icon_name(PROGNAME); // Look in ../icons/hicolor/..
 
- if (argc > 1)
+ guint i;
+ for(i = 1; i < argc; i++)
  {
-  if (checkOptions(argv[1])) // catch version, help
-   exit(EXIT_SUCCESS);
+  if (checkOptions(argv[i]))
+   gl_nLastOption = i; // option handler may exit()
  }
+ argc -= gl_nLastOption; argv += gl_nLastOption; // shift out own options
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
  formattingInit(&(gl_FormattingSubMenu[0]), "\0", 0);
@@ -396,7 +404,7 @@ If this check causes you problems, take it out.
 
  if (pFile == NULL && *gl_sCmdLineConfig == '\0')
   exit(EXIT_FAILURE);
-//TO DO check for command-line confug
+//TO DO check for command-line config
 
  if (pFile)
  {
@@ -3149,10 +3157,26 @@ gboolean checkOptions(IN gchar* sOption)
 }
 
 // ---------------------------------------------------------------------- AC
+void onDashDash()
+// ----------------------------------------------------------------------
+{
+ ; // reached end of options marker "--"
+}
+
+// ---------------------------------------------------------------------- AC
 void onHelp()
 // ----------------------------------------------------------------------
 {
  g_print(gl_sHelpMsg, VERSION_TEXT);
+ exit(EXIT_SUCCESS);
+}
+
+guint gl_nOptInfo = 0; // increase message verbosity
+// ----------------------------------------------------------------------
+void onInfo()
+// ----------------------------------------------------------------------
+{
+ gl_nOptInfo++;
 }
 
 // ---------------------------------------------------------------------- AC
@@ -3160,6 +3184,7 @@ void onVersion()
 // ----------------------------------------------------------------------
 {
  g_print("%s\n", VERSION_TEXT);
+ exit(EXIT_SUCCESS);
 }
 
 // ----------------------------------------------------------------------
