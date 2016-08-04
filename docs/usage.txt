@@ -56,10 +56,20 @@ Usage:
          Note most top level items in test_menu.txt have tooltips if you hover over them.
 
 
-       gtkmenuplus -h
-       gtkmenuplus --help
-       gtkmenuplus -v
-       gtkmenuplus --version
+      gtkmenuplus -i
+      gtkmenuplus --info
+
+        Print more messages. Repeat -i to increse verbosity.
+
+      gtkmenuplus -h
+      gtkmenuplus --help
+      gtkmenuplus -v
+      gtkmenuplus --version
+
+      gtkmenuplus options -- arguments
+
+        To specify one or more of the above options, and add further menu arguments, you must
+        place "--" between the options and the arguments.
 
 
       gtkmenuplus -
