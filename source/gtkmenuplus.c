@@ -232,10 +232,11 @@ gboolean               expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffP
 
 #endif  // #if !defined(_GTKMENUPLUS_NO_VARIABLES_)
 
-void                  onDashDash();
-void                  onHelp();
-void                  onInfo();
-void                  onVersion();
+void        onDashDash();
+void        onHelp();
+guint       gl_nOptInfo = 0;
+void        onInfo();
+void        onVersion();
 
 //vars, structs, const arrays
 
@@ -685,7 +686,7 @@ void  msgToUser(IN enum LineParseResult lineParseResult, IN gchar* sErrMsg, IN g
 {
  if (lineParseResult == lineParseOk)
   fprintf(stderr, "%s: in msgToUser at line # %d\n", gl_sLineParseLabel[lineParseResult], uiLineNum);
- else
+ else if (gl_nOptInfo > 0 || lineParseResult != lineParseWarn)
  {
   shorten(sErrMsg, sErrMsg);
   fprintf(stderr, "%s: at line # %d:\n%s\n>>>  %s\n", gl_sLineParseLabel[lineParseResult], uiLineNum, sErrMsg, sLineAsRead);
@@ -1976,13 +1977,18 @@ int lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used by onL
 }
 
 // ----------------------------------------------------------------------
-void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, IN gchar* sLocation) // used by onLauncher
+void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult lineParseResult, IN gchar* sLocation) // used by onLauncher
 // ----------------------------------------------------------------------
 {
- // TODO rewrite to hold an unlimited list of strings, which msgToUser dumps on exit.
+ // TODO rewrite to hold an unlimited list of strings, which msgToUser will print on exit.
  gchar *sErrMsg = pMenuEntryPending->m_sErrMsg;
  if(sErrMsg && *sErrMsg)
  {
+  if (gl_nOptInfo == 0 || lineParseResult != lineParseWarn)
+  {
+    *sErrMsg = '\0';
+    return;
+  }
   gchar *mp = malloc(MAX_LINE_LENGTH + 1);
   if (mp)
   {
@@ -2251,7 +2257,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    lineParseResult = onSubMenu(pMenuEntryPending); // if Ok: sets pending commitSubmenu and gl_uiCurDepth++
    if (lineParseResult != lineParseOk)
    {
-    reapErrMsg(pMenuEntryPending, sLauncherPath1);
+    reapErrMsg(pMenuEntryPending, lineParseResult, sLauncherPath1);
     strcpy(gl_sLinePostEq, gl_sLinePostEq1);
     // On to the next sibling: a file will succeed, another directory will fail.
     continue;
@@ -2261,7 +2267,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    lineParseResult = fillSubMenuEntry(sLauncherPath1, pMenuEntryPending);
    if (lineParseResult != lineParseOk)
    {
-    reapErrMsg(pMenuEntryPending, sLauncherPath1);// if any
+    reapErrMsg(pMenuEntryPending, lineParseResult, sLauncherPath1);// if any
     // And carry on: *pMenuEntryPending is filled with fallback values anyway.
    }
 
@@ -2276,7 +2282,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     strcpy(gl_sLinePostEq, sLauncherPath1);
     uint nCountBefore = gl_nLauncherCount;
     enum LineParseResult pairedResult = onLauncher(pMenuEntryPending);
-    reapErrMsg(pMenuEntryPending, sLauncherPath1); // if any
+    reapErrMsg(pMenuEntryPending, pairedResult, sLauncherPath1); // if any
     //
     // Pretend "submenuend"
     gboolean sav = gl_bConfigKeywordUseEndSubMenu;
@@ -2285,7 +2291,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     assert(lineParseResult == lineParseOk);
     pMenuEntryPending->m_uiDepth--; // since onSubMenuEnd Ok: m_uiDepth <- gl_uiCurDepth
     gl_bConfigKeywordUseEndSubMenu = sav;
-    //reapErrMsg(pMenuEntryPending, NULL); // if any
+    //reapErrMsg(pMenuEntryPending, lineParseResult, NULL); // if any
     lineParseResult = pairedResult != lineParseOk ? pairedResult : lineParseResult;
 
     // Did we actually add any entries to the committed sub-menu?
@@ -2342,7 +2348,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   lineParseResult = processLauncher(sLauncherPath1,
       lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
   if (lineParseResult != lineParseOk)
-    reapErrMsg(pMenuEntryPending, sLauncherPath1);
+    reapErrMsg(pMenuEntryPending, lineParseResult, sLauncherPath1);
   if (lineParseResult != lineParseOk
       && lineParseResult != lineParseWarn
       && lineParseResult != lineParseNoDisplay)
@@ -3171,12 +3177,11 @@ void onHelp()
  exit(EXIT_SUCCESS);
 }
 
-guint gl_nOptInfo = 0; // increase message verbosity
 // ----------------------------------------------------------------------
 void onInfo()
 // ----------------------------------------------------------------------
 {
- gl_nOptInfo++;
+ gl_nOptInfo++; // increase message verbosity
 }
 
 // ---------------------------------------------------------------------- AC
