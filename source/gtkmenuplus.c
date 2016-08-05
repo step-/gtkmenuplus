@@ -1490,7 +1490,7 @@ enum LineParseResult onSubMenuEnd(INOUT struct MenuEntry* pMenuEntryPending)
 
  if (gl_uiCurDepth <= 0)
  {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", "\"endsubmenu\", encountered, no matchng \"submenu\"");
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", "\"endsubmenu\", encountered, no matching \"submenu\" or \"launchersubmenu\"");
   return lineParseFail;
  }
 #if !defined(_GTKMENUPLUS_NO_FORMAT_)
@@ -2297,7 +2297,8 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
     // Did we actually add any entries to the committed sub-menu?
     if (gl_nLauncherCount == nCountBefore)
     { //No
-     fprintf(stderr, "No launchers displayed for %s\n", sLauncherPath1);
+     if (gl_nOptInfo > 0) // TODO place message in the standard sErrMsg queue
+       fprintf(stderr, "No launchers displayed for %s\n", sLauncherPath1);
      // Uncommit the sub-menu entry.
      gtk_widget_destroy(gl_gtkMenuEntry[pMenuEntryPending->m_uiDepth]);
      gl_gtkMenuEntry[pMenuEntryPending->m_uiDepth] = NULL;
