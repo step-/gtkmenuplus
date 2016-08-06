@@ -102,32 +102,27 @@ GdkPixbuf* fileToPixBuf(gchar* sPathToIcon, IN guint uiIconSize, IN gboolean bSu
 // after a "keyword=" are both relative paths.
 // Note: GNU realpath(1) command chosen because, unlike realpath(3),
 // realpath(1) -m ignores non-existent path elements.
-// TODO re-write entirely based on library calls rather than system().
 int make_absolute_path(IN const gchar *sPath, OUT gchar *sAbs) // used by initDirectory
 // ----------------------------------------------------------------------
 {
- gchar outf[MAX_PATH_LEN + 1] = "";
  int err = -1;
- int fd;
-
- if (0 >= snprintf(outf, MAX_PATH_LEN, "%s/.gtkmenuplus-XXXXXX", P_tmpdir)
-  || -1 == (fd = mkstemp(outf)))
-  return err;
- close(fd);
+ FILE *fp;
+ guint = n;
  gchar cmd[MAX_PATH_LEN + 1];
- if (sprintf(cmd, "realpath -m '%s' > '%s'", sPath, outf)
-  && 0 == (err = system(cmd)))
+
+ if (sprintf(cmd, "realpath -m '%s'", sPath))
  {
-  FILE *fp;
-  if (NULL != (fp = fopen(outf, "r")))
+  if ((fp = popen(cmd, "r")))
   {
-   err = fgets(sAbs, MAX_PATH_LEN + 1, fp) <= 0;
-   if (*(sAbs + MAX_PATH_LEN + 1) == '\n')
-    *(sAbs + MAX_PATH_LEN + 1) = '\0';
+   if (0 < (n = fgets(sAbs, MAX_PATH_LEN + 1, fp)))
+   {
+    if (*(sAbs + n + 1) == '\n') *(sAbs + n + 1) = '\0';
+   }
+   if (err = pclose(fp)) perror("pclose");
   }
-  fclose(fp);
+  else perror("popen");
  }
- if (*outf) unlink(outf);
+ else fprint(stderr, "error line %d\n", __LINE__);
  return err; // 0(Ok) <>0(error)
 }
 
