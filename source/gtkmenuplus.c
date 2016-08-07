@@ -2034,8 +2034,8 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   GError* gerror = NULL;
   if (!g_key_file_load_from_file(pGKeyFile, sFilePath, 0, &gerror))
   {
-   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "can't open desktop file '%s'\n", sFilePath);
-   g_error("%s\n", gerror->message); //TO DO
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "can't open desktop file '%s': %s\n",
+     sFilePath, gerror->message);
    g_error_free(gerror);
    return lineParseFail;
   }
@@ -2538,8 +2538,8 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  GError* gerror = NULL;
  if (!g_key_file_load_from_file(pGKeyFile, sLauncherPath, 0, &gerror)) // GKeyFileFlags flags GError **gerror
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH, "launcher=: can't open '%s'\n", sLauncherPath);
-  g_error("%s\n", gerror->message); //TO DO
+  snprintf(sErrMsg, MAX_LINE_LENGTH, "launcher=: can't open '%s': %s\n",
+    sLauncherPath, gerror->message);
   g_error_free(gerror);
   return lineParseFail;
  }
