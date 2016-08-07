@@ -1985,10 +1985,8 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult
  if(sErrMsg && *sErrMsg)
  {
   if (gl_nOptInfo == 0 || lineParseResult != lineParseWarn)
-  {
-    *sErrMsg = '\0';
-    return;
-  }
+   return;
+
   gchar *mp = malloc(MAX_LINE_LENGTH + 1);
   if (mp)
   {
@@ -2587,7 +2585,8 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
      gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue,
      gl_launcherDirFile.m_menuEntry.m_sCategory))
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH, "<- excluded by '%s'\n",
+  if (gl_nOptInfo > 1)
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "<- excluded by '%s'\n",
       gl_launcherDirFile.m_sPath); // sLauncherPath
   return lineParseWarn;
  }
