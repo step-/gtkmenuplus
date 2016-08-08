@@ -93,7 +93,8 @@ gchar gl_sLauncherDB[MAX_PATH_LEN + 1]; // launcher=dir/** list file
 gchar gl_sLauncherErrMsg[MAX_LINE_LENGTH + 1]; // launcher=dir/ cumulative errors
 int   gl_nLauncherReadLineDepth; // set by main()@readLine when it reads "launcher="
 struct DirFile gl_launcherDirFile; // set by onLauncherDirFile
-uint gl_nLauncherCount = 0; // how many .desktop files did effectively display
+guint gl_nLauncherCount = 0; // how many .desktop files did effectively display
+guint gl_nHushUpErrors = 0; // how many error lines readFile did not report
 #endif
 
 struct Params;
@@ -449,6 +450,12 @@ If this check causes you problems, take it out.
 
  clearPathRegex();
  g_free(gl_sCmds);
+
+ if (gl_nHushUpErrors)
+  fprintf(stderr,
+   "Error messages for %d lines were suppressed. Rerun with option -i to view.\n",
+   gl_nHushUpErrors);
+
 //onEof();                                   // now called from pLinetypeAction->m_pActionFunc in readFile
  return 0;
 }  // int main
@@ -610,7 +617,11 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
 
   if (*(menuEntryPending.m_sErrMsg))
   {
-   msgToUser(lineParseResult, menuEntryPending.m_sErrMsg, uiLineNum, sLineAsRead);
+   // Report error if it matters. It doesn't if it's level lineParseOk and cmdline -i wasn't given.
+   if (lineParseResult != lineParseOk || gl_nOptInfo)
+    msgToUser(lineParseResult, menuEntryPending.m_sErrMsg, uiLineNum, sLineAsRead);
+   else
+    gl_nHushUpErrors++;
 // if (linetype != LINE_IF && linetype != LINE_ELSEIF) # if condition warning shouldn;t
    if (lineParseResult == lineParseFailFatal)
     menuEntrySet(&menuEntryPending, NULL, LINE_UNDEFINED, "", FALSE, FALSE, 0); // bCmdOk, bIconTooltipOk
@@ -1984,7 +1995,7 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult
  gchar *sErrMsg = pMenuEntryPending->m_sErrMsg;
  if(sErrMsg && *sErrMsg)
  {
-  if (gl_nOptInfo == 0 || lineParseResult != lineParseWarn)
+  if (gl_nOptInfo == 0 || lineParseResult != lineParseWarn) // lineParseError{Fatal}
    return;
 
   gchar *mp = malloc(MAX_LINE_LENGTH + 1);
