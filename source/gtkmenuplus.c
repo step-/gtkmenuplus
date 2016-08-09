@@ -2405,6 +2405,14 @@ break_this_loop: // IN lineParseResult
 }
 
 // ----------------------------------------------------------------------
+enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
+// ----------------------------------------------------------------------
+{
+ //stub - split recursive launcher= out of onLauncher, which returns to its roots.
+ return onLauncher(pMenuEntryPending);
+}
+
+// ----------------------------------------------------------------------
 enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
 {

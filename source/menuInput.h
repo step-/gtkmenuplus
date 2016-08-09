@@ -98,21 +98,22 @@ enum LineType {                         // returned by readLine
  LINE_ELSEIF                       = 16,
  LINE_ENDIF                        = 17,
  LINE_LAUNCHER                     = 18,
- LINE_LAUNCHER_ARGS                = 19,
- LINE_LAUNCHER_DIRFILE             = 20,
- LINE_LAUNCHER_SUBMENU             = 21,
- LINE_LAUNCHER_DIR                 = 22,
- LINE_INCLUDE                      = 23,
- LINE_SUBMENU_END                  = 24,
- LINE_CONFIGURE                    = 25,
- LINE_EOF                          = 26,
- LINE_ERROR                        = 27,  // the error keyword
- LINE_KEYWORD_IS_VARIABLE          = 28,  // will become variable def, not error
- LINE_ABSOLUTE_PATH                = 29,
- LINE_BAD_LIMIT_LOW                = 30,  //move when LINE_KEYWORD_IS_VARIABLE not an error
- LINE_BAD_LEN                      = 30,
- LINE_BAD_NO_EQ                    = 31,
- LINE_BAD_LIMIT_HI                 = 31
+ LINE_LAUNCHER_SUB                 = 19,
+ LINE_LAUNCHER_ARGS                = 20,
+ LINE_LAUNCHER_DIRFILE             = 21,
+ LINE_LAUNCHER_SUBMENU             = 22,
+ LINE_LAUNCHER_DIR                 = 23,
+ LINE_INCLUDE                      = 24,
+ LINE_SUBMENU_END                  = 25,
+ LINE_CONFIGURE                    = 26,
+ LINE_EOF                          = 27,
+ LINE_ERROR                        = 28,  // the error keyword
+ LINE_KEYWORD_IS_VARIABLE          = 29,  // will become variable def, not error
+ LINE_ABSOLUTE_PATH                = 30,
+ LINE_BAD_LIMIT_LOW                = 31,  //move when LINE_KEYWORD_IS_VARIABLE not an error
+ LINE_BAD_LEN                      = 31,
+ LINE_BAD_NO_EQ                    = 32,
+ LINE_BAD_LIMIT_HI                 = 32
 };
 
 struct Keyword
@@ -261,6 +262,7 @@ enum LineParseResult onAbsolutePath(INOUT struct MenuEntry* pMenuEntryPending);
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending);
+enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherSubMenu(INOUT struct MenuEntry* pMenuEntryPending);

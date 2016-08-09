@@ -245,6 +245,7 @@ struct Keyword gl_keyword[] = // used in getLineTypeName, readLine
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
  {"launcher",                 8, TRUE,   LINE_LAUNCHER},
+ {"launchersub",             11, TRUE,   LINE_LAUNCHER_SUB},
  {"launcherargs",            12, FALSE,  LINE_LAUNCHER_ARGS},
  {"launcherdirfile",         15, FALSE,  LINE_LAUNCHER_DIRFILE},
  {"launchersubmenu",         15, FALSE,  LINE_LAUNCHER_SUBMENU},
@@ -344,6 +345,7 @@ struct LinetypeAction gl_linetypeActionMap[] =
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
  { LINE_LAUNCHER,                  TRUE,  onLauncher},
+ { LINE_LAUNCHER_SUB,              TRUE,  onLauncherSub},
  { LINE_LAUNCHER_DIR,              TRUE,  onLauncherDir},
  { LINE_LAUNCHER_ARGS,             TRUE,  onLauncherArgs},
  { LINE_LAUNCHER_DIRFILE,          TRUE,  onLauncherDirFile},
