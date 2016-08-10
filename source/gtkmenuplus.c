@@ -542,7 +542,8 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
            !gl_pIfStatusCurrent->m_bCurrentlyAccepting &&
            linetype != LINE_ELSE &&
            linetype != LINE_ELSEIF &&
-           linetype != LINE_ENDIF)
+           linetype != LINE_ENDIF &&
+           linetype != LINE_EOF)
    continue;
 
 #endif // #if !defined(_GTKMENUPLUS_NO_IF_)
