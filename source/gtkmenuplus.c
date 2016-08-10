@@ -2271,8 +2271,16 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
 #endif
   free(namelist[i]);
 
+  // Correction for case 'readLine found "launcher{sub}=" nested in "submenu="'.
+  pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
+
+  // -----------------
+  // LINE_LAUNCHER_SUB
+  // -----------------
   if (
+   // ----------------------------
    LINE_LAUNCHER_SUB == iCaller // recursive
+   // ----------------------------
    && (
 #ifdef _DIRENT_HAVE_D_TYPE
    DT_DIR == d_type || // speed up common case "directory"
@@ -2281,8 +2289,6 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
    ))
   // Path of directory or of symlink-to-directory : walk the tree.
   {
-   // Correction for case 'readLine found "launchersub=" nested in "submenu="'.
-   pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
 
    if('.' == sLauncherPath1[len1 -1]) continue; // skip . and ..
 
@@ -2338,7 +2344,8 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
     //   After onLauncherSub thou shall call onSubMenuEnd and their results be paired
     strcpy(gl_sLinePostEq, sLauncherPath1);
     uint nCountBefore = gl_nLauncherCount;
-    enum LineParseResult pairedResult = onLauncherSub(pMenuEntryPending);
+    enum LineParseResult pairedResult =
+     onLauncherCommon(pMenuEntryPending, sCaller, iCaller);
     reapErrMsg(pMenuEntryPending, pairedResult, sLauncherPath1); // if any
     //
     // Pretend "submenuend"
@@ -2368,6 +2375,9 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
    continue; // on to the next item
   }
   else // Non-directory path.
+  // ----------------------------------
+  // LINE_LAUNCHER or LINE_LAUNCHER_SUB
+  // ----------------------------------
   {
    if (
     // skip non-.desktop
@@ -2432,12 +2442,15 @@ break_this_loop: // IN lineParseResult
  if (LINE_LAUNCHER == iCaller)
   return lineParseOk;
 
+ // -----------------
+ // LINE_LAUNCHER_SUB
+ // -----------------
  // Recursion tail.
  // Reset pending commitSubmenu, which onSubMenu set. Resets pMenuEntryPending->m_sErrorMsg.
  {
   gchar sav[MAX_LINE_LENGTH + 1];
   strncpy(sav, pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH);
-  menuEntrySet(pMenuEntryPending, NULL, LINE_LAUNCHER_SUB, "launchersub=", FALSE, TRUE, gl_uiCurDepth); // bCmdOk, bIconTooltipOk
+  menuEntrySet(pMenuEntryPending, NULL, LINE_LAUNCHER_SUB, sCaller, FALSE, TRUE, gl_uiCurDepth); // bCmdOk, bIconTooltipOk
   // Saw error message.
   strcpy(pMenuEntryPending->m_sErrMsg, sav);
  }

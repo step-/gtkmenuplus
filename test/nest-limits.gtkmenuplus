@@ -1,0 +1,68 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+mTESTFILE = $0 # required
+include = lib/common.gtkmenuplus
+#-------------------------------------------
+
+# PASS IF ERROR DIALOG
+DO_ERROR_TEST=no
+
+separator
+item = launchersub=: PASS if levels 2>3>4>5>two items
+submenu = 2
+submenu = 3
+submenu = 4
+submenu = 5
+launchersub=nest
+endsubmenu
+endsubmenu
+endsubmenu
+endsubmenu
+
+separator
+item = launcher=: PASS if levels 2>3>4>5>two items
+submenu = 2
+submenu = 3
+submenu = 4
+submenu = 5
+launcher=nest
+endsubmenu
+endsubmenu
+endsubmenu
+endsubmenu
+
+separator
+item = launcher & sub=: PASS if levels 2>3>4>5>four items
+submenu = 2
+submenu = 3
+submenu = 4
+submenu = 5
+launchersub=nest
+launcher=nest
+endsubmenu
+endsubmenu
+endsubmenu
+endsubmenu
+
+# PASS IF ERROR DIALOG
+if= $DO_ERROR_TEST
+separator
+
+separator
+item = launcher{sub}=: PASS if error dialog
+submenu = 2
+submenu = 3
+submenu = 4
+submenu = 5
+submenu = 6
+launcher=nest
+launchersub=nest
+endsubmenu
+endsubmenu
+endsubmenu
+endsubmenu
+endsubmenu
+
+#:vim ft=sh:
