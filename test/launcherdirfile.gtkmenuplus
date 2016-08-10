@@ -13,7 +13,7 @@ cmd = geany $mDIR/0.directory
 tooltip = click to edit $mDIR/0.directory
 separator
 launcherdirfile = $mDIR/0.directory
-launcher = $mDIR/1
+launchersub=$mDIR/1
 
 separator
 format =
@@ -22,4 +22,4 @@ cmd = geany $mDIR/1/2/2.directory
 tooltip = click to edit $mDIR/1/2/2.directory
 separator
 launcherdirfile = $mDIR/1/2/2.directory
-launcher = $mDIR/1/2
+launchersub=$mDIR/1/2

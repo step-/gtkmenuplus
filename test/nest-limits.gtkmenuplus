@@ -40,6 +40,7 @@ submenu = 3
 submenu = 4
 submenu = 5
 launchersub=nest
+separator
 launcher=nest
 endsubmenu
 endsubmenu

@@ -9,7 +9,7 @@ include = lib/common.gtkmenuplus
 DO_ITEMS=no
 
 submenu = Applications
-launcher=/usr/share/applications
+launchersub=/usr/share/applications
 endsubmenu
 
 if= $DO_ITEMS

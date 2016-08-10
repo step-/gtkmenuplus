@@ -36,60 +36,60 @@ endsubmenu # A submenu=... to item=
 
 separator
 format=
-item = submenu=+launcher=dir: PASS if all levels of "A" are blue
+item = submenu=+launchersub=: PASS if all levels of "A" are blue
 format = foreground="blue"
- submenu = A submenu=... to launcher=
+ submenu = A submenu=... to launchersub=
  submenu = B
  submenu = C
  # submenu = D
- launcher=nest
+ launchersub=nest
  # endsubmenu # D
  endsubmenu # C
  endsubmenu # B
- endsubmenu # A submenu=... to launcher=
+ endsubmenu # A submenu=... to launchersub=
 
 DO_ITEMS=yes
 if= $DO_ITEMS
 
 separator
 format=
-item = submenu=+launcher=dir: PASS if "A","B" are blue, and lower level items are red
+item = submenu=+launchersub=: PASS if "A","B" are blue, and lower level items are red
 format = foreground="blue"
- submenu = A submenu=... to launcher=
+ submenu = A submenu=... to launchersub=
  submenu = B
  format = foreground="red"
  submenu = C
  # submenu = D
- launcher=nest
+ launchersub=nest
  # endsubmenu # D
  endsubmenu # C
  endsubmenu # B
- endsubmenu # A submenu=... to launcher=
+ endsubmenu # A submenu=... to launchersub=
 
 separator
 format=
-item = launcher=dir: PASS if all items are blue regardless of level
+item = launchersub=: PASS if all items are blue regardless of level
 format = foreground="blue"
-launcher=nest
+launchersub=nest
 
 separator
 format =
-item = launcher=dir: PASS if all items are black regardless of level
-launcher=nest
+item = launchersub=: PASS if all items are black regardless of level
+launchersub=nest
 
 separator
-item = launcher=dir: PASS if the first half (nested) entries are blue and the last half (nested) entries are red
+item = launchersub=: PASS if the first half (nested) entries are blue and the last half (nested) entries are red
 format = foreground="blue"
-launcher=nest/2
+launchersub=nest/2
 format = foreground="red"
-launcher=nest/2
+launchersub=nest/2
 
 # Now use .gtkmenuplus.desktop files to specify formatting
 
 separator
 format=
-item = launcher=dir: PASS if @0 green+blue>, @1 blue+red>, @2 red+magenta>, @3 magenta
+item = launchersub=: PASS if @0 green+blue>, @1 blue+red>, @2 red+magenta>, @3 magenta
 format = foreground="green"
-launcher=format
+launchersub=format
 
 endif
