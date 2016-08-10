@@ -2237,16 +2237,6 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
     pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
  }
 
- // TODO REMOVEME
- /* // Forbid launcher{sub}=non-directory or non-symlink-to-directory */
- /* if (!S_ISDIR(statbuf.st_mode)) */
- /* { */
- /*  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, */
- /*    "%s= '%s' is not a launcher file or a directory\n", sCaller, gl_sLinePostEq); */
- /*  return lineParseFail; */
- /* } */
-
- // TODO MOVE TO RECURSION BLOCK
  // Enter (linked-to) directory unless max menu depth exceeded.
  if (gl_uiCurDepth >= MAX_SUBMENU_DEPTH)
   return lineParseWarn;
