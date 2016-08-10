@@ -2165,10 +2165,24 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
 {
- gchar msg[] = "launcher= requires file or directory\n";
+ return onLauncherCommon(pMenuEntryPending, "launcher", LINE_LAUNCHER);
+}
+
+// ----------------------------------------------------------------------
+enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
+// ----------------------------------------------------------------------
+{
+ return onLauncherCommon(pMenuEntryPending, "launchersub", LINE_LAUNCHER_SUB);
+}
+
+// ----------------------------------------------------------------------
+enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending, gchar *sCaller, guint iCaller)
+// ----------------------------------------------------------------------
+{
+ gchar msg[] = "%s= requires file or directory\n";
  if (!(*gl_sLinePostEq))
  {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg);
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg, sCaller);
   return lineParseFail;
  }
 
@@ -2176,7 +2190,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   strcpy(gl_sLinePostEq, gl_sLauncherDirectory);  //special case, only gl_sLauncherDirectory; set_base_dir already checked len gl_sLauncherDirectory < len gl_sLinePostEq
  else
  {
-  enum LineParseResult lineParseResult = expand_path(gl_sLinePostEq, gl_sLauncherDirectory, "launcher", pMenuEntryPending->m_sErrMsg); // can rewrite gl_sLinePostEq
+  enum LineParseResult lineParseResult = expand_path(gl_sLinePostEq, gl_sLauncherDirectory, sCaller, pMenuEntryPending->m_sErrMsg); // can rewrite gl_sLinePostEq
   if (lineParseResult != lineParseOk)
    return lineParseResult;
  }
@@ -2184,21 +2198,22 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  struct stat statbuf;
  if (stat(gl_sLinePostEq, &statbuf) == -1)
  {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg);
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg, sCaller);
   return lineParseFail;
  }
 
- // Correction needed when readLine gets "launcher=dir" nested in "submenu=".
+ // Correction needed when readLine gets "launchersub=dir" nested in "submenu=".
  pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
 
- // permit launcher=file and launcher=symlink-to-file (stat(2) follows)
+ // permit launcher{sub}=file or symlink-to-file (stat(2) follows)
  if (S_ISREG(statbuf.st_mode))
   return processLauncher(gl_sLinePostEq, lineParseFail, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
 
-// forbid launcher=non-directory or launcher=non-symlink-to-directory
+// forbid launcher{sub}=non-directory or non-symlink-to-directory
  if (!S_ISDIR(statbuf.st_mode))
  {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "launcher= '%s' is not a launcher file or a directory\n", gl_sLinePostEq);
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
+    "%s= '%s' is not a launcher file or a directory\n", sCaller, gl_sLinePostEq);
   return lineParseFail;
  }
 
@@ -2206,7 +2221,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  if (gl_uiCurDepth >= MAX_SUBMENU_DEPTH)
   return lineParseWarn;
 
- //scan directory -- will recurse
+ //scan directory -- will recurse when iCaller is LINE_LAUNCHER_SUB
  int len0 = strlen(gl_sLinePostEq);
  if (*(gl_sLinePostEq + len0 - 1) != '/')
  {
@@ -2230,10 +2245,13 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   free(namelist[i]);
 
   if (
+   LINE_LAUNCHER_SUB == iCaller // recursive
+   && (
 #ifdef _DIRENT_HAVE_D_TYPE
    DT_DIR == d_type || // speed up common case "directory"
 #endif
-   (stat(sLauncherPath1, &statbuf) == 0 && S_ISDIR(statbuf.st_mode)))
+   (stat(sLauncherPath1, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
+   ))
   // Path of directory or of symlink-to-directory : walk the tree.
   {
    if('.' == sLauncherPath1[len1 -1]) continue; // skip . and ..
@@ -2286,11 +2304,11 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
    {
     pMenuEntryPending->m_uiDepth++; // since commitSubMenu Ok: m_uiDepth <- gl_uiCurDepth
 
-    // Recursive pretend "launcher="
-    //   After onLauncher thou shall call onSubMenuEnd and their results be paired
+    // Recursive pretend "launchersub="
+    //   After onLauncherSub thou shall call onSubMenuEnd and their results be paired
     strcpy(gl_sLinePostEq, sLauncherPath1);
     uint nCountBefore = gl_nLauncherCount;
-    enum LineParseResult pairedResult = onLauncher(pMenuEntryPending);
+    enum LineParseResult pairedResult = onLauncherSub(pMenuEntryPending);
     reapErrMsg(pMenuEntryPending, pairedResult, sLauncherPath1); // if any
     //
     // Pretend "submenuend"
@@ -2359,14 +2377,19 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
       lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
   if (lineParseResult != lineParseOk)
     reapErrMsg(pMenuEntryPending, lineParseResult, sLauncherPath1);
-  if (lineParseResult != lineParseOk
-      && lineParseResult != lineParseWarn
-      && lineParseResult != lineParseNoDisplay)
+  if ( ! (
+      // low severity errors
+         lineParseResult == lineParseOk
+      || lineParseResult == lineParseWarn
+      || lineParseResult == lineParseNoDisplay))
   {
 break_this_loop: // IN lineParseResult
-   continue; // don't break - go back and treat all inferior errors as soft errors
 
-   // If instead you really want to bail out on the first error:
+   // But even if higher severity errors occurred we still don't break
+   // this loop, and go back to treat all inferior errors as soft ones.
+   continue;
+
+   // If instead you wanted to bail out on the first severe error:
    /* if (0 == gl_uiCurDepth - gl_LauncherReadLineDepth && *gl_sLauncherDB != '\0') unlink(gl_sLauncherDB); */
    /* for (i = i + 1; i < n; i++) free(namelist[i]); */
    /* free(namelist); */
@@ -2376,12 +2399,15 @@ break_this_loop: // IN lineParseResult
  }
 
  if (namelist) free(namelist);
+ if (LINE_LAUNCHER == iCaller)
+  return lineParseOk;
 
+ // Recursion tail.
  // Reset pending commitSubmenu, which onSubMenu set. Resets pMenuEntryPending->m_sErrorMsg.
  {
   gchar sav[MAX_LINE_LENGTH + 1];
   strncpy(sav, pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH);
-  menuEntrySet(pMenuEntryPending, NULL, LINE_LAUNCHER, "launcher=", FALSE, TRUE, gl_uiCurDepth); // bCmdOk, bIconTooltipOk
+  menuEntrySet(pMenuEntryPending, NULL, LINE_LAUNCHER_SUB, "launchersub=", FALSE, TRUE, gl_uiCurDepth); // bCmdOk, bIconTooltipOk
   // Saw error message.
   strcpy(pMenuEntryPending->m_sErrMsg, sav);
  }
@@ -2402,14 +2428,6 @@ break_this_loop: // IN lineParseResult
   break;
  }
  return lineParseOk;
-}
-
-// ----------------------------------------------------------------------
-enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
-// ----------------------------------------------------------------------
-{
- //stub - split recursive launcher= out of onLauncher, which returns to its roots.
- return onLauncher(pMenuEntryPending);
 }
 
 // ----------------------------------------------------------------------
@@ -2583,7 +2601,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
 
   if (!sValue && gl_launcherElement[i].bRequired)
   {
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in launcher '%s'\n", gl_launcherElement[i].m_sKeyword, sLauncherPath);
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in '%s'\n", gl_launcherElement[i].m_sKeyword, sLauncherPath);
    bOk = FALSE;
    break;
   } // if (!sValue && gl_launcherElement[i].bRequired)

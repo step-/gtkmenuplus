@@ -263,6 +263,7 @@ enum LineParseResult onAbsolutePath(INOUT struct MenuEntry* pMenuEntryPending);
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending);
+enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending, gchar *sCaller, guint iCaller);
 enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherSubMenu(INOUT struct MenuEntry* pMenuEntryPending);
