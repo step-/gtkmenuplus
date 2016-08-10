@@ -10,20 +10,20 @@ submenu = A
 submenu = B
 submenu = C
 # submenu = D
-launcher=nest
+launchersub=nest
 # endsubmenu
 endsubmenu
 endsubmenu
 endsubmenu
 
 separator
-launcher=nest
+launchersub=nest
 
 #separator
-#launcher=~/Downloads
+#launchersub=~/Downloads
 
 #separator
-#launcher=/usr/share/
+#launchersub=/usr/share/
 
 DO_ITEMS=no
 if= $DO_ITEMS

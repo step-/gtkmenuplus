@@ -2229,9 +2229,6 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
   return lineParseFail;
  }
 
- // Correction needed when readLine gets "launchersub=dir" nested in "submenu=".
- pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
-
  // permit launcher{sub}=file or symlink-to-file (stat(2) follows)
  if (S_ISREG(statbuf.st_mode))
   return processLauncher(gl_sLinePostEq, lineParseFail, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
@@ -2281,6 +2278,9 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
    ))
   // Path of directory or of symlink-to-directory : walk the tree.
   {
+   // Correction for case 'readLine found "launchersub=" nested in "submenu="'.
+   pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
+
    if('.' == sLauncherPath1[len1 -1]) continue; // skip . and ..
 
    gchar gl_sLinePostEq1[MAX_LINE_LENGTH];
