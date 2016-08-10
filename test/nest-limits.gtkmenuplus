@@ -66,4 +66,6 @@ endsubmenu
 endsubmenu
 endsubmenu
 
+endif
+
 #:vim ft=sh:
