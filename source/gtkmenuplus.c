@@ -2229,23 +2229,29 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
   return lineParseFail;
  }
 
- // permit launcher{sub}=file or symlink-to-file (stat(2) follows)
+ // Permit launcher{sub}=file or symlink-to-file -- stat(2) follows links.
+ // Note that launchersub=file is undocumented -- no hurt in keeping it.
  if (S_ISREG(statbuf.st_mode))
-  return processLauncher(gl_sLinePostEq, lineParseFail, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
-
-// forbid launcher{sub}=non-directory or non-symlink-to-directory
- if (!S_ISDIR(statbuf.st_mode))
  {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
-    "%s= '%s' is not a launcher file or a directory\n", sCaller, gl_sLinePostEq);
-  return lineParseFail;
+  return processLauncher(gl_sLinePostEq, lineParseFail,
+    pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
  }
 
- //enter (linked-to) directory unless max menu depth exceeded
+ // TODO REMOVEME
+ /* // Forbid launcher{sub}=non-directory or non-symlink-to-directory */
+ /* if (!S_ISDIR(statbuf.st_mode)) */
+ /* { */
+ /*  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, */
+ /*    "%s= '%s' is not a launcher file or a directory\n", sCaller, gl_sLinePostEq); */
+ /*  return lineParseFail; */
+ /* } */
+
+ // TODO MOVE TO RECURSION BLOCK
+ // Enter (linked-to) directory unless max menu depth exceeded.
  if (gl_uiCurDepth >= MAX_SUBMENU_DEPTH)
   return lineParseWarn;
 
- //scan directory -- will recurse when iCaller is LINE_LAUNCHER_SUB
+ // Scan directory -- will recurse when iCaller is LINE_LAUNCHER_SUB.
  int len0 = strlen(gl_sLinePostEq);
  if (*(gl_sLinePostEq + len0 - 1) != '/')
  {
@@ -2255,6 +2261,12 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
 
  struct dirent **namelist;
  int n = scandir(gl_sLinePostEq, &namelist, NULL, alphasort);
+ if (n < 0)
+ {
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
+    "%s=: %s: '%s'\n", sCaller, strerror(errno), gl_sLinePostEq);
+  return lineParseFail;
+ }
  int i;
  for (i = 0; i < n; i++)
  {
