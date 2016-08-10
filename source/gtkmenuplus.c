@@ -2487,6 +2487,8 @@ enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending
 {
  if (!(*gl_sLinePostEq))
  {
+  *gl_FormattingSubMenu[pMenuEntryPending->m_uiDepth].m_sFormat =
+  gl_FormattingSubMenu[pMenuEntryPending->m_uiDepth].m_cFormatDivider =
   *gl_launcherDirFile.m_sPath = '\0';
   return lineParseOk;
  }
@@ -2499,7 +2501,7 @@ enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending
  if (stat(gl_sLinePostEq, &sb) == -1 || !(S_ISREG(sb.st_mode) || S_ISLNK(sb.st_mode)))
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
-      "launcherdirfile='%s': file not found\n", gl_sLinePostEq);
+      "%s: '%s'\n", strerror(errno), gl_sLinePostEq);
   return lineParseFail;
  }
 
@@ -2616,7 +2618,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  GError* gerror = NULL;
  if (!g_key_file_load_from_file(pGKeyFile, sLauncherPath, 0, &gerror)) // GKeyFileFlags flags GError **gerror
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH, "launcher=: can't open '%s': %s\n",
+  snprintf(sErrMsg, MAX_LINE_LENGTH, "can't open launcher '%s': %s\n",
     sLauncherPath, gerror->message);
   g_error_free(gerror);
   return lineParseFail;
