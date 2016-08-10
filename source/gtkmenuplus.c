@@ -2165,40 +2165,67 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
 {
- return onLauncherCommon(pMenuEntryPending, "launcher", LINE_LAUNCHER);
-}
-
-// ----------------------------------------------------------------------
-enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
-// ----------------------------------------------------------------------
-{
- return onLauncherCommon(pMenuEntryPending, "launchersub", LINE_LAUNCHER_SUB);
-}
-
-// ----------------------------------------------------------------------
-enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending, gchar *sCaller, guint iCaller)
-// ----------------------------------------------------------------------
-{
+ gchar sCaller[] = "launcher";
  gchar msg[] = "%s= requires file or directory\n";
+
  if (!(*gl_sLinePostEq))
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg, sCaller);
   return lineParseFail;
  }
 
- if (*gl_sLauncherDirectory && strlen(gl_sLinePostEq) == 1 && (*gl_sLinePostEq == '*' || *gl_sLinePostEq == '.'))
-  strcpy(gl_sLinePostEq, gl_sLauncherDirectory);  //special case, only gl_sLauncherDirectory; set_base_dir already checked len gl_sLauncherDirectory < len gl_sLinePostEq
+ if (*gl_sLauncherDirectory && strlen(gl_sLinePostEq) == 1
+   && (*gl_sLinePostEq == '*' || *gl_sLinePostEq == '.'))
+ {
+  // special case, only gl_sLauncherDirectory; set_base_dir already
+  // checked len gl_sLauncherDirectory < len gl_sLinePostEq
+  strcpy(gl_sLinePostEq, gl_sLauncherDirectory);
+ }
  else
  {
-  enum LineParseResult lineParseResult = expand_path(gl_sLinePostEq, gl_sLauncherDirectory, sCaller, pMenuEntryPending->m_sErrMsg); // can rewrite gl_sLinePostEq
+  enum LineParseResult lineParseResult =
+   expand_path( // can rewrite gl_sLinePostEq
+     gl_sLinePostEq, gl_sLauncherDirectory, sCaller,
+     pMenuEntryPending->m_sErrMsg);
   if (lineParseResult != lineParseOk)
    return lineParseResult;
  }
 
+ return onLauncherCommon(pMenuEntryPending, sCaller, LINE_LAUNCHER);
+}
+
+// ----------------------------------------------------------------------
+enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
+// ----------------------------------------------------------------------
+{
+ gchar sCaller[] = "launchersub";
+ gchar msg[] = "%s= requires directory\n";
+
+ if (!(*gl_sLinePostEq))
+ {
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg, sCaller);
+  return lineParseFail;
+ }
+
+ enum LineParseResult lineParseResult =
+  expand_path( // can rewrite gl_sLinePostEq
+    gl_sLinePostEq, gl_sLauncherDirectory, sCaller,
+    pMenuEntryPending->m_sErrMsg);
+ if (lineParseResult != lineParseOk)
+  return lineParseResult;
+
+ return onLauncherCommon(pMenuEntryPending, sCaller, LINE_LAUNCHER_SUB);
+}
+
+// ----------------------------------------------------------------------
+enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending, gchar *sCaller, guint iCaller)
+// ----------------------------------------------------------------------
+{
  struct stat statbuf;
  if (stat(gl_sLinePostEq, &statbuf) == -1)
  {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg, sCaller);
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
+		  "%s=: %s: '%s'\n", sCaller, strerror(errno), gl_sLinePostEq);
   return lineParseFail;
  }
 
@@ -3262,3 +3289,5 @@ enum LineParseResult parseInts(IN gchar *sData, OUT guint* pInt1, OUT guint* pIn
 
  return lineParseOk;
 }    // parseInts
+
+// vim: et ts=1 sts=1 sw=1 tw=0 fdm=syntax
