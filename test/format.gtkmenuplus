@@ -48,6 +48,20 @@ format = foreground="blue"
  endsubmenu # B
  endsubmenu # A submenu=... to launchersub=
 
+separator
+format=
+item = submenu=+launcher=: PASS if all levels of "A" are blue
+format = foreground="blue"
+ submenu = A submenu=... to launcher=
+ submenu = B
+ submenu = C
+ # submenu = D
+ launcher=nest
+ # endsubmenu # D
+ endsubmenu # C
+ endsubmenu # B
+ endsubmenu # A submenu=... to launchersub=
+
 DO_ITEMS=yes
 if= $DO_ITEMS
 
