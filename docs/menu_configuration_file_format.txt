@@ -1,5 +1,5 @@
 Format of menu configuration files for gtkmenuplus
-version 1.1.0, 2016-07-15
+version 1.1.0, 2016-08-15
 
 copyright (C) 2013 Alan Campbell, (C) 2016 step
 
@@ -49,6 +49,7 @@ The remaining keywords are new in gtkmenuplus:
 "tooltipformat=format_string"
 
 "launcher=path_to_launcher(s)"
+"launchersub=path_to_directory"
 "launcherdirectory=path_to_launcher_directory"
 "launcherdir=path_to_launcher_directory" (synonym for launcherdirectory)
 "launcherargs=arguments"
@@ -128,6 +129,7 @@ Paths:
    "icon=path_to_image_file"    
    "launcherdirectory=path_to_launcher_directory"
    "launcher=path_to_launcher(s)"
+   "launchersub=path_to_directory"
    "include=menu_configuration_file" 
    "include=path_to_directory" 
 
@@ -164,6 +166,7 @@ Paths:
 
    "icon="                   directory specified in the last non-null "icondirectory=" line, if any
    "launcher="               directory specified in the last non-null "launcherdirectory=" line, if any
+   "launchersub="            directory specified in the last non-null "launcherdirectory=" line, if any
    "cmd="                    assumed to be on the system's PATH.
   
   the name of a directory paths beginning with a dot will be expanded into an address relative to the 
@@ -415,8 +418,6 @@ launcher=path_to_launcher(s)
 
   If path_to_launcher(s) is a directory path (dirpath), it will be scanned for .desktop file, which will all be used to create successive menu entries.
 
-  If dirpath includes sub-directories they will be scanned too, and their .desktop files will be used to create successive menu entries in nested submenus. More information follows further down in this section.
-
   Any preceding "launcherdirfile=launcher_dirfile" line will apply to the menu entry of each scanned dirpath.
 
   "path_to_launcher(s)" follows the rules for paths referred to in menu configuration files (see above):
@@ -452,26 +453,31 @@ launcher=path_to_launcher(s)
   or
        launcher=*
 
-  More on nested submenus.
-  
-    When "launcher=dirpath" is encounted submenus are created automatically for dirpath and each scanned sub-directory.
+
+launchersub=path_to_directory
+
+  It is a recursive version of launcher=. Like the latter, launchersub=path_to_directory displays all the .desktop files that it can find in path_to_directory. If path_to_directory includes sub-directories they are scanned too, and their .desktop files are be used to create successive menu entries in nested sub-menus. More information follows further down in this section.
+
+  Rules for relative paths, the keywords launcherdirfile= and launcherargs=, and the property "NoDisplay=true" all apply to launchersub=. Each topic is explained elsewhere in this document.
+
+  When "launchersub=dirpath" is encounted submenus are created automatically for dirpath and each scanned sub-directory.
 
     Up to 5 menu levels are automatically nested (see MAX_SUBMENU_DEPTH).
 
-    By default the submenu label is the name of the sub-directory that includes its .desktop files, and the submenu icon is undefined. To specify diffent values and other properties use keyword "launcherdirfile=".
+    By default the submenu label is the name of the sub-directory that includes its .desktop files, and the submenu icon is undefined. To specify different values and other properties use keyword "launcherdirfile=".
 
-    If the maximum allowed submenu depth is exceeded, launcher=dirpath reports a warning and displays the menu. Contract that with the "submenu=" keyword, which exits with a fatal error if submenu depth is exceeded.
+    If the maximum allowed submenu depth is exceeded, launchersub=dirpath reports a warning and displays the menu. Contrast that with the "submenu=" keyword, which exits with a fatal error if submenu depth is exceeded.
 
     By default sub-directory scanning depth is set to fill at most 5 submenu levels. If launcher files exist in lower sub-directories they will be ignored without warnings.
     
     For menu testing purposes you can force printing warnings by telling gtkmenuplus to scan for launcher files at deeper levels. Then if such files exist and they can't be displayed within the MAX_SUBMENU_DEPTH hard limit, a warning message is printed to the console. To increase the scan depth set environment variable GTKMENUPLUS_SCAN_DEPTH=5 or higher.
 
-    Item formatting for the items in dirpath of "launcher=dirpath" is set by any preceding "format=" and "tooltipformat=" keywords before "launcher=dirpath". For nested sub-directories, you can control item formatting by specifying format_strings in file .desktop.directory. See section "format=formatting" about format_strings, and directory "test" in the distribution package for advanced formatting examples.
+    Item formatting for the items in dirpath of "launchersub=dirpath" is set by any preceding "format=" and "tooltipformat=" keywords before "launchersub=dirpath". For nested sub-directories, you can control item formatting by specifying format_strings in file .desktop.directory. See section "format=formatting" about format_strings, and directory "test" in the distribution package for advanced formatting examples.
 
 
 launcherdirfile=launcher_dirfile
 
-  After this line is encountered, properties of dirpath in all subsequent "launcher=dirpath" lines are read from launcher_dirfile (a short form of "launcher desktop directory file").
+  After this line is encountered, properties of dirpath in all subsequent "launcher=dirpath" and "launchersub=dirpath" lines are read from launcher_dirfile (a short form of "launcher desktop directory file").
 
   A launcher_dirfile is a .desktop file, which omits "Exec=", and may include "Type=Directory" and "Format=formatting".
 
@@ -488,7 +494,7 @@ launcherdirfile=launcher_dirfile
 
   "launcher_dirfile" follows the rules for paths referred to in menu configuration files (see above): tilde expansion and relative paths.
 
-  An alternative method to provide a dirfile for launcher=dirpath lines is to place a hidden dirfile named ".desktop.directory" in each sub-directory. If this file exists, it overrides the launcher_dirfile specified by "launcherdirfile=launcher_dirfile".
+  An alternative method to provide a dirfile for launcher{sub}=dirpath lines is to place a hidden dirfile named ".desktop.directory" in each sub-directory. If this file exists, it overrides the launcher_dirfile specified by "launcherdirfile=launcher_dirfile".
 
   Example of launcher_dirfile
 
@@ -517,14 +523,14 @@ launchersubmenu=launcher_dirfile
 
 launcherargs=arguments
 
-  After this line is encountered, in all subsequent "launcher=path_to_launcher(s)" lines,
+  After this line is encountered, in all subsequent "launcher{sub}=" lines,
   the "arguments" string will be appended to the launcher command entry for the shell to execute.
   Quote "arguments" as needed.
 
   "launcherargs=" followed by no text clears out the arguments string for all subsequent "launcher=" lines.
 
   There can be multiple "launcherargs" lines; each sets the arguments
-  for all "launcher=" that follow, until the next "launcherargs=" line.
+  for all "launcher{sub}=" that follow, until the next "launcherargs=" line.
 
 
 launcherdirectory=path_to_launcher_directory
