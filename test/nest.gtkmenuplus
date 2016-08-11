@@ -19,12 +19,6 @@ endsubmenu
 separator
 launchersub=nest
 
-#separator
-#launchersub=~/Downloads
-
-#separator
-#launchersub=/usr/share/
-
 DO_ITEMS=no
 if= $DO_ITEMS
 separator
