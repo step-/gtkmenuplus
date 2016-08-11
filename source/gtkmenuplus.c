@@ -94,7 +94,7 @@ gchar gl_sLauncherErrMsg[MAX_LINE_LENGTH + 1]; // launcher=dir/ cumulative error
 int   gl_nLauncherReadLineDepth; // set by main()@readLine when it reads "launcher="
 struct DirFile gl_launcherDirFile; // set by onLauncherDirFile
 guint gl_nLauncherCount = 0; // how many .desktop files did effectively display
-guint gl_nHushUpErrors = 0; // how many error lines readFile did not report
+guint gl_nHushedUpErrors = 0; // how many error lines readFile did not report
 #endif
 
 struct Params;
@@ -321,8 +321,9 @@ extern const gchar*  gl_sUriSchema;
 const gchar*    gl_sLauncherExecArg = "[ \t]\\+%[fFuUdDnNickvm][ \t]*";
 //regex_t       gl_rgxLauncherExecArg in launcher.h
 
-//enum LineParseResult { lineParseOk = 0, lineParseWarn = 1, lineParseFail = 3, lineParseFailFatal = 3};
-const gchar*    gl_sLineParseLabel[] = {"programming error", "warning", "error", "fatal error"} ;
+//enum LineParseResult { lineParseOk = 0, lineParseWarn = 1, lineParseNoDisplay = 2, lineParseFail = 3, lineParseFailFatal = 4};
+const gchar*    gl_sLineParseLabel[] = {"programming error", "warning",
+ "programming error 2", "error", "fatal error"} ;
 
 // ----------------------------------------------------------------------
 // ----------------------------------------------------------------------
@@ -451,10 +452,14 @@ If this check causes you problems, take it out.
  clearPathRegex();
  g_free(gl_sCmds);
 
- if (gl_nHushUpErrors)
+ if (gl_nHushedUpErrors)
   fprintf(stderr,
    "Error messages for %d lines were suppressed. Rerun with option -i to view.\n",
-   gl_nHushUpErrors);
+   gl_nHushedUpErrors);
+ if (gl_nOptInfo == 1)
+  fprintf(stderr,
+   "Adding multiple -i options may give you more information.\n");
+
 
 //onEof();                                   // now called from pLinetypeAction->m_pActionFunc in readFile
  return 0;
@@ -619,10 +624,12 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
   if (*(menuEntryPending.m_sErrMsg))
   {
    // Report error if it matters. It doesn't if it's level lineParseOk and cmdline -i wasn't given.
-   if (lineParseResult != lineParseOk || gl_nOptInfo)
+   if (lineParseResult != lineParseOk)
+   {
     msgToUser(lineParseResult, menuEntryPending.m_sErrMsg, uiLineNum, sLineAsRead);
-   else
-    gl_nHushUpErrors++;
+    if (gl_nOptInfo == 0)
+     gl_nHushedUpErrors++;
+   }
 // if (linetype != LINE_IF && linetype != LINE_ELSEIF) # if condition warning shouldn;t
    if (lineParseResult == lineParseFailFatal)
     menuEntrySet(&menuEntryPending, NULL, LINE_UNDEFINED, "", FALSE, FALSE, 0); // bCmdOk, bIconTooltipOk
@@ -1996,14 +2003,24 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult
  gchar *sErrMsg = pMenuEntryPending->m_sErrMsg;
  if(sErrMsg && *sErrMsg)
  {
-  if (gl_nOptInfo == 0 || lineParseResult != lineParseWarn) // lineParseError{Fatal}
-   return;
+  switch(lineParseResult) {
+   case lineParseWarn:
+    if (gl_nOptInfo == 0) // Hush up!
+     return;
+    break;
+   case lineParseFail:
+   case lineParseFailFatal:
+    break;
+   default:
+    fprintf(stderr, "Unexpected case in reapErrMsg\n");
+    return;
+  }
 
   gchar *mp = malloc(MAX_LINE_LENGTH + 1);
   if (mp)
   {
-   // While reaping the ErrMsg, check if it starts with its Location. If
-   // it doesn't then prepend the Location+": " to the ErrMsg.
+   // While reaping ErrMsg, check if it starts with its Location. If
+   // it doesn't then prepend Location+": " to ErrMsg.
    gboolean bPrepended = sLocation
      && sErrMsg == strstr(sErrMsg, sLocation)
      && ':' == *(sErrMsg + strlen(sLocation));
@@ -2439,12 +2456,11 @@ break_this_loop: // IN lineParseResult
  }
 
  if (namelist) free(namelist);
- if (LINE_LAUNCHER == iCaller)
-  return lineParseOk;
 
  // -----------------
  // LINE_LAUNCHER_SUB
  // -----------------
+ if (LINE_LAUNCHER_SUB == iCaller)
  // Recursion tail.
  // Reset pending commitSubmenu, which onSubMenu set. Resets pMenuEntryPending->m_sErrorMsg.
  {
