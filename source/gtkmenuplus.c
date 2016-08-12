@@ -2402,16 +2402,9 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
      gchar buf[MAX_PATH_LEN + 1];
      if(NULL == realpath(sLauncherPath1, buf))
      {
-      gchar *s = malloc(MAX_PATH_LEN + 1);
-      if (!s)
-        perror("malloc");
-      else
-      {
-       shorten(sLauncherPath1, s);
-       strncat(s, " -> warning", MAX_PATH_LEN);
-       perror(s);
-       free(s);
-      }
+      snprintf(pMenuEntryPending->m_sErrMsg, MAX_PATH_LEN,
+        "%s\n", strerror(errno));
+      reapErrMsg(pMenuEntryPending, lineParseWarn, sLauncherPath1);
       continue; // skip invalid symlinks
      }
     }
@@ -2624,8 +2617,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  GError* gerror = NULL;
  if (!g_key_file_load_from_file(pGKeyFile, sLauncherPath, 0, &gerror)) // GKeyFileFlags flags GError **gerror
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH, "can't open launcher '%s': %s\n",
-    sLauncherPath, gerror->message);
+  snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n", gerror->message);
   g_error_free(gerror);
   return lineParseFail;
  }
