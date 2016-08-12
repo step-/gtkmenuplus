@@ -2003,18 +2003,8 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult
  gchar *sErrMsg = pMenuEntryPending->m_sErrMsg;
  if(sErrMsg && *sErrMsg)
  {
-  switch(lineParseResult) {
-   case lineParseWarn:
-    if (gl_nOptInfo == 0) // Hush up!
-     return;
-    break;
-   case lineParseFail:
-   case lineParseFailFatal:
-    break;
-   default:
-    fprintf(stderr, "Unexpected case in reapErrMsg\n");
-    return;
-  }
+  if (lineParseResult < lineParseFail && gl_nOptInfo == 0)
+    return; // Hush up!
 
   gchar *mp = malloc(MAX_LINE_LENGTH + 1);
   if (mp)
