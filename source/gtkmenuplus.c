@@ -90,7 +90,7 @@ typedef gchar   GLOB_SPEC_TYPE;
 extern struct LauncherElement gl_launcherElement[];
 extern guint                  gl_nLauncherElements;
 gchar gl_sLauncherDB[MAX_PATH_LEN + 1]; // launcher=dir/** list file
-gchar gl_sLauncherErrMsg[MAX_LINE_LENGTH + 1]; // launcher=dir/ cumulative errors
+gchar gl_sLauncherErrMsg[MAX_LINE_LENGTH + 1]; // launcher{sub}= cumulative errors
 int   gl_nLauncherReadLineDepth; // set by main()@readLine when it reads "launcher="
 struct DirFile gl_launcherDirFile; // set by onLauncherDirFile
 guint gl_nLauncherCount = 0; // how many .desktop files did effectively display
@@ -1999,15 +1999,22 @@ int lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used by onL
 void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult lineParseResult, IN gchar* sLocation) // used by onLauncherCommon
 // ----------------------------------------------------------------------
 {
+ // Rationale: we reap error messages rather than just printing them
+ // to stderr because on exiting the program displays all accumulated
+ // messages in a GUI box, and it also prints them to stderr.
+ 
+ if (strlen(gl_sLauncherErrMsg) >= MAX_LINE_LENGTH - 1)
+  return; // No more room left to store messages.
+ // TODO rewrite to hold a dynamic list of strings, which msgToUser will print on exit.
+
  // *** NON-RE-ENTRANT ***
  static gchar sPrevious[MAX_LINE_LENGTH];
 
- // TODO rewrite to hold an unlimited list of strings, which msgToUser will print on exit.
  gchar *sErrMsg = pMenuEntryPending->m_sErrMsg;
  if(sErrMsg && *sErrMsg)
  {
   if (lineParseResult < lineParseFail && gl_nOptInfo == 0)
-    return; // Hush up!
+   return; // Hush up!
 
   gchar *mp = malloc(MAX_LINE_LENGTH + 1);
   if (mp)
@@ -2030,21 +2037,26 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult
    // current and previous messages. Note that the current message (r)
    // is the last line of a string of lines (mp), which is initialized
    // to "\n" (gl_sLauncherErrMsg) and ends with '\n'.
-   gchar *p = sPrevious, *q, *r;
-   q = r = rindex(mp, '\n'); // q = mp + strlen(mp);
-   *q = '\0'; // temp overwrite last '\n'
-   r = rindex(mp, '\n'); // previous '\n'
+   gchar *p , *q, *r;
+   q = r = mp + strlen(mp) - 1; // normally mp ends with '\n'
+   *q = '\0'; // temporarily overwrite last '\n'
+   r = rindex(mp, '\n'); // find last line
    r = r ? r+1 : mp; // r is the current message
-   *q = '\n'; // restore last '\n'
-   q = r;
+   *q = '\n'; // restore/posit last '\n'
 
-   while(*p && *q && *p == *q)
-    ++p, ++q;
-   strcpy(sPrevious, r); // save for the next call
-   if (p - sPrevious > 3)
-    strncpy(q -= 4, "\\...", 4); // trim leading prefix
-
-   strncat(gl_sLauncherErrMsg, q, MAX_LINE_LENGTH);
+   for(p = sPrevious, q = r; *p && *q && *p == *q; p++, q++)
+    ;
+   strcpy(sPrevious, r); // save for next call
+   guint n = p - sPrevious;
+   if (n > 3) // trim leading prefix
+   {
+    // add short indication that message is trimmed
+    snprintf(q -= 4, 4, "%3d", n % 999);
+    *(q + 3) = '`';
+    // mp from r+1 to q-1 is to be discarded
+    *r = '\0'; // end of messages before the current one
+   }
+   n = snprintf(gl_sLauncherErrMsg, MAX_LINE_LENGTH, "%s%s", mp, *r ? "" : q);
    free(mp);
    *sErrMsg = '\0';
   }
@@ -2563,7 +2575,7 @@ enum LineParseResult onLauncherSubMenu(INOUT struct MenuEntry* pMenuEntryPending
  if (stat(gl_sLinePostEq, &sb) == -1 || !(S_ISREG(sb.st_mode) || S_ISLNK(sb.st_mode)))
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
-      "launchersubmenu='%s': file not found\n", gl_sLinePostEq);
+      "launchersubmenu='%s': %s\n", gl_sLinePostEq, strerror(ENODATA));
   return lineParseFail;
  }
 
@@ -2778,8 +2790,7 @@ retry:
       *sIconExt = *sErrMsg = '\0';
       goto retry;
     }
-   gchar m[] = "Can't get icon from .desktop spec";
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n", m);
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "Can't get 'Icon=%s'\n", sIconPath);
    gtk_widget_destroy(pGtkWdgtCurrent);
    return lineParseWarn;
   }
