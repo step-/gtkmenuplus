@@ -1996,9 +1996,12 @@ int lookupLauncherDB(IN const gchar *needle, IN const gchar *dbf) // used by onL
 }
 
 // ----------------------------------------------------------------------
-void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult lineParseResult, IN gchar* sLocation) // used by onLauncher
+void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult lineParseResult, IN gchar* sLocation) // used by onLauncherCommon
 // ----------------------------------------------------------------------
 {
+ // *** NON-RE-ENTRANT ***
+ static gchar sPrevious[MAX_LINE_LENGTH];
+
  // TODO rewrite to hold an unlimited list of strings, which msgToUser will print on exit.
  gchar *sErrMsg = pMenuEntryPending->m_sErrMsg;
  if(sErrMsg && *sErrMsg)
@@ -2019,8 +2022,29 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult
        bPrepended ? "" : sLocation,
        bPrepended ? "" : ": ",
        sErrMsg);
+
    shorten(mp, mp);
-   strncpy(gl_sLauncherErrMsg, mp, MAX_LINE_LENGTH);
+
+   // NON-RE-ENTRANT
+   // See if we can further trim any leading prefix in common between
+   // current and previous messages. Note that the current message (r)
+   // is the last line of a string of lines (mp), which is initialized
+   // to "\n" (gl_sLauncherErrMsg) and ends with '\n'.
+   gchar *p = sPrevious, *q, *r;
+   q = r = rindex(mp, '\n'); // q = mp + strlen(mp);
+   *q = '\0'; // temp overwrite last '\n'
+   r = rindex(mp, '\n'); // previous '\n'
+   r = r ? r+1 : mp; // r is the current message
+   *q = '\n'; // restore last '\n'
+   q = r;
+
+   while(*p && *q && *p == *q)
+    ++p, ++q;
+   strcpy(sPrevious, r); // save for the next call
+   if (p - sPrevious > 3)
+    strncpy(q -= 4, "\\...", 4); // trim leading prefix
+
+   strncat(gl_sLauncherErrMsg, q, MAX_LINE_LENGTH);
    free(mp);
    *sErrMsg = '\0';
   }
