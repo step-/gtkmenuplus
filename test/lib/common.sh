@@ -7,7 +7,7 @@ if ! cd "${TESTFILE%/*}"; then
   exit 1
 fi
 
-GTKMENUPLUS=${GTKMENUPLUS:-gtkmenuplus}
+GTKMENUPLUS=${GTKMENUPLUS:-../source/gtk2/gtkmenuplus}
 YAD_OPTIONS="--title '$1 - $TESTFILE' --window-icon=/usr/share/icons/hicolor/scalable/apps/gtkmenuplus.svg"
 export YAD_OPTIONS
 
