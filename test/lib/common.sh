@@ -7,7 +7,7 @@ if ! cd "${TESTFILE%/*}"; then
   exit 1
 fi
 
-GTKMENUPLUS=${GTKMENUPLUS:-gtkmenuplus}
+GTKMENUPLUS=${GTKMENUPLUS:-../source/gtk2/gtkmenuplus}
 YAD_OPTIONS="--title '$1 - $TESTFILE' --window-icon=/usr/share/icons/hicolor/scalable/apps/gtkmenuplus.svg"
 export YAD_OPTIONS
 
@@ -17,7 +17,7 @@ case $1 in
     sed 's/..//' |
     yad --geometry 500x500+60+60 \
       --list --listen --column="Test file:TEXT" \
-      --dclick-action="sh -c 'unset TESTFILE; \"$GTKMENUPLUS\" \"\$0\"'"
+      --dclick-action="sh -c '>&2 which $GTKMENUPLUS; unset TESTFILE; \"$GTKMENUPLUS\" \"\$0\"'"
     ;;
   tree) # $2-DIR
     tree -a "$2" |
