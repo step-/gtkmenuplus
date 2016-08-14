@@ -2071,7 +2071,6 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult
 
 // ----------------------------------------------------------------------
 enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuEntry* pme, gboolean bRequired, guint iCaller) // used by fillSubMenuEntry, onLauncherDirFile, onLauncherSubMenu, processLauncher
-                   //TODO processLauncher
 // ----------------------------------------------------------------------
 {
  struct MenuEntry *cached = find_in_cache(sFilePath);
@@ -2084,6 +2083,7 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   // Parse .desktop file sFilePath.
   // Code taken from processLauncher. See comments there.
   clearLauncherElements();
+  //http://developer.gnome.org/glib/2.28/glib-Key-value-file-parser.html
   GKeyFile* pGKeyFile = g_key_file_new();
   GError* gerror = NULL;
   if (!g_key_file_load_from_file(pGKeyFile, sFilePath, 0, &gerror))
@@ -2136,8 +2136,8 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   STRCPY_IF(pme->m_sTooltip, gl_launcherElement[LAUNCHER_ELEMENT_COMMENT].sValue);
 #endif
   STRCPY_IF(pme->m_sCategory, gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue);
-  if ((sValue = gl_launcherElement[LAUNCHER_ELEMENT_NODISPLAY].sValue))
-   pme->m_bNoDisplay = 0 != strcmp("true", sValue);
+  sValue = gl_launcherElement[LAUNCHER_ELEMENT_NODISPLAY].sValue;
+  pme->m_bNoDisplay = sValue ? 0 != strcmp("true", sValue) : FALSE;
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
   // FIXME - WIP
   // .desktop file entry "format=value" pertains to keyword
@@ -2643,17 +2643,71 @@ gboolean intersectingCategoriesQ(IN const gchar *a, IN const gchar *b) //used by
  return bIntersecting;
 }
 
-// ---------------------------------------------------------------------- AC
+// ----------------------------------------------------------------------
 enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, INOUT struct MenuEntry *pme, guint iCaller)
 // ----------------------------------------------------------------------
 {
+ enum LineParseResult lineParseResult =
+  fillMenuEntry(sLauncherPath, pme, TRUE, iCaller);
+ if(lineParseResult >= lineParseFail)
+  return lineParseResult;
+
+ if (pme->m_bNoDisplay)
+  return lineParseNoDisplay; // honor NoDisplay="true"
+
+ // Apply Category=filter_list, if any.
+ //TODO global *gl_sLauncherDirFile' categories vs. local .desktop.directory categories
+ if (! intersectingCategoriesQ(
+    pme->m_sCategory,
+    gl_launcherDirFile.m_menuEntry.m_sCategory))
+ {
+  if (gl_nOptInfo > 1)
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "<- excluded by '%s'\n",
+      gl_launcherDirFile.m_sPath); // sLauncherPath
+  return lineParseWarn;
+ }
+
+ //http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
+ gchar *sValue = pme->m_sCmd;
+ if (sValue)
+ {
+  regmatch_t pmatch[2];
+  if (regexec(&gl_rgxLauncherExecArg, sValue, 1, pmatch, 0) == 0)
+  {
+   // Blank out the first %f token in entry Exec= (%F, %u, etc.)
+   gchar *p;
+   for(p = sValue + pmatch[0].rm_so; p < sValue + pmatch[0].rm_eo; p++)
+     *p = ' ';
+  }
+  if(*gl_sLauncherArguments)
+  {
+   // Append "launcherargs=" arguments, if any.
+   gchar buf[MAX_PATH_LEN + 1];
+   snprintf(buf, MAX_PATH_LEN, "%s %s", sValue, gl_sLauncherArguments);
+   sValue = buf;
+  }
+  if (strlen(sValue) > MAX_PATH_LEN - 1)
+  {
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "cmd for launcher too long (%s)\n", sValue);
+   return lineParseFail;
+  }  // if (strlen(sValue) > MAX_PATH_LEN - 1)
+  strcpy(gl_sCmds[gl_uiCurItem], sValue);
+ } // if (sValue)
+ lineParseResult = resizeCommandBuffer(pme->m_sErrMsg);
+ if (lineParseResult != lineParseOk)
+  return lineParseResult;
+ lineParseResult = onIconForLauncher(sLauncherPath, pme->m_uiDepth, pme->m_sErrMsg);
+ if (lineParseResult == lineParseOk)
+  ++gl_nLauncherCount;
+ return lineParseResult;
+}
+
+// TODO DELETEME
+// ---------------------------------------------------------------------- AC
+enum LineParseResult XprocessLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, INOUT struct MenuEntry *pme, guint iCaller)
+// ----------------------------------------------------------------------
+{
  //if (strcmp(sLauncherPath + strlen(sLauncherPath) - 8, ".desktop") != 0) return stateIfNotDesktopFile;
-
- // TODO use fillMenuEntry (caching).
- /* enum lineParseResult fillMenuEntry(sLauncherPath, pme, TRUE, iCaller); */
- /* if(lineParseResults >= lineParseFail) */
- /*  return lineParseResult; */
-
 
  clearLauncherElements(); // (gl_launcherElement, sizeof(gl_launcherElement)/sizeof(struct LauncherElement));
 
