@@ -216,7 +216,7 @@ guint                 intertag_buffer_update(INOUT gchar** psBuffPtr, IN gchar* 
 
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
-enum LineParseResult  processLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, IN guint uiDepth, OUT gchar* sErrMsg);
+enum LineParseResult  processLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, INOUT struct MenuEntry *pme, guint iCaller);
 #endif
 
 gboolean              checkOptions(IN gchar* sOption);
@@ -2286,7 +2286,7 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
  if (S_ISREG(statbuf.st_mode))
  {
   return processLauncher(gl_sLinePostEq, lineParseFail,
-    pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
+    pMenuEntryPending, iCaller);
  }
 
  // Enter (linked-to) directory unless max menu depth exceeded.
@@ -2316,6 +2316,7 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
   enum LineParseResult lineParseResult;
   gchar sLauncherPath1[MAX_PATH_LEN + 1];
   snprintf(sLauncherPath1, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, namelist[i]->d_name);
+//fprintf(stderr, "%s\n", sLauncherPath1); //DEBUG
   int len1 = len0 + _D_EXACT_NAMLEN(namelist[i]);
 #ifdef _DIRENT_HAVE_D_TYPE
   int d_type = namelist[i]->d_type;
@@ -2419,7 +2420,7 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
      gl_gtkMenuEntry[pMenuEntryPending->m_uiDepth] = NULL;
     }
    }
-   if (lineParseResult != lineParseOk && lineParseResult != lineParseWarn)
+   if (lineParseResult >= lineParseFail)
     goto break_this_loop;
 
    strcpy(gl_sLinePostEq, gl_sLinePostEq1);
@@ -2458,19 +2459,14 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
   // symlink) that can be processed as a launcher file.
 
   lineParseResult = processLauncher(sLauncherPath1,
-      lineParseOk, pMenuEntryPending->m_uiDepth, pMenuEntryPending->m_sErrMsg);
+      lineParseOk, pMenuEntryPending, iCaller);
   if (lineParseResult != lineParseOk)
     reapErrMsg(pMenuEntryPending, lineParseResult, sLauncherPath1);
-  if ( ! (
-      // low severity errors
-         lineParseResult == lineParseOk
-      || lineParseResult == lineParseWarn
-      || lineParseResult == lineParseNoDisplay))
+  if (lineParseResult >= lineParseFail)
   {
 break_this_loop: // IN lineParseResult
 
-   // But even if higher severity errors occurred we still don't break
-   // this loop, and go back to treat all inferior errors as soft ones.
+   // But even if severe errors occurred we don't want to break this loop.
    continue;
 
    // If instead you wanted to bail out on the first severe error:
@@ -2648,7 +2644,7 @@ gboolean intersectingCategoriesQ(IN const gchar *a, IN const gchar *b) //used by
 }
 
 // ---------------------------------------------------------------------- AC
-enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, IN guint uiDepth, OUT gchar* sErrMsg)
+enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, INOUT struct MenuEntry *pme, guint iCaller)
 // ----------------------------------------------------------------------
 {
  //if (strcmp(sLauncherPath + strlen(sLauncherPath) - 8, ".desktop") != 0) return stateIfNotDesktopFile;
@@ -2666,7 +2662,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  GError* gerror = NULL;
  if (!g_key_file_load_from_file(pGKeyFile, sLauncherPath, 0, &gerror)) // GKeyFileFlags flags GError **gerror
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n", gerror->message);
+  snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", gerror->message);
   g_error_free(gerror);
   return lineParseFail;
  }
@@ -2693,7 +2689,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
 
   if (!sValue && gl_launcherElement[i].bRequired)
   {
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in '%s'\n", gl_launcherElement[i].m_sKeyword, sLauncherPath);
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in '%s'\n", gl_launcherElement[i].m_sKeyword, sLauncherPath);
    bOk = FALSE;
    break;
   } // if (!sValue && gl_launcherElement[i].bRequired)
@@ -2715,7 +2711,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
      gl_launcherDirFile.m_menuEntry.m_sCategory))
  {
   if (gl_nOptInfo > 1)
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "<- excluded by '%s'\n",
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "<- excluded by '%s'\n",
       gl_launcherDirFile.m_sPath); // sLauncherPath
   return lineParseWarn;
  }
@@ -2743,15 +2739,15 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
   }
   if (strlen(sValue) > MAX_PATH_LEN - 1)
   {
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "cmd for launcher too long (%s)\n", sValue);
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "cmd for launcher too long (%s)\n", sValue);
    return lineParseFail;
   }  // if (strlen(sValue) > MAX_PATH_LEN - 1)
   strcpy(gl_sCmds[gl_uiCurItem], sValue);
  } // if (sValue)
- enum LineParseResult lineParseResult = resizeCommandBuffer(sErrMsg);
+ enum LineParseResult lineParseResult = resizeCommandBuffer(pme->m_sErrMsg);
  if (lineParseResult != lineParseOk)
   return lineParseResult;
- lineParseResult = onIconForLauncher(sLauncherPath, uiDepth, sErrMsg);
+ lineParseResult = onIconForLauncher(sLauncherPath, pme->m_uiDepth, pme->m_sErrMsg);
  if (lineParseResult == lineParseOk)
   ++gl_nLauncherCount;
  return lineParseResult;
