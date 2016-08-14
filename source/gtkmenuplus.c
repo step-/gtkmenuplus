@@ -2134,19 +2134,14 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   g_key_file_free(pGKeyFile);
   if (!bOk) return lineParseFail;
 
-  /*
-   * FIXME
-   * Callers don't need NoDisplay= value, so not implemented here.
-  STRCPY_IF(pme->m_sNoDisplay, gl_launcherElement[LAUNCHER_ELEMENT_NODISPLAY].sValue);
-  * */
-
-
   STRCPY_IF(pme->m_sTitle, gl_launcherElement[LAUNCHER_ELEMENT_NAME].sValue);
   STRCPY_IF(pme->m_sIcon,  gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue);
 #if  !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
   STRCPY_IF(pme->m_sTooltip, gl_launcherElement[LAUNCHER_ELEMENT_COMMENT].sValue);
 #endif
   STRCPY_IF(pme->m_sCategory, gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue);
+  if ((sValue = gl_launcherElement[LAUNCHER_ELEMENT_NODISPLAY].sValue))
+   pme->m_bNoDisplay = 0 != strcmp("true", sValue);
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
   // FIXME - WIP
   // .desktop file entry "format=value" pertains to keyword

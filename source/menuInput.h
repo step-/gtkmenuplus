@@ -157,6 +157,7 @@ struct MenuEntry
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
  gchar           m_sCategory[MAX_LINE_LENGTH + 1];
+ gboolean        m_bNoDisplay;
 #endif
 };
 
