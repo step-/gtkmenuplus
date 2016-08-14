@@ -2081,15 +2081,6 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   return lineParseOk;
  }
 
- // TODO DELETEME
- /* int fd; */
- /* if (-1 != (fd = open(sFilePath, O_RDONLY */
-/* #ifdef _GNU_SOURCE */
- /*         | O_NOATIME */
-/* #endif */
- /*         ))) */
- /* { */
- /*  close(fd); */
   // Parse .desktop file sFilePath.
   // Code taken from processLauncher. See comments there.
   clearLauncherElements();
@@ -2097,7 +2088,8 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   GError* gerror = NULL;
   if (!g_key_file_load_from_file(pGKeyFile, sFilePath, 0, &gerror))
   {
-   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", gerror->message);
+   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "'%s' %s\n",
+     sFilePath, gerror->message);
    g_error_free(gerror);
    return lineParseFail;
   }
@@ -2107,6 +2099,10 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   gchar * sValue = NULL;
   for (i=0; i < gl_nLauncherElements; i++)
   {
+   // If key can't be found then NULL is returned and gerror is set to
+   // G_KEY_FILE_ERROR_KEY_NOT_FOUND.  If the value associated with key
+   // can't be interpreted or no suitable translation can be found then
+   // the untranslated value is returned.
    sValue = NULL;
    gerror = NULL;
    if (gl_launcherElement[i].m_bTryLocalised)
@@ -2154,9 +2150,6 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
 
   add_to_cache(sFilePath, pme);
   return lineParseOk;
-  //TODO DELETEME
- /* } */
- /* return lineParseFail; */
 }
 
 // ----------------------------------------------------------------------
@@ -2546,14 +2539,6 @@ enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending
      "launcherdirfile", pMenuEntryPending->m_sErrMsg); // can rewrite gl_sLinePostEq
  if (lineParseResult != lineParseOk)
   return lineParseResult;
-
- struct stat sb;
- if (stat(gl_sLinePostEq, &sb) == -1 || !(S_ISREG(sb.st_mode) || S_ISLNK(sb.st_mode)))
- {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
-      "%s: '%s'\n", strerror(errno), gl_sLinePostEq);
-  return lineParseFail;
- }
 
 lineParseResult = fillMenuEntry(gl_sLinePostEq,
   &gl_launcherDirFile.m_menuEntry,
