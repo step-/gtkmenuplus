@@ -2186,7 +2186,8 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
   pme->m_uiDepth = sav;
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
-  gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue = gl_launcherDirFile.m_sFormatEq; //set cascade
+  gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue = //set cascade
+    strdup(gl_launcherDirFile.m_sFormatEq);
 #endif
  }
  // If none of the above cases, fall back to the sufficient values that onSubMenu for pme.
@@ -2757,7 +2758,10 @@ enum LineParseResult XprocessLauncher(IN gchar* sLauncherPath, IN gboolean state
  // If "NoDisplay=true" parsed then discard this launcher.
  sValue = gl_launcherElement[LAUNCHER_ELEMENT_NODISPLAY].sValue;
  if (sValue && 0 == strcmp(sValue, "true"))
+ {
+  freeLauncherElementsMem();
   return lineParseNoDisplay;
+ }
 
  // Apply Category=filter_list, if any.
  //TODO global *gl_sLauncherDirFile' categories vs. local .desktop.directory categories
