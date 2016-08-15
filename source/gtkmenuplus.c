@@ -2696,7 +2696,8 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  lineParseResult = resizeCommandBuffer(pme->m_sErrMsg);
  if (lineParseResult != lineParseOk)
   return lineParseResult;
- lineParseResult = onIconForLauncher(sLauncherPath, pme->m_uiDepth, pme->m_sErrMsg);
+ //DELETEME lineParseResult = onIconForLauncher(sLauncherPath, pme->m_uiDepth, pme->m_sErrMsg);
+ lineParseResult = onIconForLauncher(sLauncherPath, pme);
  if (lineParseResult == lineParseOk)
   ++gl_nLauncherCount;
  return lineParseResult;
@@ -2801,14 +2802,83 @@ enum LineParseResult XprocessLauncher(IN gchar* sLauncherPath, IN gboolean state
  enum LineParseResult lineParseResult = resizeCommandBuffer(pme->m_sErrMsg);
  if (lineParseResult != lineParseOk)
   return lineParseResult;
- lineParseResult = onIconForLauncher(sLauncherPath, pme->m_uiDepth, pme->m_sErrMsg);
+ //DELETEME lineParseResult = onIconForLauncher(sLauncherPath, pme->m_uiDepth, pme->m_sErrMsg);
+ lineParseResult = onIconForLauncher(sLauncherPath, pme);
  if (lineParseResult == lineParseOk)
   ++gl_nLauncherCount;
  return lineParseResult;
 }
 
+// ----------------------------------------------------------------------
+enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, INOUT struct MenuEntry* pme)
+// ----------------------------------------------------------------------
+{
+ OUT gchar* sErrMsg = pme->m_sErrMsg;
+
+ GtkWidget *pGtkWdgtCurrent = makeItem( // counts up gl_uiCurItem
+   pme->m_sTitle,
+   gl_sCmds[gl_uiCurItem], // need to be available at runItem time
+   pme->m_sTooltip,
+   pme->m_uiDepth);
+ if (!pGtkWdgtCurrent)
+  return lineParseFail;
+
+ gchar* sIconPath = pme->m_sIcon;
+
+retry:
+ if (sIconPath)
+ {
+  gchar* sIconExt = strrchr(sIconPath, '.');
+  if (sIconExt && regexec(&gl_rgxIconExt, sIconExt, 0, NULL, 0) != 0) sIconExt = NULL;
+
+  GdkPixbuf* pGdkPixbuf = NULL;
+  if (strchr(sIconPath, '/') == NULL && sIconExt == NULL)
+  {
+   // sIconPath isn't a full path and doesn't match an icon file name extension
+   gchar* sIconPathNew = getIconPath(sIconPath, gl_iW, FALSE);
+   if (sIconPathNew)
+   {
+    //FIXME ??leak?? g_free(gl_nLauncherElements[...ICON].sValue);
+    strcpy(pme->m_sIcon, sIconPathNew);
+    free(sIconPathNew);
+   }
+  } // if (strchr(sIconPath, '/') == NULL && sIconExt == NULL)
+
+  sIconPath = pme->m_sIcon;
+  sIconExt = strrchr(sIconPath, '.');
+  if (sIconExt && regexec(&gl_rgxIconExt, sIconExt, 0, NULL, 0) != 0) sIconExt = NULL;
+   // if sIconPath isn't a full path and doesn't match an icon file name extension
+  if (strchr(sIconPath, '/') == NULL && sIconExt == NULL)
+   pGdkPixbuf = getIconBuiltInPixBuf(sIconPath, gl_iW, FALSE);
+  else
+   pGdkPixbuf = fileToPixBuf(sIconPath, gl_iW, FALSE, sErrMsg); // resizes
+
+  if (!pGdkPixbuf)
+  {
+    if (sIconExt)
+    {
+      *sIconExt = *sErrMsg = '\0';
+      goto retry;
+    }
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "Can't get 'Icon=%s'\n", sIconPath);
+   gtk_widget_destroy(pGtkWdgtCurrent);
+   return lineParseWarn;
+  }
+
+  GtkWidget* image = gtk_image_new_from_pixbuf(pGdkPixbuf);
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (pGtkWdgtCurrent), image);
+
+ } // if (*sIconPath)
+
+ // TODO revisit
+ freeLauncherElementsMem(); //(gl_launcherElement, sizeof(gl_launcherElement)/sizeof(struct LauncherElement));
+
+ return lineParseOk;
+}
+
+// TODO DELETEME
 // ---------------------------------------------------------------------- AC
-enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg)
+enum LineParseResult XonIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg)
 // ----------------------------------------------------------------------
 {
  GtkWidget *pGtkWdgtCurrent = makeItem(gl_launcherElement[LAUNCHER_ELEMENT_NAME].sValue,

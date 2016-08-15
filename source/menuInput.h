@@ -269,7 +269,8 @@ enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherSubMenu(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDir(INOUT struct MenuEntry* pMenuEntryPending);
-enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg);
+//DELETEME enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg);
+enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, INOUT struct MenuEntry* pme);
 #endif
 
 enum LineParseResult onInclude(INOUT struct MenuEntry* pMenuEntryPending);
