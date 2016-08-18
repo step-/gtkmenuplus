@@ -2138,6 +2138,7 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   if (!bOk) return lineParseFail;
 
   STRCPY_IF(pme->m_sTitle, gl_launcherElement[LAUNCHER_ELEMENT_NAME].sValue);
+  STRCPY_IF(pme->m_sCmd, gl_launcherElement[LAUNCHER_ELEMENT_EXEC].sValue);
   STRCPY_IF(pme->m_sIcon,  gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue);
 #if  !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
   STRCPY_IF(pme->m_sTooltip, gl_launcherElement[LAUNCHER_ELEMENT_COMMENT].sValue);
