@@ -143,8 +143,10 @@ typedef enum LineParseResult (*funcOnMenuEntry)(struct MenuEntry*);
 
 struct MenuEntry
 {
- funcOnMenuEntry m_fnCommit;
- guint           m_uiDepth;
+ //[1] fillMenuEntry must reset cached members that don't tie to a
+ //    .desktop "Entry=" field.
+ funcOnMenuEntry m_fnCommit; //[1]
+ guint           m_uiDepth; //[1]
  gchar           m_sTitle[MAX_LINE_LENGTH + 1];
  gchar           m_sCmd[MAX_PATH_LEN + 1];
  gchar           m_sIcon[MAX_PATH_LEN + 1];

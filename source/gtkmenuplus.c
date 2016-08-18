@@ -2080,6 +2080,9 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
  if (cached)
  {
   memcpy(pme, cached, sizeof(struct MenuEntry));
+  //[1] Reset cached members that don't tie to a .desktop "Entry=" field.
+  pme->m_fnCommit = NULL; //[1]
+  pme->m_uiDepth = gl_uiCurDepth; //[1]
   return lineParseOk;
  }
 #endif
@@ -2323,7 +2326,7 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
   enum LineParseResult lineParseResult;
   gchar sLauncherPath1[MAX_PATH_LEN + 1];
   snprintf(sLauncherPath1, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, namelist[i]->d_name);
-//fprintf(stderr, "%s\n", sLauncherPath1); //DEBUG
+  //fprintf(stderr, "%s\n", sLauncherPath1); //DEBUG
   int len1 = len0 + _D_EXACT_NAMLEN(namelist[i]);
 #ifdef _DIRENT_HAVE_D_TYPE
   int d_type = namelist[i]->d_type;

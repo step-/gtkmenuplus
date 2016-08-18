@@ -1,0 +1,25 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+mTESTFILE = $0 # required
+mDIR = nest/2/3/4/5A
+include = lib/common.gtkmenuplus
+#-------------------------------------------
+
+# Purpose: ensure that next launchersub= items don't get embedded in the current submenu=
+
+separator
+format=
+item = 10 submenu=+launchersub=: PASS if "A" is brown, and "A>" contains two red items only.
+format = foreground="brown"
+submenu = A
+format = foreground="red"
+launchersub=nest/2/3/4/5A
+endsubmenu # A
+
+separator
+format=
+item = 20 launchersub=: PASS if two blue items follow
+format = foreground="blue"
+launchersub=nest/2/3/4/5A
