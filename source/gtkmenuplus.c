@@ -63,6 +63,8 @@
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 #include "launcher.h"
 #include <dirent.h>
+#endif
+#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_) && !defined(_GTKMENUPLUS_NO_CACHE)
 #include "lru_cache.h"
 #endif
 
@@ -2073,12 +2075,14 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult
 enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuEntry* pme, gboolean bRequired, guint iCaller) // used by fillSubMenuEntry, onLauncherDirFile, onLauncherSubMenu, processLauncher
 // ----------------------------------------------------------------------
 {
+#if !defined(_GTKMENUPLUS_NO_CACHE)
  struct MenuEntry *cached = find_in_cache(sFilePath);
  if (cached)
  {
   memcpy(pme, cached, sizeof(struct MenuEntry));
   return lineParseOk;
  }
+#endif
 
   // Parse .desktop file sFilePath.
   // Code taken from processLauncher. See comments there.
@@ -2148,7 +2152,9 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
      gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue);
 #endif
 
+#if !defined(_GTKMENUPLUS_NO_CACHE)
   add_to_cache(sFilePath, pme);
+#endif
   return lineParseOk;
 }
 
@@ -2271,7 +2277,7 @@ enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
 }
 
 // ----------------------------------------------------------------------
-enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending, gchar *sCaller, guint iCaller)
+enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending, gchar *sCaller, guint iCaller) // used by onLauncher, onLauncherSub
 // ----------------------------------------------------------------------
 {
  struct stat statbuf;
