@@ -3,6 +3,7 @@
 #-------------------------------------------
 configure = endsubmenu noicons
 mTESTFILE = $0 # required
+mDIR=nest
 include = lib/common.gtkmenuplus
 #-------------------------------------------
 
