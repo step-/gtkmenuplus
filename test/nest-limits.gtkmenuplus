@@ -11,7 +11,7 @@ include = lib/common.gtkmenuplus
 DO_ERROR_TEST=no
 
 separator
-item = launchersub=: PASS if levels 2>3>4>5>two items
+item = 10 launchersub=: PASS if levels 2>3>4>5>two items
 submenu = 2
 submenu = 3
 submenu = 4
@@ -23,7 +23,7 @@ endsubmenu
 endsubmenu
 
 separator
-item = launcher=: PASS if levels 2>3>4>5>two items
+item = 20 launcher=: PASS if levels 2>3>4>5>two items
 submenu = 2
 submenu = 3
 submenu = 4
@@ -35,7 +35,7 @@ endsubmenu
 endsubmenu
 
 separator
-item = launcher & sub=: PASS if levels 2>3>4>5>four items
+item = 30 launcher & sub=: PASS if levels 2>3>4>5>four items
 submenu = 2
 submenu = 3
 submenu = 4
@@ -48,12 +48,28 @@ endsubmenu
 endsubmenu
 endsubmenu
 
+separator
+format=
+item = 40 submenu=+launchersub=: PASS if "A","B" are blue, and lower level items are red
+format = foreground="blue"
+ submenu = A submenu=... to launchersub=
+ submenu = B
+ format = foreground="red"
+ submenu = C
+ # submenu = D
+ launchersub=nest
+ # endsubmenu # D
+ endsubmenu # C
+ endsubmenu # B
+ endsubmenu # A submenu=... to launchersub=
+
+item = ... next: enable DO_ERROR_TEST in $mTESTFILE...
 # PASS IF ERROR DIALOG
 if= $DO_ERROR_TEST
 separator
 
 separator
-item = launcher{sub}=: PASS if error dialog
+item = 100 launcher{sub}=: PASS if error dialog
 submenu = 2
 submenu = 3
 submenu = 4
