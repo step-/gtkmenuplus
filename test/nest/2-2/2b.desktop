@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=WM Switcher Switch windowmanagers
+Icon=/usr/share/pixmaps/midi-icons/go48.png
+Comment=WM Switcher Switch windowmanagers
+Exec=wmswitcher
+Terminal=false
+Type=Application
+Categories=DesktopSettings
+GenericName=WM Switcher Switch windowmanagers
