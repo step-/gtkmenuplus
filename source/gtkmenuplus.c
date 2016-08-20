@@ -2618,25 +2618,34 @@ enum LineParseResult onLauncherSubMenu(INOUT struct MenuEntry* pMenuEntryPending
 }
 
 // ----------------------------------------------------------------------
-gboolean intersectQ(IN gchar *a, IN gchar *b)
+gboolean intersectQ(INOUT gchar *a, INOUT gchar *b)
 // ----------------------------------------------------------------------
 {
- gchar *at; gchar *as; gchar *bt; gchar *bs;
+ gchar *at, *as, *bt, *bs, *bk;
+
+ if (! (bk = strdup(b)))
+ {
+  perror("strdup");
+  return FALSE; //error
+ }
 
  at = strtok_r(a, ";", &as);
  while (at)
  {
+  strcpy(b, bk);
   bt = strtok_r(b, ";", &bs);
   while (bt)
   {
    if (0 == strcmp(at, bt))
    {
+    free(bk);
     return TRUE;
    }
    bt = strtok_r(NULL, ";", &bs);
   }
   at = strtok_r(NULL, ";", &as);
  }
+ free(bk);
  return FALSE;
 }
 
