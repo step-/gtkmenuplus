@@ -7,8 +7,14 @@ mDIR = nest
 include = lib/common.gtkmenuplus
 #-------------------------------------------
 
-item = 10 tooltipformat: PASS if all tooltips are magenta regardless of level
+item = <span background="white">Run this test w/ and w/o caching (makefile -D_GTKMENUPLUS_NO_CACHE)</span>
+cmd = true
+
+separator
 tooltipformat= foreground="magenta"
+item = 10 tooltipformat: PASS if all tooltips are magenta regardless of level
+cmd = true
+tooltip = The tooltips of all items and sub-menus of this test.
 
 separator
 format=
@@ -83,7 +89,7 @@ format = foreground="blue"
 
 separator
 format=
-item = 70 launchersub=: PASS if all items are blue regardless of level
+item = 70 launchersub=: PASS if lvl0={2 itm, 3 >} & all items r blue regardless of lvl
 format = foreground="blue"
 launchersub=nest
 

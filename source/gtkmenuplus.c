@@ -94,7 +94,7 @@ extern struct LauncherElement gl_launcherElement[];
 extern guint                  gl_nLauncherElements;
 gchar gl_sLauncherDB[MAX_PATH_LEN + 1]; // launcher=dir/** list file
 gchar gl_sReapedErrMsgs[MAX_LINE_LENGTH + 1]; // launcher{sub}= cumulative errors
-int   gl_nLauncherReadLineDepth; // set by main()@readLine when it reads "launcher="
+int   gl_nLauncherReadLineDepth; // set by main()@readLine when it reads "launcher*="
 struct DirFile gl_launcherDirFile; // set by onLauncherDirFile
 guint gl_nLauncherCount = 0; // how many .desktop files did effectively display
 guint gl_nHushedUpErrors = 0; // how many error lines readFile did not report
@@ -2181,8 +2181,11 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
  { // Fill pme from local dirfile ".desktop.directory".
 
   close(fd);
+  // Don't overwrite m_uiDepth otherwise the sub-menu will nest at a higher level.
+  guint sav = pme->m_uiDepth;
   enum LineParseResult lineParseResult =
    fillMenuEntry(dirfile, pme, FALSE, iCaller); //sets gl_LauncherElement[]
+  pme->m_uiDepth = sav;
   free(dirfile);
   if (lineParseResult != lineParseOk)
    return lineParseResult;
@@ -2284,6 +2287,7 @@ enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
 enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending, gchar *sCaller, guint iCaller) // used by onLauncher, onLauncherSub
 // ----------------------------------------------------------------------
 {
+ //fprintf(stderr, "%s\n", gl_sLinePostEq); //DEBUG
  struct stat statbuf;
  if (stat(gl_sLinePostEq, &statbuf) == -1)
  {
@@ -2320,6 +2324,10 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
     "%s=: %s: '%s'\n", sCaller, strerror(errno), gl_sLinePostEq);
   return lineParseFail;
  }
+ //TODO DELETEME
+ /* // Correction for case 'readLine found "launcher{sub}=" nested in "submenu="'. */
+ /*  pMenuEntryPending->m_uiDepth = gl_uiCurDepth; */
+
  int i;
  for (i = 0; i < n; i++)
  {
@@ -2333,9 +2341,6 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
   int d_type = namelist[i]->d_type;
 #endif
   free(namelist[i]);
-
-  // Correction for case 'readLine found "launcher{sub}=" nested in "submenu="'.
-  pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
 
   // -----------------
   // LINE_LAUNCHER_SUB
@@ -2377,6 +2382,9 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
    }
    // Getting here means that there are some .desktop files in or under
    // directory path sLauncherPath1.
+
+   // {N1} Correction for case 'readLine found "launcher{sub}=" nested in "submenu="'.
+   pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
 
    // Pretend readLine read "submenu=".
    strcpy(gl_sLinePostEq, sLauncherPath1 + len0);
@@ -2430,6 +2438,7 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
      gtk_widget_destroy(gl_gtkMenuEntry[pMenuEntryPending->m_uiDepth]);
      gl_gtkMenuEntry[pMenuEntryPending->m_uiDepth] = NULL;
     }
+    //fprintf(stderr, "%d launchers added\n", gl_nLauncherCount - nCountBefore); //DEBUG
    }
    if (lineParseResult >= lineParseFail)
     goto break_this_loop;
