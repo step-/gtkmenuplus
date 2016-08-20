@@ -2677,7 +2677,8 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  if(lineParseResult >= lineParseFail)
   return lineParseResult;
 
- if (pme->m_bNoDisplay)
+ extern gboolean gl_bConfigKeywordLauncherNoDisplay;
+ if (gl_bConfigKeywordLauncherNoDisplay && pme->m_bNoDisplay)
   return lineParseNoDisplay; // honor NoDisplay="true"
 
  // Apply Category=filter_list, if any.

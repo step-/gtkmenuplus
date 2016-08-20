@@ -19,7 +19,8 @@ Version 1.1.0 significantly improves `.desktop` file processing
    * `launchersub=` can be nested in `submenu=` keywords.
 
    * `launchersub=` and `launcher=` ignore a .desktop file that includes
-     line _NoDisplay=true_.
+     line _NoDisplay=true_. This can be disabled with the new option
+     `configure=nolaunchernodisplay`.
 
  * New keyword `launchersubmenu=` reads its settings from a .desktop
    file, and displays a sub-menu of the items that follow it in the

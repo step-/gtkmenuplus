@@ -180,11 +180,13 @@ struct DirFile
  guint      m_uiMenuLevel; // needed for check for submenu lines
 };
 
+
 #endif
 //==============================================================================================
 
 gboolean      gl_bConfigKeywordUseEndSubMenu;   // set by onConfigure, used by onSubMenuEnd, readFile
 gboolean      gl_bConfigKeywordNoIcons;   // set by onConfigure, used by addIcon
+gboolean      gl_bConfigKeywordLauncherNoDisplay;   // set by onConfigure, used by processLauncher
 
 
 // reffed in struct KeywordConfigure gl_keywordConfigure []

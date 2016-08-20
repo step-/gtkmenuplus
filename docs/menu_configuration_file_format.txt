@@ -409,7 +409,7 @@ launcher=path_to_launcher(s)
   It usually includes a name, executable, comment (tooltip) and icon.
 
   If you provide a path to a single .desktop file, it will be used to create a menu entry,
-  unless it includes a line "NoDisplay=true".
+  unless it includes a line "NoDisplay=true" and configuration option "nolaunchernodisplay" wasn't specified.
 
   Any preceding "format=format_string" line will apply to that entry, but of course you won't be likely to
   format parts of the entry name or comment using <span>..</span> tags.
@@ -671,7 +671,8 @@ A "submenu=" line marks the end of any menu item or submenu preceding it.
 
 configure=
 
-  Any of the keywords "endsubmenu", "noendsubmenu", "icons", "noicons", "formattinglocal", "noformattinglocal", 
+  Any of the keywords "endsubmenu", "noendsubmenu", "icons", "noicons", "formattinglocal", "noformattinglocal",
+  "launchernodisplay", "nolaunchernodisplay",
   "errormsgbox" , "noerrormsgbox", "abspathparts", "menuposition", and "iconsize" can occur on this line.  
   
   "abspathparts" and "iconsize" must be immediately followed by whitespace, then an integer; 
@@ -683,6 +684,8 @@ configure=
 
   For the effects of "formattinglocal/noformattinglocal", see the include=menu_configuration_file line.
   
+  For the effects of "launchernodisplay/nolaunchernodisplay", see the launcher=, launchersub= lines.
+
   For the effects of "abspathparts n", see the "/path_to/file, ~/path_to/file" line.
 
   "menuposition x y" has the same effect as the "menuposition=x y" line.
