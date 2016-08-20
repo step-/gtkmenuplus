@@ -2080,9 +2080,9 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
  if (cached)
  {
   memcpy(pme, cached, sizeof(struct MenuEntry));
-  //[1] Reset cached members that don't tie to a .desktop "Entry=" field.
-  pme->m_fnCommit = NULL; //[1]
-  pme->m_uiDepth = gl_uiCurDepth; //[1]
+  //{N1} Reset cached members that don't tie to a .desktop "Entry=" field.
+  pme->m_fnCommit = NULL; //{N1}
+  pme->m_uiDepth = gl_uiCurDepth; //{N1}
   return lineParseOk;
  }
 #endif
