@@ -2324,9 +2324,8 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
     "%s=: %s: '%s'\n", sCaller, strerror(errno), gl_sLinePostEq);
   return lineParseFail;
  }
- //TODO DELETEME
- /* // Correction for case 'readLine found "launcher{sub}=" nested in "submenu="'. */
- /*  pMenuEntryPending->m_uiDepth = gl_uiCurDepth; */
+ // {N1} Correction for case 'readLine found "launcher{sub}=" nested in "submenu="'.
+ pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
 
  int i;
  for (i = 0; i < n; i++)
@@ -2382,9 +2381,6 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
    }
    // Getting here means that there are some .desktop files in or under
    // directory path sLauncherPath1.
-
-   // {N1} Correction for case 'readLine found "launcher{sub}=" nested in "submenu="'.
-   pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
 
    // Pretend readLine read "submenu=".
    strcpy(gl_sLinePostEq, sLauncherPath1 + len0);
