@@ -2145,7 +2145,7 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
 #endif
   STRCPY_IF(pme->m_sCategory, gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue);
   sValue = gl_launcherElement[LAUNCHER_ELEMENT_NODISPLAY].sValue;
-  pme->m_bNoDisplay = sValue ? 0 != strcmp("true", sValue) : FALSE;
+  pme->m_bNoDisplay = sValue ? 0 == strcmp("true", sValue) : FALSE;
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
   // FIXME - WIP
   // .desktop file entry "format=value" pertains to keyword
