@@ -2562,11 +2562,6 @@ lineParseResult = fillMenuEntry(gl_sLinePostEq,
  if (lineParseResult != lineParseOk)
   return lineParseResult;
 
-#if  !defined(_GTKMENUPLUS_NO_FORMAT_)
- // FIXME WIP DELETEME
- //STRCPY_IF(gl_launcherDirFile.m_sFormatEq, gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue);
-#endif
-
  // after this, dirfile path is only used for error messages, so we shorten it
  strcpy(gl_launcherDirFile.m_sPath, gl_sLinePostEq);
  shorten(gl_launcherDirFile.m_sPath, gl_launcherDirFile.m_sPath);
@@ -2725,116 +2720,6 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  lineParseResult = resizeCommandBuffer(pme->m_sErrMsg);
  if (lineParseResult != lineParseOk)
   return lineParseResult;
- //DELETEME lineParseResult = onIconForLauncher(sLauncherPath, pme->m_uiDepth, pme->m_sErrMsg);
- lineParseResult = onIconForLauncher(sLauncherPath, pme);
- if (lineParseResult == lineParseOk)
-  ++gl_nLauncherCount;
- return lineParseResult;
-}
-
-// TODO DELETEME
-// ---------------------------------------------------------------------- AC
-enum LineParseResult XprocessLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, INOUT struct MenuEntry *pme, guint iCaller)
-// ----------------------------------------------------------------------
-{
- //if (strcmp(sLauncherPath + strlen(sLauncherPath) - 8, ".desktop") != 0) return stateIfNotDesktopFile;
-
- clearLauncherElements(); // (gl_launcherElement, sizeof(gl_launcherElement)/sizeof(struct LauncherElement));
-
-//http://developer.gnome.org/glib/2.28/glib-Key-value-file-parser.html
- GKeyFile* pGKeyFile = g_key_file_new();
- GError* gerror = NULL;
- if (!g_key_file_load_from_file(pGKeyFile, sLauncherPath, 0, &gerror)) // GKeyFileFlags flags GError **gerror
- {
-  snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", gerror->message);
-  g_error_free(gerror);
-  return lineParseFail;
- }
-
- int i = 0;
- gboolean bOk = TRUE;
- gchar * sValue = NULL;
-
- for (i=0; i < gl_nLauncherElements; i++)
- {
-  sValue = NULL;
-  gerror = NULL;
-//If key can't be found then NULL is returned and gerror is set to G_KEY_FILE_ERROR_KEY_NOT_FOUND.
-//If the value associated with key can't be interpreted or no suitable translation can be found then the untranslated value is returned.
-  if (gl_launcherElement[i].m_bTryLocalised)
-   sValue = g_key_file_get_locale_string(pGKeyFile, "Desktop Entry", gl_launcherElement[i].m_sKeyword, NULL, NULL); // const gchar *locale, GError **gerror
-  if (!sValue)
-  {
-   gerror = NULL;
-   sValue = g_key_file_get_string(pGKeyFile, "Desktop Entry", gl_launcherElement[i].m_sKeyword, NULL); // GError **gerror
-  }
-
-  gl_launcherElement[i].sValue = sValue;
-
-  if (!sValue && gl_launcherElement[i].bRequired)
-  {
-   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "Can't find %s= entry in '%s'\n", gl_launcherElement[i].m_sKeyword, sLauncherPath);
-   bOk = FALSE;
-   break;
-  } // if (!sValue && gl_launcherElement[i].bRequired)
- } // for (i=0; i < sizeof(gl_launcherElement)/sizeof(struct LauncherElement); i++)
-
- g_key_file_free(pGKeyFile);
-
- if (!bOk) return lineParseFail;
-
- // If "NoDisplay=true" parsed then discard this launcher.
- sValue = gl_launcherElement[LAUNCHER_ELEMENT_NODISPLAY].sValue;
- if (sValue && 0 == strcmp(sValue, "true"))
- {
-  freeLauncherElementsMem();
-  return lineParseNoDisplay;
- }
-
- // Apply Category=filter_list, if any.
- //TODO global *gl_sLauncherDirFile' categories vs. local .desktop.directory categories
- if (! intersectingCategoriesQ(
-     gl_launcherElement[LAUNCHER_ELEMENT_CATEGORY].sValue,
-     gl_launcherDirFile.m_menuEntry.m_sCategory))
- {
-  if (gl_nOptInfo > 1)
-   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "<- excluded by '%s'\n",
-      gl_launcherDirFile.m_sPath); // sLauncherPath
-  return lineParseWarn;
- }
-
- sValue = gl_launcherElement[LAUNCHER_ELEMENT_EXEC].sValue;
-//http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
-//if (sPos && strchr("fFuUdDnNickvm",*(sPos+1)) && (" \t\n",*(sPos+2))) *sPos = '\0';
-
- if (sValue)
- {
-  regmatch_t pmatch[2];
-  if (regexec(&gl_rgxLauncherExecArg, sValue, 1, pmatch, 0) == 0)
-  {
-   // Blank out the first %f token in entry Exec= (%F, %u, etc.)
-   gchar *p;
-   for(p = sValue + pmatch[0].rm_so; p < sValue + pmatch[0].rm_eo; p++)
-     *p = ' ';
-  }
-  if(*gl_sLauncherArguments)
-  {
-   // Append "launcherargs=" arguments, if any.
-   gchar buf[MAX_PATH_LEN + 1];
-   snprintf(buf, MAX_PATH_LEN, "%s %s", sValue, gl_sLauncherArguments);
-   sValue = buf;
-  }
-  if (strlen(sValue) > MAX_PATH_LEN - 1)
-  {
-   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "cmd for launcher too long (%s)\n", sValue);
-   return lineParseFail;
-  }  // if (strlen(sValue) > MAX_PATH_LEN - 1)
-  strcpy(gl_sCmds[gl_uiCurItem], sValue);
- } // if (sValue)
- enum LineParseResult lineParseResult = resizeCommandBuffer(pme->m_sErrMsg);
- if (lineParseResult != lineParseOk)
-  return lineParseResult;
- //DELETEME lineParseResult = onIconForLauncher(sLauncherPath, pme->m_uiDepth, pme->m_sErrMsg);
  lineParseResult = onIconForLauncher(sLauncherPath, pme);
  if (lineParseResult == lineParseOk)
   ++gl_nLauncherCount;
@@ -2903,68 +2788,6 @@ retry:
  } // if (*sIconPath)
 
  // TODO revisit
- freeLauncherElementsMem(); //(gl_launcherElement, sizeof(gl_launcherElement)/sizeof(struct LauncherElement));
-
- return lineParseOk;
-}
-
-// TODO DELETEME
-// ---------------------------------------------------------------------- AC
-enum LineParseResult XonIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg)
-// ----------------------------------------------------------------------
-{
- GtkWidget *pGtkWdgtCurrent = makeItem(gl_launcherElement[LAUNCHER_ELEMENT_NAME].sValue,
-                                       gl_sCmds[gl_uiCurItem], // need to be available at runItem time
-                                       gl_launcherElement[LAUNCHER_ELEMENT_COMMENT].sValue, uiDepth); // counts up gl_uiCurItem
- if (!pGtkWdgtCurrent)
-  return lineParseFail;
-
- gchar* sIconPath = gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue;
-
-retry:
- if (sIconPath)
- {
-  gchar* sIconExt = strrchr(sIconPath, '.');
-  if (sIconExt && regexec(&gl_rgxIconExt, sIconExt, 0, NULL, 0) != 0) sIconExt = NULL;
-
-  GdkPixbuf* pGdkPixbuf = NULL;
-  if (strchr(sIconPath, '/') == NULL && sIconExt == NULL)
-  {
-   // sIconPath isn't a full path and doesn't match an icon file name extension
-   gchar* sIconPathNew = getIconPath(sIconPath, gl_iW, FALSE);
-   if (sIconPathNew)
-   {
-    g_free(gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue);
-    gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue = sIconPathNew;
-   }
-  } // if (strchr(sIconPath, '/') == NULL && sIconExt == NULL)
-
-  sIconPath = gl_launcherElement[LAUNCHER_ELEMENT_ICON].sValue;
-  sIconExt = strrchr(sIconPath, '.');
-  if (sIconExt && regexec(&gl_rgxIconExt, sIconExt, 0, NULL, 0) != 0) sIconExt = NULL;
-   // if sIconPath isn't a full path and doesn't match an icon file name extension
-  if (strchr(sIconPath, '/') == NULL && sIconExt == NULL)
-   pGdkPixbuf = getIconBuiltInPixBuf(sIconPath, gl_iW, FALSE);
-  else
-   pGdkPixbuf = fileToPixBuf(sIconPath, gl_iW, FALSE, sErrMsg); // resizes
-
-  if (!pGdkPixbuf)
-  {
-    if (sIconExt)
-    {
-      *sIconExt = *sErrMsg = '\0';
-      goto retry;
-    }
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "Can't get 'Icon=%s'\n", sIconPath);
-   gtk_widget_destroy(pGtkWdgtCurrent);
-   return lineParseWarn;
-  }
-
-  GtkWidget* image = gtk_image_new_from_pixbuf(pGdkPixbuf);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (pGtkWdgtCurrent), image);
-
- } // if (*sIconPath)
-
  freeLauncherElementsMem(); //(gl_launcherElement, sizeof(gl_launcherElement)/sizeof(struct LauncherElement));
 
  return lineParseOk;
