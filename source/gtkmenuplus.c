@@ -2544,6 +2544,7 @@ enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending
  {
   *gl_FormattingSubMenu[pMenuEntryPending->m_uiDepth].m_sFormat =
   gl_FormattingSubMenu[pMenuEntryPending->m_uiDepth].m_cFormatDivider =
+  *gl_launcherDirFile.m_menuEntry.m_sCategory =
   *gl_launcherDirFile.m_sPath = '\0';
   return lineParseOk;
  }
