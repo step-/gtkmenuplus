@@ -143,8 +143,10 @@ typedef enum LineParseResult (*funcOnMenuEntry)(struct MenuEntry*);
 
 struct MenuEntry
 {
- funcOnMenuEntry m_fnCommit;
- guint           m_uiDepth;
+ //[1] fillMenuEntry must reset cached members that don't tie to a
+ //    .desktop "Entry=" field.
+ funcOnMenuEntry m_fnCommit; //[1]
+ guint           m_uiDepth; //[1]
  gchar           m_sTitle[MAX_LINE_LENGTH + 1];
  gchar           m_sCmd[MAX_PATH_LEN + 1];
  gchar           m_sIcon[MAX_PATH_LEN + 1];
@@ -157,6 +159,7 @@ struct MenuEntry
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
  gchar           m_sCategory[MAX_LINE_LENGTH + 1];
+ gboolean        m_bNoDisplay;
 #endif
 };
 
@@ -177,11 +180,13 @@ struct DirFile
  guint      m_uiMenuLevel; // needed for check for submenu lines
 };
 
+
 #endif
 //==============================================================================================
 
 gboolean      gl_bConfigKeywordUseEndSubMenu;   // set by onConfigure, used by onSubMenuEnd, readFile
 gboolean      gl_bConfigKeywordNoIcons;   // set by onConfigure, used by addIcon
+gboolean      gl_bConfigKeywordLauncherNoDisplay;   // set by onConfigure, used by processLauncher
 
 
 // reffed in struct KeywordConfigure gl_keywordConfigure []
@@ -268,7 +273,8 @@ enum LineParseResult onLauncherArgs(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDirFile(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherSubMenu(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onLauncherDir(INOUT struct MenuEntry* pMenuEntryPending);
-enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg);
+//DELETEME enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, IN guint uiDepth, OUT gchar* sErrMsg);
+enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, INOUT struct MenuEntry* pme);
 #endif
 
 enum LineParseResult onInclude(INOUT struct MenuEntry* pMenuEntryPending);

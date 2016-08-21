@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=4b
+Comment=Tooltip
+Exec=true
+Terminal=false
+Type=Application
+Icon=gtk-about
+Categories=Utility;

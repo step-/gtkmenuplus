@@ -1,11 +1,11 @@
 # Note: This file is ignored if its dirpath is used in "launcher=dirpath".
 [Desktop Entry]
 Encoding=UTF-8
-Name=submenu label (2-1 branch)
-Comment=redirected from .desktop.directory in 2-1 sub-tree
+Name=submenu label (2-2 sub-tree)
+Comment=redirected from .desktop.directory in 2-2 sub-tree
 Name[es]=example localized label
 Comment[es]=example localized tooltip
-Icon=gimp
+Icon=gtk-media-play
 # Format applies to contained items, and cascades.
 Format=
 # You can also apply direct (local) formatting to Name= and Comment=

@@ -1,7 +1,8 @@
 #!/bin/sh
 
-# All relative paths are based in the configuration file directory.
-if ! cd "${TESTFILE%/*}"; then
+# All relative paths of gtkmenuplus directives are based in the
+# configuration file directory.
+if [ -z "$TESTFILE" ]; then
   yad --title 'ERROR' --window-icon=gtk-no \
     --text "Script doesn't define variable mTESTFILE. Quitting."
   exit 1
@@ -17,7 +18,7 @@ case $1 in
     sed 's/..//' |
     yad --geometry 500x500+60+60 \
       --list --listen --column="Test file:TEXT" \
-      --dclick-action="sh -c 'unset TESTFILE; \"$GTKMENUPLUS\" \"\$0\"'"
+      --dclick-action="sh -c '>&2 which $GTKMENUPLUS; unset TESTFILE; \"$GTKMENUPLUS\" \"\$0\"'"
     ;;
   tree) # $2-DIR
     tree -a "$2" |

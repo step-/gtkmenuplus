@@ -8,7 +8,7 @@ include = lib/common.gtkmenuplus
 #-------------------------------------------
 
 separator
-item = launcherdirfile=+launchersub=: PASS if yes=3 no=0 for 4 levels
+item = 10 launcherdirfile=+launchersub=: PASS if yes=3 no=0 for 4 levels
 cmd = geany $mDIR/0.directory
 tooltip = click to edit $mDIR/0.directory
 separator
@@ -17,7 +17,7 @@ launchersub=$mDIR/1
 
 separator
 format =
-item = launcherdirfile=+launchersub=: PASS if yes=1 no=1 for 3 levels
+item = 20 launcherdirfile=+launchersub=: PASS if yes=1 no=1 for 3 levels
 cmd = geany $mDIR/1/2/2.directory
 tooltip = click to edit $mDIR/1/2/2.directory
 separator
@@ -27,7 +27,7 @@ launchersub=$mDIR/1/2
 separator
 launcherdirfile=
 separator
-item = launcherdirfile=+launcher=: PASS if yes=3 no=0
+item = 30 launcherdirfile=+launcher=: PASS if yes=3 no=0
 cmd = geany $mDIR/0.directory
 tooltip = click to edit $mDIR/0.directory
 separator
@@ -36,7 +36,7 @@ launcher=$mDIR/1
 
 separator
 format =
-item = launcherdirfile=+launcher=: PASS if yes=1 no=1
+item = 40 launcherdirfile=+launcher=: PASS if yes=1 no=1
 cmd = geany $mDIR/1/2/2.directory
 tooltip = click to edit $mDIR/1/2/2.directory
 separator

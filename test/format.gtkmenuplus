@@ -3,15 +3,22 @@
 #-------------------------------------------
 configure = endsubmenu noicons
 mTESTFILE = $0 # required
+mDIR = nest
 include = lib/common.gtkmenuplus
 #-------------------------------------------
 
-item = tooltipformat: PASS if all tooltips are magenta regardless of level
+item = <span background="white">Run this test w/ and w/o caching (makefile -D_GTKMENUPLUS_NO_CACHE)</span>
+cmd = true
+
+separator
 tooltipformat= foreground="magenta"
+item = 10 tooltipformat: PASS if all tooltips are magenta regardless of level
+cmd = true
+tooltip = The tooltips of all items and sub-menus of this test.
 
 separator
 format=
-item = submenu=: PASS if all levels of "A" are blue
+item = 20 submenu=: PASS if all levels of "A" are blue
 format = foreground="blue"
 submenu = A submenu=... to item=
 submenu = B
@@ -23,7 +30,7 @@ endsubmenu # A submenu=... to item=
 
 separator
 format=
-item = submenu=: PASS if "A","B" are blue, "C","item" are red
+item = 30 submenu=: PASS if "A","B" are blue, "C","item" are red
 format = foreground="blue"
 submenu = A submenu=... to item=
 submenu = B
@@ -36,7 +43,7 @@ endsubmenu # A submenu=... to item=
 
 separator
 format=
-item = submenu=+launchersub=: PASS if all levels of "A" are blue
+item = 40 submenu=+launchersub=: PASS if all levels of "A" are blue
 format = foreground="blue"
  submenu = A submenu=... to launchersub=
  submenu = B
@@ -50,7 +57,7 @@ format = foreground="blue"
 
 separator
 format=
-item = submenu=+launcher=: PASS if all levels of "A" are blue
+item = 50 submenu=+launcher=: PASS if all levels of "A" are blue
 format = foreground="blue"
  submenu = A submenu=... to launcher=
  submenu = B
@@ -60,14 +67,14 @@ format = foreground="blue"
  # endsubmenu # D
  endsubmenu # C
  endsubmenu # B
- endsubmenu # A submenu=... to launchersub=
+ endsubmenu # A submenu=... to launcher=
 
 DO_ITEMS=yes
 if= $DO_ITEMS
 
 separator
 format=
-item = submenu=+launchersub=: PASS if "A","B" are blue, and lower level items are red
+item = 60 submenu=+launchersub=: PASS if "A","B" are blue, and lower level items are red
 format = foreground="blue"
  submenu = A submenu=... to launchersub=
  submenu = B
@@ -82,17 +89,17 @@ format = foreground="blue"
 
 separator
 format=
-item = launchersub=: PASS if all items are blue regardless of level
+item = 70 launchersub=: PASS if lvl0={2 itm, 3 >} & all items r blue regardless of lvl
 format = foreground="blue"
 launchersub=nest
 
 separator
 format =
-item = launchersub=: PASS if all items are black regardless of level
+item = 80 launchersub=: PASS if all items are black regardless of level
 launchersub=nest
 
 separator
-item = launchersub=: PASS if the first half (nested) entries are blue and the last half (nested) entries are red
+item = 90 launchersub=: PASS if the first half (nested) entries are blue and the last half (nested) entries are red
 format = foreground="blue"
 launchersub=nest/2
 format = foreground="red"
@@ -102,7 +109,7 @@ launchersub=nest/2
 
 separator
 format=
-item = launchersub=: PASS if @0 green+blue>, @1 blue+red>, @2 red+magenta>, @3 magenta
+item = 100 launchersub=: PASS if @0 green+blue>, @1 blue+red>, @2 red+magenta>, @3 magenta
 format = foreground="green"
 launchersub=format
 
