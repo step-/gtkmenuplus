@@ -2152,8 +2152,10 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   // "launcherdirfile=" only, so it's copied in onLauncherDirFile()
   // instead of here.
   if (iCaller == LINE_LAUNCHER_DIRFILE)
+  {
    STRCPY_IF(gl_launcherDirFile.m_sFormatEq,
      gl_launcherElement[LAUNCHER_ELEMENT_FORMAT].sValue);
+  }
 #endif
 
 #if !defined(_GTKMENUPLUS_NO_CACHE)

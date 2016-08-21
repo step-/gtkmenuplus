@@ -19,7 +19,7 @@ extern "C" {
 #define IN
 #define OUT
 #define INOUT
-#define STRCPY_IF(A, B) if ((B)) strcpy((A), (B))
+#define STRCPY_IF(A, B) {if ((B)) strcpy((A), (B)); else *(A) = '\0';}
 
 //MAXPATHLEN in <sys/param.h> but broken; in gwin32.h it's 1024
 #define MAX_PATH_LEN 1024
