@@ -408,8 +408,7 @@ launcher=path_to_launcher(s)
   A launcher is a Gnome .desktop file used to launch an application.
   It usually includes a name, executable, comment (tooltip) and icon.
 
-  If you provide a path to a single .desktop file, it will be used to create a menu entry,
-  unless it includes a line "NoDisplay=true" and configuration option "nolaunchernodisplay" wasn't specified.
+  If you provide a path to a single .desktop file, it will be used to create a menu entry, unless an exclusion case applies (see 'Exclusion Cases').
 
   Any preceding "format=format_string" line will apply to that entry, but of course you won't be likely to
   format parts of the entry name or comment using <span>..</span> tags.
@@ -433,10 +432,28 @@ launcher=path_to_launcher(s)
      Otherwise a relative "path_to_launcher(s)" is relative to the path in which the configuration file was found
      (as specified on the gtkmenuplus command line, unless gtkmenuplus is reading from stdin). 
 
+  If you want to refer to all the .desktop files in the directory specified by launcherdirectory=, use
+
+       launcher=.
+  or
+       launcher=*
+
+  Exclusion Cases
+    
+    A .desktop file is displayed in the menu unless one or more of the following exclusion cases apply:
+
+      The file includes entry "NoDisplay=true" and "configure=launchernodisplay" is enabled (by default it is).
+
+      The file includes a "Categories=my_list" entry and my_list isn't empty, and an applicable "launcherdirfile=" "Categories=" entry excludes my_list.
+
+      The file doesn't include a "Category=my_list" entry or my_list is empty, and "configure=launchernullcategory" is disabled (by default it's enabled), and an applicable "launcherdirfile=" "Category=" entry doesn't include special category "NULL" (verbatim).
+
+      The Category= entries of the .desktop file and of an applicable launcherdir= file are defined, and the intersection between thier list values is empty. Note that null list items, such as the null item found between two semicolons in e.g. "Desktop;;System", don't count towards finding an intersection.
+
 
   On my Ubuntu 11.10 installation, there are .desktop files for most applications in /usr/share/applications.
 
-  Be careful using nautilus to browse directories containing .desktop files.  It hides the .desktop extension is hidden,
+  Be careful using nautilus to browse directories containing .desktop files.  It hides the .desktop extension,
   and the file name shown is usually not the actual name of the file (which is usually all-lower-case).
 
   For instance, /usr/share/applications/gnome-sudoku.desktop appears in nautilus browsing the directory /usr/share/applications as "Sudoko".
@@ -447,18 +464,12 @@ launcher=path_to_launcher(s)
   that holding the menu configuration file.  Then use "launcher>=path_to_launcher" to point to that directory.
 
 
-  If you want to refer to all the .desktop files in the directory specified by launcherdirectory=, use
-
-       launcher=.
-  or
-       launcher=*
-
 
 launchersub=path_to_directory
 
   It is a recursive version of launcher=. Like the latter, launchersub=path_to_directory displays all the .desktop files that it can find in path_to_directory. If path_to_directory includes sub-directories they are scanned too, and their .desktop files are be used to create successive menu entries in nested sub-menus. More information follows further down in this section.
 
-  Rules for relative paths, the keywords launcherdirfile= and launcherargs=, and the property "NoDisplay=true" all apply to launchersub=. Each topic is explained elsewhere in this document.
+  Rules for relative paths, the keywords launcherdirfile= and launcherargs=, and Exclusion Cases all apply to launchersub= as they do to launcher=. Each topic is explained elsewhere in this document.
 
   When "launchersub=dirpath" is encounted submenus are created automatically for dirpath and each scanned sub-directory.
 
@@ -485,8 +496,7 @@ launcherdirfile=launcher_dirfile
 
   Formatting is applied to all contained items and cascades to sub-directories of dirpath.
 
-  Entry "Categories=directory_list", if any, is used to filter which .desktop files to display in the menu as follows.
-  For each .desktop file, if both directory_list and my_list are non-empty, omit file if the intersection between directory_list members and my_list members is empty, otherwise include file.
+  Entry "Categories=directory_list", if any, is used to filter which .desktop files to display in the menu as explained in section 'Exclusion Cases' of the launcher= line.
 
   "launcherdirfile=" followed by no text clears out the launcher_dirpath string for all subsequent "launcher=dirpath" lines.
 
@@ -672,7 +682,7 @@ A "submenu=" line marks the end of any menu item or submenu preceding it.
 configure=
 
   Any of the keywords "endsubmenu", "noendsubmenu", "icons", "noicons", "formattinglocal", "noformattinglocal",
-  "launchernodisplay", "nolaunchernodisplay",
+  "launchernodisplay", "nolaunchernodisplay", "launchernullcategory", "nolaunchernullcategory",
   "errormsgbox" , "noerrormsgbox", "abspathparts", "menuposition", and "iconsize" can occur on this line.  
   
   "abspathparts" and "iconsize" must be immediately followed by whitespace, then an integer; 
@@ -684,7 +694,7 @@ configure=
 
   For the effects of "formattinglocal/noformattinglocal", see the include=menu_configuration_file line.
   
-  For the effects of "launchernodisplay/nolaunchernodisplay", see the launcher=, launchersub= lines.
+  For the effects of "launchernodisplay/nolaunchernodisplay" and "launchernullcategory/nolaunchernullcategory", see section Exclusion Cases of the launcher= line, which also applies to the launchersub= line.
 
   For the effects of "abspathparts n", see the "/path_to/file, ~/path_to/file" line.
 

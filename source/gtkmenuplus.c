@@ -2656,8 +2656,26 @@ gboolean intersectQ(INOUT gchar *a, INOUT gchar *b)
 
 // ----------------------------------------------------------------------
 gboolean intersectingCategoriesQ(IN const gchar *a, IN const gchar *b) //used by processLauncher
+// *a from the .desktop file; *b from the .desktop.directory dirfile
 // ----------------------------------------------------------------------
 {
+ extern gboolean gl_bConfigKeywordLauncherNullCategory;
+ if (!(a && *a) && b && !gl_bConfigKeywordLauncherNullCategory)
+ {
+  guint l1 = strlen(b) + 1;
+  gchar *b2 = malloc(l1 + 2);
+  if (!b2) {
+   perror("malloc");
+   return FALSE;
+  }
+  *b2 = ';';
+  strcpy(b2 + 1, b);
+  strcpy(b2 + l1, ";");
+  gboolean match = NULL != strstr(b2, ";NULL;");
+  free(b2);
+  return match;
+ }
+
  if (!(a && *a && b && *b))
   return TRUE;
  void *p = strdup(a);

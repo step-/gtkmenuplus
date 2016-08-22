@@ -187,6 +187,7 @@ struct DirFile
 gboolean      gl_bConfigKeywordUseEndSubMenu;   // set by onConfigure, used by onSubMenuEnd, readFile
 gboolean      gl_bConfigKeywordNoIcons;   // set by onConfigure, used by addIcon
 gboolean      gl_bConfigKeywordLauncherNoDisplay;   // set by onConfigure, used by processLauncher
+gboolean      gl_bConfigKeywordLauncherNullCategory;// set by onConfigure, used by intersectingCategoriesQ
 
 
 // reffed in struct KeywordConfigure gl_keywordConfigure []
