@@ -2728,7 +2728,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  if (lineParseResult != lineParseOk)
   return lineParseResult;
  lineParseResult = onIconForLauncher(sLauncherPath, pme);
- if (lineParseResult == lineParseOk)
+ if (lineParseResult < lineParseFail)
   ++gl_nLauncherCount;
  return lineParseResult;
 }
@@ -2785,7 +2785,7 @@ retry:
       goto retry;
     }
    snprintf(sErrMsg, MAX_LINE_LENGTH, "Can't get 'Icon=%s'\n", sIconPath);
-   gtk_widget_destroy(pGtkWdgtCurrent);
+   //Don't destroy items w/o icon: gtk_widget_destroy(pGtkWdgtCurrent);
    return lineParseWarn;
   }
 
