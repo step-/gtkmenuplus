@@ -2205,7 +2205,14 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
     strdup(gl_launcherDirFile.m_sFormatEq);
 #endif
  }
- // If none of the above cases, fall back to the sufficient values that onSubMenu for pme.
+ // If none of the above cases, fall back to the sufficient values that onSubMenu set for pme.
+
+ // Catchall for dirfiles that set just the Icon= value. Fill in folder name for Name=.
+ if (!*pme->m_sTitle)
+ {
+  gchar *p = rindex(sLauncherPath, '/');
+  strcpy(pme->m_sTitle, p ? p+1 : sLauncherPath);
+ }
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
  // Cascade formatting.
