@@ -2236,6 +2236,55 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
  return lineParseOk;
 }
 
+// ----------------------------------------------------------------------
+enum LineParseResult launcherLoop(const IN funcOnMenuEntry func, INOUT struct MenuEntry* pme)
+// ----------------------------------------------------------------------
+// used by onLauncher, onLauncherSub to loop over gl_sLinePostEq ':' elements
+{
+ gchar *a, *ak, *at, *as;
+
+ if (!(a = strdup(gl_sLinePostEq)) || !(ak = strdup(gl_sLinePostEq)))
+ {
+  perror("strdup");
+  if (a)
+   free(a);
+  return lineParseFailFatal;
+ }
+
+ enum LineParseResult loopResult = lineParseOk;
+
+ at = strtok_r(a, ":", &as);
+ while (at)
+ {
+  strcpy(gl_sLinePostEq, at); // onLauncher{Sub} global input arg
+
+  struct MenuEntry *pme1; // onLauncher{Sub} input arg
+  if (!(pme1 = malloc(sizeof(struct MenuEntry))))
+  {
+   perror("malloc");
+   loopResult = lineParseFailFatal;
+   break;
+  }
+  memcpy(pme1, pme, sizeof(struct MenuEntry));
+  enum LineParseResult lineParseResult = func(pme1);
+
+  if (*pme1->m_sErrMsg)
+  {
+   msgToUser(lineParseResult, pme1->m_sErrMsg, 0, at);
+  }
+  if (lineParseResult > loopResult)
+   loopResult = lineParseResult; // remember highest error and keep going
+
+  at = strtok_r(NULL, ":", &as);
+ }
+ free(a);
+ strcpy(gl_sLinePostEq, ak);
+ free(ak);
+ if (loopResult != lineParseOk)
+  strcpy(pme->m_sErrMsg, "the source of line(s) # 0 just above is");
+ return loopResult;
+}
+
 // ---------------------------------------------------------------------- AC
 enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
@@ -2248,6 +2297,9 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg, sCaller);
   return lineParseFail;
  }
+
+ if (index(gl_sLinePostEq, ':'))
+  return launcherLoop(onLauncher, pMenuEntryPending);
 
  if (*gl_sLauncherDirectory && strlen(gl_sLinePostEq) == 1
    && (*gl_sLinePostEq == '*' || *gl_sLinePostEq == '.'))
@@ -2281,6 +2333,9 @@ enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, msg, sCaller);
   return lineParseFail;
  }
+
+ if (index(gl_sLinePostEq, ':'))
+  return launcherLoop(onLauncherSub, pMenuEntryPending);
 
  enum LineParseResult lineParseResult =
   expand_path( // can rewrite gl_sLinePostEq
