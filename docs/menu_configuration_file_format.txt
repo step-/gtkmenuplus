@@ -419,6 +419,8 @@ launcher=path_to_launcher(s)
 
   Any preceding "launcherdirfile=launcher_dirfile" line will apply to the menu entry of each scanned dirpath.
 
+  "path_to_launcher(s)" can also be a semicolon-separated list of paths. In this case a single "launcher=" line effectively expands to multiple "launcher=member_path" lines, where member_path represents each successive member of "path_to_launcher(s)".
+
   "path_to_launcher(s)" follows the rules for paths referred to in menu configuration files (see above):
 
      It can begin with a tilde, which will be expanded as in bash to $HOME.
@@ -468,6 +470,8 @@ launcher=path_to_launcher(s)
 launchersub=path_to_directory
 
   It is a recursive version of launcher=. Like the latter, launchersub=path_to_directory displays all the .desktop files that it can find in path_to_directory. If path_to_directory includes sub-directories they are scanned too, and their .desktop files are be used to create successive menu entries in nested sub-menus. More information follows further down in this section.
+
+  "path_to_directory" can also be a semicolon-separated list of paths. In this case a single "launchersub=" line effectively expands to multiple "launchersub=member_path" lines, where member_path represents each successive member of "path_to_directory".
 
   Rules for relative paths, the keywords launcherdirfile= and launcherargs=, and Exclusion Cases all apply to launchersub= as they do to launcher=. Each topic is explained elsewhere in this document.
 
