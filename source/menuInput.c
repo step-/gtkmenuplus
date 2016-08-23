@@ -1147,7 +1147,7 @@ GAppInfo* getAppInfoFromFile(IN gchar* sCmd)
 
 // ---------------------------------------------------------------------- AC
 //called from set_base_dir, addIcon
-enum LineParseResult expand_path(INOUT gchar *sPath, IN gchar *sBasePath, IN const gchar* sLabelForErr, OUT gchar* sErrMsg) // sPath is alwasy gl_sLinePostEq, MAX_LINE_LENGTH
+enum LineParseResult expand_path(INOUT gchar *sPath, IN gchar *sBasePath, IN const gchar* sLabelForErr, OUT gchar* sErrMsg) // sPath is always gl_sLinePostEq, MAX_LINE_LENGTH
 // ----------------------------------------------------------------------
 {
  gchar cPath1 = *sPath;
