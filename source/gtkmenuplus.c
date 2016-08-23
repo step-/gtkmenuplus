@@ -2268,7 +2268,7 @@ enum LineParseResult launcherLoop(const IN funcOnMenuEntry func, INOUT struct Me
   memcpy(pme1, pme, sizeof(struct MenuEntry));
   enum LineParseResult lineParseResult = func(pme1);
 
-  if (*pme1->m_sErrMsg)
+  if (lineParseResult != lineParseOk && *pme1->m_sErrMsg)
   {
    msgToUser(lineParseResult, pme1->m_sErrMsg, 0, at);
   }
