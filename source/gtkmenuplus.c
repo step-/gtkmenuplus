@@ -146,13 +146,18 @@ gboolean                  gl_bOkToDisplay =             TRUE;
 gboolean                  gl_bOneExpandableOnlyOnLine = FALSE;   // set in expand_params_vars, used by parseIfCondition
 #endif
 
-const gchar*              gl_sHelpMsg = "\ngtkmenuplus version %s, copyright (C) 2013 Alan Campbell\n"
-                                         "based on myGtkMenu.\n\n"
-                                         "gtkmenuplus comes with ABSOLUTELY NO WARRANTY - see license file COPYING.\n\n"
-                                         "Purpose: display a popup menu based on a menu configuration file.\n\n"
-                                         "Usage: gtkmenuplus [Options '--'] menu_configuration_file\n\n"
-                                         "test_menu.txt is an example menu_configuration_file.\n\n"
-                                         "See README and usage.txt for further help.\n\n";
+const gchar*              gl_sHelpMsg =
+"\ngtkmenuplus version " VERSION_TEXT
+"\n\nPurpose: display a popup menu based on a menu configuration file."
+"\n\nUsage: gtkmenuplus [Options '--'] menu_configuration_file"
+"\n\nSee README and usage.txt for further help."
+"\n\ngtkmenuplus comes with ABSOLUTELY NO WARRANTY"
+"\nGNU GPLv2 license applies - see license file COPYING."
+"\nCopyright (C) 2013 Alan Campbell"
+"\nCopyright (C) 2016 step"
+"\n\nBased on myGtkMenu."
+"\n";
+//"\ntest_menu.txt is an example menu_configuration_file.\n"
 
 
 gboolean              expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine, IN struct Params* pParams, IN gboolean bIsCmdLine, OUT gchar* sErrMsg); // enum TriStateResult, operates on gl_sLinePostEq
@@ -899,7 +904,7 @@ gchar* get_cmdline_menu_desc_file(IN gint argc, IN gchar *argv[]) // , OUT gbool
  if (argc < 2)
  {
 //  *pbIsConfigFileArg = FALSE;
-  fprintf(stderr, gl_sHelpMsg, VERSION_TEXT);
+  fprintf(stderr, gl_sHelpMsg);
   fprintf(stderr, "%s","Missing the menu-description filename.\n");
   g_print("%s","Will try to open the default file.\n");
   memset(gl_sLinePostEq, 0, sizeof(gl_sLinePostEq));
@@ -3356,7 +3361,20 @@ void onDashDash()
 void onHelp()
 // ----------------------------------------------------------------------
 {
- g_print(gl_sHelpMsg, VERSION_TEXT);
+ g_print(gl_sHelpMsg);
+
+ if (!isatty(fileno(stdin)))
+ {
+  GtkWidget* pGtkMsgDlg = gtk_message_dialog_new(
+    NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+    GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+    gl_sHelpMsg);
+  if (pGtkMsgDlg)
+  {
+   gtk_dialog_run(GTK_DIALOG(pGtkMsgDlg));
+   gtk_widget_destroy(pGtkMsgDlg);
+  }
+ }
  exit(EXIT_SUCCESS);
 }
 
