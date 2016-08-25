@@ -54,3 +54,20 @@ For applications of the new launcher features see my shell scripts:
 
  * [roxmm](https://github.com/step-/scripts-to-go/), which displays a
    ROX-Filer SendTo menu look-alike for a given file or directory.
+
+## Contributing
+
+Feel free to submit pull requests! This is a short list of desiderata if
+you are looking for ideas on how to contribute to the project:
+
+ * Markdown documentation - Review and improve docs/usage.txt
+   and docs/menu_configuration_file_format.txt. Format as markdown text
+   ([mdview](http://chiselapp.com/user/jamesbond/repository/mdview3/index)
+   markdown subset preferred)
+
+ * Test suite - Submit new test scripts. Improve existing ones. Automate
+   the test suite.
+
+ * i18n - Edit source code to enable translation with the GNU GetText tools.
+
+ * Bug fixing, of course.
