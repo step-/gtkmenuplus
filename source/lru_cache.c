@@ -26,7 +26,7 @@ struct MenuEntry* find_in_cache(const gchar *key)
 void add_to_cache(const gchar *key, struct MenuEntry *value)
 {
     struct CacheEntry *cache_entry, *tmp_entry;
-    struct MenuEntry *menu_entry;
+    struct MenuEntry *menu_entry = NULL;
     if ( !(cache_entry = malloc(sizeof(struct CacheEntry)))
       || !( menu_entry = malloc(sizeof(struct MenuEntry )))
       || !( cache_entry->key = strdup(key)))
