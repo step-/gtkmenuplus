@@ -419,7 +419,8 @@ launcher=path_to_launcher(s)
 
   Any preceding "launcherdirfile=launcher_dirfile" line will apply to the menu entry of each scanned dirpath.
 
-  "path_to_launcher(s)" can also be a semicolon-separated list of paths. In this case a single "launcher=" line effectively expands to multiple "launcher=member_path" lines, where member_path represents each successive member of "path_to_launcher(s)".
+  "path_to_launcher(s)" can also be a colon-separated list of paths. In this case a single "launcher=" line effectively expands to multiple "launcher=member_path" lines, where member_path represents each successive member of "path_to_launcher(s)".
+Expansion stops at the end of the list if "configure=nolauncherlistfirst" is enabled (by default it is). If "configure=launcherlistfirst" is enabled, expansion stops after the first successful file hit in the list.
 
   "path_to_launcher(s)" follows the rules for paths referred to in menu configuration files (see above):
 
@@ -471,7 +472,8 @@ launchersub=path_to_directory
 
   It is a recursive version of launcher=. Like the latter, launchersub=path_to_directory displays all the .desktop files that it can find in path_to_directory. If path_to_directory includes sub-directories they are scanned too, and their .desktop files are be used to create successive menu entries in nested sub-menus. More information follows further down in this section.
 
-  "path_to_directory" can also be a semicolon-separated list of paths. In this case a single "launchersub=" line effectively expands to multiple "launchersub=member_path" lines, where member_path represents each successive member of "path_to_directory".
+  "path_to_directory" can also be a colon-separated list of paths. In this case a single "launchersub=" line effectively expands to multiple "launchersub=member_path" lines, where member_path represents each successive member of "path_to_directory".
+Expansion stops at the end of the list if "configure=nolauncherlistfirst" is enabled (by default it is). If "configure=launcherlistfirst" is enabled, expansion stops after the first successful recursive directory hit in the list.
 
   Rules for relative paths, the keywords launcherdirfile= and launcherargs=, and Exclusion Cases all apply to launchersub= as they do to launcher=. Each topic is explained elsewhere in this document.
 
@@ -687,6 +689,7 @@ configure=
 
   Any of the keywords "endsubmenu", "noendsubmenu", "icons", "noicons", "formattinglocal", "noformattinglocal",
   "launchernodisplay", "nolaunchernodisplay", "launchernullcategory", "nolaunchernullcategory",
+  "launcherlistfirst", "nolauncherlistfirst",
   "errormsgbox" , "noerrormsgbox", "abspathparts", "menuposition", and "iconsize" can occur on this line.  
   
   "abspathparts" and "iconsize" must be immediately followed by whitespace, then an integer; 
@@ -699,6 +702,8 @@ configure=
   For the effects of "formattinglocal/noformattinglocal", see the include=menu_configuration_file line.
   
   For the effects of "launchernodisplay/nolaunchernodisplay" and "launchernullcategory/nolaunchernullcategory", see section Exclusion Cases of the launcher= line, which also applies to the launchersub= line.
+
+  For the effects of "launcherlistfirst/nolauncherlistfirst" see the "launcher=" and "launchersub=" lines.
 
   For the effects of "abspathparts n", see the "/path_to/file, ~/path_to/file" line.
 

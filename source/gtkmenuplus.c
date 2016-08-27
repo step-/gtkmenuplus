@@ -2247,6 +2247,7 @@ enum LineParseResult launcherLoop(const IN funcOnMenuEntry func, INOUT struct Me
 // used by onLauncher, onLauncherSub to loop over gl_sLinePostEq ':' elements
 {
  gchar *a, *ak, *at, *as;
+ extern gboolean gl_bConfigKeywordLauncherListFirst;
 
  if (!(a = strdup(gl_sLinePostEq)) || !(ak = strdup(gl_sLinePostEq)))
  {
@@ -2279,6 +2280,10 @@ enum LineParseResult launcherLoop(const IN funcOnMenuEntry func, INOUT struct Me
   }
   if (lineParseResult > loopResult)
    loopResult = lineParseResult; // remember highest error and keep going
+
+  // first found is enough if configure=launcherlistfirst
+  if (gl_bConfigKeywordLauncherListFirst && lineParseResult == lineParseOk)
+   break;
 
   at = strtok_r(NULL, ":", &as);
  }

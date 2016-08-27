@@ -24,6 +24,7 @@ gchar*        gl_sCmdLineConfigNext =      NULL;
 gboolean      gl_bConfigKeywordIcons = TRUE,  gl_bConfigKeywordUseEndSubMenu = FALSE, gl_bConfigKeywordFormattingLocal = FALSE,
 	      gl_bConfigKeywordLauncherNoDisplay = TRUE,
 	      gl_bConfigKeywordLauncherNullCategory = TRUE,
+	      gl_bConfigKeywordLauncherListFirst = FALSE,
               gl_bErrorsInConsoleOnly = FALSE;
 
 /*
@@ -150,6 +151,7 @@ struct KeywordConfigure gl_keywordConfigure [] =
  {"formattinglocal",  &gl_bConfigKeywordFormattingLocal,   NULL},
  {"launchernodisplay",    &gl_bConfigKeywordLauncherNoDisplay,    NULL},
  {"launchernullcategory", &gl_bConfigKeywordLauncherNullCategory, NULL},
+ {"launcherlistfirst",    &gl_bConfigKeywordLauncherListFirst, NULL},
  {"errorconsoleonly", &gl_bErrorsInConsoleOnly,            NULL},
 // {"abspathtitle",    NULL,                                getAbsPathTitle} // must be at aend
 // {"findabsenticons", &gl_bFindAbsentIcons,  1}

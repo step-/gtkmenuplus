@@ -1,0 +1,28 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+mTESTFILE = $0 # required
+mDIR = ldf
+include = lib/common.gtkmenuplus
+#-------------------------------------------
+
+separator
+item = 10 configure=nolauncherlistfirst PASS if two == launchers below
+configure=nolauncherlistfirst
+launcher=/usr/share/applications/geany.desktop:/usr/share/applications/geany.desktop
+
+separator
+item = 20 configure=launcherlistfirst PASS if one launcher below
+configure=launcherlistfirst
+launcher=/usr/share/applications/geany.desktop:/usr/share/applications/geany.desktop
+
+separator
+item = 30 configure=launcherlistfirst PASS if two == inline submenus below
+configure=nolauncherlistfirst
+launchersub=$mDIR/1/2:$mDIR/1/2
+
+separator
+item = 40 configure=launcherlistfirst PASS if one inline submenu below
+configure=launcherlistfirst
+launchersub=$mDIR/1/2:$mDIR/1/2

@@ -188,6 +188,7 @@ gboolean      gl_bConfigKeywordUseEndSubMenu;   // set by onConfigure, used by o
 gboolean      gl_bConfigKeywordNoIcons;   // set by onConfigure, used by addIcon
 gboolean      gl_bConfigKeywordLauncherNoDisplay;   // set by onConfigure, used by processLauncher
 gboolean      gl_bConfigKeywordLauncherNullCategory;// set by onConfigure, used by intersectingCategoriesQ
+gboolean      gl_bConfigKeywordLauncherListFirst; // set by onConfigure, used by launcherLoop
 
 
 // reffed in struct KeywordConfigure gl_keywordConfigure []
