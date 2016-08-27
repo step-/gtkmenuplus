@@ -2242,7 +2242,7 @@ enum LineParseResult fillSubMenuEntry(IN const gchar* sLauncherPath, INOUT struc
 }
 
 // ----------------------------------------------------------------------
-enum LineParseResult launcherLoop(const IN funcOnMenuEntry func, INOUT struct MenuEntry* pme)
+enum LineParseResult launcherList(const IN funcOnMenuEntry func, INOUT struct MenuEntry* pme)
 // ----------------------------------------------------------------------
 // used by onLauncher, onLauncherSub to loop over gl_sLinePostEq ':' elements
 {
@@ -2257,7 +2257,7 @@ enum LineParseResult launcherLoop(const IN funcOnMenuEntry func, INOUT struct Me
   return lineParseFailFatal;
  }
 
- enum LineParseResult loopResult = lineParseOk;
+ enum LineParseResult listResult = lineParseOk;
 
  at = strtok_r(a, ":", &as);
  while (at)
@@ -2268,31 +2268,31 @@ enum LineParseResult launcherLoop(const IN funcOnMenuEntry func, INOUT struct Me
   if (!(pme1 = malloc(sizeof(struct MenuEntry))))
   {
    perror("malloc");
-   loopResult = lineParseFailFatal;
+   listResult = lineParseFailFatal;
    break;
   }
   memcpy(pme1, pme, sizeof(struct MenuEntry));
   enum LineParseResult lineParseResult = func(pme1);
 
-  if (lineParseResult != lineParseOk && *pme1->m_sErrMsg)
+  if (lineParseResult == lineParseOk)
   {
-   msgToUser(lineParseResult, pme1->m_sErrMsg, 0, at);
+   if (gl_bConfigKeywordLauncherListFirst)
+    break; // first found is enough if configure=launcherlistfirst
   }
-  if (lineParseResult > loopResult)
-   loopResult = lineParseResult; // remember highest error and keep going
+  else if (*pme1->m_sErrMsg)
+   msgToUser(lineParseResult, pme1->m_sErrMsg, 0, at);
 
-  // first found is enough if configure=launcherlistfirst
-  if (gl_bConfigKeywordLauncherListFirst && lineParseResult == lineParseOk)
-   break;
+  if (lineParseResult > listResult)
+   listResult = lineParseResult; // remember highest error and keep going
 
   at = strtok_r(NULL, ":", &as);
  }
  free(a);
  strcpy(gl_sLinePostEq, ak);
  free(ak);
- if (loopResult != lineParseOk)
-  strcpy(pme->m_sErrMsg, "the source of line(s) # 0 just above is");
- return loopResult;
+ if (listResult != lineParseOk)
+  strcpy(pme->m_sErrMsg, "the source of previous line(s) # 0 is");
+ return listResult;
 }
 
 // ---------------------------------------------------------------------- AC
@@ -2309,7 +2309,7 @@ enum LineParseResult onLauncher(INOUT struct MenuEntry* pMenuEntryPending)
  }
 
  if (index(gl_sLinePostEq, ':'))
-  return launcherLoop(onLauncher, pMenuEntryPending);
+  return launcherList(onLauncher, pMenuEntryPending);
 
  if (*gl_sLauncherDirectory && strlen(gl_sLinePostEq) == 1
    && (*gl_sLinePostEq == '*' || *gl_sLinePostEq == '.'))
@@ -2345,7 +2345,7 @@ enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
  }
 
  if (index(gl_sLinePostEq, ':'))
-  return launcherLoop(onLauncherSub, pMenuEntryPending);
+  return launcherList(onLauncherSub, pMenuEntryPending);
 
  enum LineParseResult lineParseResult =
   expand_path( // can rewrite gl_sLinePostEq
