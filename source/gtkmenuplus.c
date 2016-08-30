@@ -1377,10 +1377,12 @@ enum LineParseResult onFormat(INOUT struct MenuEntry* pMenuEntryPending)  // acc
 }
 #endif // #if !defined(_GTKMENUPLUS_NO_FORMAT_)
 
+// for makeLogItem, commitItem, processLauncher
 struct LogItem {
  guint uiSize;
  gchar *sItem;
 };
+
 // ----------------------------------------------------------------------
 //called by commitItem, processLauncher
 struct LogItem* makeLogItem(IN gchar* sItem, IN gchar* sCmd, IN gchar* sTooltip, IN gchar* sIcon)
