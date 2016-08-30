@@ -63,7 +63,7 @@ gchar       gl_sCmdLineConfig[MAX_LINE_LENGTH + 1];
 
 FILE*                open_menu_desc_file(IN gchar* sFileName); // sets gl_pFile  , OUT gboolean* pbIsConfigFileArg
 gboolean             is_executable(IN gchar* sPath); // called by RunItem
-void                 get_first_arg(IN gchar* sPath, OUT gchar* sPathOut); // called by RunItem
+void                 get_first_arg(IN const gchar* sPath, OUT gchar* sPathOut); // called by RunItem
 
 void                 trim_trailing(IN gchar* sPosBeg, IN gchar* sPos);
 

@@ -106,7 +106,7 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
                               IN gboolean bReadingIncludedFile, IN gboolean bGatherComments,
                               IN guint uiCurDepthBase, IN struct MenuEntry* pMenuEntryPendingOverride);
 
-static void          RunItem(IN gchar *sCmd);
+static void          RunItem(IN const gchar *sCmd);
 static void          QuitMenu(IN gchar *Msg);
 static void          menu_position(IN GtkMenu * gl_gtkWmenu, IN gint * x, IN gint * y, OUT gboolean * push_in, IN gpointer sData); // used in onEof as call back routine for gtk_menu_popup
 guint                 all_ready_running(void);
@@ -137,6 +137,7 @@ struct Formatting        gl_FormattingSubMenu[MAX_SUBMENU_DEPTH];
 extern guint             gl_uiCurDepth;                                              // Root menu is depth = 0
 extern guint             gl_uiCurItem;                                               // Count number of menu entries
 extern guint             gl_uiRecursionDepth;
+guint                    gl_uiActivationLogSize = 1; //set by onActivationLog, used by makeLogItem
 extern struct IfStatus* gl_pIfStatusCurrent;
 
 gboolean                  gl_bOkToDisplay =             TRUE;
@@ -844,10 +845,13 @@ void menu_position (IN GtkMenu * gl_gtkWmenu, IN gint * x, IN gint * y, OUT gboo
 
 
 // ----------------------------------------------------------------------
-static void RunItem(IN gchar *sCmd)
+static void RunItem(IN const gchar *sCmd)
 // ----------------------------------------------------------------------
 {
  if (!sCmd) return;
+
+ void writeLogItem(IN const gchar *);
+ writeLogItem(sCmd);
 
  GError *error = NULL;
  gchar *sCmdExpanded = NULL;
@@ -1373,6 +1377,54 @@ enum LineParseResult onFormat(INOUT struct MenuEntry* pMenuEntryPending)  // acc
 }
 #endif // #if !defined(_GTKMENUPLUS_NO_FORMAT_)
 
+struct LogItem {
+ guint uiSize;
+ gchar *sItem;
+};
+// ----------------------------------------------------------------------
+//called by commitItem, processLauncher
+struct LogItem* makeLogItem(IN gchar* sItem, IN gchar* sCmd, IN gchar* sTooltip, IN gchar* sIcon)
+// ----------------------------------------------------------------------
+{
+ if (gl_uiActivationLogSize <= 0)
+  return NULL;
+
+ // encode args as concatenated_strings
+ guint size = 4*sizeof('\0') + strlen(sItem) + strlen(sCmd) +
+  (sTooltip ? strlen(sTooltip) : 0) + strlen(sIcon);
+ struct LogItem *log;
+ gchar *enc = NULL;
+ if(  !(enc = malloc(sizeof('\0')*size))
+   || !(log = malloc(sizeof(struct LogItem))))
+ {
+  perror("malloc");
+  if(enc) free(enc);
+  return NULL;
+ }
+ sprintf(enc, "%s%c%s%c%s%c%s%c",
+   // sCmd goes first, sTooltip last
+   sCmd, '\0', sItem, '\0', sIcon, '\0', //Exec, Name, Icon,
+   sTooltip ? sTooltip : "", '\0'); //Comment
+ log->uiSize = size;
+ log->sItem = enc;
+ return log;
+}
+
+// ----------------------------------------------------------------------
+//called by RunItem
+void writeLogItem(IN const gchar* sItem)
+// ----------------------------------------------------------------------
+{
+ //Exec, Name, Icon, Comment
+ const gchar *exec, *name, *icon, *comment;
+ exec = sItem;
+ name = exec + strlen(exec) +1;
+ icon = name + strlen(name) +1;
+ comment = icon + strlen(icon) +1;
+ fprintf(stderr, "Exec=(%s)\nName=(%s)\nIcon=(%s)\nComment=(%s)\n",
+   exec, name, icon, comment);
+}
+
 // ---------------------------------------------------------------------- AC
 enum LineParseResult commitItem(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
@@ -1387,7 +1439,27 @@ enum LineParseResult commitItem(INOUT struct MenuEntry* pMenuEntryPending)
 
  if (!pGtkWdgtCurrent)
   return lineParseFail;
- return addIcon(pMenuEntryPending, pGtkWdgtCurrent); // add icon to item; ALWAYS RETURN TRUE, SOFT ERROR IF ICON MISSING
+ enum LineParseResult lineParseResult =
+  addIcon(pMenuEntryPending, pGtkWdgtCurrent); // add icon to item; ALWAYS RETURN TRUE, SOFT ERROR IF ICON MISSING
+
+ struct LogItem *logItem = makeLogItem(
+   pMenuEntryPending->m_sTitle,
+   gl_sCmds[gl_uiCurItem - 1],
+#if !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
+   pMenuEntryPending->m_sTooltip,
+#else
+   NULL,
+#endif
+   pMenuEntryPending->m_sIcon);
+
+ if (logItem)
+ {
+  memcpy(gl_sCmds[gl_uiCurItem - 1], logItem->sItem, logItem->uiSize); //TODO proof of concept
+  free(logItem->sItem);
+  free(logItem);
+ }
+
+ return lineParseResult;
 }
 
 // ---------------------------------------------------------------------- AC
@@ -2813,6 +2885,24 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  lineParseResult = onIconForLauncher(sLauncherPath, pme);
  if (lineParseResult < lineParseFail)
   ++gl_nLauncherCount;
+
+ struct LogItem *logItem = makeLogItem(
+  pme->m_sTitle,
+  gl_sCmds[gl_uiCurItem - 1],
+#if !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
+  pme->m_sTooltip,
+#else
+  NULL,
+#endif
+  pme->m_sIcon);
+
+ if (logItem)
+ {
+  memcpy(gl_sCmds[gl_uiCurItem - 1], logItem->sItem, logItem->uiSize); //TODO proof of concept
+  free(logItem->sItem);
+  free(logItem);
+ }
+
  return lineParseResult;
 }
 

@@ -1208,7 +1208,7 @@ gboolean is_executable(IN gchar* sPath) // called by RunItem
 }
 
 // ----------------------------------------------------------------------
-void  get_first_arg(IN gchar* sPath, OUT gchar* sPathOut) // called by RunItem
+void get_first_arg(IN const gchar* sPath, OUT gchar* sPathOut) // called by RunItem
 // ----------------------------------------------------------------------
 {
  strcpy(sPathOut, sPath);
