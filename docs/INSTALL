@@ -82,14 +82,15 @@ by defining (-D) any or all of the following symbols:
   _GTKMENUPLUS_NO_IF_        : do not look for or use keywords if=, else, elseif= or endif; if encountered they will be errors
   _GTKMENUPLUS_NO_PARAMS_    : do not look for or use parameters on command line
   _GTKMENUPLUS_NO_LAUNCHERS_ : do not look for or use keyword launcher=
-  _GTKMENUPLUS_NO_VARIABLES_ : do not look for or use varialbe= lines
+  _GTKMENUPLUS_NO_VARIABLES_ : do not look for or use variable= lines
+  _GTKMENUPLUS_NO_CACHE      : do not cache launchers
 
 Easiest way to add these is by editing the makefile in either the gtk2 or gtk3 folders to uncomment the defines you want.
 
 If you define all of the above, you're left with the same functionality as myGtkmenu, plus
 preferredapplauncher=programme" and "icondirectory=path" keywords and tilde processing.
 
-With none of the above symbols and compiling with -Os I get an executable size of 43k.
-With all of the above symbols I get it down to 26.7k.
+With none of the above symbols and compiling with -Os I get an executable size of 43k (TODO update).
+With all of the above symbols I get it down to 26.7k (TODO update).
 
 -------------------------------------------------------------------------
