@@ -1424,13 +1424,77 @@ void writeLogItem(IN const gchar* sItem)
 // ----------------------------------------------------------------------
 {
  //Exec, Name, Icon, Comment
- const gchar *exec, *name, *icon, *comment;
- exec = sItem;
+ gchar *exec, *name, *icon, *comment, *p;
+ exec = (gchar *) sItem; // assert(0 != strcmp(exec, ""))
  name = exec + strlen(exec) +1;
+ if (!*name)
+  name = exec; // In the unlikely case of {N2}
  icon = name + strlen(name) +1;
  comment = icon + strlen(icon) +1;
- fprintf(stderr, "Exec=(%s)\nName=(%s)\nIcon=(%s)\nComment=(%s)\n",
-   exec, name, icon, comment);
+ // right-trim name because so does onItem
+ for(p = exec + strlen(exec) - 1; p != exec && (*p == ' ' || *p == '\t');)
+ {
+   *p-- = '\0';
+ }
+
+ /*
+  * Add to activation log file, which is a menu configuration file.
+ */
+ gchar gl_sActivationLogFile[] = "/tmp/activation_log.gtkmenuplus"; // TODO
+ FILE *heystack = fopen(gl_sActivationLogFile, "a+");
+ if (!heystack)
+ {
+  perror("fopen");
+  return;
+ }
+
+ // Is this log item (needle) already in the file (heystack)?
+ gchar needle[MAX_PATH_LEN + 2 + sizeof("Item=Cmd=Icon=Tooltip")];
+ sprintf(needle, "Item=%s\nCmd=%s\nIcon=%s%c%s%s\n", name, exec, icon,
+#if !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
+   '\n', "Tooltip=", comment
+#else
+   "", ""
+#endif
+ ); // needle formatted for heystack
+
+ // scan heystack looking for needle
+ gboolean found = FALSE;
+ guint line = 0;
+ gchar s[MAX_PATH_LEN + 2];
+ while (!found && fgets(s, MAX_PATH_LEN, heystack))
+ {
+  ++line;
+  uint n, i;
+  if (2 != sscanf(s, "#[%d:%d]", &n, &line))
+  {
+   fprintf(stderr, strerror(ENODATA));
+   break;
+  }
+  for(
+    i = 0, *(p = s) = '\0';
+    i < n && fgets(p, MAX_PATH_LEN - (p - s), heystack);
+    i++, p += strlen(p))
+  {
+   ++line;
+  }
+  if ((found = 0 == strcmp(s, needle)))
+   break;
+ }
+
+ if (!found)
+ {
+  // Write needle as a menu item, optionally including the tooltip.
+  fprintf(heystack, "#[%d:%d]\n%s",
+#if !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
+    4,
+#else
+    3,
+#endif
+    line % gl_uiActivationLogSize, needle);
+ }
+
+ fclose(heystack);
 }
 
 #endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
