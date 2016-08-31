@@ -1456,7 +1456,14 @@ enum LineParseResult commitItem(INOUT struct MenuEntry* pMenuEntryPending)
 
  if (logItem)
  {
-  memcpy(gl_sCmds[gl_uiCurItem - 1], logItem->sItem, logItem->uiSize); //TODO proof of concept
+  // {N2} Theoretically, logItem->sItem may not fit as a whole, but in
+  // practice it's very unlikely. Even so, buffer overrun is protected, and
+  // no-fit degrades to a .desktop entry with a command but no tooltip,
+  // then no icon, then no name in the worst case.
+  gchar *p;
+  memcpy(p = gl_sCmds[gl_uiCurItem - 1], logItem->sItem,
+    MIN(logItem->uiSize, MAX_PATH_LEN));
+  p[MAX_PATH_LEN] = '\0';
   free(logItem->sItem);
   free(logItem);
  }
@@ -2900,7 +2907,11 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
 
  if (logItem)
  {
-  memcpy(gl_sCmds[gl_uiCurItem - 1], logItem->sItem, logItem->uiSize); //TODO proof of concept
+  // See {N2} elsewhere.
+  gchar *p;
+  memcpy(p = gl_sCmds[gl_uiCurItem - 1], logItem->sItem,
+    MIN(logItem->uiSize, MAX_PATH_LEN));
+  p[MAX_PATH_LEN] = '\0';
   free(logItem->sItem);
   free(logItem);
  }
