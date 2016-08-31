@@ -137,7 +137,9 @@ struct Formatting        gl_FormattingSubMenu[MAX_SUBMENU_DEPTH];
 extern guint             gl_uiCurDepth;                                              // Root menu is depth = 0
 extern guint             gl_uiCurItem;                                               // Count number of menu entries
 extern guint             gl_uiRecursionDepth;
-guint                    gl_uiActivationLogSize = 1; //set by onActivationLog, used by makeLogItem
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+guint                    gl_uiActivationLogSize = 3; //set by onActivationLog, used by makeLogItem
+#endif
 extern struct IfStatus* gl_pIfStatusCurrent;
 
 gboolean                  gl_bOkToDisplay =             TRUE;
@@ -850,8 +852,10 @@ static void RunItem(IN const gchar *sCmd)
 {
  if (!sCmd) return;
 
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
  void writeLogItem(IN const gchar *);
  writeLogItem(sCmd);
+#endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
 
  GError *error = NULL;
  gchar *sCmdExpanded = NULL;
@@ -1377,6 +1381,8 @@ enum LineParseResult onFormat(INOUT struct MenuEntry* pMenuEntryPending)  // acc
 }
 #endif // #if !defined(_GTKMENUPLUS_NO_FORMAT_)
 
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+
 // for makeLogItem, commitItem, processLauncher
 struct LogItem {
  guint uiSize;
@@ -1427,6 +1433,8 @@ void writeLogItem(IN const gchar* sItem)
    exec, name, icon, comment);
 }
 
+#endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
+
 // ---------------------------------------------------------------------- AC
 enum LineParseResult commitItem(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
@@ -1444,6 +1452,7 @@ enum LineParseResult commitItem(INOUT struct MenuEntry* pMenuEntryPending)
  enum LineParseResult lineParseResult =
   addIcon(pMenuEntryPending, pGtkWdgtCurrent); // add icon to item; ALWAYS RETURN TRUE, SOFT ERROR IF ICON MISSING
 
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
  struct LogItem *logItem = makeLogItem(
    pMenuEntryPending->m_sTitle,
    gl_sCmds[gl_uiCurItem - 1],
@@ -1467,6 +1476,7 @@ enum LineParseResult commitItem(INOUT struct MenuEntry* pMenuEntryPending)
   free(logItem->sItem);
   free(logItem);
  }
+#endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
 
  return lineParseResult;
 }
@@ -2895,6 +2905,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  if (lineParseResult < lineParseFail)
   ++gl_nLauncherCount;
 
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
  struct LogItem *logItem = makeLogItem(
   pme->m_sTitle,
   gl_sCmds[gl_uiCurItem - 1],
@@ -2915,6 +2926,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
   free(logItem->sItem);
   free(logItem);
  }
+#endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
 
  return lineParseResult;
 }
