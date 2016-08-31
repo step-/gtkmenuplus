@@ -2307,10 +2307,6 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   sValue = gl_launcherElement[LAUNCHER_ELEMENT_NODISPLAY].sValue;
   pme->m_bNoDisplay = sValue ? 0 == strcmp("true", sValue) : FALSE;
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
-  // FIXME - WIP
-  // .desktop file entry "format=value" pertains to keyword
-  // "launcherdirfile=" only, so it's copied in onLauncherDirFile()
-  // instead of here.
   if (iCaller == LINE_LAUNCHER_DIRFILE)
   {
    STRCPY_IF(gl_launcherDirFile.m_sFormatEq,
