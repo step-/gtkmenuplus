@@ -1349,3 +1349,5 @@ void formattingNext(INOUT struct Formatting* pFormatting)
 }
 
 #endif // #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+
+// vim: et ts=1 sts=1 sw=1 tw=0 fdm=syntax

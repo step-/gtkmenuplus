@@ -173,3 +173,5 @@ GdkPixbuf* getIconBuiltInPixBuf(IN gchar* sIconPath, IN guint uiIconSize, IN gbo
 }
 
 #endif // #if  !defined(_EM_NO_LAUNCHERS_)
+
+// vim: et ts=1 sts=1 sw=1 tw=0 fdm=syntax
