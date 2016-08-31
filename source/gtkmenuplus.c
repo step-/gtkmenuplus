@@ -64,7 +64,7 @@
 #include "launcher.h"
 #include <dirent.h>
 #endif
-#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_) && !defined(_GTKMENUPLUS_NO_CACHE)
+#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_) && !defined(_GTKMENUPLUS_NO_CACHE_)
 #include "lru_cache.h"
 #endif
 
@@ -2154,7 +2154,7 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult
 enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuEntry* pme, gboolean bRequired, guint iCaller) // used by fillSubMenuEntry, onLauncherDirFile, onLauncherSubMenu, processLauncher
 // ----------------------------------------------------------------------
 {
-#if !defined(_GTKMENUPLUS_NO_CACHE)
+#if !defined(_GTKMENUPLUS_NO_CACHE_)
  struct MenuEntry *cached = find_in_cache(sFilePath);
  if (cached)
  {
@@ -2237,7 +2237,7 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   }
 #endif
 
-#if !defined(_GTKMENUPLUS_NO_CACHE)
+#if !defined(_GTKMENUPLUS_NO_CACHE_)
   add_to_cache(sFilePath, pme);
 #endif
   return lineParseOk;
