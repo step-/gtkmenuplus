@@ -45,7 +45,7 @@
 #include <stdlib.h>  // exit
 #include <sys/stat.h>
 #include <ctype.h> // isalpha
-//#include <time.h>
+#include <time.h>
 #include <fcntl.h> // flock
 //#include <sys/sysctl.h>  // sysctl
 //#include <dirent.h>
@@ -853,8 +853,8 @@ static void RunItem(IN const gchar *sCmd)
  if (!sCmd) return;
 
 #if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
- void writeLogItem(IN const gchar *);
- writeLogItem(sCmd);
+ guint writeLogItem(IN const gchar *);
+ (void) writeLogItem(sCmd);
 #endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
 
  GError *error = NULL;
@@ -1420,9 +1420,12 @@ struct LogItem* makeLogItem(IN gchar* sItem, IN gchar* sCmd, IN gchar* sTooltip,
 
 // ----------------------------------------------------------------------
 //called by RunItem
-void writeLogItem(IN const gchar* sItem)
+guint writeLogItem(IN const gchar* sItem)
 // ----------------------------------------------------------------------
 {
+ /*
+  * Add to activation log file, which is a menu configuration file.
+ */
  //Exec, Name, Icon, Comment
  gchar *exec, *name, *icon, *comment, *p;
  exec = (gchar *) sItem; // assert(0 != strcmp(exec, ""))
@@ -1437,15 +1440,22 @@ void writeLogItem(IN const gchar* sItem)
    *p-- = '\0';
  }
 
- /*
-  * Add to activation log file, which is a menu configuration file.
- */
  gchar gl_sActivationLogFile[] = "/tmp/activation_log.gtkmenuplus"; // TODO
+ gchar tmpf[MAX_PATH_LEN]; int fd;
+ if (0 >= snprintf(tmpf, MAX_PATH_LEN -1, "%s/.gtkmenuplus-XXXXXX", P_tmpdir)
+  || -1 == (fd = mkstemp(tmpf)))
+ {
+  perror("mkstemp");
+  return -1;
+ }
+ FILE *copy = fdopen(fd, "w");
  FILE *heystack = fopen(gl_sActivationLogFile, "a+");
- if (!heystack)
+ if (!copy || !heystack)
  {
   perror("fopen");
-  return;
+  if (copy)
+   fclose(copy);
+  return -1;
  }
 
  // Is this log item (needle) already in the file (heystack)?
@@ -1458,43 +1468,94 @@ void writeLogItem(IN const gchar* sItem)
 #endif
  ); // needle formatted for heystack
 
- // scan heystack looking for needle
+ // Scan heystack looking for needle.
  gboolean found = FALSE;
- guint line = 0;
- gchar s[MAX_PATH_LEN + 2];
- while (!found && fgets(s, MAX_PATH_LEN, heystack))
+ guint count = 0;
+ gchar meta[MAX_PATH_LEN + 1];
+ gchar data[MAX_PATH_LEN + 2];
+ guint activation_count;
+ time_t creation_time, activation_time;
+ // Use fgets so as to allow for user data between '}' and '\n'.
+ while (fgets(meta, MAX_PATH_LEN, heystack))
  {
-  ++line;
-  uint n, i;
-  if (2 != sscanf(s, "#[%d:%d]", &n, &line))
+  // After needle is found we enter blind copy mode.
+  if (found)
   {
-   fprintf(stderr, strerror(ENODATA));
+   fputs(meta, copy);
+   continue;
+  }
+
+#define META_FMT "#{%d:%d:%d:%d}"
+#define META_DIM 4
+#define DATA_END "#{}\n"
+  ++count;
+  uint n, i;
+  if (META_DIM != sscanf(meta, META_FMT, &n, &activation_count,
+     (int *)&creation_time, (int *)&activation_time))
+  {
+   fprintf(stderr, "sscanf %s\n", strerror(ENODATA));
    break;
   }
+  // Read n-line data.
   for(
-    i = 0, *(p = s) = '\0';
-    i < n && fgets(p, MAX_PATH_LEN - (p - s), heystack);
+    i = 0, *(p = data) = '\0';
+    i < n && fgets(p, MAX_PATH_LEN - (p - data), heystack);
     i++, p += strlen(p))
   {
-   ++line;
+   ++count;
   }
-  if ((found = 0 == strcmp(s, needle)))
-   break;
+  // Chomp DATA_END so as to allow for user data after '}'.
+  int c;
+  while (1)
+  {
+   c = fgetc(heystack);
+   if (c == EOF || c == '\n')
+    break;
+  }
+
+  if ((found = 0 == strcmp(data, needle)))
+  {
+    // Update meta.
+    ++activation_count;
+    activation_time = time(NULL);
+    gchar *user_data = index(meta, '}');
+    fprintf(copy, META_FMT,
+      n, activation_count, (int)creation_time, (int)activation_time);
+    if (user_data)
+     fputs(user_data + 1, copy);
+  }
+  else
+  {
+   fputs(meta, copy);
+  }
+  fputs(data, copy);
+  fputs(DATA_END, copy);
  }
 
  if (!found)
  {
+  // Append new activation meta+data.
+  if (count >= gl_uiActivationLogSize)
+   ; //TODO
+
+  creation_time = activation_time = time(NULL);
   // Write needle as a menu item, optionally including the tooltip.
-  fprintf(heystack, "#[%d:%d]\n%s",
+  fprintf(copy, META_FMT "\n%s" DATA_END,
 #if !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
-    4,
+    4, // how many lines after meta, excluding DATA_END
 #else
     3,
 #endif
-    line % gl_uiActivationLogSize, needle);
+    1, // activation count
+    (int)creation_time, (int)activation_time, needle);
  }
 
+ fclose(copy);
  fclose(heystack);
+ int ret = rename(tmpf, gl_sActivationLogFile);
+ if (-1 == ret)
+  perror("rename");
+ return ret;
 }
 
 #endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
