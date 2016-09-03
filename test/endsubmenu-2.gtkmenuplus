@@ -1,0 +1,23 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons errorconsoleonly
+mTESTFILE = $0 # required
+#mDIR = nest/2/3/4/5A
+include = lib/common.gtkmenuplus
+#-------------------------------------------
+
+# Purpose: ensure that endsubmenu closes when it isn't followed by item=
+# (was a bug in version 1.0 code, then fixed in version 1.1.0)
+
+separator
+format=
+item = <span background="white">10 launchersub=: PASS if @0={menu>1-item; geany}</span>
+cmd = true
+separator
+
+submenu = _menu
+item = item
+cmd = true
+endsubmenu # _menu
+launcher=/root/.local/share/applications/geany.desktop:/usr/share/applications/geany.desktop:/usr/local/share/applications/geany.desktop

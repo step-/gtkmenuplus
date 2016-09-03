@@ -1769,7 +1769,7 @@ enum LineParseResult onSubMenuEnd(INOUT struct MenuEntry* pMenuEntryPending)
  if (!gl_FormattingSubMenu[gl_uiCurDepth].m_cFormatDivider) // m_cFormatDivider zero if no compound format
   formattingInit(&(gl_FormattingSubMenu[gl_uiCurDepth]), "\0", 0);
 #endif
- gl_uiCurDepth--;
+ pMenuEntryPending->m_uiDepth = --gl_uiCurDepth;
  return lineParseOk;
 }
 
@@ -2733,9 +2733,8 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
     // Pretend "submenuend"
     gboolean sav = gl_bConfigKeywordUseEndSubMenu;
     gl_bConfigKeywordUseEndSubMenu = TRUE; // pretend "configure=submenuend"
-    lineParseResult = onSubMenuEnd(pMenuEntryPending); // if Ok: gl_uiCurDepth--
+    lineParseResult = onSubMenuEnd(pMenuEntryPending); // if Ok: .m_uiDepth = --gl_uiCurDepth
     assert(lineParseResult == lineParseOk);
-    pMenuEntryPending->m_uiDepth--; // since onSubMenuEnd Ok: m_uiDepth <- gl_uiCurDepth
     gl_bConfigKeywordUseEndSubMenu = sav;
     //reapErrMsg(pMenuEntryPending, lineParseResult, NULL); // if any
     lineParseResult = pairedResult != lineParseOk ? pairedResult : lineParseResult;
