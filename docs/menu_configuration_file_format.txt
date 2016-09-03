@@ -578,11 +578,15 @@ launcherdir=path_to_launcher_directory
   After this line is encountered and "logfile_path" specifies a valid file path, three
   things happen:
 
-    1. File logfile_path is created if it doesn't exist
+    1. File logfile_path is created if it doesn't exist.
 
-    2. All parsed menu items and launchers are stored as "loggable"
+    2. All parsed menu items and launchers encountered after this line
+       and before a "activationlogfile=" (null path) line are stored as
+       "loggable".
 
-    3. An activated entry is logged to the activation log file.
+    3. Activating a "loggable" entry stores its attributes (item=, cmd=,
+       icon=, tooltip= or Name=, Exec=, Icon=, Comment=) into the log file
+       "logfile_path".
 
   The log file can be included in other menu configuration files with "include=logfile_path".
 
@@ -590,8 +594,6 @@ launcherdir=path_to_launcher_directory
   it's assumed to be relative to the path in which the configuration file
   was found (as specified on command line).
   
-  Use "activationlogfile=" to disable logging.
-
   Generally speaking the log file shouldn't be edited, although some changes are allowed within the limits explained in commit message 8bd8abf, which documents log file format and application development policies.
 
 
