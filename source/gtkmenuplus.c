@@ -138,7 +138,7 @@ extern guint             gl_uiCurDepth;                                         
 extern guint             gl_uiCurItem;                                               // Count number of menu entries
 extern guint             gl_uiRecursionDepth;
 #if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
-guint                    gl_uiActivationLogSize = 3; //set by onActivationLog, used by makeLogItem
+extern gchar             gl_sActivationLogfile[];
 #endif
 extern struct IfStatus* gl_pIfStatusCurrent;
 
@@ -398,6 +398,10 @@ If this check causes you problems, take it out.
   errorExit("failed to compile regular expression for launcher=");
 
 #endif // #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
+
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+ *gl_sActivationLogfile = '\0';
+#endif
 
  if (regcomp(&gl_rgxIconExt, gl_sIconRegexPat, REG_EXTENDED | REG_ICASE))
   errorExit("failed to compile regular expression for icon extensions");
@@ -1383,6 +1387,33 @@ enum LineParseResult onFormat(INOUT struct MenuEntry* pMenuEntryPending)  // acc
 
 #if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
 
+// ----------------------------------------------------------------------
+enum LineParseResult onActivationLogfile(INOUT struct MenuEntry* pMenuEntryPending)
+// ----------------------------------------------------------------------
+
+{
+ if (!(*gl_sLinePostEq))
+ {
+  *gl_sActivationLogfile = '\0';
+  return lineParseOk;
+ }
+ enum LineParseResult lineParseResult = expand_path(gl_sLinePostEq, gl_sScriptDirectory,
+     "activationlogfile", pMenuEntryPending->m_sErrMsg); // can rewrite gl_sLinePostEq
+ if (lineParseResult != lineParseOk)
+  return lineParseResult;
+ strcpy(gl_sActivationLogfile, gl_sLinePostEq);
+
+ // Touch (empty) file so the calling application can include it.
+ int fd = open(gl_sActivationLogfile, O_CREAT|O_WRONLY);
+ if (-1 == fd)
+ {
+  perror("open");
+  return lineParseFail;
+ }
+ close(fd);
+ return lineParseOk;
+}
+
 // for makeLogItem, commitItem, processLauncher
 struct LogItem {
  guint uiSize;
@@ -1394,7 +1425,7 @@ struct LogItem {
 struct LogItem* makeLogItem(IN gchar* sItem, IN gchar* sCmd, IN gchar* sTooltip, IN gchar* sIcon)
 // ----------------------------------------------------------------------
 {
- if (gl_uiActivationLogSize <= 0)
+ if (! *gl_sActivationLogfile)
   return NULL;
 
  // encode args as concatenated_strings
@@ -1423,24 +1454,30 @@ struct LogItem* makeLogItem(IN gchar* sItem, IN gchar* sCmd, IN gchar* sTooltip,
 guint writeLogItem(IN const gchar* sItem)
 // ----------------------------------------------------------------------
 {
+ if (! *gl_sActivationLogfile)
+  return 0;
+
  /*
   * Add to activation log file, which is a menu configuration file.
  */
- //Exec, Name, Icon, Comment
+ // Get addresses of adjacent strings Exec, Name, Icon, Comment.
  gchar *exec, *name, *icon, *comment, *p;
  exec = (gchar *) sItem; // assert(0 != strcmp(exec, ""))
  name = exec + strlen(exec) +1;
- if (!*name)
-  name = exec; // In the unlikely case of {N2}
  icon = name + strlen(name) +1;
  comment = icon + strlen(icon) +1;
- // right-trim name because so does onItem
+
+ // Deal with special cases in reverse address order.
+ if (0 == strcmp("NULL", icon)) // special case "NULL" icon
+  *icon = '\0';
+ if (!*name) // special case {N2}
+  name = exec;
+ // special case right-trim name because so does readLine
  for(p = exec + strlen(exec) - 1; p != exec && (*p == ' ' || *p == '\t');)
  {
    *p-- = '\0';
  }
 
- gchar gl_sActivationLogFile[] = "/tmp/activation_log.gtkmenuplus"; // TODO
  gchar tmpf[MAX_PATH_LEN]; int fd;
  if (0 >= snprintf(tmpf, MAX_PATH_LEN -1, "%s/.gtkmenuplus-XXXXXX", P_tmpdir)
   || -1 == (fd = mkstemp(tmpf)))
@@ -1449,7 +1486,7 @@ guint writeLogItem(IN const gchar* sItem)
   return -1;
  }
  FILE *copy = fdopen(fd, "w");
- FILE *heystack = fopen(gl_sActivationLogFile, "a+");
+ FILE *heystack = fopen(gl_sActivationLogfile, "a+");
  if (!copy || !heystack)
  {
   perror("fopen");
@@ -1470,7 +1507,6 @@ guint writeLogItem(IN const gchar* sItem)
 
  // Scan heystack looking for needle.
  gboolean found = FALSE;
- guint count = 0;
  gchar meta[MAX_PATH_LEN + 1];
  gchar data[MAX_PATH_LEN + 2];
  guint activation_count;
@@ -1488,7 +1524,6 @@ guint writeLogItem(IN const gchar* sItem)
 #define META_FMT "#{%d:%d:%d:%d}"
 #define META_DIM 4
 #define DATA_END "#{}\n"
-  ++count;
   uint n, i;
   if (META_DIM != sscanf(meta, META_FMT, &n, &activation_count,
      (int *)&creation_time, (int *)&activation_time))
@@ -1501,9 +1536,7 @@ guint writeLogItem(IN const gchar* sItem)
     i = 0, *(p = data) = '\0';
     i < n && fgets(p, MAX_PATH_LEN - (p - data), heystack);
     i++, p += strlen(p))
-  {
-   ++count;
-  }
+   ;
   // Chomp DATA_END so as to allow for user data after '}'.
   int c;
   while (1)
@@ -1534,10 +1567,6 @@ guint writeLogItem(IN const gchar* sItem)
 
  if (!found)
  {
-  // Append new activation meta+data.
-  if (count >= gl_uiActivationLogSize)
-   ; //TODO
-
   creation_time = activation_time = time(NULL);
   // Write needle as a menu item, optionally including the tooltip.
   fprintf(copy, META_FMT "\n%s" DATA_END,
@@ -1552,7 +1581,7 @@ guint writeLogItem(IN const gchar* sItem)
 
  fclose(copy);
  fclose(heystack);
- int ret = rename(tmpf, gl_sActivationLogFile);
+ int ret = rename(tmpf, gl_sActivationLogfile);
  if (-1 == ret)
   perror("rename");
  return ret;
