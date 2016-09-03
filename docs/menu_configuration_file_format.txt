@@ -56,6 +56,8 @@ The remaining keywords are new in gtkmenuplus:
 "launcherdirfile=launcher_dirfile"
 "launchersubmenu=launcher_dirfile"
 
+"activationlogfile=logfile_path"
+
 "include=menu_configuration_file" or
 "include=path_to_directory[/file_glob] [directory_glob]" 
 
@@ -569,6 +571,28 @@ launcherdir=path_to_launcher_directory
 
   There can be multiple "launcherdirectory" lines; each sets the base directory
   for all "launcher=" that follow, until the next "launcherdirectory=" line.
+
+
+"activationlogfile=logfile_path"
+
+  After this line is encountered and "logfile_path" specifies a valid file path, three
+  things happen:
+
+    1. File logfile_path is created if it doesn't exist
+
+    2. All parsed menu items and launchers are stored as "loggable"
+
+    3. An activated entry is logged to the activation log file.
+
+  The log file can be included in other menu configuration files with "include=logfile_path".
+
+  If "logfile_path" doesn't begin with a tilde or forward slash,
+  it's assumed to be relative to the path in which the configuration file
+  was found (as specified on command line).
+  
+  Use "activationlogfile=" to disable logging.
+
+  Generally speaking the log file shouldn't be edited, although some changes are allowed within the limits explained in commit message 8bd8abf, which documents log file format and application development policies.
 
 
 include=menu_configuration_file [parameter1 [ parameter2 [ ...]]]

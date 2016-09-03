@@ -33,7 +33,13 @@ Version 1.1.0 significantly improves `.desktop` file processing
  * New menu configuration options `launchernodisplay` and
    `launchernullcategory`.
 
- Some errors or omissions of the original 1.00 source code are fixed. Notably:
+Version 1.1.0 also adds a logging feature that creates a sub-menu of
+menu item and launcher activations.
+
+ * New keyword `activationlogfile=`_logfile\_path_ specifies the log
+   file and enables this feature.
+
+Some errors or omissions of the original 1.00 source code are fixed. Notably:
 
  * No more core dumps on deeply nested sub-menus. There was and there is
    a hard limit of 5 on sub-menu depth.
@@ -47,13 +53,17 @@ Version 1.1.0 significantly improves `.desktop` file processing
 
  * And more.
 
-For applications of the new launcher features see my shell scripts:
+Documentation is up-to-date with the new development.
+
+For sample applications of the new features see my shell scripts:
 
  * [gmenu2](https://github.com/step-/scripts-to-go/), which displays an
-   application menu that resembles the typical Puppy Linux menu
+   application menu that resembles the typical Puppy Linux menu.
+   Showcases launchers and the activation log.
 
  * [roxmm](https://github.com/step-/scripts-to-go/), which displays a
    ROX-Filer SendTo menu look-alike for a given file or directory.
+   Showcases launchers.
 
 ## Contributing
 

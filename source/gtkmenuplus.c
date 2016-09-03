@@ -6,7 +6,7 @@
 /*
  * gtkmenuplus - read a description file and generate a menu.
  * version 1.00, 2013-04-24, by Alan Campbell, 2013
- * version 1.1.0, 2016-08-27, by step, 2016, forked from Alan Campbell's 1.00
+ * version 1.1.0, 2016-09-03, by step, 2016, forked from Alan Campbell's 1.00
  *
  * based partially on code in myGtkMenu, copyright (C) 2004-2011 John Vorthman
  * (https://sites.google.com/site/jvinla/home).
@@ -45,7 +45,7 @@
 #include <stdlib.h>  // exit
 #include <sys/stat.h>
 #include <ctype.h> // isalpha
-//#include <time.h>
+#include <time.h>
 #include <fcntl.h> // flock
 //#include <sys/sysctl.h>  // sysctl
 //#include <dirent.h>
@@ -64,7 +64,7 @@
 #include "launcher.h"
 #include <dirent.h>
 #endif
-#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_) && !defined(_GTKMENUPLUS_NO_CACHE)
+#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_) && !defined(_GTKMENUPLUS_NO_CACHE_)
 #include "lru_cache.h"
 #endif
 
@@ -77,7 +77,7 @@
 
 #define PARAM_REF_TAG '$'
 
-#define VERSION_TEXT "1.1.0, 2016-08-27"
+#define VERSION_TEXT "1.1.0, 2016-09-03"
 
 #define DEFAULT_CONFIG_FILE  "test_menu.txt"
 
@@ -106,7 +106,7 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
                               IN gboolean bReadingIncludedFile, IN gboolean bGatherComments,
                               IN guint uiCurDepthBase, IN struct MenuEntry* pMenuEntryPendingOverride);
 
-static void          RunItem(IN gchar *sCmd);
+static void          RunItem(IN const gchar *sCmd);
 static void          QuitMenu(IN gchar *Msg);
 static void          menu_position(IN GtkMenu * gl_gtkWmenu, IN gint * x, IN gint * y, OUT gboolean * push_in, IN gpointer sData); // used in onEof as call back routine for gtk_menu_popup
 guint                 all_ready_running(void);
@@ -137,6 +137,9 @@ struct Formatting        gl_FormattingSubMenu[MAX_SUBMENU_DEPTH];
 extern guint             gl_uiCurDepth;                                              // Root menu is depth = 0
 extern guint             gl_uiCurItem;                                               // Count number of menu entries
 extern guint             gl_uiRecursionDepth;
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+extern gchar             gl_sActivationLogfile[];
+#endif
 extern struct IfStatus* gl_pIfStatusCurrent;
 
 gboolean                  gl_bOkToDisplay =             TRUE;
@@ -395,6 +398,10 @@ If this check causes you problems, take it out.
   errorExit("failed to compile regular expression for launcher=");
 
 #endif // #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
+
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+ *gl_sActivationLogfile = '\0';
+#endif
 
  if (regcomp(&gl_rgxIconExt, gl_sIconRegexPat, REG_EXTENDED | REG_ICASE))
   errorExit("failed to compile regular expression for icon extensions");
@@ -844,10 +851,15 @@ void menu_position (IN GtkMenu * gl_gtkWmenu, IN gint * x, IN gint * y, OUT gboo
 
 
 // ----------------------------------------------------------------------
-static void RunItem(IN gchar *sCmd)
+static void RunItem(IN const gchar *sCmd)
 // ----------------------------------------------------------------------
 {
  if (!sCmd) return;
+
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+ guint writeLogItem(IN const gchar *);
+ (void) writeLogItem(sCmd);
+#endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
 
  GError *error = NULL;
  gchar *sCmdExpanded = NULL;
@@ -1373,6 +1385,210 @@ enum LineParseResult onFormat(INOUT struct MenuEntry* pMenuEntryPending)  // acc
 }
 #endif // #if !defined(_GTKMENUPLUS_NO_FORMAT_)
 
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+
+// ----------------------------------------------------------------------
+enum LineParseResult onActivationLogfile(INOUT struct MenuEntry* pMenuEntryPending)
+// ----------------------------------------------------------------------
+
+{
+ if (!(*gl_sLinePostEq))
+ {
+  *gl_sActivationLogfile = '\0';
+  return lineParseOk;
+ }
+ enum LineParseResult lineParseResult = expand_path(gl_sLinePostEq, gl_sScriptDirectory,
+     "activationlogfile", pMenuEntryPending->m_sErrMsg); // can rewrite gl_sLinePostEq
+ if (lineParseResult != lineParseOk)
+  return lineParseResult;
+ strcpy(gl_sActivationLogfile, gl_sLinePostEq);
+
+ // Touch (empty) file so the calling application can include it.
+ int fd = open(gl_sActivationLogfile, O_CREAT|O_WRONLY);
+ if (-1 == fd)
+ {
+  perror("open");
+  return lineParseFail;
+ }
+ close(fd);
+ return lineParseOk;
+}
+
+// for makeLogItem, commitItem, processLauncher
+struct LogItem {
+ guint uiSize;
+ gchar *sItem;
+};
+
+// ----------------------------------------------------------------------
+//called by commitItem, processLauncher
+struct LogItem* makeLogItem(IN gchar* sItem, IN gchar* sCmd, IN gchar* sTooltip, IN gchar* sIcon)
+// ----------------------------------------------------------------------
+{
+ if (! *gl_sActivationLogfile)
+  return NULL;
+
+ // encode args as concatenated_strings
+ guint size = 4*sizeof('\0') + strlen(sItem) + strlen(sCmd) +
+  (sTooltip ? strlen(sTooltip) : 0) + strlen(sIcon);
+ struct LogItem *log;
+ gchar *enc = NULL;
+ if(  !(enc = malloc(sizeof('\0')*size))
+   || !(log = malloc(sizeof(struct LogItem))))
+ {
+  perror("malloc");
+  if(enc) free(enc);
+  return NULL;
+ }
+ sprintf(enc, "%s%c%s%c%s%c%s%c",
+   // sCmd goes first, sTooltip last
+   sCmd, '\0', sItem, '\0', sIcon, '\0', //Exec, Name, Icon,
+   sTooltip ? sTooltip : "", '\0'); //Comment
+ log->uiSize = size;
+ log->sItem = enc;
+ return log;
+}
+
+// ----------------------------------------------------------------------
+//called by RunItem
+guint writeLogItem(IN const gchar* sItem)
+// ----------------------------------------------------------------------
+{
+ if (! *gl_sActivationLogfile)
+  return 0;
+
+ /*
+  * Add to activation log file, which is a menu configuration file.
+ */
+ // Get addresses of adjacent strings Exec, Name, Icon, Comment.
+ gchar *exec, *name, *icon, *comment, *p;
+ exec = (gchar *) sItem; // assert(0 != strcmp(exec, ""))
+ name = exec + strlen(exec) +1;
+ icon = name + strlen(name) +1;
+ comment = icon + strlen(icon) +1;
+
+ // Deal with special cases in reverse address order.
+ if (0 == strcmp("NULL", icon)) // special case "NULL" icon
+  *icon = '\0';
+ if (!*name) // special case {N2}
+  name = exec;
+ // special case right-trim name because so does readLine
+ for(p = exec + strlen(exec) - 1; p != exec && (*p == ' ' || *p == '\t');)
+ {
+   *p-- = '\0';
+ }
+
+ gchar tmpf[MAX_PATH_LEN]; int fd;
+ if (0 >= snprintf(tmpf, MAX_PATH_LEN -1, "%s/.gtkmenuplus-XXXXXX", P_tmpdir)
+  || -1 == (fd = mkstemp(tmpf)))
+ {
+  perror("mkstemp");
+  return -1;
+ }
+ FILE *copy = fdopen(fd, "w");
+ FILE *heystack = fopen(gl_sActivationLogfile, "a+");
+ if (!copy || !heystack)
+ {
+  perror("fopen");
+  if (copy)
+   fclose(copy);
+  return -1;
+ }
+
+ // Is this log item (needle) already in the file (heystack)?
+ gchar needle[MAX_PATH_LEN + 2 + sizeof("Item=Cmd=Icon=Tooltip")];
+ sprintf(needle, "Item=%s\nCmd=%s\nIcon=%s%c%s%s\n", name, exec, icon,
+#if !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
+   '\n', "Tooltip=", comment
+#else
+   "", ""
+#endif
+ ); // needle formatted for heystack
+
+ // Scan heystack looking for needle.
+ gboolean found = FALSE;
+ gchar meta[MAX_PATH_LEN + 1];
+ gchar data[MAX_PATH_LEN + 2];
+ guint activation_count;
+ time_t creation_time, activation_time;
+ // Use fgets so as to allow for user data between '}' and '\n'.
+ while (fgets(meta, MAX_PATH_LEN, heystack))
+ {
+  // After needle is found we enter blind copy mode.
+  if (found)
+  {
+   fputs(meta, copy);
+   continue;
+  }
+
+#define META_FMT "#{%d:%d:%d:%d}"
+#define META_DIM 4
+#define DATA_END "#{}\n"
+  uint n, i;
+  if (META_DIM != sscanf(meta, META_FMT, &n, &activation_count,
+     (int *)&creation_time, (int *)&activation_time))
+  {
+   fprintf(stderr, "sscanf %s\n", strerror(ENODATA));
+   break;
+  }
+  // Read n-line data.
+  for(
+    i = 0, *(p = data) = '\0';
+    i < n && fgets(p, MAX_PATH_LEN - (p - data), heystack);
+    i++, p += strlen(p))
+   ;
+  // Chomp DATA_END so as to allow for user data after '}'.
+  int c;
+  while (1)
+  {
+   c = fgetc(heystack);
+   if (c == EOF || c == '\n')
+    break;
+  }
+
+  if ((found = 0 == strcmp(data, needle)))
+  {
+    // Update meta.
+    ++activation_count;
+    activation_time = time(NULL);
+    gchar *user_data = index(meta, '}');
+    fprintf(copy, META_FMT,
+      n, activation_count, (int)creation_time, (int)activation_time);
+    if (user_data)
+     fputs(user_data + 1, copy);
+  }
+  else
+  {
+   fputs(meta, copy);
+  }
+  fputs(data, copy);
+  fputs(DATA_END, copy);
+ }
+
+ if (!found)
+ {
+  creation_time = activation_time = time(NULL);
+  // Write needle as a menu item, optionally including the tooltip.
+  fprintf(copy, META_FMT "\n%s" DATA_END,
+#if !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
+    4, // how many lines after meta, excluding DATA_END
+#else
+    3,
+#endif
+    1, // activation count
+    (int)creation_time, (int)activation_time, needle);
+ }
+
+ fclose(copy);
+ fclose(heystack);
+ int ret = rename(tmpf, gl_sActivationLogfile);
+ if (-1 == ret)
+  perror("rename");
+ return ret;
+}
+
+#endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
+
 // ---------------------------------------------------------------------- AC
 enum LineParseResult commitItem(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
@@ -1387,7 +1603,36 @@ enum LineParseResult commitItem(INOUT struct MenuEntry* pMenuEntryPending)
 
  if (!pGtkWdgtCurrent)
   return lineParseFail;
- return addIcon(pMenuEntryPending, pGtkWdgtCurrent); // add icon to item; ALWAYS RETURN TRUE, SOFT ERROR IF ICON MISSING
+ enum LineParseResult lineParseResult =
+  addIcon(pMenuEntryPending, pGtkWdgtCurrent); // add icon to item; ALWAYS RETURN TRUE, SOFT ERROR IF ICON MISSING
+
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+ struct LogItem *logItem = makeLogItem(
+   pMenuEntryPending->m_sTitle,
+   gl_sCmds[gl_uiCurItem - 1],
+#if !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
+   pMenuEntryPending->m_sTooltip,
+#else
+   NULL,
+#endif
+   pMenuEntryPending->m_sIcon);
+
+ if (logItem)
+ {
+  // {N2} Theoretically, logItem->sItem may not fit as a whole, but in
+  // practice it's very unlikely. Even so, buffer overrun is protected, and
+  // no-fit degrades to a .desktop entry with a command but no tooltip,
+  // then no icon, then no name in the worst case.
+  gchar *p;
+  memcpy(p = gl_sCmds[gl_uiCurItem - 1], logItem->sItem,
+    MIN(logItem->uiSize, MAX_PATH_LEN));
+  p[MAX_PATH_LEN] = '\0';
+  free(logItem->sItem);
+  free(logItem);
+ }
+#endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
+
+ return lineParseResult;
 }
 
 // ---------------------------------------------------------------------- AC
@@ -2080,7 +2325,7 @@ void reapErrMsg (INOUT struct MenuEntry* pMenuEntryPending, enum LineParseResult
 enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuEntry* pme, gboolean bRequired, guint iCaller) // used by fillSubMenuEntry, onLauncherDirFile, onLauncherSubMenu, processLauncher
 // ----------------------------------------------------------------------
 {
-#if !defined(_GTKMENUPLUS_NO_CACHE)
+#if !defined(_GTKMENUPLUS_NO_CACHE_)
  struct MenuEntry *cached = find_in_cache(sFilePath);
  if (cached)
  {
@@ -2152,10 +2397,6 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   sValue = gl_launcherElement[LAUNCHER_ELEMENT_NODISPLAY].sValue;
   pme->m_bNoDisplay = sValue ? 0 == strcmp("true", sValue) : FALSE;
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
-  // FIXME - WIP
-  // .desktop file entry "format=value" pertains to keyword
-  // "launcherdirfile=" only, so it's copied in onLauncherDirFile()
-  // instead of here.
   if (iCaller == LINE_LAUNCHER_DIRFILE)
   {
    STRCPY_IF(gl_launcherDirFile.m_sFormatEq,
@@ -2163,7 +2404,7 @@ enum LineParseResult fillMenuEntry(IN const gchar* sFilePath, INOUT struct MenuE
   }
 #endif
 
-#if !defined(_GTKMENUPLUS_NO_CACHE)
+#if !defined(_GTKMENUPLUS_NO_CACHE_)
   add_to_cache(sFilePath, pme);
 #endif
   return lineParseOk;
@@ -2813,6 +3054,30 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
  lineParseResult = onIconForLauncher(sLauncherPath, pme);
  if (lineParseResult < lineParseFail)
   ++gl_nLauncherCount;
+
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+ struct LogItem *logItem = makeLogItem(
+  pme->m_sTitle,
+  gl_sCmds[gl_uiCurItem - 1],
+#if !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
+  pme->m_sTooltip,
+#else
+  NULL,
+#endif
+  pme->m_sIcon);
+
+ if (logItem)
+ {
+  // See {N2} elsewhere.
+  gchar *p;
+  memcpy(p = gl_sCmds[gl_uiCurItem - 1], logItem->sItem,
+    MIN(logItem->uiSize, MAX_PATH_LEN));
+  p[MAX_PATH_LEN] = '\0';
+  free(logItem->sItem);
+  free(logItem);
+ }
+#endif // _GTKMENUPLUS_NO_ACTIVATION_LOG_
+
  return lineParseResult;
 }
 

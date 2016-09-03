@@ -283,3 +283,5 @@ void errorExit(IN gchar* sMsg)
  }
  exit(EXIT_FAILURE);
 }
+
+// vim: et ts=1 sts=1 sw=1 tw=0 fdm=syntax

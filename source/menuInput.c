@@ -6,7 +6,7 @@
 
 #include "menuInput.h"
 
-// version 1.1.0, 2016-08-27
+// version 1.1.0, 2016-09-03
 
 //required because __USE_GNU
 char * strcasestr (const char *haystack, const char *needle);
@@ -259,6 +259,10 @@ struct Keyword gl_keyword[] = // used in getLineTypeName, readLine
  {"launcherdir",             11, FALSE,  LINE_LAUNCHER_DIR},
 #endif // #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+ {"activationlogfile",       17, FALSE,  LINE_ACTIVATION_LOGFILE},
+#endif // #if  !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+
  {"include",                  7, TRUE,   LINE_INCLUDE},
  {"menupos",                  7, FALSE,  LINE_POSITION},
  {"menuposition",            12, FALSE,  LINE_POSITION},
@@ -357,6 +361,11 @@ struct LinetypeAction gl_linetypeActionMap[] =
  { LINE_LAUNCHER_DIRFILE,          TRUE,  onLauncherDirFile},
  { LINE_LAUNCHER_SUBMENU,          TRUE,  onLauncherSubMenu},
 #endif // #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
+
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+ { LINE_ACTIVATION_LOGFILE,        TRUE,  onActivationLogfile},
+#endif // #if  !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+
  { LINE_INCLUDE,                   TRUE,  onInclude},
  { LINE_ICON_SIZE,                 TRUE,  onIconSize},
  { LINE_POSITION,                  TRUE,  onPosition},
@@ -1208,7 +1217,7 @@ gboolean is_executable(IN gchar* sPath) // called by RunItem
 }
 
 // ----------------------------------------------------------------------
-void  get_first_arg(IN gchar* sPath, OUT gchar* sPathOut) // called by RunItem
+void get_first_arg(IN const gchar* sPath, OUT gchar* sPathOut) // called by RunItem
 // ----------------------------------------------------------------------
 {
  strcpy(sPathOut, sPath);
@@ -1349,3 +1358,5 @@ void formattingNext(INOUT struct Formatting* pFormatting)
 }
 
 #endif // #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+
+// vim: et ts=1 sts=1 sw=1 tw=0 fdm=syntax

@@ -1,7 +1,7 @@
 #ifndef _MENUINPUT_H
 #define _MENUINPUT_H 1
 
-// version 1.1.0, 2016-08-27
+// version 1.1.0, 2016-09-03
 
 /* Allow the use in C++ code.  */
 #ifdef __cplusplus
@@ -33,6 +33,11 @@ gchar       gl_sLauncherDirectory[MAX_PATH_LEN + 1]; // used by onLauncher(), se
 #endif
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+
+gchar       gl_sActivationLogfile[MAX_PATH_LEN + 1]; // used by writeLogItem(), set by onActivationLogfile()
+
+#endif
 
 struct Formatting
 {
@@ -63,7 +68,7 @@ gchar       gl_sCmdLineConfig[MAX_LINE_LENGTH + 1];
 
 FILE*                open_menu_desc_file(IN gchar* sFileName); // sets gl_pFile  , OUT gboolean* pbIsConfigFileArg
 gboolean             is_executable(IN gchar* sPath); // called by RunItem
-void                 get_first_arg(IN gchar* sPath, OUT gchar* sPathOut); // called by RunItem
+void                 get_first_arg(IN const gchar* sPath, OUT gchar* sPathOut); // called by RunItem
 
 void                 trim_trailing(IN gchar* sPosBeg, IN gchar* sPos);
 
@@ -103,17 +108,18 @@ enum LineType {                         // returned by readLine
  LINE_LAUNCHER_DIRFILE             = 21,
  LINE_LAUNCHER_SUBMENU             = 22,
  LINE_LAUNCHER_DIR                 = 23,
- LINE_INCLUDE                      = 24,
- LINE_SUBMENU_END                  = 25,
- LINE_CONFIGURE                    = 26,
- LINE_EOF                          = 27,
- LINE_ERROR                        = 28,  // the error keyword
- LINE_KEYWORD_IS_VARIABLE          = 29,  // will become variable def, not error
- LINE_ABSOLUTE_PATH                = 30,
- LINE_BAD_LIMIT_LOW                = 31,  //move when LINE_KEYWORD_IS_VARIABLE not an error
- LINE_BAD_LEN                      = 31,
- LINE_BAD_NO_EQ                    = 32,
- LINE_BAD_LIMIT_HI                 = 32
+ LINE_ACTIVATION_LOGFILE           = 24,
+ LINE_INCLUDE                      = 25,
+ LINE_SUBMENU_END                  = 26,
+ LINE_CONFIGURE                    = 27,
+ LINE_EOF                          = 28,
+ LINE_ERROR                        = 29,  // the error keyword
+ LINE_KEYWORD_IS_VARIABLE          = 30,  // will become variable def, not error
+ LINE_ABSOLUTE_PATH                = 31,
+ LINE_BAD_LIMIT_LOW                = 32,  //move when LINE_KEYWORD_IS_VARIABLE not an error
+ LINE_BAD_LEN                      = 32,
+ LINE_BAD_NO_EQ                    = 33,
+ LINE_BAD_LIMIT_HI                 = 33
 };
 
 struct Keyword
@@ -277,6 +283,10 @@ enum LineParseResult onLauncherSubMenu(INOUT struct MenuEntry* pMenuEntryPending
 enum LineParseResult onLauncherDir(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onIconForLauncher(IN gchar* sLauncherPath, INOUT struct MenuEntry* pme);
 #endif
+
+#if !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+enum LineParseResult onActivationLogfile(INOUT struct MenuEntry* pMenuEntryPending);
+#endif // #if  !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
 
 enum LineParseResult onInclude(INOUT struct MenuEntry* pMenuEntryPending);
 
