@@ -67,6 +67,9 @@
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_) && !defined(_GTKMENUPLUS_NO_CACHE_)
 #include "lru_cache.h"
 #endif
+#if  !defined(_GTKMENUPLUS_NO_ACTIVATION_LOG_)
+#include <libgen.h>
+#endif
 
 #define PROGNAME "gtkmenuplus"      // All lowercase!
 //#define INCLUDE_RECURSE_FLAG '>'
@@ -1479,8 +1482,10 @@ guint writeLogItem(IN const gchar* sItem)
  }
 
  gchar tmpf[MAX_PATH_LEN]; int fd;
- if (0 >= snprintf(tmpf, MAX_PATH_LEN -1, "%s/.gtkmenuplus-XXXXXX", P_tmpdir)
-  || -1 == (fd = mkstemp(tmpf)))
+ strcpy(tmpf, gl_sActivationLogfile);
+ strcpy(tmpf, dirname(tmpf));
+ strncat(tmpf, "/.gtkmenuplus-XXXXXX", MAX_PATH_LEN -1);
+ if (-1 == (fd = mkstemp(tmpf)))
  {
   perror("mkstemp");
   return -1;
@@ -1492,6 +1497,7 @@ guint writeLogItem(IN const gchar* sItem)
   perror("fopen");
   if (copy)
    fclose(copy);
+  unlink(tmpf);
   return -1;
  }
 
@@ -1583,7 +1589,10 @@ guint writeLogItem(IN const gchar* sItem)
  fclose(heystack);
  int ret = rename(tmpf, gl_sActivationLogfile);
  if (-1 == ret)
+ {
   perror("rename");
+  unlink(tmpf);
+ }
  return ret;
 }
 
