@@ -1034,8 +1034,12 @@ retry:
     getGtkImageFromFile(pMenuEntryPending->m_sIcon, pMenuEntryPending->m_sErrMsg, ppGtkImage);
    if(lineParseResult != lineParseOk)
    {
-     *sExt = *pMenuEntryPending->m_sErrMsg = '\0';
-     goto retry;
+     *pMenuEntryPending->m_sErrMsg = '\0';
+     if (sExt)
+     {
+      *sExt = '\0';
+      goto retry;
+     }
    }
   }
   else // is sIcon, but no extension, and not a filepath
