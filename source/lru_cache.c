@@ -56,3 +56,53 @@ void add_to_cache(const gchar *key, struct MenuEntry *value)
         }
     }    
 }
+
+//---------------------------------------------------------------------
+struct ScanDirCacheEntry *scanDirCache = NULL;
+
+struct ScanDir* find_in_scandir_cache(const gchar *key)
+{
+    struct ScanDirCacheEntry *cache_entry;
+    HASH_FIND_STR(scanDirCache, key, cache_entry);
+    if (cache_entry) {
+        // remove it (so the subsequent add will throw it on the front of the list)
+        HASH_DELETE(hh, scanDirCache, cache_entry);
+        HASH_ADD_KEYPTR(hh, scanDirCache, cache_entry->key, strlen(cache_entry->key), cache_entry);
+        return cache_entry->value;
+    }
+    return NULL;
+}
+
+void add_to_scandir_cache(const gchar *key, struct ScanDir *value)
+{
+    struct ScanDirCacheEntry *cache_entry, *tmp_entry;
+    struct ScanDir *scandir_entry = NULL;
+    if ( !(cache_entry = malloc(sizeof(struct ScanDirCacheEntry)))
+      || !( scandir_entry = malloc(sizeof(struct ScanDir )))
+      || !( cache_entry->key = strdup(key)))
+    {
+      perror("malloc");
+      if (cache_entry)
+      {
+        if(cache_entry->key) free(cache_entry->key);
+        free(cache_entry);
+      }
+      if (scandir_entry) free(scandir_entry);
+      return;
+    }
+    memcpy(scandir_entry, value, sizeof(struct ScanDir));
+    cache_entry->value = scandir_entry;
+    HASH_ADD_KEYPTR(hh, scanDirCache, cache_entry->key, strlen(cache_entry->key), cache_entry);
+    
+    // prune the cache to MAX_CACHE_SIZE
+    if (HASH_COUNT(scanDirCache) >= MAX_CACHE_SIZE) {
+        HASH_ITER(hh, scanDirCache, cache_entry, tmp_entry) {
+            // prune the first cache_entry (loop is based on insertion order so this deletes the oldest item)
+            HASH_DELETE(hh, scanDirCache, cache_entry);
+            free(cache_entry->key);
+            free(cache_entry);
+            free(scandir_entry);
+            break;
+        }
+    }    
+}

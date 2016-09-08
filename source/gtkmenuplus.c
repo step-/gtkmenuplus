@@ -2688,13 +2688,32 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
  }
 
  struct dirent **namelist;
- int n = scandir(gl_sLinePostEq, &namelist, NULL, compar);
+ int n = -1;
+#if !defined(_GTKMENUPLUS_NO_CACHE_)
+ struct ScanDir *cached = find_in_scandir_cache(gl_sLinePostEq);
+ if (cached)
+ {
+  n = cached->n; // >= 0
+  namelist = cached->namelist;
+ }
+#endif
+ if (n < 0)
+  n = scandir(gl_sLinePostEq, &namelist, NULL, compar);
  if (n < 0)
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
     "%s=: %s: '%s'\n", sCaller, strerror(errno), gl_sLinePostEq);
   return lineParseFail;
  }
+#if !defined(_GTKMENUPLUS_NO_CACHE_)
+ if (!cached)
+ {
+  struct ScanDir sd;
+  sd.namelist = namelist;
+  sd.n = n;
+  add_to_scandir_cache(gl_sLinePostEq, &sd);
+ }
+#endif
  // {N1} Correction for case 'readLine found "launcher{sub}=" nested in "submenu="'.
  pMenuEntryPending->m_uiDepth = gl_uiCurDepth;
 
@@ -2710,7 +2729,9 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
 #ifdef _DIRENT_HAVE_D_TYPE
   int d_type = namelist[i]->d_type;
 #endif
+#if defined(_GTKMENUPLUS_NO_CACHE_) // *defined*
   free(namelist[i]);
+#endif
 
   // -----------------
   // LINE_LAUNCHER_SUB
@@ -2858,13 +2879,17 @@ break_this_loop: // IN lineParseResult
    // If instead you wanted to bail out on the first severe error:
    /* if (0 == gl_uiCurDepth - gl_LauncherReadLineDepth && *gl_sLauncherDB != '\0') unlink(gl_sLauncherDB); */
    /* for (i = i + 1; i < n; i++) free(namelist[i]); */
+   /*#if defined(_GTKMENUPLUS_NO_CACHE_) // *defined* */
    /* free(namelist); */
+   /*#endif */
    /* return lineParseResult; */
 
   }
  }
 
+#if defined(_GTKMENUPLUS_NO_CACHE_) // *defined*
  if (namelist) free(namelist);
+#endif
 
  // -----------------
  // LINE_LAUNCHER_SUB
