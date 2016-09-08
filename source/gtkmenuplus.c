@@ -2613,63 +2613,57 @@ enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
 }
 
 // ----------------------------------------------------------------------
+char* getComparName(const struct dirent **a)
+// used by compar
+// ----------------------------------------------------------------------
+{
+ char *as = (char*)(*a)->d_name, *ak = NULL;
+ if (
+#ifdef _DIRENT_HAVE_D_TYPE
+     DT_DIR != (*a)->d_type &&
+#endif
+     strcmp(as + strlen(as) - 8, ".desktop") == 0 &&
+     (ak = malloc(sizeof(char) * MAX_LINE_LENGTH + 1)))
+ {
+  struct MenuEntry me;
+  strcpy(ak, gl_sLinePostEq);
+  strncat(ak, as, MAX_LINE_LENGTH);
+fprintf(stderr, "ak(%s) ", ak); //TODO DELETEME
+  if (lineParseFail > fillMenuEntry(ak, &me, FALSE, -1)) // iCaller -1 no harm
+   strcpy(ak, me.m_sTitle);
+  else
+  {
+fprintf(stderr, " revert\n");
+   strcpy(ak, as);
+  }
+  return ak;
+ }
+ return NULL;
+}
+
+// ----------------------------------------------------------------------
 int compar(const struct dirent **a, const struct dirent **b)
 // used by onLauncherCommon
 // ----------------------------------------------------------------------
 {
- int ret;
- char *as = (char*)(*a)->d_name, *bs = (char*)(*b)->d_name;
- char *ak = NULL, *bk = NULL;
- if (
-#ifdef _DIRENT_HAVE_D_TYPE
-     DT_DIR != (*a)->d_type && DT_DIR != (*b)->d_type && 
-#endif
-     strcmp(as + strlen(as) - 8, ".desktop") == 0 &&
-     strcmp(bs + strlen(bs) - 8, ".desktop") == 0 &&
-     (ak = malloc(sizeof(char) * MAX_LINE_LENGTH + 1)) &&
-     (bk = malloc(sizeof(char) * MAX_LINE_LENGTH + 1)))
-  {
-   struct MenuEntry me;
-   strcpy(ak, gl_sLinePostEq);
-   strncat(ak, as, MAX_LINE_LENGTH);
- fprintf(stderr, "ak(%s) ", ak); //TODO DELETEME
-   if (lineParseFail > fillMenuEntry(ak, &me, FALSE, -1)) // iCaller -1 no harm
-   {
-    strcpy(ak, me.m_sTitle); // commit to strcmp
-    strcpy(bk, gl_sLinePostEq);
-    strncat(bk, bs, MAX_LINE_LENGTH);
- fprintf(stderr, "bk(%s) ", bk); //TODO DELETEME
-    if (lineParseFail > fillMenuEntry(bk, &me, FALSE, -1)) // iCaller -1 no harm
-     strcpy(bk, me.m_sTitle); // commit to strcmp
-    else
-    {
- fprintf(stderr, " revert2\n");
-     strcpy(ak, as); // revert commit
-     strcpy(bk, bs); // revert commit
-    }
-   }
-   else
-   {
- fprintf(stderr, " revert\n");
-    strcpy(ak, as); // revert commit
-   }
+ char *as, *bs, *am, *bm;
+ if (!(as = am = getComparName(a)))
+  as = (char*)(*a)->d_name;
+ if (!(bs = bm = getComparName(b)))
+  bs = (char*)(*b)->d_name;
 
-   ret = strcmp(ak, bk);
+ int ret = strcasecmp(as, bs);
 
-   int ret0 = alphasort(a, b); //TODO DELETEME
-   if(ret * ret0 < 0) //TODO DELETEME
-    fprintf(stderr, "an(%s) bn(%s) re0(%d)\nak2(%s) bk2(%s) ret(%d)\n", //TODO DELETEME
-      (*a)->d_name, (*b)->d_name, ret0, ak, bk, ret); //TODO DELETEME
-   else fprintf(stderr, "\n"); //TODO DELETEME
-  }
- else // not (a and b are .desktop files)
-  {
-   ret = alphasort(a, b);
-  }
-  if (ak) free(ak);
-  if (bk) free(bk);
-  return ret;
- }
+ int ret0 = alphasort(a, b); //TODO DELETEME
+ if(ret * ret0 < 0) //TODO DELETEME
+  fprintf(stderr, "an(%s) bn(%s) re0(%d)\nas(%s) bs(%s) ret(%d)\n", //TODO DELETEME
+    (*a)->d_name, (*b)->d_name, ret0, as, bs, ret); //TODO DELETEME
+ else fprintf(stderr, "\n"); //TODO DELETEME
+
+ if (am) free(am);
+ if (bm) free(bm);
+ return ret;
+}
 
 // ----------------------------------------------------------------------
 enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending, gchar *sCaller, guint iCaller) // used by onLauncher, onLauncherSub
