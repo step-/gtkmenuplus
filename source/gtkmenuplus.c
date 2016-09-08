@@ -2628,14 +2628,10 @@ char* getComparName(const struct dirent **a)
   struct MenuEntry me;
   strcpy(ak, gl_sLinePostEq);
   strncat(ak, as, MAX_LINE_LENGTH);
-fprintf(stderr, "ak(%s) ", ak); //TODO DELETEME
   if (lineParseFail > fillMenuEntry(ak, &me, FALSE, -1)) // iCaller -1 no harm
    strcpy(ak, me.m_sTitle);
   else
-  {
-fprintf(stderr, " revert\n");
    strcpy(ak, as);
-  }
   return ak;
  }
  return NULL;
@@ -2653,13 +2649,6 @@ int compar(const struct dirent **a, const struct dirent **b)
   bs = (char*)(*b)->d_name;
 
  int ret = strcasecmp(as, bs);
-
- int ret0 = alphasort(a, b); //TODO DELETEME
- if(ret * ret0 < 0) //TODO DELETEME
-  fprintf(stderr, "an(%s) bn(%s) re0(%d)\nas(%s) bs(%s) ret(%d)\n", //TODO DELETEME
-    (*a)->d_name, (*b)->d_name, ret0, as, bs, ret); //TODO DELETEME
- else fprintf(stderr, "\n"); //TODO DELETEME
-
  if (am) free(am);
  if (bm) free(bm);
  return ret;
