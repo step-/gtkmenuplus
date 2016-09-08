@@ -188,8 +188,8 @@ gboolean              addFormatting(INOUT GtkWidget *item, IN gboolean bToSubMen
 
 enum FormattingResult { formattingResultNone = 0, formattingResultDoItNotFreeMarkedUpText = 1, formattingResultDoItFreeMarkedUpText = 2};
 
-enum FormattingResult applyFormatting(IN gchar* sText, IN gboolean bToSubMenu,
-                                       INOUT struct Formatting* pFormatting, OUT gchar** psMarkedUpText);
+enum FormattingResult applyFormatting(IN gchar* sText, IN guint uiCurDepth,
+                                      INOUT struct Formatting* pFormatting, OUT gchar** psMarkedUpText);
 
 #endif
 
@@ -1014,9 +1014,10 @@ gboolean addFormatting(INOUT GtkWidget *item, IN gboolean bToSubMenu) // TO DO E
  const gchar* sItemText = gtk_label_get_label((GtkLabel*) gtkLabel);
 
  gchar* sMarkedUpText = NULL;
- guint uiCurDepth = gl_uiCurDepth - (bToSubMenu ? 1 : 0);
- enum FormattingResult formattingResult = applyFormatting((gchar*) sItemText, bToSubMenu,
-                                                          &(gl_FormattingSubMenu[uiCurDepth]), &sMarkedUpText);
+ gint uiCurDepth = MAX(0, gl_uiCurDepth - (bToSubMenu ? 1 : 0));
+ enum FormattingResult formattingResult =
+  applyFormatting((gchar*) sItemText, uiCurDepth,
+    &(gl_FormattingSubMenu[uiCurDepth]), &sMarkedUpText);
  if (formattingResult != formattingResultNone)
   gtk_label_set_markup_with_mnemonic((GtkLabel*) gtkLabel, sMarkedUpText); // ret void
 
@@ -1033,7 +1034,7 @@ gboolean addFormatting(INOUT GtkWidget *item, IN gboolean bToSubMenu) // TO DO E
 
 // ---------------------------------------------------------------------- AC
 //enum FormattingResult applyFormatting(IN gchar* sText, IN gchar* sFormat, OUT gchar** psMarkedUpText)
-enum FormattingResult applyFormatting(IN gchar* sText, IN gboolean bToSubMenu,
+enum FormattingResult applyFormatting(IN gchar* sText, IN guint uiCurDepth,
                                       INOUT struct Formatting* pFormatting, OUT gchar** psMarkedUpText)
 // ----------------------------------------------------------------------
 {
@@ -1042,8 +1043,7 @@ enum FormattingResult applyFormatting(IN gchar* sText, IN gboolean bToSubMenu,
  gboolean bIsFormattingLocal  = strstr(sText, "<span") != NULL;
 //m_cFormatDivider 0 if formatting not compound
  gboolean bIsFormattingGlobal = *(pFormatting->m_sFormat) &&
-  (!(pFormatting->m_cFormatDivider) || (!bToSubMenu && gl_uiCurDepth == pFormatting->m_uiMenuLevel) ||
-                                        (bToSubMenu && gl_uiCurDepth - 1 == pFormatting->m_uiMenuLevel) );
+  (!(pFormatting->m_cFormatDivider) || (uiCurDepth == pFormatting->m_uiMenuLevel));
 
  if (bIsFormattingLocal)
  {
@@ -1808,9 +1808,14 @@ enum LineParseResult commitSubMenu(INOUT struct MenuEntry* pMenuEntryPending)
  // Note: Since onSubMenu has already incremented gl_uiCurDepth, here
  // gl_FormattingSubMenu[gl_uiCurDepth - 1] is the formatting record of
  // the sub-menu that contains the sub-menu we are committing.
- if (lineParseResult != lineParseFail && !gl_FormattingSubMenu[gl_uiCurDepth - 1].m_cFormatDivider &&
-     gl_uiCurDepth < MAX_SUBMENU_DEPTH) //m_cFormatDivider 0 if formatting not compound
-  memcpy(&(gl_FormattingSubMenu[gl_uiCurDepth]), &(gl_FormattingSubMenu[gl_uiCurDepth - 1]), sizeof(struct Formatting));
+ if (lineParseResult != lineParseFail)
+ {
+  // MAX(0,...) guards against segfaults due to malformed submenus.
+  guint uiCurDepth = MAX(0, (gint)gl_uiCurDepth - 1);
+  if(!gl_FormattingSubMenu[uiCurDepth].m_cFormatDivider
+   && gl_uiCurDepth < MAX_SUBMENU_DEPTH) //m_cFormatDivider 0 if formatting not compound
+  memcpy(&(gl_FormattingSubMenu[gl_uiCurDepth]), &(gl_FormattingSubMenu[uiCurDepth]), sizeof(struct Formatting));
+ }
 #endif
 
  return lineParseResult;
