@@ -2613,6 +2613,65 @@ enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
 }
 
 // ----------------------------------------------------------------------
+int compar(const struct dirent **a, const struct dirent **b)
+// used by onLauncherCommon
+// ----------------------------------------------------------------------
+{
+ int ret;
+ char *as = (char*)(*a)->d_name, *bs = (char*)(*b)->d_name;
+ char *ak = NULL, *bk = NULL;
+ if (
+#ifdef _DIRENT_HAVE_D_TYPE
+     DT_DIR != (*a)->d_type && DT_DIR != (*b)->d_type && 
+#endif
+     strcmp(as + strlen(as) - 8, ".desktop") == 0 &&
+     strcmp(bs + strlen(bs) - 8, ".desktop") == 0 &&
+     (ak = malloc(sizeof(char) * MAX_LINE_LENGTH + 1)) &&
+     (bk = malloc(sizeof(char) * MAX_LINE_LENGTH + 1)))
+  {
+   struct MenuEntry me;
+   strcpy(ak, gl_sLinePostEq);
+   strncat(ak, as, MAX_LINE_LENGTH);
+ fprintf(stderr, "ak(%s) ", ak); //TODO DELETEME
+   if (lineParseFail > fillMenuEntry(ak, &me, FALSE, -1)) // iCaller -1 no harm
+   {
+    strcpy(ak, me.m_sTitle); // commit to strcmp
+    strcpy(bk, gl_sLinePostEq);
+    strncat(bk, bs, MAX_LINE_LENGTH);
+ fprintf(stderr, "bk(%s) ", bk); //TODO DELETEME
+    if (lineParseFail > fillMenuEntry(bk, &me, FALSE, -1)) // iCaller -1 no harm
+     strcpy(bk, me.m_sTitle); // commit to strcmp
+    else
+    {
+ fprintf(stderr, " revert2\n");
+     strcpy(ak, as); // revert commit
+     strcpy(bk, bs); // revert commit
+    }
+   }
+   else
+   {
+ fprintf(stderr, " revert\n");
+    strcpy(ak, as); // revert commit
+   }
+
+   ret = strcmp(ak, bk);
+
+   int ret0 = alphasort(a, b); //TODO DELETEME
+   if(ret * ret0 < 0) //TODO DELETEME
+    fprintf(stderr, "an(%s) bn(%s) re0(%d)\nak2(%s) bk2(%s) ret(%d)\n", //TODO DELETEME
+      (*a)->d_name, (*b)->d_name, ret0, ak, bk, ret); //TODO DELETEME
+   else fprintf(stderr, "\n"); //TODO DELETEME
+  }
+ else // not (a and b are .desktop files)
+  {
+   ret = alphasort(a, b);
+  }
+  if (ak) free(ak);
+  if (bk) free(bk);
+  return ret;
+ }
+
+// ----------------------------------------------------------------------
 enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending, gchar *sCaller, guint iCaller) // used by onLauncher, onLauncherSub
 // ----------------------------------------------------------------------
 {
@@ -2646,7 +2705,7 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
  }
 
  struct dirent **namelist;
- int n = scandir(gl_sLinePostEq, &namelist, NULL, alphasort);
+ int n = scandir(gl_sLinePostEq, &namelist, NULL, compar);
  if (n < 0)
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
@@ -2663,7 +2722,7 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
   enum LineParseResult lineParseResult;
   gchar sLauncherPath1[MAX_PATH_LEN + 1];
   snprintf(sLauncherPath1, MAX_PATH_LEN, "%s%s", gl_sLinePostEq, namelist[i]->d_name);
-  //fprintf(stderr, "%s\n", sLauncherPath1); //DEBUG
+  fprintf(stderr, "%s\n", sLauncherPath1); //DEBUG
   int len1 = len0 + _D_EXACT_NAMLEN(namelist[i]);
 #ifdef _DIRENT_HAVE_D_TYPE
   int d_type = namelist[i]->d_type;
