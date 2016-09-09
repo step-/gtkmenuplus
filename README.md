@@ -22,6 +22,9 @@ Version 1.1.0 significantly improves `.desktop` file processing
 
    * `launchersub=` can be nested in `submenu=` keywords.
 
+   * A `launchersub=` entry list is sorted alphabetically on the `Name=`
+     property value, rather than on .desktop file names.
+
  * New keyword `launchersubmenu=` reads its settings from a .desktop
    file, and displays a sub-menu of the items that follow it in the
    configuration file.
@@ -48,6 +51,9 @@ Some errors or omissions of the original 1.00 source code are fixed. Notably:
    cascaded sub-menus (nested with `submenu=`).
 
  * Some icon specifications that couldn't be loaded now can.
+
+ * A `launcher=` entry list is sorted alphabetically on the `Name=`
+   property value, rather than on .desktop file names.
 
  * Program hanging on certain input cases involving unterminated `if=`.
 
