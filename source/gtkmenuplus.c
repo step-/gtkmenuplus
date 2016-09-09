@@ -6,7 +6,7 @@
 /*
  * gtkmenuplus - read a description file and generate a menu.
  * version 1.00, 2013-04-24, by Alan Campbell, 2013
- * version 1.1.0, 2016-09-06, by step, 2016, forked from Alan Campbell's 1.00
+ * version 1.1.0, 2016-09-10, by step, 2016, forked from Alan Campbell's 1.00
  *
  * based partially on code in myGtkMenu, copyright (C) 2004-2011 John Vorthman
  * (https://sites.google.com/site/jvinla/home).
@@ -80,7 +80,7 @@
 
 #define PARAM_REF_TAG '$'
 
-#define VERSION_TEXT "1.1.0, 2016-09-06"
+#define VERSION_TEXT "1.1.0, 2016-09-10"
 
 #define DEFAULT_CONFIG_FILE  "test_menu.txt"
 
@@ -2617,6 +2617,8 @@ char* getComparName(const struct dirent **a)
 // used by compar
 // ----------------------------------------------------------------------
 {
+ // TODO return m_sTitle also for directories tied to a dirfile= or .desktop.directory file.
+ // TODO test case
  char *as = (char*)(*a)->d_name, *ak = NULL;
  if (
 #ifdef _DIRENT_HAVE_D_TYPE
