@@ -112,14 +112,15 @@ enum LineType {                         // returned by readLine
  LINE_INCLUDE                      = 25,
  LINE_SUBMENU_END                  = 26,
  LINE_CONFIGURE                    = 27,
- LINE_EOF                          = 28,
- LINE_ERROR                        = 29,  // the error keyword
- LINE_KEYWORD_IS_VARIABLE          = 30,  // will become variable def, not error
- LINE_ABSOLUTE_PATH                = 31,
- LINE_BAD_LIMIT_LOW                = 32,  //move when LINE_KEYWORD_IS_VARIABLE not an error
- LINE_BAD_LEN                      = 32,
- LINE_BAD_NO_EQ                    = 33,
- LINE_BAD_LIMIT_HI                 = 33
+ LINE_ONEXIT                       = 28,
+ LINE_EOF                          = 29,
+ LINE_ERROR                        = 30,  // the error keyword
+ LINE_KEYWORD_IS_VARIABLE          = 31,  // will become variable def, not error
+ LINE_ABSOLUTE_PATH                = 32,
+ LINE_BAD_LIMIT_LOW                = 33,  //move when LINE_KEYWORD_IS_VARIABLE not an error
+ LINE_BAD_LEN                      = 33,
+ LINE_BAD_NO_EQ                    = 34,
+ LINE_BAD_LIMIT_HI                 = 34
 };
 
 struct Keyword
@@ -271,6 +272,7 @@ enum LineParseResult onIconDir(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onError(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onSubMenuEnd(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onConfigure(INOUT struct MenuEntry* pMenuEntryPending);
+enum LineParseResult onOnExit(INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult onAbsolutePath(INOUT struct MenuEntry* pMenuEntryPending);
 
 #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)

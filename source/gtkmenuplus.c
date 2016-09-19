@@ -247,6 +247,9 @@ gboolean               expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffP
 
 #endif  // #if !defined(_GTKMENUPLUS_NO_VARIABLES_)
 
+static gint  doOnExit();
+static gchar gl_sOnExit[MAX_LINE_LENGTH + 1] = "";
+
 void        onDashDash();
 void        onHelp();
 guint       gl_nOptInfo = 0;
@@ -907,6 +910,7 @@ static void RunItem(IN const gchar *sCmd)
  if (sCmdExpandedWithPAL) g_free(sCmdExpandedWithPAL);
 
  gtk_main_quit();
+ doOnExit();
 
 }    // static void RunItem
 
@@ -950,6 +954,7 @@ static void QuitMenu(IN gchar *Msg) {
 // ----------------------------------------------------------------------
  g_print("Menu was deactivated.\n");
  gtk_main_quit();
+ doOnExit();
 }    // static void QuitMenu
 
 // ---------------------------------------------------------------------
@@ -2007,6 +2012,23 @@ enum LineParseResult onConfigure(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
 {
  return checkConfigKeywords(gl_sLinePostEq, pMenuEntryPending->m_sErrMsg);
+}
+
+// ----------------------------------------------------------------------
+enum LineParseResult onOnExit(INOUT struct MenuEntry* pMenuEntryPending)
+// ----------------------------------------------------------------------
+{
+ strcpy(gl_sOnExit, gl_sLinePostEq);
+ return lineParseOk;
+}
+
+// ----------------------------------------------------------------------
+gint doOnExit()
+// ----------------------------------------------------------------------
+{
+ if (!*gl_sOnExit)
+  return 0;
+ return system(gl_sOnExit);
 }
 
 // ----------------------------------------------------------------------AC

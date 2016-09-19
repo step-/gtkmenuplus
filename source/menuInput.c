@@ -267,6 +267,7 @@ struct Keyword gl_keyword[] = // used in getLineTypeName, readLine
  {"menupos",                  7, FALSE,  LINE_POSITION},
  {"menuposition",            12, FALSE,  LINE_POSITION},
  {"configure",                9, FALSE,  LINE_CONFIGURE},
+ {"onexit",                   6, FALSE,  LINE_ONEXIT},
  //only used as text in error messages
  {"end of file",              0, FALSE,  LINE_EOF},
  {"undefined",                0, FALSE,  LINE_UNDEFINED},
@@ -376,6 +377,7 @@ struct LinetypeAction gl_linetypeActionMap[] =
  { LINE_ERROR,                     TRUE,  onError},
  { LINE_SUBMENU_END,               TRUE,  onSubMenuEnd},
  { LINE_CONFIGURE,                 TRUE,  onConfigure},
+ { LINE_ONEXIT,                    TRUE,  onOnExit},
  { LINE_ABSOLUTE_PATH,             TRUE,  onAbsolutePath}
 };
 
