@@ -67,11 +67,12 @@ The remaining keywords are new in gtkmenuplus:
 "endif" or "fi"
 "error=message"
 
-"configure=endsubmenu <and/or> noicons  <and/or> formattinglocal <and/or> menuposition x y <and/or> iconsize size <and/or> abspathparts n <and/or> "errormsgbox"
-"endsubmenu"
-
 /path_to/file
 ~/path_to/file
+
+"configure=option_list"
+"onexit"
+"endsubmenu"
 
 Keywords followed by "=":
 
@@ -744,6 +745,22 @@ configure=
   By default when gtkmenuplus is _not_ launched via a CLI, fatal errors are displayed in a message box.  "errorconsoleonly" prevents such 
   message boxes from appearing. "noerrorconsoleonly" reverts to the default behaviour.
   
+
+onexit=command
+
+Shell command "command" is executed after the menu gets deactivated.
+onexit is intended as means for a menu script to clean up after the menu
+ends.
+
+A script can include "onexit=command" multiple times.  Only the last
+"command" will be executed. Use "onexit=" to clear a pending "command".
+
+If you need to run multiple shell commands, wrap them in a "sh -c"
+invocation. Note that "command" is executed regardless of a menu entry
+being selected, and it isn't synchronized with the execution/termination
+of an item or launcher.
+
+
 endsubmenu
 
   Once "endsubmenu" is encountered on a "configure=" line, indentation of lines no longer

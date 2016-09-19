@@ -910,7 +910,6 @@ static void RunItem(IN const gchar *sCmd)
  if (sCmdExpandedWithPAL) g_free(sCmdExpandedWithPAL);
 
  gtk_main_quit();
- doOnExit();
 
 }    // static void RunItem
 

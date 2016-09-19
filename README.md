@@ -42,6 +42,8 @@ menu item and launcher activations.
  * New keyword `activationlogfile=`_logfile\_path_ specifies the log
    file and enables this feature.
 
+Version 1.1.1 adds `onexit=`.
+
 Some errors or omissions of the original 1.00 source code are fixed. Notably:
 
  * No more core dumps on deeply nested sub-menus. There was and there is
