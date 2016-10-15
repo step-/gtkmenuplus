@@ -1,0 +1,39 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = noicons errorconsoleonly
+mTESTFILE = $0 # required
+#mDIR = nest/2/3/4/5A
+# Need to next line to reproduce issue #1
+#include = lib/common.gtkmenuplus
+#-------------------------------------------
+
+# See https://github.com/step-/gtkmenuplus/issues/1
+
+item = pass if all 4 submenus > geany launcher
+
+configure = noendsubmenu
+# Indent submenu items with \t; submenu ends at /^[^\t]/
+submenu = should include geany
+	launcher = /usr/share/applications/geany.desktop
+
+submenu = should include geany
+	item = # attempt work-around
+	launcher = /usr/share/applications/geany.desktop
+
+# Next line matches /^[^\t]/ - this is THE portable way to force
+# ending a submenus when configure=noendsubmenu is in effect (default)
+# Note that this is only necessary if you want to switch to using
+# configure=endsubmenu in the middle of the script, like in this test.
+stop=above submenu
+
+configure = endsubmenu
+# No need to indent submenu items; submenu ends at 'endsubmenu'
+submenu = should include geany
+launcher = /usr/share/applications/geany.desktop
+endsubmenu
+
+submenu = should include geany
+item = # attempt work-around
+launcher = /usr/share/applications/geany.desktop
+endsubmenu
