@@ -50,7 +50,7 @@ endsubmenu
 
 separator
 format=
-item = 40 submenu=+launchersub=: PASS if "A","B" are blue, and lower level items are red
+item = 40 submenu=+launchersub=: PASS if "A">"B" are blue, and lower level items are red
 format = foreground="blue"
  submenu = A submenu=... to launchersub=
  submenu = B
