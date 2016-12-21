@@ -6,7 +6,7 @@
 /*
  * gtkmenuplus - read a description file and generate a menu.
  * version 1.00, 2013-04-24, by Alan Campbell, 2013
- * version 1.1.2, 2016-10-15, by step, 2016, forked from Alan Campbell's 1.00
+ * version 1.1.3, 2016-12-21, by step, 2016, forked from Alan Campbell's 1.00
  *
  * based partially on code in myGtkMenu, copyright (C) 2004-2011 John Vorthman
  * (https://sites.google.com/site/jvinla/home).
@@ -80,7 +80,7 @@
 
 #define PARAM_REF_TAG '$'
 
-#define VERSION_TEXT "1.1.2, 2016-10-15"
+#define VERSION_TEXT "1.1.3_dev, 2016-12-21"
 
 #define DEFAULT_CONFIG_FILE  "test_menu.txt"
 
@@ -898,6 +898,9 @@ static void RunItem(IN const gchar *sCmd)
    sCmd = sTemp;
   }
  } // if (!is_executable(sCmd))
+
+ // Don't export menu's custom theme, if any.
+ unsetenv("GTK2_RC_FILES");
 
  if (!g_spawn_command_line_async(sCmd, &error))
  {

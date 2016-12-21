@@ -362,7 +362,7 @@ format=formatting
   attributes and their values must be appropriate for placement
   within a <span >  tag in the Pango Text Attribute Markup Language
 
-  see http://www.gtk.org/api/2.6/pango/PangoMarkupFormat.html
+  see https://developer.gnome.org/pango/stable/PangoMarkupFormat.html
   for details (the "convenience tags" mentioned aren't supported).
 
   e.g.:
@@ -384,7 +384,11 @@ format=formatting
      -or-
     setting a custom Gtk theme for specific applications
      -or-
-    env GTK2_RC_FILES
+    env GTK2_RC_FILES [note]
+
+  [note] Since version 1.1.3 gtkmenplus unexports variable GTK2_RC_FILES
+  to avoid changing the default theme of any GTK2 application that is
+  being executed.
 
   The text of any menu item or submenu label can be formatted by wrapping it in <span format_string>some text</span> tags, e.g.
 
