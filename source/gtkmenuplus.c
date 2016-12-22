@@ -1497,8 +1497,8 @@ guint writeLogItem(IN const gchar* sItem)
   perror("mkstemp");
   return -1;
  }
- FILE *copy = fdopen(fd, "w");
- FILE *heystack = fopen(gl_sActivationLogfile, "a+");
+ FILE *copy = fdopen(fd, "w+");
+ FILE *heystack = fopen(gl_sActivationLogfile, "r+");
  if (!copy || !heystack)
  {
   perror("fopen");
@@ -1523,6 +1523,7 @@ guint writeLogItem(IN const gchar* sItem)
  gchar meta[MAX_PATH_LEN + 1];
  gchar data[MAX_PATH_LEN + 2];
  guint activation_count;
+ gchar c;
  time_t creation_time, activation_time;
  // Use fgets so as to allow for user data between '}' and '\n'.
  while (fgets(meta, MAX_PATH_LEN, heystack))
@@ -1551,7 +1552,6 @@ guint writeLogItem(IN const gchar* sItem)
     i++, p += strlen(p))
    ;
   // Chomp DATA_END so as to allow for user data after '}'.
-  int c;
   while (1)
   {
    c = fgetc(heystack);
@@ -1592,14 +1592,19 @@ guint writeLogItem(IN const gchar* sItem)
     (int)creation_time, (int)activation_time, needle);
  }
 
- fclose(copy);
- fclose(heystack);
- int ret = rename(tmpf, gl_sActivationLogfile);
- if (-1 == ret)
- {
-  perror("rename");
-  unlink(tmpf);
+ // Re-write logfile (heystack) file instead of renaming tmpf to logfile
+ // to follow symlinked logfile on layered filesystem.
+ rewind(heystack);
+ rewind(copy);
+ while((c = fgetc(copy)) != EOF)
+  fputc(c, heystack);
+
+ int ret = fclose(heystack);
+ if (0 != ret) {
+  perror("fclose logfile");
  }
+ (void) fclose(copy);
+ unlink(tmpf);
  return ret;
 }
 
