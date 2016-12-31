@@ -630,6 +630,8 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
 #endif
    {
     gl_bOkToDisplay = FALSE;
+   if (*(menuEntryPending.m_sErrMsg))
+     lineParseResult = lineParseFailFatal;
    }
 #endif // #if !defined(_GTKMENUPLUS_NO_PARAMS_)
 
@@ -1177,6 +1179,10 @@ gboolean expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine, IN struct P
   {
    gboolean bIsVar = FALSE;
    bOk = expand_var(&sDataPtr, &sBuffPtr, &nCharsInBuff, &bIsVar, pbOneExpandableOnlyOnLine);
+   if (!bOk) {
+    snprintf(sErrMsg, MAX_LINE_LENGTH, "line too long after variable expansion\n");
+    return FALSE;
+   }
 
    if (!bIsVar)
    {
@@ -1281,6 +1287,10 @@ gboolean expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
    pVariable->m_bUsed = TRUE;
    if (uiLenVar) // should always be positve?  TO DO?
    {
+    if (*pnCharsInBuff + uiLenVar > MAX_LINE_LENGTH)
+    {
+     return FALSE;
+    }
     strcpy(*psBuffPtr, pVariable->m_sValue);
     *psBuffPtr += uiLenVar;
     *psDataPtr = sEnd;

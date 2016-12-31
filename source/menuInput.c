@@ -816,7 +816,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
   {
    if (fgets(sLineAsRead, nLineBuffLen, pFile) == NULL)
     return (LINE_EOF);
-   //fprintf(stderr, "%s", sLineAsRead); //DEBUG
+    //fprintf(stderr, "%s", sLineAsRead); //DEBUG
   }
   else // or one section of command line config
   {
