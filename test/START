@@ -7,4 +7,6 @@ mTESTFILE = $0 # required
 
 format = size="x-large"
 tooltipformat = size="x-large"
+CWD==pwd
+item = cwd: $CWD
 include = lib/common.gtkmenuplus
