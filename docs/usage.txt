@@ -56,6 +56,13 @@ Usage:
          Note most top level items in test_menu.txt have tooltips if you hover over them.
 
 
+      gtkmenuplus -c
+      gtkmenuplus --gather-comments
+
+        Try enabling comment-gathering if you are having compatibility
+        issues with an old menu script. Option -c simply disables
+        support for very-long comment lines.
+
       gtkmenuplus -i
       gtkmenuplus --info
 

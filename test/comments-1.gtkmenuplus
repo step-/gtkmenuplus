@@ -10,7 +10,7 @@ configure=noerrorconsoleonly
 #-------------------------------------------
 
 # Non-regression bug fix test:
-# Bug fixed in commit 1fc37a58.
+# Issue fixed in commit 8ee5a686.
 #
 # Before the fix the very long comment line in this file triggers an
 # error message:

@@ -251,6 +251,8 @@ static gint  doOnExit();
 static gchar gl_sOnExit[MAX_LINE_LENGTH + 1] = "";
 
 void        onDashDash();
+gboolean    gl_bOptGatherComments = FALSE;
+void        onGatherComments();
 void        onHelp();
 guint       gl_nOptInfo = 0;
 void        onInfo();
@@ -323,6 +325,7 @@ struct CommandLineOption
 struct CommandLineOption gl_commandLineOption[] =
 {
  {"",        '-', onDashDash},
+ {"gather-comments", 'c', onGatherComments},
  {"help",    'h', onHelp},
  {"info",    'i', onInfo},
  {"version", 'v', onVersion}
@@ -458,7 +461,7 @@ If this check causes you problems, take it out.
   argc = 0;
 //  bIsConfigFileArg = FALSE;
  }
- readFile(pFile, argc, argv, FALSE, FALSE, 0, NULL); // bReadingIncludedFile, bGatherComments, uiCurDepthBase, pMenuEntryPending
+ readFile(pFile, argc, argv, FALSE, gl_bOptGatherComments, 0, NULL); // bReadingIncludedFile, bGatherComments, uiCurDepthBase, pMenuEntryPending
 
 #if !defined(_GTKMENUPLUS_NO_VARIABLES_)
  variablesClear();
@@ -3748,6 +3751,14 @@ void onDashDash()
 // ----------------------------------------------------------------------
 {
  ; // reached end of options marker "--"
+}
+
+// ----------------------------------------------------------------------
+void onGatherComments()
+// ----------------------------------------------------------------------
+{
+ // enable comment-gathering for backward-compatibility with old scripts
+ gl_bOptGatherComments = TRUE;
 }
 
 // ---------------------------------------------------------------------- AC
