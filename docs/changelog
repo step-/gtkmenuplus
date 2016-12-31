@@ -1,5 +1,9 @@
-gtkMenuPlus Releases
-
+1.1.4: 2016-12-31
+  Increase maximum line size to 1023 from 512 characters.
+  Add option -c --gather-comments.
+  Allow very long comment lines in scripts.
+  Display error message box on fatal errors.
+  Fix buffer overrun (legacy code) and report user error.
 1.1.3: 2016-12-25
   Improve saving log file in layered filesystem.
   Unexport GTK2_RC_FILES.
