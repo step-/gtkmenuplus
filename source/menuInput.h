@@ -11,7 +11,7 @@ extern "C" {
 #include <gtk/gtk.h>
 #include "common.h"
 
-#define MAX_LINE_LENGTH 512     // MUST BE < MAX_PATH_LEN  in common.h
+#define MAX_LINE_LENGTH 1023     // MUST BE < MAX_PATH_LEN  in common.h
 #define MENU_ENTRY_FIELD_DISALLOWED_CHAR '\xFF'
 #define INITIAL_NUMB_MENU_ENTRIES 2000
 #define MAX_SUBMENU_DEPTH 5
