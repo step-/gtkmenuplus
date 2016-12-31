@@ -817,6 +817,21 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
    if (fgets(sLineAsRead, nLineBuffLen, pFile) == NULL)
     return (LINE_EOF);
     //fprintf(stderr, "%s", sLineAsRead); //DEBUG
+    
+    // Allow for unlimited-length comment lines if not gathering comments.
+    if (!psCommentPre) {
+     gchar *p = sLineAsRead;
+     while (*p && (*p == ' ' || *p == '\t'))
+      ++p;
+     if ('#' == *p && '\n' != p[strlen(p) - 1]) {
+      // Finish I/O reading a long comment that spans multiple fgets().
+      int c;
+      while ((c = fgetc(pFile)) != EOF && c != '\n')
+       ;
+      if(c == EOF)
+       return (LINE_EOF);
+     }
+    }
   }
   else // or one section of command line config
   {

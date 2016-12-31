@@ -458,7 +458,7 @@ If this check causes you problems, take it out.
   argc = 0;
 //  bIsConfigFileArg = FALSE;
  }
- readFile(pFile, argc, argv, FALSE, TRUE, 0, NULL); // bReadingIncludedFile, bGatherComments, uiCurDepthBase, pMenuEntryPending
+ readFile(pFile, argc, argv, FALSE, FALSE, 0, NULL); // bReadingIncludedFile, bGatherComments, uiCurDepthBase, pMenuEntryPending
 
 #if !defined(_GTKMENUPLUS_NO_VARIABLES_)
  variablesClear();
