@@ -736,7 +736,7 @@ void  msgToUser(IN enum LineParseResult lineParseResult, IN gchar* sErrMsg, IN g
 
  gboolean bLaunchedFromCLI = isatty(fileno(stdin));  // http://stackoverflow.com/questions/13204177/how-to-find-out-if-running-from-terminal-or-gui
 
- if (lineParseResult == lineParseFail && !gl_bErrorsInConsoleOnly && !bLaunchedFromCLI)
+ if (lineParseResult >= lineParseFail && !gl_bErrorsInConsoleOnly && !bLaunchedFromCLI)
  {
   GtkWidget* pGtkMsgDlg = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
                                   "%s: at line # %d:\n%s\n>>>  %s\n", gl_sLineParseLabel[lineParseResult], uiLineNum, sErrMsg, sLineAsRead);
