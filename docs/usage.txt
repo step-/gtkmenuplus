@@ -1,6 +1,6 @@
 gtkmenuplus     version 1.1.4, 2016-12-31
 
-copyright (C) 2013 Alan Campbell, (C) 2016 step
+copyright (C) 2013 Alan Campbell, (C) 2016-2017 step
 
 "gtkmenuplus" is a fork of "myGtkMenu" (found at https://sites.google.com/site/jvinla/home).
 

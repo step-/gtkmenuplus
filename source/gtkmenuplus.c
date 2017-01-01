@@ -160,7 +160,7 @@ const gchar*              gl_sHelpMsg =
 "\n\ngtkmenuplus comes with ABSOLUTELY NO WARRANTY"
 "\nGNU GPLv2 license applies - see license file COPYING."
 "\nCopyright (C) 2013 Alan Campbell"
-"\nCopyright (C) 2016 step"
+"\nCopyright (C) 2016-2017 step"
 "\n\nBased on myGtkMenu."
 "\n";
 //"\ntest_menu.txt is an example menu_configuration_file.\n"

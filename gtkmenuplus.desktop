@@ -1,10 +1,9 @@
-
 [Desktop Entry]
 Type=Application
 Version=1.0
 Name=gtkmenuplus
 GenericName=gtkmenuplus
-Comment=create a popup menu from a configuration file
+Comment=Create your own GTK2 menus
 Exec=gtkmenuplus -h
 Icon=gtkmenuplus
 Terminal=false
