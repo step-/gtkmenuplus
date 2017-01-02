@@ -232,7 +232,8 @@ guint                 intertag_buffer_update(INOUT gchar** psBuffPtr, IN gchar* 
 enum LineParseResult  processLauncher(IN gchar* sLauncherPath, IN gboolean stateIfNotDesktopFile, INOUT struct MenuEntry *pme, guint iCaller);
 #endif
 
-gboolean              checkOptions(IN gchar* sOption);
+typedef void (*funcOption)(void);
+gboolean              checkOptions(IN gchar* sOption, OUT funcOption* pfOptionAction);
 
 
 #if !defined(_GTKMENUPLUS_NO_VARIABLES_)
@@ -309,10 +310,7 @@ gchar* gl_sLineBadMsgs[] =
   "no = sign"        // LINE_BAD_NO_EQ
  };
 
-
 //typedef gboolean (*funcOnNoMenuEntry)(void);
-typedef void (*funcOption)(void);
-
 
 //alternative: http://developer.gnome.org/glib/2.33/glib-Commandline-option-parser.html
 struct CommandLineOption
@@ -352,6 +350,11 @@ const gchar*    gl_sLineParseLabel[] = {"programming error", "warning",
 int main (int argc, gchar *argv[])
 // ----------------------------------------------------------------------
 {
+ // Allow version check even before testing for another running instance.
+ funcOption fOptionAction = NULL;
+ if(argc > 1 && checkOptions(argv[1], &fOptionAction) && fOptionAction == onVersion)
+  onVersion(); // exits
+
 /*
 Some hot keys (keybindings) get carried away and start
 many instances. Will try to use a lock file so that
@@ -385,7 +388,7 @@ If this check causes you problems, take it out.
  guint i;
  for(i = 1; i < argc; i++)
  {
-  if (checkOptions(argv[i]))
+  if (checkOptions(argv[i], NULL))
    gl_nLastOption = i; // option handler may exit()
  }
  argc -= gl_nLastOption; argv += gl_nLastOption; // shift out own options
@@ -3719,7 +3722,7 @@ enum LineParseResult onEof(INOUT struct MenuEntry* pMenuEntryPending)
 
 // ---------------------------------------------------------------------- AC
 //called by main
-gboolean checkOptions(IN gchar* sOption)
+gboolean checkOptions(IN gchar* sOption, OUT funcOption* pfOptionAction)
 // ----------------------------------------------------------------------
 {
  guint i;
@@ -3739,7 +3742,10 @@ gboolean checkOptions(IN gchar* sOption)
  {
   if ((bShort && gl_commandLineOption[i].m_cOpt ==  cOpt) ||  (!bShort && strcasecmp(gl_commandLineOption[i].m_sOpt, sOpt) ==  0))
   {
-   gl_commandLineOption[i].m_pActionFunc();
+   if(pfOptionAction) // return the action function
+    *pfOptionAction = gl_commandLineOption[i].m_pActionFunc;
+   else // run the action function
+    gl_commandLineOption[i].m_pActionFunc();
    return TRUE;
   } // for (i = 0; i < sizeof(gl_keyword)/sizeof(struct Keyword); i++)
  }
