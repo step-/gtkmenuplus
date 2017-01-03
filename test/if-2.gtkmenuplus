@@ -9,14 +9,14 @@ configure=errorconsoleonly
 #-------------------------------------------
 
 # Non-regression bug fix test:
-# Issue fixed in commit ca4437a3.
+#% Issue fixed in commit ca4437a3.
 #
 # Before the fix nested if=condition/endif blocks trigger an error
 # message 'endif without if' when the outer condition value is false.
 #
-# After the fix this test should display a yad message 'PASS ...' when
-# you _exit_ the menu. Otherwise it displays menu item(s) '...NO PASS...'
-# when bug cases A and B occur.
+#% After the fix this test should display a yad message 'PASS ...' when
+#% you _exit_ the menu. Otherwise it displays menu item(s) '...NO PASS...'
+#% when bug cases A and B occur.
 
 onexit=yad --center --text-align=center --text "PASS\n$0" & # assume PASS
 # --- test else blocks ---

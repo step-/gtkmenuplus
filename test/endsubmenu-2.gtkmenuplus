@@ -7,8 +7,9 @@ mTESTFILE = $0 # required
 include = lib/common.gtkmenuplus
 #-------------------------------------------
 
-# Purpose: ensure that endsubmenu closes when it isn't followed by item=
-# (was a bug in version 1.0 code, then fixed in version 1.1.0)
+# Purpose:
+#% Close endsubmenu also when it isn't followed by item=.
+#% (was a bug in version 1.0 code, then fixed in version 1.1.0)
 
 separator
 format=

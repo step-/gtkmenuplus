@@ -6,6 +6,8 @@ mTESTFILE = $0 # required
 include = lib/common.gtkmenuplus
 #-------------------------------------------
 
+#% Launcher menu of /usr/share/applications.
+
 DO_ITEMS=no
 
 submenu = Applications

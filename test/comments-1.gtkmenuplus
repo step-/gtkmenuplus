@@ -10,7 +10,7 @@ configure=noerrorconsoleonly
 #-------------------------------------------
 
 # Non-regression bug fix test:
-# Issue fixed in commit 8ee5a686.
+#% Issue fixed in commit 8ee5a686.
 #
 # Before the fix the very long comment line in this file triggers an
 # error message:
@@ -18,8 +18,8 @@ configure=noerrorconsoleonly
 #   no = sign
 #   >>>  ]?0:1)}' '/tmp/the-end-of-this-comment-line';"
 #
-# After the fix this test should display a red on green menu item
-# 'PASS long comments...' inside a submenu.
+#% After the fix this test should display a red on green submenu item
+#% 'PASS long comments...'.
 
 #sh -c ": @blacklist@;""gawk 'BEGIN{RS=\"#[{]}\";IGNORECASE=1}/@blacklist@|Item=Shutdown/{next}{gsub(/^\n|\n$/,X);a[++n]=\$0\"\n\"RT}END{for(i=1;i<n;i++)print a[i]>FILENAME}' '/root/.gmenu2.log';""gawk -o/tmp/by-alpha-asc.awk 'BEGIN{RS=\"#[{]}\";IGNORECASE=1}{gsub(/^\n|\n$/,X);a[++n]=\$0\"\n\"RT}END{de;asort(a,b,\"cmp\");for(i=1;i<n;i++)print b[i]>FILENAME}function cmp(i1,v1,i2,v2,  a1,a2){split(v1,a1,/item=|\n/);split(v2,a2,/item=|\n/);gsub(/_/,X,a1[2]);gsub(/_/,X,a2[2]);return a1[2]<a2[2]?-1:(a1[2]==a2[2]?0:1)}' '/tmp/the-end-of-this-comment-line';"
 

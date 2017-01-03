@@ -8,7 +8,7 @@ mTESTFILE = $0 # required
 #include = lib/common.gtkmenuplus
 #-------------------------------------------
 
-# See https://github.com/step-/gtkmenuplus/issues/1
+#% See https://github.com/step-/gtkmenuplus/issues/1.
 
 item = pass if all 4 submenus > geany launcher
 

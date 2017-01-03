@@ -10,13 +10,15 @@ configure=noerrorconsoleonly
 #-------------------------------------------
 
 # Non-regression bug fix test:
-# Bug fixed in commit 1fc37a58.
+#% Bug fixed in commit 1fc37a58.
 #
 # Before the fix the last line in this file (cmd=) triggers a
 # segmentation fault.
 #
-# After the fix this test should display a fatal error message
-# "line too long after variable expansion".
+#% After the fix this test should display a fatal error message
+#% "line too long after variable expansion"
+#% if max line size <= 512 or no error message since
+#% commit db8878e increased max line size to 1023.
 
 RECENTFILE=/tmp/$mTESTFILE.log
 activationlogfile=$RECENTFILE

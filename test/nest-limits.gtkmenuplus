@@ -7,6 +7,7 @@ mDIR=nest
 include = lib/common.gtkmenuplus
 #-------------------------------------------
 
+#% Edit test file to enable an optional error dialog test.
 # PASS IF ERROR DIALOG
 DO_ERROR_TEST=no
 
@@ -63,7 +64,9 @@ format = foreground="blue"
  endsubmenu # B
  endsubmenu # A submenu=... to launchersub=
 
-item = ... next: enable DO_ERROR_TEST in $mTESTFILE...
+separator
+item = <span background="white" size="large">... next: enable DO_ERROR_TEST in $mTESTFILE...</span>
+cmd = true
 # PASS IF ERROR DIALOG
 if= $DO_ERROR_TEST
 separator
