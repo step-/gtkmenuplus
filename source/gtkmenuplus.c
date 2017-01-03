@@ -572,6 +572,9 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
 #if !defined(_GTKMENUPLUS_NO_IF_)
   else if (gl_pIfStatusCurrent->m_bInUse &&
            !gl_pIfStatusCurrent->m_bCurrentlyAccepting &&
+           // NOTE:
+           // On !bCurrentlyAccepting readLine() doesn't update gl_sLinePostEq.
+           linetype != LINE_IF &&
            linetype != LINE_ELSE &&
            linetype != LINE_ELSEIF &&
            linetype != LINE_ENDIF &&
@@ -1934,7 +1937,12 @@ enum LineParseResult onIf(INOUT struct MenuEntry* pMenuEntryPending)
  enum LineParseResult lineParseResult =  onIfCommon(pMenuEntryPending);
  if (lineParseResult != lineParseOk)
   return lineParseResult;
- return parseIfCondition("if", pMenuEntryPending->m_sErrMsg);
+ if (gl_pIfStatusCurrent->m_bCurrentlyAccepting)
+  lineParseResult = parseIfCondition("if", pMenuEntryPending->m_sErrMsg);
+#if !defined(_GTKMENUPLUS_NO_DEBUG_IF_)
+ printIfStatus("onIf", gl_pIfStatusCurrent);
+#endif
+ return lineParseResult;
 }
 
 // ---------------------------------------------------------------------- AC

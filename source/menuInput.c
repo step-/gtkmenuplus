@@ -70,6 +70,29 @@ void  ifStatusInit(OUT struct IfStatus* pIfStatus)
   if (i < IF_STATUS_SET_COUNT - 1)  pIfStatus[i].m_pIfStatusFwd = &(pIfStatus[i + 1]);
  }
 }
+
+#if !defined(_GTKMENUPLUS_NO_DEBUG_IF_)
+// ----------------------------------------------------------------------
+void printIfStatus(IN gchar* msg, IN struct IfStatus* p)
+// ----------------------------------------------------------------------
+{
+ gchar s[] = "T";
+ fprintf(stderr, "{{{{ %s\n", msg);
+ do {
+  fprintf(stderr,
+   "%s InUse(%d) CurrentlyAccepting(%d) TrueConditionFound(%d) ElseFound(%d)"
+   " OnHeap(%d)\n", s,
+   p->m_bInUse,
+   p->m_bCurrentlyAccepting,
+   p->m_bTrueConditionFound,
+   p->m_bElseFound,
+   p->m_bOnHeap);
+  strcpy(s, p->m_pIfStatusBack ? "\u2191" : "\u21A5");
+  p = p->m_pIfStatusBack;
+ } while(p);
+ fprintf(stderr, "}}}}\n");
+}
+#endif  // #if !defined(_GTKMENUPLUS_DEBUG_IF_)
 #endif  // #if !defined(_GTKMENUPLUS_NO_IF_)
 
 //==============================================================================================
@@ -674,6 +697,11 @@ enum LineParseResult onIfCommon(INOUT struct MenuEntry* pMenuEntryPending)
 
  gl_pIfStatusCurrent->m_bInUse = TRUE;
  gl_pIfStatusCurrent->m_bElseFound = FALSE;
+ // Set the initial bCurrentlyAccepting = the outer if='s, if any.
+ gl_pIfStatusCurrent->m_bCurrentlyAccepting =
+  gl_pIfStatusCurrent->m_pIfStatusBack
+   ? gl_pIfStatusCurrent->m_pIfStatusBack->m_bCurrentlyAccepting
+   : TRUE; // outermost if= is always accepting.
  return lineParseOk;
 }
 
@@ -696,9 +724,18 @@ enum LineParseResult onElse(INOUT struct MenuEntry* pMenuEntryPending)
 // if (!gl_pIfStatusCurrent->m_bTestMode)
 // {
 //  if (!gl_pIfStatusCurrent->m_bTrueConditionFound)
- gl_pIfStatusCurrent->m_bCurrentlyAccepting = !gl_pIfStatusCurrent->m_bTrueConditionFound;
+ // This else block is bCurrentlyAccepting if its if= condition is FALSE.
+ // AND the outer if=, if any, is also bCurrentlyAccepting.
+ gl_pIfStatusCurrent->m_bCurrentlyAccepting =
+  !gl_pIfStatusCurrent->m_bTrueConditionFound;
+ if (gl_pIfStatusCurrent->m_pIfStatusBack)
+  gl_pIfStatusCurrent->m_bCurrentlyAccepting &=
+   gl_pIfStatusCurrent->m_pIfStatusBack->m_bCurrentlyAccepting;
 // }
  gl_pIfStatusCurrent->m_bElseFound = TRUE;
+#if !defined(_GTKMENUPLUS_NO_DEBUG_IF_)
+ printIfStatus("onElse", gl_pIfStatusCurrent);
+#endif
  return lineParseOk;
 }
 
@@ -729,6 +766,9 @@ enum LineParseResult onElseIfCommon(INOUT struct MenuEntry* pMenuEntryPending)
 enum LineParseResult onEndif(INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
 {
+#if !defined(_GTKMENUPLUS_NO_DEBUG_IF_)
+ printIfStatus("onEndif", gl_pIfStatusCurrent);
+#endif
  if (!gl_pIfStatusCurrent->m_bInUse) // gl_iIfLevel <= NO_IFS ||
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", "endif without if");
@@ -817,7 +857,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
    if (fgets(sLineAsRead, nLineBuffLen, pFile) == NULL)
     return (LINE_EOF);
     //fprintf(stderr, "%s", sLineAsRead); //DEBUG
-    
+
     // Allow for unlimited-length comment lines if not gathering comments.
     if (!psCommentPre) {
      gchar *p = sLineAsRead;

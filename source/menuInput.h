@@ -210,16 +210,27 @@ enum LineParseResult checkConfigKeywords(IN gchar* sLinePostEq, OUT gchar* sErrM
 
 struct IfStatus
 {
+ // An 'if=' block is active at the current nesting level.
  gboolean m_bInUse;
+ // Keword 'endif' already seen.
  gboolean m_bElseFound;
+ // Deeply nested if/else blocks are allocated on the heap.
  gboolean m_bOnHeap;
+ // The current if=/else level is evaluating contained
+ // statements. Otherwise it's just parsing statements to find its
+ // matching 'endif' (syntax check).
  gboolean m_bCurrentlyAccepting;
+ // Evaluating this if= condition yielded TRUE.
  gboolean m_bTrueConditionFound;
 //gboolean bTestMode;
+ // Doubly-linked list. Back direction leads to outer if=/else blocks.
  struct IfStatus* m_pIfStatusBack;
  struct IfStatus* m_pIfStatusFwd;
 };
 
+#if !defined(_GTKMENUPLUS_NO_DEBUG_IF_)
+void                 printIfStatus(IN gchar* msg, IN struct IfStatus* pIfStatus);
+#endif
 void                 ifStatusInit(OUT struct IfStatus* pIfStatus);
 void                 ifStatusFree(OUT struct IfStatus* pIfStatus);
 
