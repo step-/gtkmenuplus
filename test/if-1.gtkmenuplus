@@ -1,0 +1,50 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+mTESTFILE = $0 # required
+#mDIR = nest/2/3/4/5A
+configure=errorconsoleonly
+#-------------------------------------------
+
+# Non-regression bug fix test:
+# Issue fixed in commit ca4437a3.
+#
+# Before the fix nested if=condition/endif blocks trigger an error
+# message 'endif without if' when the outer condition value is false.
+#
+# After the fix this test should display a yad message 'PASS ...' when
+# you _exit_ the menu. Otherwise it displays menu item(s) '...NO PASS...'
+# when bug cases A and B occur.
+
+onexit=yad --center --text-align=center --text "PASS\n$0" & # assume PASS
+# --- test if blocks ---
+if=sh -xc ": '>'; echo 0" # FALSE
+  if=sh -xc ": '>>'; echo 1" # TRUE
+    # We shouldn't evaluate statements in this block unless:
+    # A. new bug: level 1 if= (false) body is being executed
+    onexit= # clear assumed PASS
+    item=<span color="red" size="x-large">if= NO PASS CASE A.1</span>
+    cmd=false
+    icon=gtk-dialog-error
+    if=sh -xc ": '>>>'; echo 0" # FALSE
+      # We shouldn't evaluate statements in this block unless:
+      # A. new bug: level 1 if= (false) body is being executed
+      onexit= # clear assumed PASS
+      item=<span color="red" size="x-large">if= NO PASS CASE A.2</span>
+      cmd=false
+      icon=gtk-dialog-error
+    endif
+  endif
+  # We shouldn't evaluate statements in this block unless either:
+  # A. legacy bug: level 2 endif closes level 1 if=
+  # B. new bug: level 1 if= (false) body is being executed
+  onexit= # clear assumed PASS
+  item=<span color="red" size="x-large">if= NO PASS CASES A,B</span>
+  cmd=false
+  icon=gtk-dialog-error
+endif
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus
