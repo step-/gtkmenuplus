@@ -1,0 +1,81 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+mTESTFILE = $0 # required
+#mDIR = nest/2/3/4/5A
+configure=errorconsoleonly
+#-------------------------------------------
+
+# Non-regression bug fix test:
+#% Issue fixed in commit ca4437a3.
+#
+#% After the fix this test should display a yad message 'PASS ...' when
+#% you _exit_ the menu, and PASS/NO PASS menu item(s) for sub-cases.
+
+onexit=yad --center --text-align=center --text "PASS\n$0" & # assume PASS
+# --- test if blocks ---
+if=sh -xc ": '>'; echo 1" # TRUE
+  item=PASS 'if' level 1 - 1 of 5
+  cmd=true
+  icon=gtk-yes
+  if=sh -xc ": '>>'; echo 1" # TRUE
+    item=PASS 'if' level 2 - 1 of 5
+    cmd=true
+    icon=gtk-yes
+    if=sh -xc ": '>>>'; echo 1" # TRUE
+      item=PASS 'if' level 3 - 1 of 5
+      cmd=true
+      icon=gtk-yes
+    else
+      onexit= # clear assumed PASS
+      item=<span color="red">NO PASS 'else' level 3 - 3 of 3</span>
+      cmd=false
+      icon=gtk-dialog-error
+    endif
+  else
+    onexit= # clear assumed PASS
+    item=<span color="red">NO PASS 'else' level 2 - 1 of 5</span>
+    cmd=false
+    icon=gtk-dialog-error
+  endif
+else
+  onexit= # clear assumed PASS
+  item=<span color="red">NO PASS 'else' level 1 - 1 of 5</span>
+  cmd=false
+  icon=gtk-dialog-error
+endif
+# ---- test elseif ----
+if=sh -xc ": '>'; echo 0" # FALSE
+  onexit= # clear assumed PASS
+  item=<span color="red">NO PASS 'if/elseif' level 1 - 1 of 5</span>
+  cmd=false
+  icon=gtk-dialog-error
+elseif=sh -xc ": '>>'; echo 1" # TRUE
+  item=PASS 'elseif' level 1 - 1 of 5
+  cmd=true
+  icon=gtk-yes
+else
+  item=<span color="red">NO PASS 'elseif/else' level 1 - 1 of 5</span>
+  cmd=false
+  icon=gtk-dialog-error
+endif
+
+if=sh -xc ": '>'; echo 0" # FALSE
+  onexit= # clear assumed PASS
+  item=<span color="red">NO PASS 'if/elseif' level 1 - 1 of 5</span>
+  cmd=false
+  icon=gtk-dialog-error
+elseif=sh -xc ": '>'; echo 0" # FALSE
+  onexit= # clear assumed PASS
+  item=<span color="red">NO PASS 'elseif' level 1 - 1 of 5</span>
+  cmd=false
+  icon=gtk-dialog-error
+else
+  if=sh -xc ": '>>'; echo 1" # TRUE
+    item=PASS 'elseif/else>if' level 2 1 of 5
+    cmd=true
+    icon=gtk-yes
+  endif
+endif
