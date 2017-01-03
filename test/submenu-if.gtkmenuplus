@@ -1,0 +1,40 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+mTESTFILE = $0 # required
+#mDIR = 
+include = lib/common.gtkmenuplus
+#-------------------------------------------
+
+separator
+
+launcherdirfile=
+submenu = PASS if submenu w/ 1 item
+icon = gtk-preferences
+if= echo true
+  Item = item
+  Cmd = true
+endif
+endsubmenu # _Gmenu2
+
+separator
+
+Item = <span background="white">PASS if this is OUTSIDE submenu</span>
+Cmd = true
+
+separator
+
+launcherdirfile=
+submenu = PASS if submenu w/ 0 item
+icon = gtk-preferences
+if= echo false
+  Item = item
+  Cmd = true
+endif
+endsubmenu # _Gmenu2
+
+separator
+
+Item = <span background="white">PASS if this is OUTSIDE submenu</span>
+Cmd = true
