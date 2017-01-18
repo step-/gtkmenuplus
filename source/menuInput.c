@@ -576,7 +576,7 @@ enum LineParseResult variableAdd(OUT gchar* sErrMsg, OUT struct Variable** ppVar
 
  if (!isalpha(*sName) && *sName != '_')
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH, "possible variable name %s doesn't start with alpha character or underscore\n", sName);
+  snprintf(sErrMsg, MAX_LINE_LENGTH, "variable name %s doesn't start with alpha character or underscore\n", sName);
   return lineParseFail;
  }
 
@@ -585,7 +585,7 @@ enum LineParseResult variableAdd(OUT gchar* sErrMsg, OUT struct Variable** ppVar
  {
   if (!isdigit(*sChar) &&  !isalpha(*sChar) && *sChar != '_')
   {
-   snprintf(sErrMsg, MAX_LINE_LENGTH, "possible variable name %s includes other than alpha, numberic or underscore\n", sName);
+   snprintf(sErrMsg, MAX_LINE_LENGTH, "variable name %s includes other than alpha, digit or underscore\n", sName);
    return lineParseFail;
   }
   sChar++;
@@ -593,7 +593,7 @@ enum LineParseResult variableAdd(OUT gchar* sErrMsg, OUT struct Variable** ppVar
 
  if (getenv(sName))
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH, "possible variable name %s conflicts with one in environment\n", sName);
+  snprintf(sErrMsg, MAX_LINE_LENGTH, "variable name %s already exists in the environment\n", sName);
   return lineParseFail;
  }
 
