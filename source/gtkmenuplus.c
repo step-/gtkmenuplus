@@ -2205,7 +2205,8 @@ enum LineParseResult evaluateExpression(IN const gchar* sLabel, IN gchar* sToEva
 
  if (!fread(sExprResult, 1, nExprResultLen, fp))
  {
-  snprintf(sErrMsg, MAX_LINE_LENGTH, "no result back from shell for %s test\n",  sLabel);
+  snprintf(sErrMsg, MAX_LINE_LENGTH,
+   "No output in '%s' test: %s\nvvv(input)vvv   ^^^(shell)^^^",  sLabel, sToEval);
   return lineParseFail;
  }
 
