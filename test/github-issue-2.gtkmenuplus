@@ -1,0 +1,29 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly
+mTESTFILE = $0 # required
+#mDIR = nest/2/3/4/5A
+# NEXT LINE IS PART OF THE TEST
+include = lib/common.gtkmenuplus
+#-------------------------------------------
+
+#% See https://github.com/step-/gtkmenuplus/issues/2.
+
+INTRO == sh -c 'Xdialog --msgbox "You are about to see THREE (3) more message boxes." 0x0; echo 1'
+
+echoerr = echo >&2 "$0" # THIS LINE IS PART OF THE TEST
+
+VARIABLE == sh -c '$echoerr "test 1"; x=${x#a}; Xdialog --msgbox "PASS [1]: shell syntax \${x<sharp>a}" 0x0; echo 1'
+item = <span size="larger">FAIL IF you did not see message box "PASS [1]"</span>
+cmd = true
+
+if= sh -c '$echoerr "test 2"; case "#" in "#") Xdialog --msgbox "PASS [2]: shell syntax quoted(<sharp>)" 0x0;; esac; echo 1'
+endif
+item = <span size="larger">FAIL IF you did not see message box "PASS [2]"</span>
+cmd = true
+
+if= sh -c '$echoerr "test 3"; [ \# = \# ] && Xdialog --msgbox "PASS [3]: shell syntax escaped(<sharp>)" 0x0; echo 1'
+endif
+item = <span size="larger">FAIL IF you did not see message box "PASS [3]"</span>
+cmd = true
