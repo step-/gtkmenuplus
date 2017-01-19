@@ -15,6 +15,11 @@ gboolean             checkConfigKeyword(IN gchar* sSwitch, IN gboolean bCheckNeg
 
 const gchar*  gl_sIconRegexPat = "\\.[a-z]{3,4}$";
 const gchar*  gl_sUriSchema = "^[a-z]+://";
+#if !defined(_GTKMENUPLUS_NO_IF_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
+const gchar*  gl_sSharpIsntComment =
+ // if= | ifelse= | variable_name==
+ "^\\s*(else)?if\\s*=|^\\s*\\w+\\s*==";
+#endif
 
 guint         gl_uiCurDepth =              0;        // Root menu is depth = 0
 guint         gl_uiCurItem =               0;        // Count number of menu entries
@@ -824,6 +829,38 @@ void addCommentPre(OUT gchar** psCommentPre, OUT gchar* sCommentInline, INOUT gu
 }
 
 // ----------------------------------------------------------------------
+// called in readLine
+gchar* findComment(IN gchar* buf)
+// ----------------------------------------------------------------------
+{
+ // Purpose: decide if a '#' character in buf is to be interpreted as
+ // the start of a comment. If so return its position otherwise NULL.
+ // Cases when '#' isn't a comment:
+ // - Shell code that follows if=/ifelse= and variable evaluation
+ // - HTML color specification, i.e., "#123abc"
+
+ while (' ' == *buf || '\t' == *buf)
+  ++buf;
+ if(*buf == '#') return buf;
+ gchar *sharp =  strchr(buf, '#');
+ if (sharp == NULL) return(NULL);
+
+#if !defined(_GTKMENUPLUS_NO_IF_)
+ *sharp = '\0';
+ gboolean bSharpIsntComment =
+  0 == regexec(&gl_rgxSharpIsntComment, buf, 0, NULL, 0);
+ *sharp = '#';
+ if (bSharpIsntComment) return(NULL);
+#endif
+
+ // "#E9FBB8" for colour number
+ // FIXME currently naive and assumes no comment after #123abc
+ if (*(sharp - 1) == '"' || *(sharp - 1) == '\'') return NULL;
+
+ return sharp;
+}
+
+// ----------------------------------------------------------------------
 // drive main loop
 
 enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint* piDepth,
@@ -892,8 +929,8 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
   (*puiLineNum)++;
 
 //remove comment
-  chop = strchr(tmp, '#');
-  if (chop != 0 && *(chop - 1) != '"' && *(chop - 1) != '\'')   // "#E9FBB8" for colour number
+  chop = findComment(tmp);
+  if (chop != NULL)
   {
    if (sCommentInline) strcpy(sCommentInline, chop);
    *chop = '\0';

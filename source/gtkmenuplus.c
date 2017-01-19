@@ -333,6 +333,7 @@ guint gl_nLastOption = 0; // command-line menu arguments start at this index +1
 
 extern const gchar*  gl_sIconRegexPat;
 extern const gchar*  gl_sUriSchema;
+extern const gchar*  gl_sSharpIsntComment;
 
 //TO DO not same in launchers_to_menu
 
@@ -407,7 +408,7 @@ If this check causes you problems, take it out.
 
 // late, so no need to do  regfree(&gl_rgxLauncherExecArg) except at end
  if (regcomp(&gl_rgxLauncherExecArg, gl_sLauncherExecArg, 0))
-  errorExit("failed to compile regular expression for launcher=");
+  errorExit("failed to compile regular expression");
 
 #endif // #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 
@@ -416,10 +417,15 @@ If this check causes you problems, take it out.
 #endif
 
  if (regcomp(&gl_rgxIconExt, gl_sIconRegexPat, REG_EXTENDED | REG_ICASE))
-  errorExit("failed to compile regular expression for icon extensions");
+  errorExit("failed to compile regular expression");
 
  if (regcomp(&gl_rgxUriSchema, gl_sUriSchema , REG_EXTENDED | REG_ICASE))
-  errorExit("failed to compile regular expression for URI schema");
+  errorExit("failed to compile regular expression");
+
+#if !defined(_GTKMENUPLUS_NO_IF_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
+ if (regcomp(&gl_rgxSharpIsntComment, gl_sSharpIsntComment , REG_EXTENDED | REG_ICASE))
+  errorExit("failed to compile regular expression");
+#endif
 
  if(!initPathRegex())
   exit(EXIT_FAILURE);
@@ -475,6 +481,10 @@ If this check causes you problems, take it out.
 #endif
  regfree(&gl_rgxIconExt);
  regfree(&gl_rgxUriSchema);
+#if !defined(_GTKMENUPLUS_NO_IF_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
+ regfree(&gl_rgxSharpIsntComment);
+#endif
+
 
  clearPathRegex();
  g_free(gl_sCmds);

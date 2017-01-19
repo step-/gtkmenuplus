@@ -377,6 +377,7 @@ enum LineParseResult expand_path(INOUT gchar *sIconPath, IN gchar *sBasePath, IN
 //const gchar*  gl_sIconRegexPat = "\\.[:alpha:]{3,4}$";
 regex_t       gl_rgxIconExt;
 regex_t       gl_rgxUriSchema;
+regex_t       gl_rgxSharpIsntComment;
 
 enum LineParseResult getGtkImage(INOUT struct MenuEntry* pMenuEntryPending, OUT GtkWidget** ppGtkImage);
 GAppInfo*            getAppInfoFromFile(IN gchar* sCmd);
