@@ -2691,7 +2691,7 @@ char* getComparName(const struct dirent **a)
      strcmp(as + strlen(as) - 8, ".desktop") == 0 &&
      (ak = malloc(sizeof(char) * MAX_LINE_LENGTH + 1)))
  {
-  struct MenuEntry me;
+  struct MenuEntry me; memset(&me, 0, sizeof(struct MenuEntry));
   strcpy(ak, gl_sLinePostEq);
   strncat(ak, as, MAX_LINE_LENGTH);
   if (lineParseFail > fillMenuEntry(ak, &me, FALSE, -1)) // iCaller -1 no harm
@@ -2705,7 +2705,7 @@ char* getComparName(const struct dirent **a)
 
 // ----------------------------------------------------------------------
 int compar(const struct dirent **a, const struct dirent **b)
-// used by onLauncherCommon
+// used by onLauncherCommon - fetch a's & b's filenames from the cache and compare them
 // ----------------------------------------------------------------------
 {
  char *as, *bs, *am, *bm;
@@ -2734,7 +2734,7 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
  }
 
  // Permit launcher{sub}=file or symlink-to-file -- stat(2) follows links.
- // Note that launchersub=file is undocumented -- no hurt in keeping it.
+ // Note: launchersub='file' is undocumented. Only 'dir' is documented.
  if (S_ISREG(statbuf.st_mode))
  {
   return processLauncher(gl_sLinePostEq, lineParseFail,
