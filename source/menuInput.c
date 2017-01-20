@@ -869,7 +869,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
 
 // ----------------------------------------------------------------------
 // Return kind of line, set and stripped text (gl_sLinePostEq)
-// return(LINE_BAD) = Error, return(0) = EOF, return(>0) = keyword
+// return(LINE_BAD_<Error>), return(0) = EOF, return(>0) = keyword
 // doesn't write error messages, that's decided by mainloop
 {
  gchar *chop;
@@ -895,18 +895,22 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
     return (LINE_EOF);
     //fprintf(stderr, "%s", sLineAsRead); //DEBUG
 
-    // Allow for unlimited-length comment lines if not gathering comments.
+    // If an input line is longer than the buffer size we check if it's
+    // a comment line. If so, and we aren't "gathering comments", that
+    // is storing them, we can let this oversized comment line be.
     if (!psCommentPre) {
      gchar *p = sLineAsRead;
-     while (*p && (*p == ' ' || *p == '\t'))
+     while (*p == ' ' || *p == '\t')
       ++p;
      if ('#' == *p && '\n' != p[strlen(p) - 1]) {
-      // Finish I/O reading a long comment that spans multiple fgets().
+      // Yep, it's and oversized comment line. Let's move past it.
       int c;
       while ((c = fgetc(pFile)) != EOF && c != '\n')
        ;
       if(c == EOF)
        return (LINE_EOF);
+      // So everyone knows we moved past this line.
+      sLineAsRead[strlen(sLineAsRead) - 1] = '\n';
      }
     }
   }
@@ -923,10 +927,11 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
 
   strcpy(tmp, sLineAsRead);
 
-  len = strlen(tmp);
-  if (tmp[len-1] == '\n')  tmp[len-1] = '\0';  // truncate the string
+  (*puiLineNum)++; // DEBUG: here set breakpoints on input line #.
 
-  (*puiLineNum)++;
+  len = strlen(tmp);
+  if (tmp[len-1] == '\n')  tmp[len-1] = '\0';
+  else return(LINE_BAD_LEN); // line too long
 
 //remove comment
   chop = findComment(tmp);
