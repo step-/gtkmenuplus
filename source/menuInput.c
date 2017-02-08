@@ -17,8 +17,8 @@ const gchar*  gl_sIconRegexPat = "\\.[a-z]{3,4}$";
 const gchar*  gl_sUriSchema = "^[a-z]+://";
 #if !defined(_GTKMENUPLUS_NO_IF_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
 const gchar*  gl_sSharpIsntComment =
- // if= | ifelse= | variable_name==
- "^\\s*(else)?if\\s*=|^\\s*\\w+\\s*==";
+ // if= | elseif= | variable_name== | cmd=
+ "^\\s*cmd\\s*|^\\s*(else)?if\\s*=|^\\s*\\w+\\s*==";
 #endif
 
 guint         gl_uiCurDepth =              0;        // Root menu is depth = 0
