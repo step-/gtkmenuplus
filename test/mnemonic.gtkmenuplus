@@ -1,0 +1,71 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+mTESTFILE = $0 # required
+#mDIR = nest/2/3/4/5A
+include = lib/common.gtkmenuplus
+#-------------------------------------------
+
+# One test case featured in the source code.
+#item = <span      mnemonic="value" something else   >this item label</span>
+
+# -----
+# Three test cases involving local formatting only.
+format =
+item = <span foreground="blue" background="white" size="large">PASS if the next 3 items start with underscore T</span>
+cmd = true
+# -----
+
+format =
+item = <span mnemonic="1">This item</span>
+cmd = true
+
+format =
+item = <span background="yellow" mnemonic="1">This item</span>
+cmd = true
+
+format =
+item = <span mnemonic="1" background="pink">This item</span>
+cmd = true
+
+# -----
+# Three test cases involving mixed local/global formatting.
+format =
+item = <span foreground="brown" background="white" size="large">PASS if the next three items are large and start with underscore T</span>
+cmd = true
+# -----
+
+# want mnemonic="1" NOT at end-of-line
+format = mnemonic="1" size="large"
+item = This item
+cmd = true
+
+# want mnemonic="1" AT end-of-line
+format = mnemonic="1"
+item = <span foreground="blue" size="large">This item</span>
+cmd = true
+
+format = size="large"
+item = <span mnemonic="1">This item</span>
+cmd = true
+
+# -----
+# launcher with formatting
+format =
+item = <span foreground="black" background="white" size="large">PASS if the X term launcher starts with mnemonic</span>
+cmd = true
+# -----
+format = mnemonic="1"
+launcher = /usr/share/applications/xterm.desktop
+
+# -----
+# launcherdir with formatting
+format =
+item = <span foreground="blue" background="white" size="large">PASS if all launchers in submenu Applications start with mnemonic</span>
+cmd = true
+# -----
+format = mnemonic="1"
+submenu = Applications
+launchersub=/usr/share/applications
+endsubmenu

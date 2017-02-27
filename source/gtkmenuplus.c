@@ -80,7 +80,7 @@
 
 #define PARAM_REF_TAG '$'
 
-#define VERSION_TEXT "1.1.5.DEV, 2017-01-20"
+#define VERSION_TEXT "1.1.5.DEV, 2017-02-27"
 
 #define DEFAULT_CONFIG_FILE  "test_menu.txt"
 
@@ -337,8 +337,12 @@ extern const gchar*  gl_sSharpIsntComment;
 
 //TO DO not same in launchers_to_menu
 
-const gchar*    gl_sLauncherExecArg = "[ \t]\\+%[fFuUdDnNickvm][ \t]*";
+const gchar*    gl_sLauncherExecArg = "[[:space:]]+%[fFuUdDnNickvm][[:space:]]*";
 //regex_t       gl_rgxLauncherExecArg in launcher.h
+#if !defined(_GTKMENUPLUS_NO_FORMAT_)
+const gchar*    gl_sMarkupMnemonic = "[[:space:]]+(mnemonic=\"([^\"]*)\")[^>]*>([^<]*)</span";
+regex_t gl_rgxMarkupMnemonic;
+#endif
 
 //enum LineParseResult { lineParseOk = 0, lineParseWarn = 1, lineParseNoDisplay = 2, lineParseFail = 3, lineParseFailFatal = 4};
 const gchar*    gl_sLineParseLabel[] = {"programming error", "warning",
@@ -353,7 +357,7 @@ int main (int argc, gchar *argv[])
 {
  // Allow version check even before testing for another running instance.
  funcOption fOptionAction = NULL;
- if(argc > 1 && checkOptions(argv[1], &fOptionAction) && fOptionAction == onVersion)
+ if (argc > 1 && checkOptions(argv[1], &fOptionAction) && fOptionAction == onVersion)
   onVersion(); // exits
 
 /*
@@ -396,6 +400,8 @@ If this check causes you problems, take it out.
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
  formattingInit(&(gl_FormattingSubMenu[0]), "\0", 0);
+ if (regcomp(&gl_rgxMarkupMnemonic, gl_sMarkupMnemonic, REG_EXTENDED))
+  errorExit("failed to compile regular expression");
 #endif
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_) && !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
@@ -407,7 +413,7 @@ If this check causes you problems, take it out.
  *gl_sLauncherArguments = '\0';
 
 // late, so no need to do  regfree(&gl_rgxLauncherExecArg) except at end
- if (regcomp(&gl_rgxLauncherExecArg, gl_sLauncherExecArg, 0))
+ if (regcomp(&gl_rgxLauncherExecArg, gl_sLauncherExecArg, REG_EXTENDED))
   errorExit("failed to compile regular expression");
 
 #endif // #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
@@ -483,6 +489,9 @@ If this check causes you problems, take it out.
  regfree(&gl_rgxUriSchema);
 #if !defined(_GTKMENUPLUS_NO_IF_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
  regfree(&gl_rgxSharpIsntComment);
+#endif
+#if !defined(_GTKMENUPLUS_NO_FORMAT_)
+ regfree(&gl_rgxMarkupMnemonic);
 #endif
 
 
@@ -1034,6 +1043,46 @@ guint all_ready_running (void)
 
 
 #if !defined(_GTKMENUPLUS_NO_FORMAT_)
+void addMnemonic(INOUT gchar *sMarkup)
+{
+ gchar *p;
+ guint len;
+ regmatch_t pmatch[4];
+ // [[:space:]]+(mnemonic=\"([^\"]*)\")[^>]*>([^<]*)</span>";
+ if (regexec(&gl_rgxMarkupMnemonic, sMarkup, 4, pmatch, 0) == 0)
+ {
+  //      <span mnemonic="value" something else   >this item label</span>
+  // p:        0                                                        0
+  // p:         1              1
+  // p:                   2   2
+  // p:                                            3             3
+  // Examine "value".
+  if (0 == strncmp("1", sMarkup + pmatch[2].rm_so,
+     pmatch[2].rm_eo - pmatch[2].rm_so)
+    && // if the label doesn't already include a mnemonic
+     ! index(sMarkup + pmatch[3].rm_so, '_')) {
+   // start with sLabel:
+   //     <span      mnemonic="value" something else   >this item label</span>
+   // rewrite:
+   //     <span       something else   >mething else   >this item label</span>
+   strncpy(p = sMarkup + pmatch[1].rm_so, sMarkup + pmatch[1].rm_eo,
+           len = pmatch[3].rm_so - pmatch[1].rm_eo);
+   //     <span       something else   >_ething else   >this item label</span>
+   *(p += len) = '_';
+   //     <span       something else   >_this item label</span>em_label</span>
+   strncpy(++p, sMarkup + pmatch[3].rm_so,
+           len = pmatch[0].rm_eo - pmatch[3].rm_so + 1);
+   //     <span       something else   >_this item label</span>
+   *(p += len) = '\0';
+  } else {
+   // Silently ignore "value" error.
+   // Erase the match to keep Pango happy.
+   for(p = sMarkup + pmatch[1].rm_so; p < sMarkup + pmatch[1].rm_eo; p++)
+     *p = ' ';
+  }
+ }
+}
+
 // ---------------------------------------------------------------------- AC
 gboolean addFormatting(INOUT GtkWidget *item, IN gboolean bToSubMenu) // TO DO ERRORS NOT POSSIBLE??
 // ----------------------------------------------------------------------
@@ -1078,14 +1127,50 @@ enum FormattingResult applyFormatting(IN gchar* sText, IN guint uiCurDepth,
 //  if (*sFormat)
   if (bIsFormattingGlobal)
   {
+   gchar *p;
+   // Nest local <span> (sText) within global <span> (m_sFormatSection).
    guint nLen = strlen(sText) + strlen(pFormatting->m_sFormatSection); // strlen(sFormat);
    *psMarkedUpText = malloc(nLen);
-   snprintf(*psMarkedUpText, nLen, pFormatting->m_sFormatSection, sText);
+   if (strstr(sText, "mnemonic="))
+   {
+    gchar *s = strdup(sText);
+    addMnemonic(s);
+    snprintf(*psMarkedUpText, nLen, pFormatting->m_sFormatSection, s);
+    free(s);
+   }
+   else if ((p = strstr(pFormatting->m_sFormatSection, "mnemonic=")))
+   {
+    gchar *q = index(p + 10, '"'); // closing "
+    if (q) *q = '\0'; // else it's malformed markup, and GTK will complain for me.
+    // inject inner "mnemonic="..."
+    gchar *s = g_strdup_printf("<span %s\"%s", p, sText + 5);
+    if (q) *q = '"';
+    addMnemonic(s);
+    nLen = strlen(s) + strlen(pFormatting->m_sFormatSection);
+    snprintf(*psMarkedUpText, nLen, pFormatting->m_sFormatSection, s);
+    g_free(s);
+    // erase outer "mnemonic="..."
+    p = strstr(*psMarkedUpText, "mnemonic=");
+    q = index(p + 10, '"'); // closing "
+    while(p <= q)
+     *(p++) = ' ';
+   }
+   // TODO elseif both local and global formats contain "mnemonic="
+   else // neither local nor global formats contain "mnemonic="
+   {
+    snprintf(*psMarkedUpText, nLen, pFormatting->m_sFormatSection, sText);
+   }
    formattingNext(pFormatting);
    return formattingResultDoItFreeMarkedUpText;
   }
   else
   {
+   if (strstr(sText, "mnemonic="))
+   {
+    *psMarkedUpText = strdup(sText);
+    addMnemonic(*psMarkedUpText);
+    return formattingResultDoItFreeMarkedUpText;
+   }
    *psMarkedUpText  = (gchar*) sText; // cast off const
    return formattingResultDoItNotFreeMarkedUpText;
   }
@@ -1095,6 +1180,7 @@ enum FormattingResult applyFormatting(IN gchar* sText, IN guint uiCurDepth,
  {
 //*psMarkedUpText = g_markup_printf_escaped(sFormat, sText); // gl_sItemText always returns not NULL??
   *psMarkedUpText = g_markup_printf_escaped(pFormatting->m_sFormatSection, sText); // gl_sItemText always returns not NULL??
+  addMnemonic(*psMarkedUpText);
   formattingNext(pFormatting);
   return formattingResultDoItFreeMarkedUpText;
  }
@@ -3177,7 +3263,7 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
   regmatch_t pmatch[2];
   if (regexec(&gl_rgxLauncherExecArg, sValue, 1, pmatch, 0) == 0)
   {
-   // Blank out the first %f token in entry Exec= (%F, %u, etc.)
+   // Erase the first %f token of entry Exec= (%F, %u, etc.).
    gchar *p;
    for(p = sValue + pmatch[0].rm_so; p < sValue + pmatch[0].rm_eo; p++)
      *p = ' ';
