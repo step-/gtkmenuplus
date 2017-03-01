@@ -2287,7 +2287,6 @@ gchar* getContainingFolderNames(IN gchar* sPath, IN guint nLevel)
 enum LineParseResult evaluateExpression(IN const gchar* sLabel, IN gchar* sToEval, OUT gchar* sExprResult, IN guint nExprResultLen, OUT gchar* sErrMsg)
 // ----------------------------------------------------------------------
 {
-
  gchar* sToEvalExpanded = expand_path_tilda_dot(sToEval, gl_sScriptDirectory);
 
  if (sToEvalExpanded) sToEval = sToEvalExpanded;
@@ -2664,19 +2663,18 @@ enum LineParseResult launcherList(const IN funcOnMenuEntry func, INOUT struct Me
 
  enum LineParseResult listResult = lineParseOk;
 
+ struct MenuEntry *pme1;
+ if (!(pme1 = malloc(sizeof(struct MenuEntry))))
+ {
+  perror("malloc");
+  return lineParseFailFatal;
+ }
+
  at = strtok_r(a, ":", &as);
  while (at)
  {
   strcpy(gl_sLinePostEq, at); // onLauncher{Sub} global input arg
-
-  struct MenuEntry *pme1; // onLauncher{Sub} input arg
-  if (!(pme1 = malloc(sizeof(struct MenuEntry))))
-  {
-   perror("malloc");
-   listResult = lineParseFailFatal;
-   break;
-  }
-  memcpy(pme1, pme, sizeof(struct MenuEntry));
+  memcpy(pme1, pme, sizeof(struct MenuEntry)); // onLauncher{Sub} input arg
   enum LineParseResult lineParseResult = func(pme1);
 
   if (lineParseResult == lineParseOk)
@@ -2692,6 +2690,7 @@ enum LineParseResult launcherList(const IN funcOnMenuEntry func, INOUT struct Me
 
   at = strtok_r(NULL, ":", &as);
  }
+ free(pme1);
  free(a);
  strcpy(gl_sLinePostEq, ak);
  free(ak);
