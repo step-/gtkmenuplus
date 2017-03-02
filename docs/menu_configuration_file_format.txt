@@ -406,8 +406,9 @@ format=formatting
 
    mnemonic="value" is a special, non-Pango attribute="value" pair that instructs gtkmenuplus to add a mnemonic to each formatted item label.
 
-   "value" can be only "1".
+   "value" can be either "1" or an arbitrary non-null string.
    "1" inserts the mnemonic character "_" before the label, unless the label already includes "_".
+   An arbitrary, non-null string inserts "_<char> " before the label, also when then label already includes "_". "<char>" represents a character extracted from the arbitrary string sequentially and reusing the string. The sequence is kept separately for each submenu level.
 
    Examples:
 
@@ -415,6 +416,24 @@ format=formatting
     launchersub = /usr/share/applications
 
    Turns the first letter of all application menu item labels into a mnemonic, unless the label already has its own mnemonic.
+
+    format = mnemonic="ABC"
+    submenu = England
+      item = London
+      item = Birmingham
+      item = Liverpool
+      item = Manchester
+    submenu = Scotland
+      item = Glasgow
+      item = Edingburgh
+      item = Aberdeen
+      item = Inverness
+
+    expands into two submenus with the following labels
+    _A England
+       _A London, _B Birmingham, _C Liverpool, _A Manchester
+    _B Scotland
+       _A Glasgow, _B Edingburgh, _C Aberdeen, _A Inverness
 
    The rules for applying mnemonic="value" are the same rules as those for applying global label formatting.
    menmonic="value" can't be used within <span> tags and with keyword tooltipformat=.

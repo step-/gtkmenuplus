@@ -1,0 +1,52 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+mTESTFILE = $0 # required
+#mDIR = nest/2/3/4/5A
+#include = lib/common.gtkmenuplus
+#-------------------------------------------
+
+# ----- test case
+# This test case is taken from menu_configuration_file_format.txt
+# Expect: mnemonic= in global formatting is applied.
+format =
+item = <span foreground="blue" background="white" size="large">PASS if Countries submenu expands into</span>
+item = <span foreground="blue" background="white" size="large">|    _A England</span>
+item = <span foreground="blue" background="white" size="large">|       _A London, _B Birmingham, _C Liverpool, _A Manchester</span>
+item = <span foreground="blue" background="white" size="large">|    _B Scotland</span>
+item = <span foreground="blue" background="white" size="large">|       _A Glasgow, _B Edingburgh, _C Aberdeen, _A Inverness</span>
+# -----
+format = mnemonic="ABC"
+submenu = England
+item = London
+item = Birmingham
+item = Liverpool
+item = Manchester
+endsubmenu
+submenu = Scotland
+item = Glasgow
+item = Edingburgh
+item = Aberdeen
+item = Inverness
+endsubmenu
+
+# ----- test case
+# launcher with formatting
+# Expect: mnemonic= in global formatting is applied.
+format =
+item = <span foreground="blue" background="white" size="large">PASS if the X term launcher starts with mnemonic Y</span>
+# -----
+format = mnemonic="YZX"
+launcher = /usr/share/applications/xterm.desktop
+
+# ----- test case
+# launchersub with formatting
+# Expect: mnemonic= in global formatting is applied.
+format =
+item = <span foreground="blue" background="white" size="large">PASS if all launchers in Applications start with mnemonics [0..9] (except a few already memoized)</span>
+# -----
+submenu = _Applications
+format = mnemonic="0123456789"
+launchersub=/usr/share/applications
+endsubmenu

@@ -1,7 +1,7 @@
 #ifndef _MENUINPUT_H
 #define _MENUINPUT_H 1
 
-// version 1.1.4, 2017-01-03
+// version 1.1.5, 2017-03-02
 
 /* Allow the use in C++ code.  */
 #ifdef __cplusplus
@@ -46,6 +46,9 @@ struct Formatting
  gchar*     m_sFormatSectionEnd;
  gchar      m_cFormatDivider;
  guint      m_uiMenuLevel; // needed for check for submenu lines
+ gchar*     m_sMnemonicSet;
+ guint      m_uiMnemonicSetLength;
+ guint      m_uiMnemonicIndex[MAX_SUBMENU_DEPTH];
 };
 
 void   formattingInit(INOUT struct Formatting* pFormatting, IN gchar* sFormat, IN guint nMenuLevel);

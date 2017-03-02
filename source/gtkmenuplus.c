@@ -1056,7 +1056,7 @@ void eraseMnemonicAttribute(INOUT gchar *s)
  }
 }
 
-void addMnemonic(INOUT gchar *sMarkup)
+void addMnemonic(INOUT gchar *sMarkup, IN struct Formatting *pFormatting, IN guint uiCurDepth)
 {
  gchar *p;
  guint len;
@@ -1092,6 +1092,29 @@ void addMnemonic(INOUT gchar *sMarkup)
    } else { // "value" already includes '_'
     eraseMnemonicAttribute(sMarkup);
    }
+
+  } else if(pmatch[2].rm_eo > pmatch[2].rm_so) // non-null "value"
+  {
+   //   case: value="ANY" (may override existing mnemonic)
+   //   action: prepend "_A ", "_N ", "_Y ", "_A ", ... to labels (by menu level)
+
+   // start with sLabel:
+   //     <span      mnemonic="ANY" something else   >this item label</span>
+   // rewrite:
+   //     <span      something else   >thing else   >this item label</span>
+   strncpy(p = sMarkup + pmatch[1].rm_so -1, sMarkup + pmatch[1].rm_eo,
+           len = pmatch[3].rm_so - pmatch[1].rm_eo);
+   //     <span      something else   >_A ng else   >this item label</span>
+   *(p += len) = '_';
+   // Round-the-clock take the next character of "value" for this menu level.
+   *(++p) = *(pFormatting->m_sMnemonicSet +
+    (pFormatting->m_uiMnemonicIndex[uiCurDepth]++ % pFormatting->m_uiMnemonicSetLength));
+   *(++p) = ' ';
+   //     <span      something else   >_A this item label</span>abel</span>
+   strncpy(++p, sMarkup + pmatch[3].rm_so,
+           len = pmatch[0].rm_eo - pmatch[3].rm_so + 1);
+   //     <span      something else   >_this item label</span>
+   *(p += len) = '\0';
 
   } else { // "value" is ""
    eraseMnemonicAttribute(sMarkup);
@@ -1155,7 +1178,7 @@ enum FormattingResult applyFormatting(IN gchar* sText, IN guint uiCurDepth,
     // inject inner "mnemonic="..."
     gchar *s = g_strdup_printf("<span %s\"%s", p, sText + 5);
     if (q) *q = '"';
-    addMnemonic(s);
+    addMnemonic(s, pFormatting, uiCurDepth);
     *psMarkedUpText = g_strdup_printf(pFormatting->m_sFormatSection, s);
     g_free(s);
     // Erase outer "mnemonic="..."; the inner one that we just added remains.
@@ -1179,7 +1202,7 @@ enum FormattingResult applyFormatting(IN gchar* sText, IN guint uiCurDepth,
  {
 //*psMarkedUpText = g_markup_printf_escaped(sFormat, sText); // gl_sItemText always returns not NULL??
   *psMarkedUpText = g_markup_printf_escaped(pFormatting->m_sFormatSection, sText); // gl_sItemText always returns not NULL??
-  addMnemonic(*psMarkedUpText); // if any
+  addMnemonic(*psMarkedUpText, pFormatting, uiCurDepth); // if any
   formattingNext(pFormatting);
   return formattingResultDoItFreeMarkedUpText;
  }

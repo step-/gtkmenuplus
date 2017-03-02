@@ -1,0 +1,48 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+mTESTFILE = $0 # required
+#mDIR = nest/2/3/4/5A
+include = lib/common.gtkmenuplus
+#-------------------------------------------
+
+# -----
+# Three test cases involving mixed local/global formatting.
+# Expect: mnemonic= in global formatting is applied.
+
+# ----- test case
+format =
+item = <span foreground="blue" background="white" size="large">PASS if the next 4 items are large and start with menmonics A,B,C,A</span>
+# -----
+
+# want mnemonic="ABC" NOT at end-of-line
+format = mnemonic="ABC" size="large"
+
+item = Item 1
+item = Item 2
+item = Item 3
+item = Item 4
+
+# ----- test case
+format =
+item = <span foreground="blue" background="white" size="large">PASS if the next 4 items are R,G,B,purple and start with menmonics a,b,a,b</span>
+# -----
+
+# want mnemonic="ab" AT end-of-line
+format = mnemonic="ab"
+item = <span foreground="red" size="large">item 1</span>
+item = <span foreground="green" size="large">item 2</span>
+item = <span foreground="blue" size="large">item 3</span>
+item = <span foreground="purple" size="large">item 4</span>
+
+# ----- test case
+format =
+item = <span foreground="blue" background="white" size="large">PASS if the next 4 items are large and start with menmonics x,x,x,x</span>
+# -----
+
+format = size="large" mnemonic="xx"
+item = mnemonic x sic
+item = mnemonic x sic
+item = mnemonic x sic
+item = mnemonic x sic

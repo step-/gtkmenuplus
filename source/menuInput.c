@@ -6,7 +6,7 @@
 
 #include "menuInput.h"
 
-// version 1.1.4, 2017-01-03
+// version 1.1.5, 2017-03-02
 
 //required because __USE_GNU
 char * strcasestr (const char *haystack, const char *needle);
@@ -1421,7 +1421,21 @@ void formattingInit(INOUT struct Formatting* pFormatting, IN gchar* sFormat, IN 
  if (*sFormat == '\0')
   *(pFormatting->m_sFormat) = '\0';
  else
+ {
   strcpy(pFormatting->m_sFormat, sFormat);
+
+  pFormatting->m_sMnemonicSet = NULL;
+  pFormatting->m_uiMnemonicSetLength =
+   pFormatting->m_uiMnemonicIndex[nMenuLevel] = 0;
+  if ((pFormatting->m_sMnemonicSet =
+     strstr(pFormatting->m_sFormat, "mnemonic=")))
+  {
+   pFormatting->m_sMnemonicSet += 10; // start of "value"
+   pFormatting->m_uiMnemonicSetLength =
+    index(pFormatting->m_sMnemonicSet, '"') - pFormatting->m_sMnemonicSet;
+   // DON'T terminate m_sMnemonicSet with '\0'.
+  }
+ }
 
  pFormatting->m_sFormatSectionEnd = strpbrk(pFormatting->m_sFormat, S_FORMAT_DIVIDERS);
 
