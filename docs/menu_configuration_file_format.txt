@@ -184,6 +184,8 @@ item=item_description
   Denotes the item_description to show in the menu. An underscore ("_") indicates
   the following letter is the mnemonic for the menu item.
 
+  A mnemonic can also be added via global formatting, cf. format=.
+
   If you want to include an underscore in the item_description but not use it to flag a
   mnemonic, use two underscores ("__").
 
@@ -365,7 +367,7 @@ format=formatting
   see https://developer.gnome.org/pango/stable/PangoMarkupFormat.html
   for details (the "convenience tags" mentioned aren't supported).
 
-  An additional non-Pango attribute="value" pair is supported, mnemonic, see further down for details.
+  An additional non-Pango attribute="value" pair is supported, "mnemonic", see further down for details.
 
   e.g.:
 
@@ -402,16 +404,20 @@ format=formatting
    If a format= line is in force, that will apply to all parts of a line containing <span...>...</span> tags not
    within those tags.
 
-   mnemonic="1" is a special, non-Pango attribute="value" pair that instructs gtkmenuplus to add a mnemonic to each formatted item label. The mnemonic characters '_' is inserted before position 1 of the label, unless the label already includes a mnemonic.
+   mnemonic="value" is a special, non-Pango attribute="value" pair that instructs gtkmenuplus to add a mnemonic to each formatted item label.
 
-   e.g.:
+   "value" can be only "1".
+   "1" inserts the mnemonic character "_" before the label, unless the label already includes "_".
+
+   Examples:
 
     format = mnemonic="1"
     launchersub = /usr/share/applications
 
-   displays mnemonics for all items in the application menu.
+   Turns the first letter of all application menu item labels into a mnemonic, unless the label already has its own mnemonic.
 
-   The rules for applying mnemonics="1" are the usual rules for applying label formatting, including with <span> tags.  menmonics="1" can't be applied to tooltipformat=.
+   The rules for applying mnemonic="value" are the same rules as those for applying global label formatting.
+   menmonic="value" can't be used within <span> tags and with keyword tooltipformat=.
 
 tooltipformat=format_string
 

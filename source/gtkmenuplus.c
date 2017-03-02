@@ -1043,6 +1043,19 @@ guint all_ready_running (void)
 
 
 #if !defined(_GTKMENUPLUS_NO_FORMAT_)
+
+void eraseMnemonicAttribute(INOUT gchar *s)
+{
+ // Erase the first occurrence of: mnemonic="value".
+ gchar *p, *q;
+ if ((p = strstr(s, "mnemonic=")))
+ {
+  q = index(p + 10, '"'); // closing "
+  while(p <= q)
+   *(p++) = ' ';
+ }
+}
+
 void addMnemonic(INOUT gchar *sMarkup)
 {
  gchar *p;
@@ -1057,28 +1070,31 @@ void addMnemonic(INOUT gchar *sMarkup)
   // p:                   2   2
   // p:                                            3             3
   // Examine "value".
-  if (0 == strncmp("1", sMarkup + pmatch[2].rm_so,
-     pmatch[2].rm_eo - pmatch[2].rm_so)
-    && // if the label doesn't already include a mnemonic
-     ! index(sMarkup + pmatch[3].rm_so, '_')) {
-   // start with sLabel:
-   //     <span      mnemonic="value" something else   >this item label</span>
-   // rewrite:
-   //     <span       something else   >mething else   >this item label</span>
-   strncpy(p = sMarkup + pmatch[1].rm_so, sMarkup + pmatch[1].rm_eo,
-           len = pmatch[3].rm_so - pmatch[1].rm_eo);
-   //     <span       something else   >_ething else   >this item label</span>
-   *(p += len) = '_';
-   //     <span       something else   >_this item label</span>em_label</span>
-   strncpy(++p, sMarkup + pmatch[3].rm_so,
-           len = pmatch[0].rm_eo - pmatch[3].rm_so + 1);
-   //     <span       something else   >_this item label</span>
-   *(p += len) = '\0';
-  } else {
-   // Silently ignore "value" error.
-   // Erase the match to keep Pango happy.
-   for(p = sMarkup + pmatch[1].rm_so; p < sMarkup + pmatch[1].rm_eo; p++)
-     *p = ' ';
+  if (0 == strncmp("1", sMarkup + pmatch[2].rm_so, pmatch[2].rm_eo - pmatch[2].rm_so))
+  {
+   //   case: value="1" and label doesn't already include mnemonic
+   //   action: prepend '_' to label
+   if (! index(sMarkup + pmatch[3].rm_so, '_'))
+   {
+    // start with sLabel:
+    //     <span      mnemonic="value" something else   >this item label</span>
+    // rewrite:
+    //     <span      something else   >mething else   >this item label</span>
+    strncpy(p = sMarkup + pmatch[1].rm_so, sMarkup + pmatch[1].rm_eo,
+            len = pmatch[3].rm_so - pmatch[1].rm_eo);
+    //     <span      something else   >_ething else   >this item label</span>
+    *(p += len) = '_';
+    //     <span      something else   >_this item label</span>em_label</span>
+    strncpy(++p, sMarkup + pmatch[3].rm_so,
+            len = pmatch[0].rm_eo - pmatch[3].rm_so + 1);
+    //     <span      something else   >_this item label</span>
+    *(p += len) = '\0';
+   } else { // "value" already includes '_'
+    eraseMnemonicAttribute(sMarkup);
+   }
+
+  } else { // "value" is ""
+   eraseMnemonicAttribute(sMarkup);
   }
  }
 }
@@ -1117,6 +1133,9 @@ enum FormattingResult applyFormatting(IN gchar* sText, IN guint uiCurDepth,
 {
  *psMarkedUpText = NULL;
 
+ // Ignore mnemonic="value" in local formatting.
+ eraseMnemonicAttribute(sText); // if any
+
  gboolean bIsFormattingLocal  = strstr(sText, "<span") != NULL;
 //m_cFormatDivider 0 if formatting not compound
  gboolean bIsFormattingGlobal = *(pFormatting->m_sFormat) &&
@@ -1124,53 +1143,33 @@ enum FormattingResult applyFormatting(IN gchar* sText, IN guint uiCurDepth,
 
  if (bIsFormattingLocal)
  {
-//  if (*sFormat)
   if (bIsFormattingGlobal)
   {
-   gchar *p;
    // Nest local <span> (sText) within global <span> (m_sFormatSection).
-   guint nLen = strlen(sText) + strlen(pFormatting->m_sFormatSection); // strlen(sFormat);
-   *psMarkedUpText = malloc(nLen);
-   if (strstr(sText, "mnemonic="))
-   {
-    gchar *s = strdup(sText);
-    addMnemonic(s);
-    snprintf(*psMarkedUpText, nLen, pFormatting->m_sFormatSection, s);
-    free(s);
-   }
-   else if ((p = strstr(pFormatting->m_sFormatSection, "mnemonic=")))
+   gchar *p;
+
+   if ((p = strstr(pFormatting->m_sFormatSection, "mnemonic=")))
    {
     gchar *q = index(p + 10, '"'); // closing "
-    if (q) *q = '\0'; // else it's malformed markup, and GTK will complain for me.
+    if (q) *q = '\0'; // else it's malformed markup; let GTK complain for us
     // inject inner "mnemonic="..."
     gchar *s = g_strdup_printf("<span %s\"%s", p, sText + 5);
     if (q) *q = '"';
     addMnemonic(s);
-    nLen = strlen(s) + strlen(pFormatting->m_sFormatSection);
-    snprintf(*psMarkedUpText, nLen, pFormatting->m_sFormatSection, s);
+    *psMarkedUpText = g_strdup_printf(pFormatting->m_sFormatSection, s);
     g_free(s);
-    // erase outer "mnemonic="..."
-    p = strstr(*psMarkedUpText, "mnemonic=");
-    q = index(p + 10, '"'); // closing "
-    while(p <= q)
-     *(p++) = ' ';
+    // Erase outer "mnemonic="..."; the inner one that we just added remains.
+    eraseMnemonicAttribute(*psMarkedUpText);
    }
-   // TODO elseif both local and global formats contain "mnemonic="
-   else // neither local nor global formats contain "mnemonic="
+   else
    {
-    snprintf(*psMarkedUpText, nLen, pFormatting->m_sFormatSection, sText);
+    *psMarkedUpText = g_strdup_printf(pFormatting->m_sFormatSection, sText);
    }
    formattingNext(pFormatting);
    return formattingResultDoItFreeMarkedUpText;
   }
   else
   {
-   if (strstr(sText, "mnemonic="))
-   {
-    *psMarkedUpText = strdup(sText);
-    addMnemonic(*psMarkedUpText);
-    return formattingResultDoItFreeMarkedUpText;
-   }
    *psMarkedUpText  = (gchar*) sText; // cast off const
    return formattingResultDoItNotFreeMarkedUpText;
   }
@@ -1180,7 +1179,7 @@ enum FormattingResult applyFormatting(IN gchar* sText, IN guint uiCurDepth,
  {
 //*psMarkedUpText = g_markup_printf_escaped(sFormat, sText); // gl_sItemText always returns not NULL??
   *psMarkedUpText = g_markup_printf_escaped(pFormatting->m_sFormatSection, sText); // gl_sItemText always returns not NULL??
-  addMnemonic(*psMarkedUpText);
+  addMnemonic(*psMarkedUpText); // if any
   formattingNext(pFormatting);
   return formattingResultDoItFreeMarkedUpText;
  }

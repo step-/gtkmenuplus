@@ -7,13 +7,19 @@ mTESTFILE = $0 # required
 include = lib/common.gtkmenuplus
 #-------------------------------------------
 
+DEV_TEST=false
+if=$DEV_TEST
+
 # One test case featured in the source code.
 #item = <span      mnemonic="value" something else   >this item label</span>
 
+else
+
 # -----
 # Three test cases involving local formatting only.
+# Expect: mnemonic="1" erased w/o further action.
 format =
-item = <span foreground="blue" background="white" size="large">PASS if the next 3 items start with underscore T</span>
+item = <span foreground="blue" background="white" size="large">PASS if the next 3 items DO NOT start with mnemonic T</span>
 cmd = true
 # -----
 
@@ -31,41 +37,46 @@ cmd = true
 
 # -----
 # Three test cases involving mixed local/global formatting.
+# Expect: mnemonic= in global formatting is applied.
 format =
-item = <span foreground="brown" background="white" size="large">PASS if the next three items are large and start with underscore T</span>
+item = <span foreground="brown" background="white" size="large">PASS if the next three items are large, R,G,B and start with underscore T</span>
 cmd = true
 # -----
 
 # want mnemonic="1" NOT at end-of-line
 format = mnemonic="1" size="large"
-item = This item
+item = <span foreground="red">This item</span>
 cmd = true
 
 # want mnemonic="1" AT end-of-line
 format = mnemonic="1"
-item = <span foreground="blue" size="large">This item</span>
+item = <span foreground="green" size="large">This item</span>
 cmd = true
 
-format = size="large"
-item = <span mnemonic="1">This item</span>
+# want mnemonic="1" AT end-of-line
+format = size="large" mnemonic="1"
+item = <span mnemonic="1" foreground="blue">This item</span>
 cmd = true
 
 # -----
 # launcher with formatting
 format =
-item = <span foreground="black" background="white" size="large">PASS if the X term launcher starts with mnemonic</span>
+item = <span foreground="black" background="white" size="large">PASS if the X term launcher starts with mnemonic X</span>
 cmd = true
 # -----
 format = mnemonic="1"
 launcher = /usr/share/applications/xterm.desktop
 
 # -----
-# launcherdir with formatting
+# launchersub with formatting
+# Expect: mnemonic= in global formatting is applied.
 format =
-item = <span foreground="blue" background="white" size="large">PASS if all launchers in submenu Applications start with mnemonic</span>
+item = <span foreground="blue" background="white" size="large">PASS if all launchers in Applications start with mnemonic (except a few already memoized)</span>
 cmd = true
 # -----
 format = mnemonic="1"
 submenu = Applications
 launchersub=/usr/share/applications
 endsubmenu
+
+endif
