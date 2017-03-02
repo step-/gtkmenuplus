@@ -888,33 +888,43 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
   if (psCommentPre && sCommentInline && *sCommentInline)
    addCommentPre(psCommentPre, sCommentInline, &nCommentBuffLen);
 
-//read one line
+// Read one line
+// *************
   if (pFile)
   {
    if (fgets(sLineAsRead, nLineBuffLen, pFile) == NULL)
     return (LINE_EOF);
-    //fprintf(stderr, "%s", sLineAsRead); //DEBUG
+   //fprintf(stderr, "%s", sLineAsRead); //DEBUG
 
-    // If an input line is longer than the buffer size we check if it's
-    // a comment line. If so, and we aren't "gathering comments", that
-    // is storing them, we can let this oversized comment line be.
-    if (!psCommentPre) {
-     gchar *p = sLineAsRead;
-     while (*p == ' ' || *p == '\t')
-      ++p;
-     if ('#' == *p && '\n' != p[strlen(p) - 1]) {
-      // Yep, it's and oversized comment line. Let's move past it.
-      int c;
-      while ((c = fgetc(pFile)) != EOF && c != '\n')
-       ;
-      if(c == EOF)
-       return (LINE_EOF);
-      // So everyone knows we moved past this line.
-      sLineAsRead[strlen(sLineAsRead) - 1] = '\n';
-     }
+   // If an input line is longer than the buffer size we check if it's
+   // a comment line. If so, and we aren't "gathering comments", that
+   // is storing them, we can let this oversized comment line be.
+   if (!psCommentPre) {
+    gchar *p = sLineAsRead;
+    while (*p == ' ' || *p == '\t')
+     ++p;
+    if ('#' == *p && '\n' != p[strlen(p) - 1]) {
+     // Yep, it's and oversized comment line. Let's move past it.
+     int c;
+     while ((c = fgetc(pFile)) != EOF && c != '\n')
+      ;
+     if(c == EOF)
+      return (LINE_EOF);
+     // So everyone knows we moved past this line.
+     sLineAsRead[strlen(sLineAsRead) - 1] = '\n';
     }
+   }
+   strcpy(tmp, sLineAsRead);
+   (*puiLineNum)++; // DEBUG: here set breakpoints on input line #.
+   len = strlen(tmp);
+   if (tmp[len-1] == '\n')
+    tmp[len-1] = '\0';
+   else
+    return(LINE_BAD_LEN); // line too long
   }
-  else // or one section of command line config
+// Or extract next command-line argument section
+// *********************************************
+  else
   {
    if (!gl_sCmdLineConfigNext)
     gl_sCmdLineConfigNext = strtok(gl_sCmdLineConfig, ";");
@@ -923,17 +933,10 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
    if (!gl_sCmdLineConfigNext)
     return (LINE_EOF);
    strcpy(sLineAsRead, gl_sCmdLineConfigNext);
+   strcpy(tmp, sLineAsRead);
   } // if (pFile)
 
-  strcpy(tmp, sLineAsRead);
-
-  (*puiLineNum)++; // DEBUG: here set breakpoints on input line #.
-
-  len = strlen(tmp);
-  if (tmp[len-1] == '\n')  tmp[len-1] = '\0';
-  else return(LINE_BAD_LEN); // line too long
-
-//remove comment
+// Chop comment
   chop = findComment(tmp);
   if (chop != NULL)
   {
@@ -972,6 +975,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
  count = 0;
 
 // Calculate menu depth
+// ********************
  for (i = 0; i < len; i++)
  {
   if (tmp[i] == ' ')
@@ -984,7 +988,8 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
 
  *piDepth = count / 4;
 
-// remove leading white space
+// Skip leading white space
+// ************************
  if (count > 0)
  {
   str1 = tmp;
@@ -1032,8 +1037,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
   return (linetype);
 #endif
 
-//Remove trailing white space
- trim_trailing(tmp, tmp + strlen(tmp) - 1);
+ trim_trailing(tmp, tmp + strlen(tmp) - 1); // white space
 
 // str2 = tmp + strlen(tmp) - 1;
 // while (*str2 == ' ' || *str2 == '\t') str2--;
