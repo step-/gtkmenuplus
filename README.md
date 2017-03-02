@@ -1,6 +1,6 @@
-# Gtkmenuplus
+# gtkmenuplus
 
-This project was forked from Gtkmenuplus 1.00 found at
+This project was forked from gtkmenuplus 1.00 found at
 https://sites.google.com/site/entropyreduction/gtkmenuplus
 retrieved on 17-Apr-2016. Version 1.00 was released on 24-Apr-2013.
 
@@ -28,13 +28,18 @@ file processing (launchers) by adding:
  * Logging command activations to a file, and the file can itself become
    a sub-menu
 
- * An _onexit=_ hook simplifies cleaning up after a menu
+ * An _onexit=_ hook simplifies cleaning up when closing the menu
+
+ * Automatic label mnemonics.
 
  * Up-to-date documentation.
 
-Each release introduces new features, please see the [commit history](https://github.com/gtkmenuplus/commits) or browse the list of [releases](https://github.com/gtkmenuplus/releases).
+Each release introduces new features, please see the [commit
+history](https://github.com/gtkmenuplus/commits) or browse the list of
+[releases](https://github.com/gtkmenuplus/releases).
 
-Some errors or omissions in the original 1.00 source code are fixed, for example:
+Some errors or omissions in the original 1.00 source code are fixed, for
+example:
 
  * Core dumps on deeply nested sub-menus
  
@@ -47,9 +52,12 @@ Some errors or omissions in the original 1.00 source code are fixed, for example
 
  * Unterminated `if=` no longer hangs the program
 
+ * `#` in shell commands and similar cases does work, i.e., `[ $# = 0 ]`
+
 Etcetera. For a full list of fixes please refer to the commit history.
 
-I wrote some scripts that apply the new features. They can be found in my [scripts-to-go](https://github.com/step-/scripts-to-go/) repository:
+I wrote some scripts that showcase the new features. They can be found in my
+[scripts-to-go](https://github.com/step-/scripts-to-go/) repository:
 
  * **gmenu2** displays a System menu that resembles the standard
    Fatdog64 and Puppy Linux System menu. An extension script,
@@ -66,7 +74,7 @@ Feel free to submit pull requests! This is a short list of desiderata if
 you are looking for ideas on how to contribute to the project:
 
  * Markdown documentation - Review and improve docs/usage.txt
-   and docs/menu_configuration_file_format.txt. Format as markdown text
+   and docs/menu\_configuration\_file\_format.txt. Format as markdown text
    ([mdview](http://chiselapp.com/user/jamesbond/repository/mdview3/index)
    markdown subset preferred)
 
