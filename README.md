@@ -56,31 +56,36 @@ example:
 
 Etcetera. For a full list of fixes please refer to the commit history.
 
-I wrote some scripts that showcase the new features. They can be found in my
-[scripts-to-go](https://github.com/step-/scripts-to-go/) repository:
+## Examples
 
- * **gmenu2** displays a System menu that resembles the standard
-   Fatdog64 and Puppy Linux System menu. An extension script,
-   **gmenu2-fdcp**, adds a sub-menu of Fatdog64 Control Panel items.
+I wrote some scripts that showcase the new features:
 
- * **quicklaunch** is a customizable user menu
-
- * **roxmm** displays a ROX-Filer SendTo menu look-alike for a given
-   file or directory
+* [gmenu2](https://github.com/step-/scripts-to-go/blob/master/README.md#gmenu2)
+  System menu that resembles the standard Fatdog64 and Puppy Linux System menu,
+  with some added zest.
+* [gmenu2-fdcp](https://github.com/step-/scripts-to-go/blob/master/README.md#gmenu2-fdcp)
+  Fatdog64 Control Panel items as a menu.
+* [quicklaunch](https://github.com/step-/scripts-to-go/blob/master/README.md#quicklaunch)
+  Customizable user menu.
+* [roxmm](https://github.com/step-/scripts-to-go/blob/master/README.md#roxmm)
+  ROX-Filer SendTo menu look-alike for a given file or directory.
+* [tray-radio](https://github.com/step-/scripts-to-go/blob/master/README.md#tray-radio)
+  System tray icon that springs a customizable menu of your Internet radio
+  stations and media files.
 
 ## Contributing
 
 Feel free to submit pull requests! This is a short list of desiderata if
 you are looking for ideas on how to contribute to the project:
 
- * Markdown documentation - Review and improve docs/usage.txt
-   and docs/menu\_configuration\_file\_format.txt. Format as markdown text
-   ([mdview](http://chiselapp.com/user/jamesbond/repository/mdview3/index)
-   markdown subset preferred)
+* Markdown documentation - Review and improve docs/usage.txt
+  and docs/menu\_configuration\_file\_format.txt. Format as markdown text
+  ([mdview](http://chiselapp.com/user/jamesbond/repository/mdview3/index)
+  markdown subset preferred)
 
- * Test suite - Submit new test scripts. Improve existing ones. Automate
-   the test suite.
+* Test suite - Submit new test scripts. Improve existing ones. Automate
+  the test suite.
 
- * i18n - Edit source code to enable translation with the GNU GetText tools.
+* i18n - Edit source code to enable translation with the GNU GetText tools.
 
- * Bug fixing, of course.
+* Bug fixing, of course.
