@@ -166,9 +166,9 @@ const gchar*              gl_sHelpMsg =
 //"\ntest_menu.txt is an example menu_configuration_file.\n"
 
 
-gboolean              expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine, IN struct Params* pParams, IN gboolean bIsCmdLine, OUT gchar* sErrMsg); // enum TriStateResult, operates on gl_sLinePostEq
+enum LineParseResult  expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine, IN struct Params* pParams, IN gboolean bIsCmdLine, OUT gchar* sErrMsg); // enum TriStateResult, operates on gl_sLinePostEq
 
-gboolean              expand_param(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
+enum LineParseResult  expand_param(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
                                   INOUT guint* pnCharsInBuff, OUT gboolean* pbOneExpandableOnlyOnLine, IN struct Params* pParams, OUT gchar* sErrMsg);
 
 
@@ -243,7 +243,7 @@ enum LineParseResult  variableEvaluate(INOUT struct Variable* pVariable, OUT gch
 
 void                  commitIncludeTerminate(INOUT gchar ** argvp, gchar* sLinePostEq);
 
-gboolean               expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
+enum LineParseResult  expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
                                 INOUT guint* pnCharsInBuff, OUT gboolean* pbIsVar, OUT gboolean *pbOneExpandableOnlyOnLine);
 
 #endif  // #if !defined(_GTKMENUPLUS_NO_VARIABLES_)
@@ -651,17 +651,17 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
 #if !defined(_GTKMENUPLUS_NO_PARAMS_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
    gl_bOneExpandableOnlyOnLine = FALSE;
 
+   lineParseResult =
 #if !defined(_GTKMENUPLUS_NO_PARAMS_)
-   if (!expand_params_vars(&gl_bOneExpandableOnlyOnLine, &params, linetype == LINE_CMD, menuEntryPending.m_sErrMsg))                        // gl_bOneExpandableOnlyOnLine used in parseIfCondition; operates on gl_sLinePostEq
+    expand_params_vars(&gl_bOneExpandableOnlyOnLine, &params, linetype == LINE_CMD, menuEntryPending.m_sErrMsg);                        // gl_bOneExpandableOnlyOnLine used in parseIfCondition; operates on gl_sLinePostEq
 #else
-   if (!expand_params_vars(&gl_bOneExpandableOnlyOnLine, NULL, linetype == LINE_CMD, menuEntryPending.m_sErrMsg))
+    expand_params_vars(&gl_bOneExpandableOnlyOnLine, NULL, linetype == LINE_CMD, menuEntryPending.m_sErrMsg);
 #endif
+   if(lineParseResult != lineParseOk)
    {
     gl_bOkToDisplay = FALSE;
-   if (*(menuEntryPending.m_sErrMsg))
-     lineParseResult = lineParseFailFatal;
    }
-#endif // #if !defined(_GTKMENUPLUS_NO_PARAMS_)
+#endif // #if !defined(_GTKMENUPLUS_NO_PARAMS_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
 
    if (linetype == LINE_EOF && pFile) fclose(pFile); // pFile may be NULL if command line is lne string
   } // if (gl_bOkToDisplay)
@@ -1257,7 +1257,7 @@ enum LineParseResult addIcon(INOUT struct MenuEntry* pMenuEntryPending, INOUT Gt
 
 #if !defined(_GTKMENUPLUS_NO_PARAMS_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
 // ---------------------------------------------------------------------- AC
-gboolean expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine, IN struct Params* pParams, IN gboolean bIsCmdLine, OUT gchar* sErrMsg) // enum TriStateResult // operates on gl_sLinePostEq
+enum LineParseResult expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine, IN struct Params* pParams, IN gboolean bIsCmdLine, OUT gchar* sErrMsg) // enum TriStateResult // operates on gl_sLinePostEq
 // ----------------------------------------------------------------------
 {
  gchar sBuff[MAX_LINE_LENGTH + 1];
@@ -1272,14 +1272,14 @@ gboolean expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine, IN struct P
 
  gchar* sDataPtr = strchr(gl_sLinePostEq, PARAM_REF_TAG);
  if (!sDataPtr)
-  return TRUE;
+  return lineParseOk;
 
  if (sDataPtr == gl_sLinePostEq)
   *pbOneExpandableOnlyOnLine = TRUE;
  else
   nCharsInBuff += intertag_buffer_update(&sBuffPtr, gl_sLinePostEq, sDataPtr - gl_sLinePostEq);
 
- gboolean bOk = TRUE;
+ enum LineParseResult lineParseResult = lineParseOk;
 
  while (sDataPtr && *sDataPtr)
  {
@@ -1289,8 +1289,8 @@ gboolean expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine, IN struct P
   {
    if (!bIsCmdLine)
    {
-    bOk = expand_param(&sDataPtr, &sBuffPtr, &nCharsInBuff, pbOneExpandableOnlyOnLine, pParams, sErrMsg);
-    if (!bOk) break;
+    lineParseResult = expand_param(&sDataPtr, &sBuffPtr, &nCharsInBuff, pbOneExpandableOnlyOnLine, pParams, sErrMsg);
+    if (lineParseResult != lineParseOk) break;
    } // if (!bIsCmdLine)
    else
    {
@@ -1305,10 +1305,10 @@ gboolean expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine, IN struct P
   if (!bCharIsDigit)
   {
    gboolean bIsVar = FALSE;
-   bOk = expand_var(&sDataPtr, &sBuffPtr, &nCharsInBuff, &bIsVar, pbOneExpandableOnlyOnLine);
-   if (!bOk) {
+   lineParseResult = expand_var(&sDataPtr, &sBuffPtr, &nCharsInBuff, &bIsVar, pbOneExpandableOnlyOnLine);
+   if (lineParseResult != lineParseOk) {
     snprintf(sErrMsg, MAX_LINE_LENGTH, "line too long after variable expansion\n");
-    return FALSE;
+    return lineParseFail;
    }
 
    if (!bIsVar)
@@ -1336,7 +1336,7 @@ gboolean expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine, IN struct P
  } // while (*sDataPtr)
 
  strcpy(gl_sLinePostEq, sBuff);
- return bOk; // triStateResultResult;
+ return lineParseResult; // triStateResultResult;
 }
 
 // ---------------------------------------------------------------------- AC
@@ -1390,18 +1390,18 @@ enum LineParseResult variableEvaluate(INOUT struct Variable* pVariable, OUT gcha
 }
 
 // ---------------------------------------------------------------------- AC
-gboolean expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
+enum LineParseResult expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
                     INOUT guint* pnCharsInBuff, OUT gboolean* pbIsVar, OUT gboolean *pbOneExpandableOnlyOnLine)
 // ----------------------------------------------------------------------
 {
  *pbIsVar = FALSE;
  guint nLenParamTag = 1; // strlen(PARAM_REF_TAG);
- gboolean bOk = TRUE;
+ enum LineParseResult lineParseResult = lineParseOk;
  gchar* sVarName = *psDataPtr + nLenParamTag;
  gchar* sEnd = sVarName;
  while (isdigit(*sEnd) || isalpha(*sEnd) || *sEnd == '_') sEnd++;
  if (sEnd == *psDataPtr)
-  return TRUE;
+  return lineParseOk;
  gchar cEnd  = *sEnd;
  *sEnd = '\0';
 
@@ -1416,7 +1416,7 @@ gboolean expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
    {
     if (*pnCharsInBuff + uiLenVar > MAX_LINE_LENGTH)
     {
-     return FALSE;
+     return lineParseFail;
     }
     strcpy(*psBuffPtr, pVariable->m_sValue);
     *psBuffPtr += uiLenVar;
@@ -1427,7 +1427,7 @@ gboolean expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
   } // if (pVariable)
  } // if (!getenv(sVarName))
  *sEnd = cEnd;
- return bOk;
+ return lineParseResult;
 }
 
 #endif
@@ -1435,7 +1435,7 @@ gboolean expand_var(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
 #if !defined(_GTKMENUPLUS_NO_PARAMS_)
 
 // ---------------------------------------------------------------------- AC
-gboolean expand_param(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
+enum LineParseResult expand_param(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
                       INOUT guint* pnCharsInBuff, OUT gboolean *pbOneExpandableOnlyOnLine, IN struct Params* pParams, OUT gchar* sErrMsg)
 // ----------------------------------------------------------------------
 {
@@ -1456,7 +1456,7 @@ gboolean expand_param(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
  if (!(pParams->m_bIncludesProgName) && nArgNo == 0)
  {
   snprintf(sErrMsg, MAX_LINE_LENGTH, "%s\n", "$0 invalid in included= file");
-  return lineParseWarn; //  triStateResultFail;
+  return lineParseFail; //  triStateResultFail;
  }
 
 // guint uiLenParam = (nArgNo == 0) ? (strlen(gl_sScriptDirectory) + strlen(DEFAULT_CONFIG_FILE) + 1) : strlen(pParams->m_sCmdLineParamVec[nArgVecNdx]);
@@ -1502,7 +1502,7 @@ gboolean expand_param(INOUT gchar** psDataPtr, INOUT gchar** psBuffPtr,
   return lineParseFail;
  } // if (nCharsInBuff >= MAX_LINE_LENGTH)
 //  if (strncasecmp(sDataPtr, PARAM_REF_TAG, nLenParamTag)  == 0)
- return TRUE;
+ return lineParseOk;
 }
 
 
