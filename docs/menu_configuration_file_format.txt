@@ -106,12 +106,13 @@ variable_name==expression
   If a variable_name is followed by "==", the text after the "==" is interpreted as an expression
   which is passed to the shell for evaluation;  whatever ends up in stdout becomes the variable value.
 
-  A variable_name can be referred to as $variable_name in _any_ subsequent line. For instance $variable_name
-  can be all or part of a command (in a cmd= line); of a menu item's item_description (in an item= line);
-  or of the condition on if= or elseif= lines.
+  A variable_name can be referred to as $variable_name in _any_ subsequent line
+  of the same file as well as of included files. For instance $variable_name can
+  be all or part of a command (in a cmd= line); of a menu item's item_description
+  (in an item= line); or of the condition on if= or elseif= lines.
 
-  If the same variable_name is declared a second time, it's value is redefined or expression
-  re-evaluated.
+  If the same variable_name is re-assigned, including in included files, its
+  value is redefined or expression re-evaluated.
 
 
 Parameter references:
@@ -122,6 +123,10 @@ Parameter references:
   be confused with gtkmenuplus command line parameter references).
   
   You can also refer to the menu configuration file argument with $0, unless gtkmenuplus gets its input from stdin.
+  Reference $0 is invalid in included files.
+  Referencing an unassigned (null) parameter is allowed in an evaluation
+  context, such as if=, elseif= or variable_name==, and produces the value 0
+  ('false', 'no').
 
 Paths:
 
@@ -653,9 +658,9 @@ include=menu_configuration_file [parameter1 [ parameter2 [ ...]]]
   Be careful not to include recursively.  If a menu_configuration_file includes itself,
   directly or indirectly, you'll end up with an infinite menu...
 
-  Parameters can be refered to as $1, $2, etc anywhere in the 
+  Parameters can be referred to as $1, $2, etc anywhere in the 
   included menu_configuration_file. 
-  See the "Parameters" section, above, for more detail.
+  See the "Parameter references" section, above, for more detail.
   
   As the included menu_configuration_file is processed:
   

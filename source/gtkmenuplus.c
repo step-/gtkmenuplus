@@ -1731,7 +1731,7 @@ guint writeLogItem(IN const gchar* sItem)
  }
 
  // Re-write logfile (heystack) file instead of renaming tmpf to logfile
- // to follow symlinked logfile on layered filesystem.
+ // to follow symlinked logfile on aufs filesystem layer.
  rewind(heystack);
  rewind(copy);
  while((c = fgetc(copy)) != EOF)
