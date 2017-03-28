@@ -657,7 +657,7 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
 #else
     expand_params_vars(&gl_bOneExpandableOnlyOnLine, NULL, linetype == LINE_CMD, menuEntryPending.m_sErrMsg);
 #endif
-   if(lineParseResult != lineParseOk)
+   if(lineParseResult >= lineParseFail)
    {
     gl_bOkToDisplay = FALSE;
    }
@@ -1290,7 +1290,7 @@ enum LineParseResult expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine,
    if (!bIsCmdLine)
    {
     lineParseResult = expand_param(&sDataPtr, &sBuffPtr, &nCharsInBuff, pbOneExpandableOnlyOnLine, pParams, sErrMsg);
-    if (lineParseResult != lineParseOk) break;
+    if (lineParseResult >= lineParseFail) break;
    } // if (!bIsCmdLine)
    else
    {
@@ -1306,7 +1306,7 @@ enum LineParseResult expand_params_vars(OUT gboolean *pbOneExpandableOnlyOnLine,
   {
    gboolean bIsVar = FALSE;
    lineParseResult = expand_var(&sDataPtr, &sBuffPtr, &nCharsInBuff, &bIsVar, pbOneExpandableOnlyOnLine);
-   if (lineParseResult != lineParseOk) {
+   if (lineParseResult >= lineParseFail) {
     snprintf(sErrMsg, MAX_LINE_LENGTH, "line too long after variable expansion\n");
     return lineParseFail;
    }
@@ -1450,6 +1450,7 @@ enum LineParseResult expand_param(INOUT gchar** psDataPtr, INOUT gchar** psBuffP
 
   if (!(*pnCharsInBuff) && *sPtrEndParamRef == '\0') *pbOneExpandableOnlyOnLine = TRUE; // only one param ref and nothin else
   *psDataPtr = sPtrEndParamRef;  // ignore the reference completely
+  // Semantics: a single unassigned parameter evaluates to FALSE
   return lineParseWarn;
  }
 
