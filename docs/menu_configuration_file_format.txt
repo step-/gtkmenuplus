@@ -13,7 +13,12 @@ This document describes the format of those files.
 
 Anything on a line after the "#" character is considered a comment and is ignored, - "#" included.
 
-Exceptions: keywords cmd=, if=, elseif= and variable_name== do not consider "#" and its tail as a comment.
+The following cases are exceptions; they do not regard "#" and its tail as a comment:
+  keywords cmd=, if=, elseif=
+  variable evaluation variable_name==
+  variable assignment of quoted strings that include #
+  quoted HTML colors, i.e., "#FAF090"
+
 
 Therefore any line whose first non-whitespace character is a "#" is ignored.
 

@@ -15,11 +15,19 @@ gboolean             checkConfigKeyword(IN gchar* sSwitch, IN gboolean bCheckNeg
 
 const gchar*  gl_sIconRegexPat = "\\.[a-z]{3,4}$";
 const gchar*  gl_sUriSchema = "^[a-z]+://";
-#if !defined(_GTKMENUPLUS_NO_IF_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
 const gchar*  gl_sSharpIsntComment =
- // if= | elseif= | variable_name== | cmd=
- "^\\s*cmd\\s*|^\\s*(else)?if\\s*=|^\\s*\\w+\\s*==";
+  "^\\s*cmd\\s*" // cmd=
+#if !defined(_GTKMENUPLUS_NO_IF_)
+ "|^\\s*(else)?if\\s*=" // if= | elseif=
 #endif
+#if !defined(_GTKMENUPLUS_NO_VARIABLES_)
+ "|^\\s*\\w+\\s*==" // variable_name==
+ "|^\\s*\\w+\\s*=\\s*\"[^\"]*#[^\"]*\"" // variable_name="...#..."
+ "|^\\s*\\w+\\s*=\\s*'[^']*#[^']*'" // variable_name='...#...'
+#endif
+ "|\"#[0-9A-Fa-f]{6}\"|'#[0-9A-Fa-f]{6}'" // quoted HTML color
+ "|\"#[0-9A-Fa-f]{3}\"|'#[0-9A-Fa-f]{3}'" // quoted HTML color (short form)
+ ;
 
 guint         gl_uiCurDepth =              0;        // Root menu is depth = 0
 guint         gl_uiCurItem =               0;        // Count number of menu entries
@@ -837,7 +845,9 @@ gchar* findComment(IN gchar* buf)
  // the start of a comment. If so return its position otherwise NULL.
  // Cases when '#' isn't a comment:
  // - Shell code that follows if=/ifelse= and variable evaluation
- // - HTML color specification, i.e., "#123abc"
+ // - Quoted variable assignment
+ // - HTML color specification, i.e., "#123ABC"
+ // FIXME: Handle multiple #s separately, and catch valid comments at EOL preceded by non-comment #s.
 
  while (' ' == *buf || '\t' == *buf)
   ++buf;
@@ -845,17 +855,8 @@ gchar* findComment(IN gchar* buf)
  gchar *sharp =  strchr(buf, '#');
  if (sharp == NULL) return(NULL);
 
-#if !defined(_GTKMENUPLUS_NO_IF_)
- *sharp = '\0';
- gboolean bSharpIsntComment =
-  0 == regexec(&gl_rgxSharpIsntComment, buf, 0, NULL, 0);
- *sharp = '#';
- if (bSharpIsntComment) return(NULL);
-#endif
-
- // "#E9FBB8" for colour number
- // FIXME currently naive and assumes no comment after #123abc
- if (*(sharp - 1) == '"' || *(sharp - 1) == '\'') return NULL;
+ if (0 == regexec(&gl_rgxSharpIsntComment, buf, 0, NULL, 0))
+  return(NULL);
 
  return sharp;
 }
