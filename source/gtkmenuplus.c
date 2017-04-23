@@ -428,10 +428,8 @@ If this check causes you problems, take it out.
  if (regcomp(&gl_rgxUriSchema, gl_sUriSchema , REG_EXTENDED | REG_ICASE))
   errorExit("failed to compile regular expression");
 
-#if !defined(_GTKMENUPLUS_NO_IF_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
  if (regcomp(&gl_rgxSharpIsntComment, gl_sSharpIsntComment , REG_EXTENDED | REG_ICASE))
   errorExit("failed to compile regular expression");
-#endif
 
  if(!initPathRegex())
   exit(EXIT_FAILURE);
@@ -3294,14 +3292,13 @@ enum LineParseResult processLauncher(IN gchar* sLauncherPath, IN gboolean stateI
   {
    // Append "launcherargs=" arguments, if any.
    gchar buf[MAX_PATH_LEN + 1];
-   snprintf(buf, MAX_PATH_LEN, "%s %s", sValue, gl_sLauncherArguments);
+   if (sizeof buf <= snprintf(buf, sizeof buf, "%s %s", sValue, gl_sLauncherArguments))
+   {
+    snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "cmd + launcherargs too long (%s)\n", buf);
+    return lineParseFail;
+   }
    sValue = buf;
   }
-  if (strlen(sValue) > MAX_PATH_LEN - 1)
-  {
-   snprintf(pme->m_sErrMsg, MAX_LINE_LENGTH, "cmd for launcher too long (%s)\n", sValue);
-   return lineParseFail;
-  }  // if (strlen(sValue) > MAX_PATH_LEN - 1)
   strcpy(gl_sCmds[gl_uiCurItem], sValue);
  } // if (sValue)
  lineParseResult = resizeCommandBuffer(pme->m_sErrMsg);
