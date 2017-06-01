@@ -462,7 +462,7 @@ launcher=path_to_launcher(s)
   A launcher is a Gnome .desktop file used to launch an application.
   It usually includes a name, executable, comment (tooltip) and icon.
 
-  If you provide a path to a single .desktop file, it will be used to create a menu entry, unless an exclusion case applies (see 'Exclusion Cases').
+  If path_to_launcher is the path of a .desktop file, it will be used to create a menu entry, unless an exclusion case applies (see 'Exclusion Cases').
 
   Any preceding "format=format_string" line will apply to that entry, but of course you won't be likely to
   format parts of the entry name or comment using <span>..</span> tags.
@@ -499,6 +499,13 @@ Expansion stops at the end of the list if "configure=nolauncherlistfirst" is ena
   Exclusion Cases
     
     A .desktop file is displayed in the menu unless one or more of the following exclusion cases apply:
+
+      The file is a regular file and its name doesn't end with ".desktop", i.e.,
+        /path/MyEditor.desktop" is included; /path/MyEditor is exluded.
+
+      The file is a link and the name of its ultimate target doesn't end with ".desktop", i.e.,
+        /path/MyEditor -> /path/a -> /path/b/geany.desktop is included
+        /path/MyEditor -> /path/edit_app is excluded even if edit_app is a valid desktop file.
 
       The file includes entry "NoDisplay=true" and "configure=launchernodisplay" is enabled (by default it is).
 

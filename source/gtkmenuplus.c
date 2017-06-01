@@ -2784,7 +2784,7 @@ enum LineParseResult onLauncherSub(INOUT struct MenuEntry* pMenuEntryPending)
 
 // ----------------------------------------------------------------------
 char* getComparName(const struct dirent **a)
-// used by compar
+// used by launcherCompar
 // ----------------------------------------------------------------------
 {
  // TODO return m_sTitle also for directories tied to a dirfile= or .desktop.directory file.
@@ -2810,7 +2810,27 @@ char* getComparName(const struct dirent **a)
 }
 
 // ----------------------------------------------------------------------
-int compar(const struct dirent **a, const struct dirent **b)
+int launcherFilter(const struct dirent *d)
+// used by onLauncherCommon
+// ----------------------------------------------------------------------
+{
+#define KEEP 1
+#define SKIP 0
+ char *p = (char*)(d->d_name + strlen(d->d_name) - 1);
+ // skip paths .../. and .../..
+ if (*p != '.')
+  return KEEP;
+ if (p == d->d_name)
+  return SKIP;
+ if (*(p-1) != '.')
+  return KEEP;
+ if (p-1 == d->d_name || *(p-2) == '/')
+  return SKIP;
+ return KEEP;
+}
+
+// ----------------------------------------------------------------------
+int launcherCompar(const struct dirent **a, const struct dirent **b)
 // used by onLauncherCommon - fetch a's & b's filenames from the cache and compare them
 // ----------------------------------------------------------------------
 {
@@ -2870,7 +2890,7 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
  }
 #endif
  if (n < 0)
-  n = scandir(gl_sLinePostEq, &namelist, NULL, compar);
+  n = scandir(gl_sLinePostEq, &namelist, launcherFilter, launcherCompar);
  if (n < 0)
  {
   snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH,
@@ -3011,10 +3031,32 @@ enum LineParseResult onLauncherCommon(INOUT struct MenuEntry* pMenuEntryPending,
   // ----------------------------------
   {
    if (
-    // skip non-.desktop
+    // skip filename !~ .desktop$...
     strcmp(sLauncherPath1 + len1 - 8, ".desktop") != 0
-    )
-     continue;
+   )
+   {
+    // ...unless it's a link target name ultimately ~ .desktop$
+#ifdef _DIRENT_HAVE_D_TYPE
+    if (DT_LNK == d_type)
+#else
+    if(S_ISLNK(statbuf.st_mode))
+#endif
+    { // Symlink.
+     char *link_target = realpath(sLauncherPath1, NULL);
+     if(link_target == NULL)
+     {
+      perror(sLauncherPath1);
+      continue; // skip bad link
+     }
+     int not_ends_with_desktop =
+      strcmp(link_target + strlen(link_target) - 8, ".desktop") != 0;
+     free(link_target);
+     if(not_ends_with_desktop)
+      continue; // skip link target name !~ .desktop$
+    }
+    else
+     continue; // skip non-link name !~ *.desktop$
+   }
    else
    {
 #ifdef _DIRENT_HAVE_D_TYPE

@@ -41,6 +41,10 @@ Usage:
 
    Also possible:
 
+      gtkmenuplus single_command
+
+         a single argument, which isn't the path to a menu_configuration_file,
+         is interpreted as a command, i.e., gtkmenuplus launcher=app.desktop
 
       gtkmenuplus
 
@@ -81,7 +85,7 @@ Usage:
 
       gtkmenuplus -
 
-        If B<gtkmenuplus> is followed by a hyphen, it will expect its menu_configuration_file to come in via stdin,
+        If gtkmenuplus is followed by a hyphen, it will expect its menu_configuration_file to come in via stdin,
         so in a bash script you might see:
 
          {
