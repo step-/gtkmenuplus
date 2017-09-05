@@ -1,6 +1,6 @@
 1.1.6: 2017-09-06
   New:
-  - lanucher=link -> ... -> app.desktop works. Before one could only do
+  - launcher=link -> ... -> app.desktop works. Before one could only do
     launcher=app.desktop
   - Assign quoted values to variables.
   Improved:
