@@ -6,7 +6,7 @@
 /*
  * gtkmenuplus - read a description file and generate a menu.
  * version 1.00, 2013-04-24, by Alan Campbell, 2013
- * version 1.1.4, 2017-01-03, by step, 2016-2017, forked from Alan Campbell's 1.00
+ * version 1.1.6, 2017-09-06, by step, 2016-2017, forked from Alan Campbell's 1.00
  *
  * based partially on code in myGtkMenu, copyright (C) 2004-2011 John Vorthman
  * (https://sites.google.com/site/jvinla/home).
@@ -80,7 +80,7 @@
 
 #define PARAM_REF_TAG '$'
 
-#define VERSION_TEXT "1.1.5, 2017-03-02"
+#define VERSION_TEXT "1.1.6, 2017-09-06"
 
 #define DEFAULT_CONFIG_FILE  "test_menu.txt"
 

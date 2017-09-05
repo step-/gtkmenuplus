@@ -1,3 +1,15 @@
+1.1.6: 2017-09-06
+  New:
+  - lanucher=link -> ... -> app.desktop works. Before one could only do
+    launcher=app.desktop
+  - Assign quoted values to variables.
+  Improved:
+  - Handle more cases where '#' isn't a comment.
+  - Documentation and tests.
+  Fixed:
+  - Infinite loop (legacy).
+  - Unassigned parameter means FALSE (regressions).
+
 1.1.5: 2017-03-02
   New:
   - Automatically add menu label mnemonic (choice of first character or
