@@ -596,7 +596,7 @@ enum LineParseResult variableAdd(OUT gchar* sErrMsg, OUT struct Variable** ppVar
  gchar* sChar = sName;
  while (*sChar != '\0')
  {
-  if (!isdigit(*sChar) &&  !isalpha(*sChar) && *sChar != '_')
+  if (!isalnum(*sChar) && *sChar != '_')
   {
    snprintf(sErrMsg, MAX_LINE_LENGTH, "variable name %s includes other than alpha, digit or underscore\n", sName);
    return lineParseFail;
@@ -627,13 +627,15 @@ enum LineParseResult variableAdd(OUT gchar* sErrMsg, OUT struct Variable** ppVar
    *(pVariable->m_sValue) = '\0';
    }
    *sEq = '=';
+   if (bToEvaluate)
+    *ppVariableToEval = pVariable;
    return lineParseOk;
   }
 //pVariableLast = pVariable;
   pVariable = pVariable->m_pVariableNext;
  }
 
-//name not found, create noew var
+//name not found, create new var
 
  pVariable = (struct Variable*) malloc(sizeof(struct Variable));
  if (!pVariable)

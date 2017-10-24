@@ -1,0 +1,21 @@
+x==sh -c date
+item=$x
+cmd=true
+x==sh -c "date"
+item=$x
+cmd=true
+x==sh -c "echo 'c d'"
+item=$x
+cmd=true
+x==sh -c "echo e f"
+item=$x
+cmd=true
+x==sh -c "echo a"
+item=$x
+cmd=true
+x==sh -c 'echo a'
+item=$x
+cmd=true
+x==sh -c "printf prefix; date"
+item=$x
+cmd=true

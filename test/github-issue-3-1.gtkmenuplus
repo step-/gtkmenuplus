@@ -1,0 +1,8 @@
+x=2
+x==echo x is $x
+item=$x
+cmd=true
+x=3
+y==echo x is $x
+item=$y
+cmd=true
