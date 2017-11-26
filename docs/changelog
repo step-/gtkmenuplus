@@ -1,3 +1,7 @@
+1.1.7: 2017-11-26
+  Fixed:
+  - github [issue](https://github.com/step-/gtkmenuplus/issues/3) #3.
+
 1.1.6: 2017-09-06
   New:
   - launcher=link -> ... -> app.desktop works. Before one could only do
