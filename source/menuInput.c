@@ -8,7 +8,7 @@
 
 // version 1.1.8 WIP, 2018-06-15
 
-extern guint gl_nOptQuiet;
+extern gboolean gl_nOptQuiet;
 
 //required because __USE_GNU
 char * strcasestr (const char *haystack, const char *needle);
@@ -1359,7 +1359,7 @@ FILE* open_menu_desc_file(IN gchar* sFileName) // , OUT gboolean* pbIsConfigFile
  if (strcmp(sFileName, "-") == 0)
  {
 //  *pbIsConfigFileArg = FALSE;
-  if(gl_nOptQuiet > 0)
+  if(!gl_nOptQuiet)
    g_print("%s\n", "Reading stdin");
   return stdin;
  }
@@ -1371,13 +1371,13 @@ FILE* open_menu_desc_file(IN gchar* sFileName) // , OUT gboolean* pbIsConfigFile
   {
 //   if (strcasestr(sFileName, "include") && strchr(sFileName, '='))
    strcpy(gl_sCmdLineConfig, sFileName);
-   if(gl_nOptQuiet > 0)
+   if(!gl_nOptQuiet)
     g_print("assuming a command string: %s\n", sFileName);
 //   else
 //    fprintf(stderr, "Can't open the file.\n");
 //   *pbIsConfigFileArg = FALSE;
   }
-  else if(gl_nOptQuiet > 0)
+  else if(!gl_nOptQuiet)
    g_print("reading the file: %s\n", sFileName);
 
   return pFile ;
