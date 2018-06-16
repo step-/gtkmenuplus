@@ -74,6 +74,12 @@ Usage:
 
       gtkmenuplus -h
       gtkmenuplus --help
+
+      gtkmenuplus -q
+      gtkmenuplus --quiet
+
+        Do not print statistics and info messages to stdout.
+
       gtkmenuplus -v
       gtkmenuplus --version
 

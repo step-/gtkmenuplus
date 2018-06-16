@@ -6,7 +6,9 @@
 
 #include "menuInput.h"
 
-// version 1.1.7, 2017-11-26
+// version 1.1.8 WIP, 2018-06-15
+
+extern guint gl_nOptQuiet;
 
 //required because __USE_GNU
 char * strcasestr (const char *haystack, const char *needle);
@@ -1357,7 +1359,8 @@ FILE* open_menu_desc_file(IN gchar* sFileName) // , OUT gboolean* pbIsConfigFile
  if (strcmp(sFileName, "-") == 0)
  {
 //  *pbIsConfigFileArg = FALSE;
-  g_print("%s\n", "Reading stdin");
+  if(gl_nOptQuiet > 0)
+   g_print("%s\n", "Reading stdin");
   return stdin;
  }
  else
@@ -1367,13 +1370,14 @@ FILE* open_menu_desc_file(IN gchar* sFileName) // , OUT gboolean* pbIsConfigFile
   if (pFile == NULL)
   {
 //   if (strcasestr(sFileName, "include") && strchr(sFileName, '='))
-   g_print("assuming a command string: %s\n", sFileName);
    strcpy(gl_sCmdLineConfig, sFileName);
+   if(gl_nOptQuiet > 0)
+    g_print("assuming a command string: %s\n", sFileName);
 //   else
 //    fprintf(stderr, "Can't open the file.\n");
 //   *pbIsConfigFileArg = FALSE;
   }
-  else
+  else if(gl_nOptQuiet > 0)
    g_print("reading the file: %s\n", sFileName);
 
   return pFile ;

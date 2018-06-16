@@ -257,6 +257,8 @@ void        onGatherComments();
 void        onHelp();
 guint       gl_nOptInfo = 0;
 void        onInfo();
+guint       gl_nOptQuiet = 0;
+void        onQuiet();
 void        onVersion();
 
 //vars, structs, const arrays
@@ -326,6 +328,7 @@ struct CommandLineOption gl_commandLineOption[] =
  {"gather-comments", 'c', onGatherComments},
  {"help",    'h', onHelp},
  {"info",    'i', onInfo},
+ {"quiet",   'q', onQuiet},
  {"version", 'v', onVersion}
 };
 
@@ -825,7 +828,8 @@ gboolean initDirectory(OUT gchar* sDirBuff, IN guint nBuffSize, IN gchar* sFileN
  if (strcmp(sFileName, "-") == 0) // piped in
  {
   strcpy(sDirBuff, getenv("HOME"));
-  g_print("getting input from stdin, using %s as working directory\n", sDirBuff);
+  if(gl_nOptQuiet > 0)
+   g_print("getting input from stdin, using %s as working directory\n", sDirBuff);
   strcat(sDirBuff, "/");
 
 //fprintf(stderr, "%s\n", "can't get current working directory when getting input from stdin.");
@@ -899,7 +903,8 @@ static void RunItem(IN const gchar *sCmd)
  gchar *sCmdExpanded = NULL;
  gchar *sCmdExpandedWithPAL = NULL;
 
- g_print("Run: %s\n", sCmd);
+ if(gl_nOptQuiet > 0)
+  g_print("Run: %s\n", sCmd);
 
  sCmdExpanded = expand_path_tilda_dot(sCmd, gl_sScriptDirectory);
 
@@ -955,7 +960,8 @@ gchar* get_cmdline_menu_desc_file(IN gint argc, IN gchar *argv[]) // , OUT gbool
 //  *pbIsConfigFileArg = FALSE;
   fprintf(stderr, gl_sHelpMsg);
   fprintf(stderr, "%s","Missing the menu-description filename.\n");
-  g_print("%s","Will try to open the default file.\n");
+  if(gl_nOptQuiet > 0)
+   g_print("%s","Will try to open the default file.\n");
   memset(gl_sLinePostEq, 0, sizeof(gl_sLinePostEq));
   strncpy(gl_sLinePostEq, argv[0], sizeof(gl_sLinePostEq) - 1);    // Get gtkmenuplus path
   guint i = strlen (gl_sLinePostEq);
@@ -982,7 +988,8 @@ gchar* get_cmdline_menu_desc_file(IN gint argc, IN gchar *argv[]) // , OUT gbool
 // ----------------------------------------------------------------------
 static void QuitMenu(IN gchar *Msg) {
 // ----------------------------------------------------------------------
- g_print("Menu was deactivated.\n");
+ if(gl_nOptQuiet > 0)
+  g_print("Menu was deactivated.\n");
  gtk_main_quit();
  doOnExit();
 }    // static void QuitMenu
@@ -1998,7 +2005,8 @@ enum LineParseResult onPosition(INOUT struct MenuEntry* pMenuEntryPending)
  if (parseInts(gl_sLinePostEq, &gl_uiMenuX, &gl_uiMenuY) == lineParseOk)
  {
   gl_bSetMenuPos = TRUE;
-  g_print("Menu position = %d, %d.\n", gl_uiMenuX, gl_uiMenuY);
+  if(gl_nOptQuiet > 0)
+   g_print("Menu position = %d, %d.\n", gl_uiMenuX, gl_uiMenuY);
   return lineParseOk;
  }
  else
@@ -2218,8 +2226,10 @@ enum LineParseResult getMenuPosArg(IN gchar* sBuff, OUT gchar* sErrMsg)
  gl_bSetMenuPos = TRUE;
  enum LineParseResult lineParseResult = parseInts(sBuff, &gl_uiMenuX, &gl_uiMenuY);
 
- if (lineParseResult == lineParseOk)
-  g_print("Menu position = %d, %d.\n", gl_uiMenuX, gl_uiMenuY);
+ if (lineParseResult == lineParseOk) {
+  if(gl_nOptQuiet > 0)
+   g_print("Menu position = %d, %d.\n", gl_uiMenuX, gl_uiMenuY);
+ }
  else
   snprintf(sErrMsg, MAX_LINE_LENGTH,  "on \"configure=\" line, illegal menu position arguments\n");
  return lineParseOk;
@@ -3862,7 +3872,8 @@ enum LineParseResult onEof(INOUT struct MenuEntry* pMenuEntryPending)
 
  glong uliTime = (clock() * 1000) / CLOCKS_PER_SEC;
 
- printf("%lu msec since programme start.\n", uliTime );
+ if(gl_nOptQuiet > 0)
+  printf("%lu msec since programme start.\n", uliTime );
 // gtk_menu_set_title(GTK_MENU(gl_gtkWmenu[0]), "yes it is"); DOES NOTHING
  while(!gtk_widget_get_visible(gl_gtkWmenu[0]))  // Keep trying until startup
  {
@@ -3959,6 +3970,13 @@ void onInfo()
 // ----------------------------------------------------------------------
 {
  gl_nOptInfo++; // increase message verbosity
+}
+
+// ----------------------------------------------------------------------
+void onQuiet()
+// ----------------------------------------------------------------------
+{
+ gl_nOptQuiet++; // no stats
 }
 
 // ---------------------------------------------------------------------- AC
