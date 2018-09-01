@@ -100,8 +100,8 @@ gchar gl_sReapedErrMsgs[MAX_LINE_LENGTH + 1]; // launcher{sub}= cumulative error
 int   gl_nLauncherReadLineDepth; // set by main()@readLine when it reads "launcher*="
 struct DirFile gl_launcherDirFile; // set by onLauncherDirFile
 guint gl_nLauncherCount = 0; // how many .desktop files did effectively display
-guint gl_nHushedUpErrors = 0; // how many error lines readFile did not report
 #endif
+guint gl_nHushedUpErrors = 0; // how many error lines readFile did not report
 
 struct Params;
 
@@ -2255,9 +2255,11 @@ enum LineParseResult onAbsolutePath(INOUT struct MenuEntry* pMenuEntryPending)
  if (lineParseResult != lineParseOk)
   return lineParseResult;
 
+#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
  gchar* sExt = strrchr(gl_sLinePostEq, '.');
  if (sExt && strcasecmp(sExt, ".desktop") == 0)
   return onLauncher(pMenuEntryPending);
+#endif
  strcpy(pMenuEntryPending->m_sTooltip, gl_sLinePostEq);
  gchar* sTitle = getContainingFolderNames(gl_sLinePostEq, gl_iAbsPathParts);
  gchar* sCmdToUse = gl_sLinePostEq;

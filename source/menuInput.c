@@ -1081,7 +1081,9 @@ void menuEntrySet(struct MenuEntry* pmeCurrent, IN funcOnMenuEntry fnCommitIn, I
  strcpy(pmeCurrent->m_sMenuEntryType, sMenuEntryType);
  pmeCurrent->m_uiDepth = uiCurDepth;
  *(pmeCurrent->m_sErrMsg) = '\0';
+#if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
  *(pmeCurrent->m_sCategory) = '\0';
+#endif
 }
 
 // ---------------------------------------------------------------------- AC
