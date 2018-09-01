@@ -1,5 +1,3 @@
-//2013-01-13
-
 #ifndef _COMMON_H
 #define _COMMON_H
 
@@ -10,6 +8,9 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include <regex.h>
+#if defined(HAVE_CONFIG_H)
+#include "config.h"
+#endif
 
 #if !GTK_CHECK_VERSION (2, 18, 0)
   #define gtk_widget_get_visible(gl_iW) GTK_WIDGET_VISIBLE (gl_iW)

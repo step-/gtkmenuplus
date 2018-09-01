@@ -6,8 +6,6 @@
 
 #include "menuInput.h"
 
-// version 1.1.8 WIP, 2018-06-15
-
 extern gboolean gl_nOptQuiet;
 
 //required because __USE_GNU
