@@ -165,7 +165,7 @@ GdkPixbuf* getIconBuiltInPixBuf(IN gchar* sIconPath, IN guint uiIconSize, IN gbo
 
  if (!pGtkIconInfo)
  {
-  if (!bSuppressErrors) fprintf(stderr, "Can't open gtk_icon_theme_lookup_icon\n");
+  if (!bSuppressErrors) fprintf(stderr, "gtk_icon_theme_lookup_icon can't open '%s'\n", sIconPath);
   return NULL;
  }
 
