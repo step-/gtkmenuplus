@@ -1255,7 +1255,12 @@ enum LineParseResult addIcon(INOUT struct MenuEntry* pMenuEntryPending, INOUT Gt
    return lineParseResult;
 
  if (pGtkImage)
+ {
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (item), pGtkImage);
+#if !defined(_GTKMENUPLUS_NO_ALWAYS_SHOW_ICONS_)
+  gtk_image_menu_item_set_always_show_image(GTK_IMAGE_MENU_ITEM (item), TRUE);
+#endif
+ }
 
  return lineParseOk;
 }
@@ -3446,6 +3451,9 @@ retry:
 
   GtkWidget* image = gtk_image_new_from_pixbuf(pGdkPixbuf);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (pGtkWdgtCurrent), image);
+#if !defined(_GTKMENUPLUS_NO_ALWAYS_SHOW_ICONS_)
+  gtk_image_menu_item_set_always_show_image(GTK_IMAGE_MENU_ITEM (pGtkWdgtCurrent), TRUE);
+#endif
 
  } // if (*sIconPath)
 

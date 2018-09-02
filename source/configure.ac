@@ -73,6 +73,14 @@ if test x$enable_activation_log = xno; then
   AC_DEFINE([_GTKMENUPLUS_NO_ACTIVATION_LOG_], [1], [Define this to disable the activation log feature])
 fi
 
+AC_ARG_ENABLE([always-show-icons],
+	[AS_HELP_STRING([--disable-always-show-icons],
+			[Disable gtkmenuplus always showing menu icons regardless of user's configuration])],
+	[enable_always_show_icons=$enableval], [enable_always_show_icons=yes])
+if test x$enable_always_show_icons = xno; then
+  AC_DEFINE([_GTKMENUPLUS_NO_ALWAYS_SHOW_ICONS_], [1], [Define this to keep gtkmenuplus from always showing menu icons regardless of user's configuration])
+fi
+
 AC_ARG_ENABLE([cache],
 	[AS_HELP_STRING([--disable-cache],
 			[Disable gtkmenuplus cache feature])],
