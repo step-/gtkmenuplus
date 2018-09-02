@@ -30,11 +30,16 @@ AC_ARG_WITH([gtk],
 case "$with_gtk" in
     gtk3) 
         GTK_MODULE="gtk+-3.0"
-        GTK_REQUIRED="3.18.0"
+        GTK_REQUIRED="3.0.0"
+	DISABLE_DEPRECATED="-DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DPANGO_DISABLE_DEPRECATED -DGSEAL_ENABLE"
+	AC_MSG_NOTICE([Deprecated functions will be only partially disabled because gtkmenuplus])
+	AC_MSG_NOTICE([relies on a menu widget deprecated since GTK3 version 3.10.0, see])
+	AC_MSG_NOTICE([https://developer.gnome.org/gtk3/stable/GtkImageMenuItem.html])
         ;;
     gtk2)
         GTK_MODULE="gtk+-2.0"
         GTK_REQUIRED="2.24.0"
+	DISABLE_DEPRECATED="-DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DPANGO_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
         ;;
 esac
 PKG_CHECK_MODULES([GTK], [$GTK_MODULE >= $GTK_REQUIRED])
@@ -48,6 +53,17 @@ AC_ARG_ENABLE([debug-if],
 if test x$enable_debug_if = xno; then
     AC_DEFINE([_GTKMENUPLUS_NO_DEBUG_IF_], [1], [Define this to disable IF command debugging info])
 fi
+
+AC_ARG_ENABLE([deprecated],
+	[AC_HELP_STRING([--enable-deprecated],
+		[Enable deprecated GTK functions (for GTK3 deprecated functions are always enabled)])], 
+	, [enable_deprecated=no])
+if test x$enable_deprecated = xyes; then
+  DISABLE_DEPRECATED=
+else
+  : DISABLE_DEPRECATED is set by --with-gtk above
+fi
+AC_SUBST(DISABLE_DEPRECATED)
 
 AC_ARG_ENABLE([activation-log],
 	[AS_HELP_STRING([--disable-activation-log],

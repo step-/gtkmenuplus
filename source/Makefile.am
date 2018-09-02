@@ -9,11 +9,6 @@ if FEATURE_CACHE
 gtkmenuplus_SOURCES += lru_cache.c lru_cache.h uthash.h
 endif
 
-gtkmenuplus_CFLAGS = $(GTK_CFLAGS) \
-	-Wall \
-	-DG_DISABLE_DEPRECATED \
-	-DGDK_DISABLE_DEPRECATED \
-	-DGDK_PIXBUF_DISABLE_DEPRECATED \
-	-DGTK_DISABLE_DEPRECATED
+gtkmenuplus_CFLAGS = $(GTK_CFLAGS) $(DISABLE_DEPRECATED) -Wall
 
 gtkmenuplus_LDADD = $(GTK_LIBS)
