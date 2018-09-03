@@ -1,0 +1,72 @@
+#!/root/bin/gtkmenuplus
+
+#-------------------------------------------
+mTESTFILE = $0 # required
+configure=errorconsoleonly
+#-------------------------------------------
+#% Issue fixed in commit 12c2c0d.
+#% After the fix this test should show all icons above the separator. Below the separator it should only show an icon for the first item (gtk-ok).
+
+# Test the following (from ../docs/menu_configuration_file_format.txt)
+
+# icon=path_to_image_file | icon_name | NULL
+
+#   Optional.  Denotes a image to show with the menu item or submenu. 
+  
+#   Must be preceded by an "item=", or "submenu=" line, and possibly by an "icon=" and/or (if there's a preceding "item=" line) 
+#   a "cmd=" line.  
+  
+#   It applies to the menu entry begun by the preceding "item=" line or submenu begun by the preceding "submenu=" line.
+
+#   If a menu item lacks an icon line, or has an "icon=" line with nothing following the = sign, gtkmenuplus will attempt to 
+#   find an icon associated with the executable named in the menu item's "cmd=" line; or, 
+#   if the "cmd=" line specifies only a non-executable file, an attempt will be made to locate an icon associated
+#   with the default programme used to open that file.
+
+#   If you do not want an image on your menu item, use the line "icon=NULL", or:  
+
+#     If the most recently encountered "configure=" line  in the menu configuration file included the word "noicons",
+#     any item without an "icon=path_to_image_file" or "icon=icon_name" line will not be assigned an image.
+
+
+# ------------
+configure=icons
+
+item=expect the gtk-ok stock icon
+cmd=true
+icon=gtk-ok
+
+item=expect the geany editor icon
+cmd=geany
+
+# on my PC assessing cmd=/ yields an icon filepath
+# which is the application associated with MIME type inode/directory
+item=expect a folder manager app icon
+cmd=/
+
+# on my PC assessing cmd=/usr/share/pixmaps/filled-xterm_32x32.xpm yields an icon name (mtpaint)
+# which is the application associated with MIME type image/xpm
+item=expect a picture editor app icon
+cmd=/usr/share/pixmaps/filled-xterm_32x32.xpm
+
+separator
+
+# ------------
+configure=noicons
+
+item=expect the gtk-ok stock icon
+cmd=true
+icon=gtk-ok
+
+item=don't expect the geany editor icon
+cmd=geany
+
+# on my PC assessing cmd=/ yields an icon filepath
+item=don't expect a folder manager app icon
+cmd=/
+
+# on my PC assessing cmd=/usr/share/pixmaps/filled-xterm_32x32.xpm yields an icon name (mtpaint)
+item=don't expect a picture editor app icon
+cmd=/usr/share/pixmaps/filled-xterm_32x32.xpm
+
+# vim:se ft=sh:
