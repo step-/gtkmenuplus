@@ -207,8 +207,8 @@ enum LineParseResult checkConfigKeywords(IN gchar* sLinePostEq, OUT gchar* sErrM
   {
    if (gl_keywordConfigure[i].pbResult) *(gl_keywordConfigure[i].pbResult) = bResult;
    if (bResult && sBuff && gl_keywordConfigure[i].funcForKWargs) gl_keywordConfigure[i].funcForKWargs(sBuff, sErrMsg);
-  } // if (checkConfigKeyword(gl_keywordConfigure[i].sKeyword, gl_keywordConfigure[i].funcForKWargs == NULL, &bResult, &sBuff)) // found
- } // for (i = 0; i < sizeof(gl_keywordConfigure)/sizeof(struct KeywordConfigure); i++)
+  }
+ }
 
  if (strspn(gl_sLinePostEq, " \t") != strlen(gl_sLinePostEq))
  {
@@ -1205,7 +1205,7 @@ GtkWidget* getGtkImageFromCmd(IN gchar* sCmd)
   pGtkImage  = gtk_image_new_from_icon_name(sCmdToUse, gl_iW);
  else
  {
-//not an executable file
+//not an executable file => show the icon of the app associated with this file type
   GAppInfo* pGAppInfo = getAppInfoFromFile(sCmdToUse); // also called in RunItem
   if (pGAppInfo)
   {
@@ -1213,21 +1213,27 @@ GtkWidget* getGtkImageFromCmd(IN gchar* sCmd)
    GIcon* pGIcon = g_app_info_get_icon(pGAppInfo);
    if (pGIcon)
    {
-    gchar* sIconLocal = g_icon_to_string(pGIcon);
-    if (sIconLocal)
-     pGtkImage = gtk_image_new_from_icon_name(sIconLocal, gl_iW);
-//     printf("%s\n", sIconLocal);
-//   else
-//     printf("%s\n", "no icon name");
+    gchar* sIconLocal = g_icon_to_string(pGIcon); // yields either an icon filepath or an icon name
+    // fprintf(stderr, "%s\n", sIconLocal ? sIconLocal : "no icon name");
+    if (sIconLocal) {
+     if('/' == *sIconLocal)
+     {
+      GdkPixbuf* pGdkPixbuf = fileToPixBuf(sIconLocal, gl_iW, TRUE, NULL); // resizes
+      if (pGdkPixbuf)
+       pGtkImage = gtk_image_new_from_pixbuf(pGdkPixbuf);
+     }
+     else
+      pGtkImage = gtk_image_new_from_icon_name(sIconLocal, gl_iW);
+    }
    }
-  } // if (pGAppInfo)
- } // if (is_executable(sCmdBuff))
+  }
+ }
 
  if (pGtkImage)
  {
   if (gtk_image_get_pixel_size((GtkImage*) pGtkImage) != gl_iW)
-    gtk_image_set_pixel_size((GtkImage*) pGtkImage, gl_iW);
- } // if (pGtkImage)
+   gtk_image_set_pixel_size((GtkImage*) pGtkImage, gl_iW);
+ }
 // if (pGAppInfo)  g_free(pGAppInfo);   //sig fault
 
 //  if (pGFile) g_free(pGFile); //sig fault
@@ -1264,7 +1270,7 @@ GAppInfo* getAppInfoFromFile(IN gchar* sCmd)
   if (!sMimeType)
    return NULL;
 
- return g_app_info_get_default_for_type(sMimeType, FALSE); // must_support_uris
+ return g_app_info_get_default_for_type(sMimeType, FALSE); // TRUE(must_support_uris)
 }
 
 
@@ -1315,7 +1321,7 @@ enum LineParseResult expand_path(INOUT gchar *sPath, IN gchar *sBasePath, IN con
 
 
 // ----------------------------------------------------------------------
-gboolean is_executable(IN gchar* sPath) // called by RunItem
+gboolean is_executable(IN gchar* sPath) // called by RunItem, getGtkImageFromCmd
 // ----------------------------------------------------------------------
 {
  gboolean bExecutable = FALSE;
