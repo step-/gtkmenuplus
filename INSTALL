@@ -1,0 +1,64 @@
+
+## INSTALLING
+
+Gtkmenuplus can be built with the standard GNU autotools and make.
+
+The default configuration builds for GTK2. See below for GTK3 builds.
+
+Examples - run these inside the top directory:
+
+1. Generate the Makefile from configure.ac and Makefile.am:
+
+```sh
+autoreconf -vif
+```
+
+2. Then build and install the program and its documentation:
+
+```sh
+( mkdir -p build && cd build && ../configure && make && make install install-man )
+```
+
+Note that the binary is stripped in the `make install` step.
+
+3. Build with debugging symbols:
+
+```sh
+( mkdir -p build-debug && cd build-debug && ../configure CFLAGS='-g' && make )
+```
+
+4. Build and install for GTK3 with standard options enabled:
+
+```sh
+mkdir build-gtk3
+( cd build-gtk3 && ../configure --with-gtk=gtk3 && make && make install install-man )
+```
+
+5. View all build options and flags:
+
+```sh
+./configure --help
+```
+
+specifically:
+
+```
+  --enable-debug-if       Enable debugging output for gtkmenuplus IF command
+  --enable-deprecated     Enable deprecated GTK functions (for GTK3 deprecated
+                          functions are always enabled)
+  --disable-activation-log
+                          Disable gtkmenuplus activation log feature
+  --disable-always-show-icons
+                          Disable gtkmenuplus always showing menu icons
+                          regardless of user's configuration
+  --disable-cache         Disable gtkmenuplus cache feature
+  --disable-launchers     Disable gtkmenuplus LAUNCHERS command
+  --disable-format        Disable gtkmenuplus FORMAT command
+  --disable-tooltips      Disable gtkmenuplus TOOLTIP command
+  --disable-if            Disable gtkmenuplus IF command
+  --disable-params        Disable gtkmenuplus menu parameters
+  --disable-variables     Disable gtkmenuplus menu variables
+
+  --with-gtk=gtk2|gtk3    set the GTK+ version to use (default - gtk2)
+```
+

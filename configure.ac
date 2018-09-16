@@ -13,10 +13,12 @@ AC_CONFIG_SRCDIR([source/gtkmenuplus.c])
 # in ./build-aux
 AC_CONFIG_AUX_DIR([build-aux])
 
-# Init automake, and specify this project doesn't follow GNU coding standards
-# hence no ChangeLog, COPYING, AUTHORS, INSTALL, README etc. files.
-# Keep object files in sub-directories
-AM_INIT_AUTOMAKE([1.11 subdir-objects foreign -Wall -Werror])
+# Init automake.
+# Foreign means that this project doesn't follow GNU coding standards therefore
+# don't clobber files ChangeLog, COPYING, AUTHORS, INSTALL, README etc.
+# Keep object files in sub-directories.
+# Explicitly make install-man to install manual pages (non-GNU).
+AM_INIT_AUTOMAKE([1.11 foreign subdir-objects no-installman -Wall -Werror])
 
 # Check for C compiler
 AC_PROG_CC
