@@ -1,4 +1,4 @@
-# gtkmenuplus 1 "WIP 2017-11-26" "version 1.1.8" usage
+# gtkmenuplus 1 "2018-09-16" "version 1.1.8" usage
 
 ## NAME
 

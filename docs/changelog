@@ -1,4 +1,17 @@
-1.1.8: WIP
+1.1.8: 2018-09-16
+  New:
+  - Add option -q(uiet) to keep stdout uncluttered.
+  - Markdown and Unix-style manuals: usage(1), menu format(5).
+  Changed:
+  - The GTK3 version is compiled to force displaying menu icons because by default GTK3 hides menu icons.
+  - Improved documentation and error/help messages.
+  Fixed:
+  - legacy bug: cmd=doc displays an error icon
+  Dev New:
+  - Added build files for GNU autotools; both GTK2 and GTK3 builds.
+  - INSTALL and AUTHORS files.
+  Dev fixed:
+  - GTK3 builds again (it broke many versions ago).
 
 1.1.7: 2017-11-26
   Fixed:
