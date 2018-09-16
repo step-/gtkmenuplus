@@ -6,16 +6,17 @@ gtkmenuplus - display GTK menus from text files
 
 ## SYNOPSIS
 
-    gtkmenuplus [options] menu_configuration_file [parameter1 [ parameter2 [ ...]]]
+    gtkmenuplus [options] [menu_configuration_file] [parameter ...]
 
-    gtkmenuplus [options] configuration_directive [; configuration_directive [...]]
+    gtkmenuplus [options] directive[;directive...] [parameter ...]
 
 ## DESCRIPTION
 
-Gtkmenuplus reads a menu description from configuration directives in a text file or
-stdin, and displays the resulting graphical menu. It can be used to open
-documents and run applications and scripts.  Menus can be nested. Menu items
-comprise label, icon and tooltip, and can be formatted each one independently.
+Gtkmenuplus reads a menu description from configuration directives in a text
+file or stdin, and displays the resulting graphical menu. It can be used to
+open documents and run applications and scripts.  Menus can be nested. Menu
+items comprising label, icon and tooltip, can be formatted each one
+independently.
 
 Gtkmenuplus has its own, simple scripting language, with conditionals,
 variables, and shell integration, which allow creating dynamic menu entries.
@@ -68,13 +69,13 @@ Without arguments, gtkmenuplus will attempt to read file `test_menu.txt` found
 in the same directory as gtkmenuplus.  Otherwise the following are the possible
 arguments and their descriptions.
 
-    menu_configuration_file
+    configuration_file
     -
-    configuration_directive
-    parameter
+    directive[;directive...]
+    parameter [parameter ...]
 
-`Menu_configuration_file` is a text file that describes the menu according to
-the format specified in gtkmenuplus(5).
+The `configuration_file` is a text file that describes the menu according to
+the format and `directive`s specified in gtkmenuplus(5).
 
 Use `-` to read the menu description from `stdin`. In this case, any relative
 path references are taken as relative to `$HOME`.
@@ -98,7 +99,7 @@ file, gtkmenuplus will print a warning to the terminal window.
 
     gtkmenuplus 'include=~/bin/*.sh ; cmd=geany; icon=NULL'        
 
-    gtkmenuplus $'submenu=tmp;\tinclude=/tmp/*.log;submenu=var/run;\tinclude=/var/run/* *'
+    gtkmenuplus $'submenu=var/run;\tinclude=/var/run/* *'
 
     gtkmenuplus launchersub=/usr/share/applications
 
@@ -145,13 +146,13 @@ gtkmenuplus(5) - menu configuration file description
 
 Gtkmenuplus project repository:
 
-    https://github.com/step-/gtkmenuplus
+https://github.com/step-/gtkmenuplus
 
 myGtkMenu home page:
 
-    https://sites.google.com/site/jvinla/home
- 
+https://sites.google.com/site/jvinla/home
+
 Popdown home page:
 
-    http://www.manatlan.com/page/popdown
+http://www.manatlan.com/page/popdown
 

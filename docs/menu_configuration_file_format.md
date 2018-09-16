@@ -10,11 +10,12 @@ Format of menu configuration files for gtkmenuplus(1).
 
 ## DESCRIPTION
 
-Gtkmenuplus takes a `menu_configuration_file` as its primary argument, 
-and constructs a menu from what it reads in the file. 
-This document describes the format of the menu configuration file.
+Gtkmenuplus takes a `menu_configuration_file` as its primary argument, and
+constructs a menu from the directives that it reads in the file.  This document
+describes the format of the menu configuration file, and the set of valid
+directives.
 
-## CONCEPTS
+## FORMAT
 
 ### Comments
 
@@ -24,11 +25,11 @@ ignored, - "#" included.
 The following cases are exceptions in which "#" and the characters that follow
 it till the end of the line aren't comments:
 
-* keywords `cmd=`, `if=`, `elseif=`
+* directives `cmd=`, `if=`, `elseif=`
 * variable evaluation `variable_name==`
 * variable assignment of quoted strings that include #, such as quoted HTML
   colors, i.e., "#FAF090"
-* valid shell syntax following the above keywords, i.e.,
+* valid shell syntax following the above directives, i.e.,
   `if=test ${y#prefix} = abc`
 
 Any line whose first non-whitespace character is a "#" is ignored.
@@ -37,15 +38,13 @@ Any line whose first non-whitespace character is a "#" is ignored.
 
 Blank lines are ignored.
 
-Each meaningful line in a menu configuration file contains a keyword (which may
-be preceded by whitespace).
+Each meaningful line in a menu configuration file contains a directive (which
+may be preceded by whitespace).  The case of directives is ignored.
 
-Keywords identify the type of line. The case of keywords is ignored.
+### Directives
 
-### Keywords
-
-Seven keywords are inherited from myGtkMenu, the ancestor to gtkmenuplus.
-**(M)** marks keywords whose behaviour in gtkmenuplus differs from that in
+Seven directives are inherited from myGtkMenu, the ancestor to gtkmenuplus.
+**(M)** marks directives whose behaviour in gtkmenuplus differs from that in
 myGtkMenu.
 
     item=item_description
@@ -57,7 +56,7 @@ myGtkMenu.
     menupos=x y                (M)
     menuposition=x y           (synonym for menupos)
 
-The remaining keywords are new in gtkmenuplus:
+The remaining directives are new in gtkmenuplus:
 
     icondirectory=path_to_icon_directory
 
@@ -95,7 +94,7 @@ The remaining keywords are new in gtkmenuplus:
 
 **Notes**
 
-For `keyword=value` there may be whitespace between `keyword` and "=".
+For `directive=value` there may be whitespace between `directive` and "=".
 Whitespace between "=" and `value` is ignored, as is trailing whitespace after
 `value`.
 
@@ -107,7 +106,7 @@ A line of `item=` may be followed by a line of `cmd=`, `icon=` and/or
     variable_name=value
     variable_name==expression
 
-Any string preceding "=", aside from the keywords listed above, will be taken
+Any string preceding "=", aside from the directives listed above, will be taken
 to be a declaration of a variable, providing it meets the following conditions.
 
 A `variable_name` may not be the same as any existing environmental variable.
@@ -182,18 +181,18 @@ working directory.  This can be confusing. For that reason it is recommended to
 invoke gtkmenplus with the full path of the `menu_configuration_file`.  This
 note applies to the remainder of this section.
 
-**Exceptions** the following keywords resolve relative paths as noted:
+**Exceptions** the following directives resolve relative paths as noted:
 
-   icon=         directory specified in the last non-null "icondirectory=" line, if any
-   launcher=     directory specified in the last non-null "launcherdirectory=" line, if any
-   launchersub=  directory specified in the last non-null "launcherdirectory=" line, if any
-   cmd=          assumed to be on the system's PATH.
+    icon=         directory in the last non-null icondirectory= line, if any
+    launcher=     directory in the last non-null launcherdirectory= line, if any
+    launchersub=  directory in the last non-null launcherdirectory= line, if any
+    cmd=          assumed to be on the system's PATH.
   
 The command on a `cmd=command` line in particular may contain multiple paths
 requiring expansion (typically multiple arguments to the specified executable).
 After expansion the entire command must be no longer than 1024 (?) characters.
 
-## KEYWORDS
+## DIRECTIVES
 
 ### Item
 
@@ -250,11 +249,11 @@ you can make a small script containing the commands you need, or you can make
 your command a shell invocation with `sh -c`, e.g.:
 
      # start two instances of freecell
-     cmd=sh -l -c "( /usr/games/sol --variation freecell &) ; (/usr/games/sol --freecell &)"
+     cmd=sh -l -c "( sol --freecell &) ; (sol --freecell &)"
 
 You also can have:
 
-     cmd=path_to_a_non_executable_file [ path_to_other_non_executable_file ... ] 
+     cmd=path_to_a_non_executable_file [path_to_other_non_executable_file ...]
 
 A `non_executable_file` could for instance be a doc, html, xls or plain text
 file.  `path_to_a_non_executable_file` can begin with a tilde (for the home
@@ -306,8 +305,8 @@ icon explicitly:
   or file type would all have the same icon
 * a `cmd=` consisting of a URL to something on the net or on another machine.
   If the net isn't accessible, gtkmenuplus will block while trying to get
-  information about the target file type.  It might be better to use a named icon
-  like, .e.g., text-html or applications-internet.
+  information about the target file type.  It might be better to use a named
+icon like, .e.g., text-html or applications-internet.
 
 If you do not want an image on your menu item, use the line `icon=NULL`, or the
 method described below.
@@ -329,8 +328,8 @@ for paths referred to in menu configuration files (see above):
 * Or it can be relative.  If it doesn't begin with a dot, and the most recent
   `icondirectory=path_to_icon_directory` line has a non-null
   `path_to_icon_directory`, the path is relative to that.  Otherwise it's
-  relative to the path in which the configuration file was found (as specified on
-  the gtkmenuplus command line, unless gtkmenuplus is reading from stdin). 
+  relative to the path in which the configuration file was found (as specified
+on the gtkmenuplus command line, unless gtkmenuplus is reading from stdin). 
 
 The dotted file extension indicates one of the supported image types: png, svg,
 xpm or gif.
@@ -346,7 +345,7 @@ standard sets of icon directories (e.g. /usr/share/pixmaps/, subdirectories of
 /usr/share/icons, etc); in particular the icon names listed in
 freedesktop.org's Icon Naming Specification: 
 
-    http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
 
 ### Format
 
@@ -379,12 +378,13 @@ further down for details.
 Examples:
 
     format= font_desc="Sans Italic 12"
-    format= foreground="blue"    # colors can be names (see /usr/share/X11/rgb.txt)
-    format= style="italic" foreground="red" underline="single"
-    format= weight="bold"	 # also possible: "ultralight", "light", "normal",
-                                 # "ultrabold", "heavy", or a numeric weight
-    format= size='12800'         # in 1024ths of a point, or one of 'xx-small', 'x-small',
-                                 # 'small', 'medium', 'large', 'x-large', 'xx-large'
+    format= style="bold" underline="single"
+    format= foreground="blue"  # color names see /usr/share/X11/rgb.txt
+    format= weight="bold"      # also possible: "ultralight", "light", "normal",
+                               # "ultrabold", "heavy", or a numeric weight
+    format= size='12800'       # in 1024ths of a point, or one of 'xx-small',
+                               # 'x-small', # 'small', 'medium', 'large',
+                               # 'x-large', 'xx-large'
     format= color="RoyalBlue";color="DodgerBlue"  # alternate two shades
 
 A `format=` with a null `format_string` causes all subsequent menu and submenu
@@ -451,7 +451,7 @@ unless the label already includes its own mnemonic.
       item = Aberdeen
       item = Inverness
 
-  expands into two submenus with the following labels
+expands into two submenus with the following labels
 
     _A England
        _A London, _B Birmingham, _C Liverpool, _A Manchester
@@ -460,7 +460,7 @@ unless the label already includes its own mnemonic.
 
 The rules for applying mnemonic="value" are the same rules as for applying
 global label formatting.  menmonic="value" can't be used within `<span>` tags
-and with keyword `tooltipformat=`.
+and with directive `tooltipformat=`.
 
 ### Tooltipformat
 
@@ -581,7 +581,7 @@ Note that each unsuccessful expansion is likely to produce a "File not found"
 error message, which in turn will display an error box. To prevent such error
 box from appearing use `configure=errorconsoleonly`.
 
-Rules for relative paths, the keywords `launcherdirfile=` and `launcherargs=`,
+Rules for relative paths, the directives `launcherdirfile=` and `launcherargs=`,
 and _Launcher Exclusion Cases_ all apply to `launchersub=` as they do to
 `launcher=`. Each topic is explained elsewhere in this document.
 
@@ -592,10 +592,10 @@ Up to 5 menu levels are automatically nested (see `MAX_SUBMENU_DEPTH`).
 
 By default the submenu label is the name of the subdirectory that includes its
 .desktop files, and the submenu icon is undefined. To specify different values
-and other properties use keyword `launcherdirfile=`.
+and other properties use directive `launcherdirfile=`.
 
 If the maximum allowed submenu depth is exceeded, `launchersub=dirpath` reports
-a warning and displays the menu. Contrast that with the `submenu=` keyword,
+a warning and displays the menu. Contrast that with the `submenu=` directive,
 which exits with a fatal error if submenu depth is exceeded.
 
 By default subdirectory scanning depth is set to fill at most 5 submenu levels.
@@ -609,7 +609,7 @@ warning message is printed to the console. To increase the scan depth set
 environment variable `GTKMENUPLUS_SCAN_DEPTH=5` or higher.
 
 Item formatting for the items in `dirpath` of `launchersub=dirpath` is set by
-the most recent `format=` and `tooltipformat=` keywords that precede
+the most recent `format=` and `tooltipformat=` directives that precede
 `launchersub=dirpath`. For nested subdirectories, you can control item
 formatting by specifying `format_strings` in a file named `.desktop.directory`.
 See section _Format_ about `format_strings`. Several example menus are included
@@ -747,7 +747,7 @@ policies).
 
 First form:
 
-    include=menu_configuration_file [parameter1 [ parameter2 [ ...]]]
+    include=menu_configuration_file [parameter1 [parameter2 ...]]
 
 Second form (explained further down):
 
@@ -779,7 +779,7 @@ relative to the directory in which the included file lives; this will of course
 change nothing if the including and included file are in the same directory.
 
 If `icondirectory=path_to_icon_directory` and/or
-`launcherdirectory=path_to_launcher_directory` keywords are in force in the
+`launcherdirectory=path_to_launcher_directory` directives are in force in the
 including file, the `path_to_icon_directory` or `path_to_launcher_directory`
 remain in force within the included file.
 
@@ -812,7 +812,7 @@ specified (e.g. `*.txt`, `d?t*`, `[a-f]*.txt`).
 
 (??) Extended globbing patterns can be used: see
 
-    http://www.linuxjournal.com/content/bash-extended-globbing
+http://www.linuxjournal.com/content/bash-extended-globbing
 
 The generated menu item name will be the file name; if chosen the command
 executed will be the full path to the file.
@@ -826,10 +826,6 @@ Only subdirectories containing a file matching `file_glob` appear in the
 generated menu.  Subdirectories to which the user doesn't have read access are
 ignored.
 
-Including menu entries for a bunch of files probably only make sense if they
-fall under a submenu (whose submenu\_description would describe the files
-collected below it).
-
 The second form may be immediately followed by any or all of `icon=`,
 `tooltip=` and `cmd=` lines, in any order.  If it is, the icon and tooltip will
 be applied to each of the menu entries created; if there's a command, it will
@@ -841,7 +837,7 @@ by the `include=` line.
     /path_to/file, ~/path_to/file
 
 A line in a menu configuration file can be an absolute path to a file,
-beginning with a forward slash or tilde.  No keyword is expected or required,
+beginning with a forward slash or tilde.  No directive is expected or required,
 nor is it to be followed by `icon=`, `tooltip=` or `cmd=` lines.  
 
 By default, menu items generated from such lines will display the file name
@@ -868,7 +864,7 @@ It denotes a `submenu_description` to show in the menu listing. See also
 `launchersubmenu=`.
 
 It may be followed by `icon=` and/or `tooltip=` lines, which, if they are to
-relate to a given `submenu=`, must precede lines with any other keyword except
+relate to a given `submenu=`, must precede lines with any other directive except
 `if=`, `elseif=`, `else` or `endif`.
 
 By default, (but see `configure=endsubmenu`, below):
@@ -878,7 +874,7 @@ By default, (but see `configure=endsubmenu`, below):
 entries in the submenu.
 * The first line that is not indented with the same number of tabs signals the
   end of this submenu.
-* The indentation of lines with keywords like `iconsize=`, `menupos=`,
+* The indentation of lines with directives like `iconsize=`, `menupos=`,
   `icondirectory=`, `format=`, `tooltipformat=`, `if=`, etc, don't make up part
   of the definition of a menu item or submenu definition, and therefore is
   ignored and has no effect on when a submenu ends.
@@ -1074,7 +1070,7 @@ apply to any of several `item=`s that might appear conditionally before them
 e.g.
 
 
-    if= [ ! $(date +%H) -gt 18 ]; echo -n $?  # note that [] returns 0 if it succeeds
+    if= [ `date +%H` -lt 18 ]; printf $?  # if past 18:00 hours
       item = evening game
       cmd = mahjongg
     else
@@ -1098,14 +1094,13 @@ parameters:
 
 Show menu entries following the if= line only in PM hours:
 
-    if= if [ `date +%p` = "PM" ]; then echo 1; else echo 0; fi
-    if= [ ! $(date +%p) = 'PM' ]; echo -n $?
+    if= ! [ `date +%p` = 'PM' ]; printf $?
 
 On the command line:
 
-    gtkmenuplus path_to_menu_configuration_file "[ ! $(date +%p) = 'PM' ]; echo -n $?"
+    gtkmenuplus path_to_configuration_file "! [ `date +%p` = 'PM' ]; printf $?"
 
-and then use `if= $1`.
+and then use `if= $1` inside the configuration file.
 
 The date command can be used to show menu items on certain days of week, days
 of the month, week of the year, etc.
@@ -1115,27 +1110,15 @@ screen:
 
     if= xrandr --current | grep "VGA-0 connected" | wc -l
 
-On the command line:
-
-    gtkmenuplus path_to_menu_configuration_file "xrandr --current | grep 'VGA-0 connected' | wc -l"
-
-and then use `if= $1`.
-
 Show menu entries following the `if=` line only if firefox is running:
 
     if= xdotool search --name Firefox  | wc -l
 
-On the command line:
-
-    gtkmenuplus path_to_menu_configuration_file "$(xdotool search --name Firefox  | wc -l)"
-
-and then use `if= $1`.
-
 Test if a particular memory stick is mounted:
 
-    if= [ ! -d '/media/VOL_LABEL'  ]; echo -n $?
+    if= ! [ -d '/media/VOL_LABEL'  ]; printf $?
 
-Test if the partition $HOME resides on is more than 90% full:
+Test if the partition `$HOME` resides on is more than 90% full:
 
     if=  df $HOME | awk 'NR==2{split($5,A,/%/);print (A[1]+0>90)}'
 
@@ -1161,11 +1144,11 @@ gtkmenuplus(1) - usage
 
 Gtkmenuplus project repository:
 
-    https://github.com/step-/gtkmenuplus
+https://github.com/step-/gtkmenuplus
 
 myGtkMenu home page:
 
-    https://sites.google.com/site/jvinla/home
+https://sites.google.com/site/jvinla/home
 
 Popdown home page:
 
