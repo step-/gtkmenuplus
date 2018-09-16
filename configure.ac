@@ -1,3 +1,4 @@
+
 # Project name, version number, bug report address, tar name, url
 AC_INIT([gtkmenuplus], [1.1.8], [https://www.github.com/step-/gtkmenuplus/issues/], [gtkmenuplus], [https://www.github.com/step-/gtkmenuplus/])
 
@@ -6,7 +7,7 @@ AC_CONFIG_HEADERS([config.h])
 
 # Unique file identifying we're in the right directory - safety check in case
 # user overwrote --srcdir
-AC_CONFIG_SRCDIR([gtkmenuplus.c])
+AC_CONFIG_SRCDIR([source/gtkmenuplus.c])
 
 # Store the auxiliary build tools (e.g., install-sh, config.sub, config.guess)
 # in ./build-aux
@@ -14,7 +15,8 @@ AC_CONFIG_AUX_DIR([build-aux])
 
 # Init automake, and specify this project doesn't follow GNU coding standards
 # hence no ChangeLog, COPYING, AUTHORS, INSTALL, README etc. files.
-AM_INIT_AUTOMAKE([1.11 foreign -Wall -Werror])
+# Keep object files in sub-directories
+AM_INIT_AUTOMAKE([1.11 subdir-objects foreign -Wall -Werror])
 
 # Check for C compiler
 AC_PROG_CC

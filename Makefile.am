@@ -1,14 +1,23 @@
 
 bin_PROGRAMS = gtkmenuplus
 
-gtkmenuplus_SOURCES = gtkmenuplus.c common.c common.h menuInput.c menuInput.h
+#
+# https://autotools.io/automake/nonrecursive.html
+# 
+gtkmenuplus_SOURCES = \
+	source/gtkmenuplus.c \
+	source/common.c source/common.h \
+	source/menuInput.c source/menuInput.h
+
 if FEATURE_LAUNCHERS
-gtkmenuplus_SOURCES += launcher.h launcher.c
+gtkmenuplus_SOURCES += source/launcher.h source/launcher.c
 endif
 if FEATURE_CACHE
-gtkmenuplus_SOURCES += lru_cache.c lru_cache.h uthash.h
+gtkmenuplus_SOURCES += source/lru_cache.c source/lru_cache.h source/uthash.h
 endif
 
 gtkmenuplus_CFLAGS = $(GTK_CFLAGS) $(DISABLE_DEPRECATED) -Wall
+# by default build an unstripped optimized binary
+gtkmenuplus_CFLAGS += -O2 -fomit-frame-pointer
 
 gtkmenuplus_LDADD = $(GTK_LIBS)
