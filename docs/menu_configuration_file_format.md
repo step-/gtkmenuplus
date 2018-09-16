@@ -1142,11 +1142,15 @@ The idea of importing .desktop files was borrowed from popdown
 
 gtkmenuplus(1) - usage
 
-Gtkmenuplus project repository:
+Gtkmenuplus home page and project repository (current version):
 
 https://github.com/step-/gtkmenuplus
 
-myGtkMenu home page:
+Gtkmenuplus 1.0 home page (old version):
+
+https://sites.google.com/site/entropyreduction/gtkmenuplus
+
+myGtkMenu home page (old version):
 
 https://sites.google.com/site/jvinla/home
 
