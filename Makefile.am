@@ -23,14 +23,13 @@ gtkmenuplus_CFLAGS += -O2 -fomit-frame-pointer
 gtkmenuplus_LDADD = $(GTK_LIBS)
 
 # Install manual pages
-man1_MANS = docs/gtkmenuplus.1
-man5_MANS = docs/gtkmenuplus.5
+man1_MANS = man/gtkmenuplus.1
+man5_MANS = man/gtkmenuplus.5
 
 # Distribution archive
-dist_man_MANS = docs/gtkmenuplus.1 docs/gtkmenuplus.5
 EXTRA_DIST = \
+	$(man1_MANS) $(man5_MANS) \
 	docs/usage.md docs/menu_configuration_file_format.md \
-	docs/COPYING docs/changelog
-dist-hook:
-	: nothing to do
+	docs/COPYING docs/changelog \
+	package AUTHORS
 
