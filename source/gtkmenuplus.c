@@ -154,8 +154,7 @@ gboolean                  gl_bOneExpandableOnlyOnLine = FALSE;   // set in expan
 
 const gchar*              gl_sHelpMsg =
 "gtkmenuplus version " VERSION_TEXT
-"\nPurpose:"
-"\n  display a popup menu based on a menu configuration file."
+"\n  Display your own popup menu based on some description text."
 "\nUsage:"
 "\n  gtkmenuplus [options '--'] [file] [parameter ...]"
 "\n  gtkmenuplus [options '--'] directive[;directive ...] [parameter ...]"
@@ -172,6 +171,7 @@ const gchar*              gl_sHelpMsg =
 "\nGNU GPLv2 license applies - see license file COPYING."
 "\nCopyright (C) 2013 Alan Campbell - forked from myGtkMenu"
 "\nCopyright (C) 2016-2018 step"
+"\nHome page: " PACKAGE_URL
 "\n";
 //"\ntest_menu.txt is an example menu_configuration_file.\n"
 

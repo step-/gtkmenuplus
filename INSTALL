@@ -19,7 +19,8 @@ autoreconf -vif
 ( mkdir -p build && cd build && ../configure && make && make install install-man )
 ```
 
-Note that the binary is stripped in the `make install` step.
+Note that the binary is stripped in the `make install` step, and you need to
+explicitly install manual pages.
 
 3. Build with debugging symbols:
 

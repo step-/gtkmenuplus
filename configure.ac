@@ -1,6 +1,6 @@
 
 # Project name, version number, bug report address, tar name, url
-AC_INIT([gtkmenuplus], [1.1.8], [https://www.github.com/step-/gtkmenuplus/issues/], [gtkmenuplus], [https://www.github.com/step-/gtkmenuplus/])
+AC_INIT([gtkmenuplus], [1.1.8], [https://github.com/step-/gtkmenuplus/issues/], [gtkmenuplus], [https://github.com/step-/gtkmenuplus/])
 
 # Write -D defines to a header file
 AC_CONFIG_HEADERS([config.h])
