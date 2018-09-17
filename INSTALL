@@ -13,29 +13,38 @@ Examples - run these inside the top directory:
 autoreconf -vif
 ```
 
-2. Then build and install the program and its documentation:
+2. Then build and install the package and its manuals:
 
 ```sh
-( mkdir -p build && cd build && ../configure && make && make install install-man )
+( mkdir -p build && cd build && ../configure && make && make install-strip install-man )
 ```
 
-Note that the binary is stripped in the `make install` step, and you need to
-explicitly install manual pages.
+Notice that the binary is stripped in the `make install-strip` step, and you
+need to explicitly install manual pages with `install-man`.
 
-3. Build with debugging symbols:
+3. Build with debugging symbols, and install the package into the build directory:
 
 ```sh
-( mkdir -p build-debug && cd build-debug && ../configure CFLAGS='-g' && make )
+( mkdir -p build-debug && cd build-debug && ../configure --prefix=`pwd` CFLAGS='-g' && make all install)
 ```
 
 4. Build and install for GTK3 with standard options enabled:
 
 ```sh
 mkdir build-gtk3
-( cd build-gtk3 && ../configure --with-gtk=gtk3 && make && make install install-man )
+( cd build-gtk3 && ../configure --with-gtk=gtk3 && make && make install-strip install-man )
 ```
 
-5. View all build options and flags:
+5. If you are on a 64-bit architecture with multilib installed and 32-bit
+libraries in /usr/lib, build a 32-bit binary, and install the package into the
+build directory:
+
+```
+mkdir build-32
+( cd build-32 && ../configure --prefix=`pwd` --build=i686-linux-gnu --libdir=/usr/lib "CFLAGS=-m32 -L/usr/lib" && make && make install-strip install-man )
+```
+
+6. View all build options and flags:
 
 ```sh
 ./configure --help
