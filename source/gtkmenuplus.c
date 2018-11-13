@@ -562,13 +562,13 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
  gboolean bIfAccepting = TRUE;
 
 //set by readLine
- guint uiLineNum = 0;                                                // set by readLine; used by main, addIcon on errors
+ guint uiLineNum = 0; // used by main, addIcon on errors
  gchar sLineAsRead[MAX_LINE_LENGTH + 1];
 
 // MAIN LOOP, read file
  while (TRUE)  // Read next line and get 'linetype'
  {
-  enum LineType linetype = LINE_UNDEFINED;                            // Type of input actually read
+  enum LineType linetype = LINE_UNDEFINED; // Type of input actually read
   gboolean bIndentMatters = TRUE;
   guint uiDepth = 0;
   gchar* sCommentPre = NULL;
@@ -582,7 +582,6 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
 
   if (sCommentPre) // TO DO temporary fix
   {
-// printf(sCommentPre);
    g_free(sCommentPre);
    sCommentPre = NULL;
   }
@@ -595,7 +594,7 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
    lineParseResult = lineParseFail;
    snprintf(menuEntryPending.m_sErrMsg, MAX_LINE_LENGTH, "%s\n", gl_sLineBadMsgs[linetype - LINE_BAD_LIMIT_LOW]);
    if (pFile == NULL && uiLineNum < 3)
-    strncat(menuEntryPending.m_sErrMsg, "possible misinterpretation of gtkmenuplus command line\n", MAX_LINE_LENGTH);
+    strncat(menuEntryPending.m_sErrMsg, "command line possibly misinterpreted\n", MAX_LINE_LENGTH);
 
    gl_bOkToDisplay = FALSE;
   } // if (linetype >= LINE_BAD_LIMIT_LOW)
@@ -3672,7 +3671,7 @@ enum LineParseResult includeDirectory(IN gint argc, IN  gchar** argvp, INOUT str
  struct stat statbuf;
  if (stat(sDirectory, &statbuf) == -1 || !S_ISDIR(statbuf.st_mode))
  {
-  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", "\"include=\" expression neither file nor directory nor wildcard expression");
+  snprintf(pMenuEntryPending->m_sErrMsg, MAX_LINE_LENGTH, "%s\n", "invalid file or directory or wildcard in \"include=\" expression");
   return lineParseFail;
  }
 

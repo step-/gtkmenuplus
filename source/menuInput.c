@@ -435,9 +435,9 @@ struct LinetypeAction* getLinetypeAction(enum LineType linetype)
    {
     pLinetypeAction = &gl_linetypeActionMap[i];
     break;
-   } // if (gl_linetypeActionMap[i].m_linetype == linetype && gl_linetypeActionMap[i].m_bMenuEntryCommit)
-  } // for (i = LINE_INDEXABLE_INTO_TABLE_HIGHEST - LINE_INDEXABLE_INTO_TABLE_LOWEST + 1; i < sizeof(gl_linetypeActionMap)/sizeof(struct LinetypeAction); i++)
- } //  if (!pLinetypeAction )
+   }
+  }
+ }
  return pLinetypeAction;
 }
 
@@ -455,9 +455,7 @@ enum LineParseResult tryCommit(IN struct MenuEntry* pMenuEntryPending, struct Li
 
   lineParseResult = pMenuEntryPending->m_fnCommit(pMenuEntryPending); // commitItem, commitSubMenu
   pMenuEntryPending->m_fnCommit = NULL;
-//  if (lineParseResult == lineParseFail || lineParseResult == lineParseFailFatal)
-//   return lineParseResult;
- } // if (pLinetypeAction->m_bMenuEntryCommit && pMenuEntryPending->m_fnCommit)
+ }
  return lineParseResult;
 }
 
@@ -631,7 +629,6 @@ enum LineParseResult variableAdd(OUT gchar* sErrMsg, OUT struct Variable** ppVar
     *ppVariableToEval = pVariable;
    return lineParseOk;
   }
-//pVariableLast = pVariable;
   pVariable = pVariable->m_pVariableNext;
  }
 
@@ -707,8 +704,8 @@ enum LineParseResult onIfCommon(INOUT struct MenuEntry* pMenuEntryPending)
    gl_pIfStatusCurrent->m_pIfStatusFwd = pIfStatusNew;
    pIfStatusNew->m_pIfStatusBack = gl_pIfStatusCurrent;
    pIfStatusNew->m_bOnHeap = TRUE;
-  } // if (gl_pIfStatusCurrent->m_pIfStatusFwd)
- } // if (gl_pIfStatusCurrent->m_bInUse)
+  }
+ }
 
  gl_pIfStatusCurrent->m_bInUse = TRUE;
  gl_pIfStatusCurrent->m_bElseFound = FALSE;
@@ -874,6 +871,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
 // Return kind of line, set and stripped text (gl_sLinePostEq)
 // return(LINE_BAD_<Error>), return(0) = EOF, return(>0) = keyword
 // doesn't write error messages, that's decided by mainloop
+// jumps over comment lines, doesn't return them
 {
  gchar *chop;
  gint i, len, count;
@@ -900,9 +898,9 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
    //fprintf(stderr, "%s", sLineAsRead); //DEBUG
 
    // If an input line is longer than the buffer size we check if it's
-   // a comment line. If so, and we aren't "gathering comments", that
-   // is storing them, we can let this oversized comment line be.
-   if (!psCommentPre) {
+   // a comment line. If it is and we aren't storing comments lines,
+   // we can skip the oversized comment line.
+   if (!psCommentPre) { // not storing comment lines
     gchar *p = sLineAsRead;
     while (*p == ' ' || *p == '\t')
      ++p;
@@ -918,7 +916,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
     }
    }
    strcpy(tmp, sLineAsRead);
-   (*puiLineNum)++; // DEBUG: here set breakpoints on input line #.
+   (*puiLineNum)++; // DEBUG: gdb: bre <this file>:<this lineno> if *puiLineNum == <menufile lineno -1>
    len = strlen(tmp);
    if (tmp[len-1] == '\n')
     tmp[len-1] = '\0';
@@ -939,33 +937,29 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
    strcpy(tmp, sLineAsRead);
   } // if (pFile)
 
-// Chop comment
+// Chop trailing comment
   chop = findComment(tmp);
   if (chop != NULL)
   {
    if (sCommentInline) strcpy(sCommentInline, chop);
    *chop = '\0';
   }
-
   len = strlen(tmp);
 
   // Remove trailing spaces & CR
   if (len > 0)
   {
-//TO DO trim_trailing sag faults
-// trim_trailing(tmp, tmp + len - 1);
    chop = &tmp[len - 1];
    while ((chop >= tmp) && (isspace(*chop) != 0))
    {
     *chop = '\0';
     chop--;
    }
-
    len = strlen(tmp);
   }
 
   if (sCommentInline && !(*sCommentInline)) strcpy(sCommentInline, "\n");
- }; // while (len == 0) {
+ }
 
  // Big error?  TO DO
  if (len >= nLineBuffLen)
@@ -975,6 +969,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
   return (LINE_BAD_LEN);
  }
 
+ // here *puiLineNum is the actual command line number
  count = 0;
 
 // Calculate menu depth
@@ -1019,14 +1014,14 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
 
  if (linetype == LINE_UNDEFINED)
  {
-  if (strchr (tmp, '=') == NULL)                 // Its a bad line
+  if (strchr (tmp, '=') == NULL) // Its a bad line
   {
    strcpy(gl_sLinePostEq, tmp);
    return (LINE_BAD_NO_EQ);
   }
 
   linetype = getLinetype(tmp, gl_keyword, sizeof(gl_keyword), "= \t\0", pbIndentMatters);
- } // if (linetype != LINE_UNDEFINED)
+ }
 
  if (linetype == LINE_UNDEFINED) // must be variable
  {
@@ -1041,10 +1036,6 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
 #endif
 
  trim_trailing(tmp, tmp + strlen(tmp) - 1); // white space
-
-// str2 = tmp + strlen(tmp) - 1;
-// while (*str2 == ' ' || *str2 == '\t') str2--;
-// if (*(str2 + 1) == ' ' || *(str2 + 1) == '\t')  *(str2 + 1) = '\0';
 
 //remove keywords and leading white space
 
