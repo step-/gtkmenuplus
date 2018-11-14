@@ -64,10 +64,16 @@ struct     Formatting gl_FormattingTooltip;
 
 gchar       gl_sLinePostEq[MAX_LINE_LENGTH + 1];   // used by on...() functions, set by readline
 gchar       gl_sCmdLineConfig[MAX_LINE_LENGTH + 1];
+
+struct MenuDescFile
+{
+ FILE  *fp;
+ gchar *sName;
+};
 //==============================================================================================
 //==============================================================================================
 
-FILE*                open_menu_desc_file(IN gchar* sFileName); // sets gl_pFile  , OUT gboolean* pbIsConfigFileArg
+FILE*                open_menu_desc_file(INOUT struct MenuDescFile* pMenuDescFile); // sets gl_pFile  , OUT gboolean* pbIsConfigFileArg
 gboolean             is_executable(IN gchar* sPath); // called by RunItem
 void                 get_first_arg(IN const gchar* sPath, OUT gchar* sPathOut); // called by RunItem
 

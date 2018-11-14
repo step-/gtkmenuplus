@@ -1350,34 +1350,35 @@ void get_first_arg(IN const gchar* sPath, OUT gchar* sPathOut) // called by RunI
 }
 
 // ----------------------------------------------------------------------AC
-FILE* open_menu_desc_file(IN gchar* sFileName) // , OUT gboolean* pbIsConfigFileArg
+FILE* open_menu_desc_file(INOUT struct MenuDescFile* pMenuDescFile) // , OUT gboolean* pbIsConfigFileArg
 // ----------------------------------------------------------------------
 {
- if (strcmp(sFileName, "-") == 0)
+ if (strcmp(pMenuDescFile->sName, "-") == 0)
  {
 //  *pbIsConfigFileArg = FALSE;
   if(!gl_nOptQuiet)
    g_print("%s\n", "Reading stdin");
-  return stdin;
+   
+  return (pMenuDescFile->fp = stdin);
  }
  else
  {
 //  *pbIsConfigFileArg = TRUE;
-  FILE* pFile = fopen(sFileName, "r");
-  if (pFile == NULL)
+  pMenuDescFile->fp = fopen(pMenuDescFile->sName, "r");
+  if (pMenuDescFile->fp == NULL)
   {
 //   if (strcasestr(sFileName, "include") && strchr(sFileName, '='))
-   strcpy(gl_sCmdLineConfig, sFileName);
+   strcpy(gl_sCmdLineConfig, pMenuDescFile->sName);
    if(!gl_nOptQuiet)
-    g_print("assuming a command string: %s\n", sFileName);
+    g_print("assuming a command string: %s\n", pMenuDescFile->sName);
 //   else
 //    fprintf(stderr, "Can't open the file.\n");
 //   *pbIsConfigFileArg = FALSE;
   }
   else if(!gl_nOptQuiet)
-   g_print("reading the file: %s\n", sFileName);
+   g_print("reading the file: %s\n", pMenuDescFile->sName);
 
-  return pFile ;
+  return pMenuDescFile->fp;
  }
 }
 

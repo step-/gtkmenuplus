@@ -105,7 +105,7 @@ guint gl_nHushedUpErrors = 0; // how many error lines readFile did not report
 
 struct Params;
 
-enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
+enum LineParseResult readFile(IN struct MenuDescFile* pMenuDescFile, IN int argc, IN gchar *argv[],
                               IN gboolean bReadingIncludedFile, IN gboolean bGatherComments,
                               IN guint uiCurDepthBase, IN struct MenuEntry* pMenuEntryPendingOverride);
 
@@ -211,7 +211,7 @@ void                  addTooltip(IN gchar* sTooltip, IN gboolean bToSubMenu, INO
 enum LineParseResult  set_base_dir(OUT gchar* sDirBuff, IN const gchar* sLabelForErr, OUT gchar* sErrMsg);  // called by onIconDir()
 
 void                  reportLineError(IN enum LineType linetype, IN enum LineType linetypePrev, OUT gchar* sErrMsg);                        // called once by readFile
-void                  msgToUser(IN enum LineParseResult lineParseResult, IN gchar* sErrMsg, IN guint uiLineNum, IN gchar* sLineAsRead);     // called once by readFile
+void                  msgToUser(IN enum LineParseResult lineParseResult, IN gchar* sErrMsg, IN gchar* fname, IN guint errorStartLineNum, IN guint uiLineNum, IN gchar* sLineAsRead);     // called by readFile, launcherList
 
 enum LineParseResult  includeDirectory(IN gint argc, IN  gchar** argvp, INOUT struct MenuEntry* pMenuEntryPending);
 enum LineParseResult  includeFile(IN gint argc, IN  gchar** argvp, INOUT struct MenuEntry* pMenuEntryPending);
@@ -452,8 +452,10 @@ If this check causes you problems, take it out.
 
 //gboolean bIsConfigFileArg = FALSE; //TO DO may be redundant
  gchar* sFileName = get_cmdline_menu_desc_file(argc, argv); // , &bIsConfigFileArg
+ struct MenuDescFile menuDescFile;
+ menuDescFile.sName = sFileName;
 
- FILE* pFile = open_menu_desc_file(sFileName); //, &bIsConfigFileArg
+ FILE* pFile = open_menu_desc_file(&menuDescFile); //, &bIsConfigFileArg
 
  if (pFile == NULL && *gl_sCmdLineConfig == '\0')
   exit(EXIT_FAILURE);
@@ -487,7 +489,7 @@ If this check causes you problems, take it out.
   argc = 0;
 //  bIsConfigFileArg = FALSE;
  }
- readFile(pFile, argc, argv, FALSE, gl_bOptGatherComments, 0, NULL); // bReadingIncludedFile, bGatherComments, uiCurDepthBase, pMenuEntryPending
+ readFile(&menuDescFile, argc, argv, FALSE, gl_bOptGatherComments, 0, NULL); // bReadingIncludedFile, bGatherComments, uiCurDepthBase, pMenuEntryPending
 
 #if !defined(_GTKMENUPLUS_NO_VARIABLES_)
  variablesClear();
@@ -525,7 +527,7 @@ If this check causes you problems, take it out.
 
 
 // ----------------------------------------------------------------------AC
-enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
+enum LineParseResult readFile(IN struct MenuDescFile* pMenuDescFile, IN int argc, IN gchar *argv[],
                               IN gboolean bReadingIncludedFile, IN gboolean bGatherComments,
                               IN guint uiCurDepthBase, IN struct MenuEntry* pMenuEntryPendingOverride)
 // ----------------------------------------------------------------------
@@ -536,6 +538,7 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
   gl_bOkToDisplay = FALSE;
   return lineParseOk;
  }
+ FILE *pFile = pMenuDescFile->fp;
 
  enum LineParseResult lineParseResult = lineParseOk;                 // What kind of input are we looking for?
 // enum LineType linetypePrev = LINE_UNDEFINED;                      // used in reportLineError
@@ -576,6 +579,7 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
 #if !defined(_GTKMENUPLUS_NO_IF_)
   bIfAccepting = !gl_pIfStatusCurrent->m_bInUse || (gl_pIfStatusCurrent->m_bInUse  && gl_pIfStatusCurrent->m_bCurrentlyAccepting);
 #endif
+  guint errorStartLineNum = uiLineNum; // where an error could start
   linetype = readLine(pFile, &bIndentMatters, &uiDepth, &uiLineNum, sLineAsRead,  MAX_LINE_LENGTH, bIfAccepting,
                       bGatherComments ? &sCommentPre  : NULL,
                       bGatherComments ? sCommentInline : NULL); // != LINE_EOF
@@ -687,7 +691,7 @@ enum LineParseResult readFile(IN FILE* pFile, IN int argc, IN gchar *argv[],
    // Report error if it matters. It doesn't if it's level lineParseOk and cmdline -i wasn't given.
    if (lineParseResult != lineParseOk)
    {
-    msgToUser(lineParseResult, menuEntryPending.m_sErrMsg, uiLineNum, sLineAsRead);
+    msgToUser(lineParseResult, menuEntryPending.m_sErrMsg, pMenuDescFile->sName, errorStartLineNum, uiLineNum, sLineAsRead);
     if (gl_nOptInfo == 0)
      gl_nHushedUpErrors++;
    }
@@ -760,33 +764,57 @@ gchar* shorten(IN gchar *in, OUT gchar *out) //called by msgToUser, reapErrMsg
 }
 
 // ----------------------------------------------------------------------
-//called once from readFile
-void  msgToUser(IN enum LineParseResult lineParseResult, IN gchar* sErrMsg, IN guint uiLineNum, IN gchar* sLineAsRead)
+//called by readFile, launcherList
+void  msgToUser(IN enum LineParseResult lineParseResult,
+                IN gchar* sErrMsg,
+                IN gchar* fname,
+                IN guint errorStartLineNum,
+                IN guint uiLineNum,
+                IN gchar* sLineAsRead)
 // ----------------------------------------------------------------------
 {
+ gchar ctx[MAX_LINE_LENGTH] = "";
+ gchar start[MAX_LINE_LENGTH] = "";
+ guint i = 0;
+
+ if (errorStartLineNum > 0 && fname) {
+  FILE* fp;
+  if ((fp = fopen(fname, "r"))) {
+   while (i < errorStartLineNum && fgets(start, MAX_LINE_LENGTH, fp))
+    i++; // seek to error start line
+   fclose(fp);
+  }
+ }
+ gboolean bRealFile = fname && strcmp(fname, sLineAsRead); // not command-line expression
+ snprintf(ctx, MAX_LINE_LENGTH, "* between lines *\n% 4d: %s% 4d: %s%s%s\n",
+  errorStartLineNum, i == errorStartLineNum && *start ? start : "-",
+  uiLineNum, sLineAsRead,
+  bRealFile ? "file: " : "", bRealFile ? fname : "");
+
  if (lineParseResult == lineParseOk)
-  fprintf(stderr, "%s: in msgToUser at line # %d\n", gl_sLineParseLabel[lineParseResult], uiLineNum);
+  fprintf(stderr, "%s: in msgToUser at line %d\n", gl_sLineParseLabel[lineParseResult], uiLineNum);
  else if (gl_nOptInfo > 0 || lineParseResult != lineParseWarn)
  {
   shorten(sErrMsg, sErrMsg);
-  fprintf(stderr, "%s: at line # %d:\n%s\n>>>  %s\n", gl_sLineParseLabel[lineParseResult], uiLineNum, sErrMsg, sLineAsRead);
+  fprintf(stderr, "%s: %s%s\n", gl_sLineParseLabel[lineParseResult], sErrMsg, ctx);
  }
 
- gboolean bLaunchedFromCLI = isatty(fileno(stdin));  // http://stackoverflow.com/questions/13204177/how-to-find-out-if-running-from-terminal-or-gui
+ // http://stackoverflow.com/questions/13204177/how-to-find-out-if-running-from-terminal-or-gui
+ gboolean bLaunchedFromCLI = isatty(fileno(stdin));
 
  if (lineParseResult >= lineParseFail && !gl_bErrorsInConsoleOnly && !bLaunchedFromCLI)
  {
   GtkWidget* pGtkMsgDlg = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-                                  "%s: at line # %d:\n%s\n>>>  %s\n", gl_sLineParseLabel[lineParseResult], uiLineNum, sErrMsg, sLineAsRead);
+                                                  "%s: %s%s\n", gl_sLineParseLabel[lineParseResult], sErrMsg, ctx);
   if (pGtkMsgDlg)
   {
    gtk_dialog_run(GTK_DIALOG(pGtkMsgDlg));
    gtk_widget_destroy(pGtkMsgDlg);
-  } // if (pGtkMsgDlg)
- } // if (gl_bErrorsInConsoleOnly && lineParseResult == lineParseFail)
+  }
+ }
 
  *sErrMsg = '\0';
-} //  //  if (gl_bErrorsInConsoleOnly)
+}
 
 /*
 // ----------------------------------------------------------------------
@@ -2730,7 +2758,7 @@ enum LineParseResult launcherList(const IN funcOnMenuEntry func, INOUT struct Me
     break; // first found is enough if configure=launcherlistfirst
   }
   else if (*pme1->m_sErrMsg)
-   msgToUser(lineParseResult, pme1->m_sErrMsg, 0, at);
+   msgToUser(lineParseResult, pme1->m_sErrMsg, NULL, 0, 0, at);
 
   if (lineParseResult > listResult)
    listResult = lineParseResult; // remember highest error and keep going
@@ -2742,7 +2770,7 @@ enum LineParseResult launcherList(const IN funcOnMenuEntry func, INOUT struct Me
  strcpy(gl_sLinePostEq, ak);
  free(ak);
  if (listResult != lineParseOk)
-  strcpy(pme->m_sErrMsg, "the source of previous line(s) # 0 is");
+  strcpy(pme->m_sErrMsg, "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n");
  return listResult;
 }
 
@@ -3532,7 +3560,9 @@ void commitIncludeTerminate(INOUT gchar ** argvp, gchar* sLinePostEq)
 enum LineParseResult includeFile(IN gint argc, IN  gchar** argvp, INOUT struct MenuEntry* pMenuEntryPending)
 // ----------------------------------------------------------------------
 {
- FILE* pFile = open_menu_desc_file(argvp[0]);
+ struct MenuDescFile menuDescFile;
+ menuDescFile.sName = argvp[0];
+ FILE* pFile = open_menu_desc_file(&menuDescFile);
  if (!pFile)
   return lineParseFail;
 
@@ -3573,7 +3603,7 @@ enum LineParseResult includeFile(IN gint argc, IN  gchar** argvp, INOUT struct M
 #endif
 
  enum LineParseResult lineParseResult =
-   readFile(pFile, argc, argvp, TRUE, FALSE, pMenuEntryPending->m_uiDepth, pMenuEntryPending); // bReadingIncludedFile,,bGatherComments
+   readFile(&menuDescFile, argc, argvp, TRUE, FALSE, pMenuEntryPending->m_uiDepth, pMenuEntryPending); // bReadingIncludedFile,,bGatherComments
 
 //restore context
  strcpy(gl_sIconDirectory, sIconDirectory);
