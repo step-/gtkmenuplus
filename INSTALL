@@ -41,7 +41,7 @@ build directory:
 
 ```
 mkdir build-32
-( cd build-32 && ../configure --prefix=`pwd` --build=i686-linux-gnu --libdir=/usr/lib "CFLAGS=-m32 -L/usr/lib" && make && make install-strip install-man )
+( cd build-32 && PKG_CONFIG_PATH=/usr/lib/pkgconfig:$PKG_CONFIG_PATH ../configure --prefix=`pwd` --build=i686-linux-gnu --libdir=/usr/lib "CFLAGS=-m32 -L/usr/lib" && make && make install-strip install-man )
 ```
 
 6. View all build options and flags:
