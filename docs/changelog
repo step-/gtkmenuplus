@@ -1,3 +1,8 @@
+1.1.9: 2018-11-14
+  Changed:
+  - Add menu description file name and line number to error messages.
+  Fixed:
+  - Build instructions.
 1.1.8: 2018-09-16
   New:
   - Add option -q(uiet) to keep stdout uncluttered.

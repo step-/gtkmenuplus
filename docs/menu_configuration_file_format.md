@@ -1,4 +1,4 @@
-# gtkmenuplus 5 "2018-09-16" "version 1.1.8" "menu configuration file"
+# gtkmenuplus 5 "2018-11-14" "version 1.1.9" "menu configuration file"
 
 ## NAME
 

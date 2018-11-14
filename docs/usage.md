@@ -1,4 +1,4 @@
-# gtkmenuplus 1 "2018-09-16" "version 1.1.8" usage
+# gtkmenuplus 1 "2018-11-14" "version 1.1.9" usage
 
 ## NAME
 
