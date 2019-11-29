@@ -1,4 +1,4 @@
-# gtkmenuplus 1 "2018-11-14" "version 1.1.9" usage
+# gtkmenuplus 1 "2019-11-28" "version 1.1.10" usage
 
 ## NAME
 
@@ -43,8 +43,8 @@ myGtkMenu. Option `-c` disables support for very long comment lines.
 
 -i, --info
 
-> Print more informational messages to `stdout` and `stderr`. Repeat `-i` to
-increase verbosity.
+> Print more informational messages to `stdout` and `stderr`.
+> Repeating `-i` increases verbosity.
 
 -h, --help
 
@@ -53,6 +53,7 @@ increase verbosity.
 -q, --quiet
 
 > Do not print statistics and informational messages to `stdout`.
+> Specifying `-q -q` also sets directive `configure=errorconsoleonly`.
 
 -v, --version
 

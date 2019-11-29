@@ -1,4 +1,4 @@
-# gtkmenuplus 5 "2018-11-14" "version 1.1.9" "menu configuration file"
+# gtkmenuplus 5 "2019-11-28" "version 1.1.10" "menu configuration file"
 
 ## NAME
 
@@ -25,14 +25,15 @@ ignored, - "#" included.
 The following cases are exceptions in which "#" and the characters that follow
 it till the end of the line aren't comments:
 
+* a backslash "\\" comes immediately before "#"
 * directives `cmd=`, `if=`, `elseif=`
 * variable evaluation `variable_name==`
-* variable assignment of quoted strings that include #, such as quoted HTML
+* variable assignment of quoted strings that include "#", such as quoted HTML
   colors, i.e., "#FAF090"
 * valid shell syntax following the above directives, i.e.,
   `if=test ${y#prefix} = abc`
 
-Any line whose first non-whitespace character is a "#" is ignored.
+Lines whose first non-space character is "#" are ignored.
 
 ### Lines
 
@@ -199,7 +200,7 @@ After expansion the entire command must be no longer than 1024 (?) characters.
     item=item_description
 
 Denotes the `item_description` to show in the menu. An underscore as part of
-item description indicates that the following letter is the mnemonic (the
+item description indicates that the next letter is the mnemonic (the
 keyboard accelerator) for the menu item.
 
 A mnemonic can also be added via global formatting, cf. `format=`.
@@ -411,7 +412,7 @@ e.g.
 
 Menu items or submenus formatted by inclusion of `<span...>...</span>` tags or
 by preceding `format=` lines mustn't contain "<" or ">" characters.  Use
-"`&lt;`"  or "`&gt;`" instead.
+`&lt;`  or `&gt;` instead.
 
 If a `format=` line is in force, that will apply to all parts of a line
 containing `<span...>...</span>` tags not within those tags.
@@ -426,8 +427,8 @@ characters.
 
 * `"1"` inserts `_` before the label, unless the label already includes its own
   mnemonic.
-* A quoted string inserts `_<char> ` (notice the space) before the label, also
-  when then label already includes its own mnemonic. `<char>` represents a
+* A quoted string inserts `_<char><space>` before the label, also
+  when the label already includes its own mnemonic. `<char>` represents a
   character extracted (sequentially with recycling) from `value` The sequence is
   recycled separately for each submenu level.
 

@@ -1,195 +1,183 @@
-.TH gtkmenuplus 1 "2018-11-14" "version 1.1.9" usage
+.TH "Untitled article" 7 2019-11-29
+.SH gtkmenuplus 1 "2019-11-28" "version 1.1.10" usage
 .SH NAME
-
+.LP
 gtkmenuplus - display GTK menus from text files
 .SH SYNOPSIS
-.RS
+.sp 1
 .nf
 \fC
 gtkmenuplus [options] [menu_configuration_file] [parameter ...]
 
 gtkmenuplus [options] directive[;directive...] [parameter ...]
-
 \fR
 .fi
-.RE
 .SH DESCRIPTION
-
+.LP
 Gtkmenuplus reads a menu description from configuration directives in a text
 file or stdin, and displays the resulting graphical menu. It can be used to
 open documents and run applications and scripts.  Menus can be nested. Menu
 items comprising label, icon and tooltip, can be formatted each one
 independently.
-
+.LP
 Gtkmenuplus has its own, simple scripting language, with conditionals,
 variables, and shell integration, which allow creating dynamic menu entries.
-
-It can read freedesktop.org's .desktop application files, automatically
+.LP
+It can read freedesktop.org\(cqs .desktop application files, automatically
 scanning and displaying entire folder hierarchies with a single command.
-
+.LP
 Gtkmenuplus is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License, version 2, as published by the
 Free Software Foundation. Gtkmenuplus comes with ABSOLUTELY NO WARRANTY.
-
+.LP
 See the file COPYING distributed with gtkmenuplus source code for the complete
 license.
-
+.LP
 Gtkmenuplus was forked from myGtkMenu.
 .SH OPTIONS
-
+.LP
 -c, --gather-comments
 .RS
-
-Try specifying \fC-c\fR if you are having compatibility issues with a menu
+.LP
+Try specifying «\fC-c\fR» if you are having compatibility issues with a menu
 description file designed for a very old version of gtkmenuplus or for
-myGtkMenu. Option \fC-c\fR disables support for very long comment lines.
+myGtkMenu. Option «\fC-c\fR» disables support for very long comment lines.
 .RE
-
+.LP
 -i, --info
 .RS
-
-Print more informational messages to \fCstdout\fR and \fCstderr\fR.
-Repeating \fC-i\fR increases verbosity.
+.LP
+Print more informational messages to «\fCstdout\fR» and «\fCstderr\fR».
+Repeating «\fC-i\fR» increases verbosity.
 .RE
-
+.LP
 -h, --help
 .RS
-
-Print a help message to \fCstdout\fR or to a graphical window and exit.
+.LP
+Print a help message to «\fCstdout\fR» or to a graphical window and exit.
 .RE
-
+.LP
 -q, --quiet
 .RS
-
-Do not print statistics and informational messages to \fCstdout\fR.
-Specifying \fC-q -q\fR also sets directive `configure=errorconsoleonly`.
+.LP
+Do not print statistics and informational messages to «\fCstdout\fR».
+Specifying «\fC-q -q\fR» also sets directive «\fCconfigure=errorconsoleonly\fR».
 .RE
-
+.LP
 -v, --version
 .RS
-
-Print version string to \fCstdout\fR and exit.
+.LP
+Print version string to «\fCstdout\fR» and exit.
 .RE
-
---
 .RS
-
-Stop recognizing options. All words after \fC--\fR are regarded as
-\fCmenu_configuration file\fR and \fCparameter\fRs or as \fCconfiguration_line\fRs.
+.LP
+Stop recognizing options. All words after «\fC--\fR» are regarded as
+«\fCmenu_configuration file\fR» and «\fCparameter\fR»s or as «\fCconfiguration_line\fR»s.
 .RE
 .SH ARGUMENTS
-
-Without arguments, gtkmenuplus will attempt to read file \fCtest_menu.txt\fR found
+.LP
+Without arguments, gtkmenuplus will attempt to read file «\fCtest_menu.txt\fR» found
 in the same directory as gtkmenuplus.  Otherwise the following are the possible
 arguments and their descriptions.
-.RS
+.sp 1
 .nf
 \fC
 configuration_file
-\-
+-
 directive[;directive...]
 parameter [parameter ...]
-
 \fR
 .fi
-.RE
-
-The \fCconfiguration_file\fR is a text file that describes the menu according to
-the format and \fCdirective\fRs specified in gtkmenuplus(5).
-
-Use \fC-\fR to read the menu description from \fCstdin\fR. In this case, any relative
-path references are taken as relative to \fC$HOME\fR.
-
+.LP
+The «\fCconfiguration_file\fR» is a text file that describes the menu according to
+the format and «\fCdirective\fR»s specified in gtkmenuplus(5).
+.LP
+Use «\fC-\fR» to read the menu description from «\fCstdin\fR». In this case, any relative
+path references are taken as relative to «\fC$HOME\fR».
+.LP
 Or you can pass configuration directives directly on the command line. Put
 semicolons between configuration directives and wrap the entire string with
 single quotes.
-
-You can invoke gtkmenuplus with additional \fCparameter\fRs.  If you do, their
-values can be referred to in any line of your menu configuration file as \fC$1\fR
-for the first parameter beyond \fCmenu_configuration_file\fR, \fC$2\fR for the second,
-and so on. \fC$0\fR refers to the path to \fCmenu_configuration_file\fR.
-
-If \fC$\fR isn't followed by an integer or a variable name it's treated as literal
+.LP
+You can invoke gtkmenuplus with additional «\fCparameter\fR»s.  If you do, their
+values can be referred to in any line of your menu configuration file as «\fC$1\fR»
+for the first parameter beyond «\fCmenu_configuration_file\fR», «\fC$2\fR» for the second,
+and so on. «\fC$0\fR» refers to the path to «\fCmenu_configuration_file\fR».
+.LP
+If «\fC$\fR» isn\(cqt followed by an integer or a variable name it\(cqs treated as literal
 text.
-
+.LP
 If you provide a parameter but never reference it in the menu configuration
 file, gtkmenuplus will print a warning to the terminal window.
 .SH EXAMPLES
-.RS
+.sp 1
 .nf
 \fC
-gtkmenuplus 'include=~/bin/*.sh ; cmd=geany; icon=NULL'
+gtkmenuplus 'include=\(ti/bin/*.sh ; cmd=geany; icon=NULL'        
 
-gtkmenuplus $'submenu=var/run;\tinclude=/var/run/* *'
+gtkmenuplus $'submenu=var/run;\etinclude=/var/run/* *'
 
 gtkmenuplus launchersub=/usr/share/applications
-
 \fR
 .fi
-.RE
-
+.LP
 Try appending
-.RS
+.sp 1
 .nf
 \fC
-;/usr/local/share/applications;~/.local/share/applications
-
+;/usr/local/share/applications;\(ti/.local/share/applications
 \fR
 .fi
-.RE
-
+.LP
 to the last command if those directories are populated in your system.
-
+.LP
 For more examples see gtkmenuplus(5) and visit the gtkmenuplus project home
-page (\fC->\fRSEE ALSO).
+page («\fC->\fR»SEE ALSO).
 .SH EXIT STATUS
-
+.LP
 Gtkmenuplus exits 0 on success, and >0 if an error occurs.
 .SH BUGS
-
+.LP
 Please report defects in the \fIIssues\fR page of the gtkmenuplus project home.
-
+.LP
 To troubleshoot your menu configuration files run gtkmenuplus from the shell
 prompt.  When in doubt, enter the complete pathname of the files:
-.RS
+.sp 1
 .nf
 \fC
 /path/to/gtkmenuplus /path/to/menu_configuration_file
-
 \fR
 .fi
-.RE
-
+.LP
 At the shell prompt gtkmenuplus will produce status and error messages,
 including reports of errors or problems with the configuration file.
 .SH AUTHORS
-
-copyright (C) 2013 Alan Campbell, (C) 2016-2018 step
-
+.LP
+copyright \(co 2013 Alan Campbell, \(co 2016-2018 step
+.LP
 step is the current maintainer.
-
+.LP
 \fBAcknowledgements\fR
-
+.LP
 Thanks to John Vorthman for providing myGtkMenu code.
-
+.LP
 The idea of importing .desktop files was borrowed from popdown.
 .SH SEE ALSO
-
+.LP
 gtkmenuplus(5) - menu configuration file description
-
+.LP
 Gtkmenuplus home page and project repository (current version):
-
-https://github.com/step-/gtkmenuplus
-
+.LP
+\fIhttps://github.com/step-/gtkmenuplus\fR
+.LP
 Gtkmenuplus 1.0 home page (old version):
-
-https://sites.google.com/site/entropyreduction/gtkmenuplus
-
+.LP
+\fIhttps://sites.google.com/site/entropyreduction/gtkmenuplus\fR
+.LP
 myGtkMenu home page (old version):
-
-https://sites.google.com/site/jvinla/home
-
+.LP
+\fIhttps://sites.google.com/site/jvinla/home\fR
+.LP
 Popdown home page:
-
-http://www.manatlan.com/page/popdown
-
+.LP
+\fIhttp://www.manatlan.com/page/popdown\fR
