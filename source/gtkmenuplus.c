@@ -414,8 +414,8 @@ If this check causes you problems, take it out.
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_)
  formattingInit(&(gl_FormattingSubMenu[0]), "\0", 0);
- if (regcomp(&gl_rgxMarkupMnemonic, gl_sMarkupMnemonic, REG_EXTENDED))
-  errorExit("failed to compile regular expression");
+ if (compile_regex(&gl_rgxMarkupMnemonic, gl_sMarkupMnemonic, REG_EXTENDED))
+  errorExit("failed to compile 'mnemonic' regex");
 #endif
 
 #if  !defined(_GTKMENUPLUS_NO_FORMAT_) && !defined(_GTKMENUPLUS_NO_TOOLTIPS_)
@@ -427,8 +427,8 @@ If this check causes you problems, take it out.
  *gl_sLauncherArguments = '\0';
 
 // late, so no need to do  regfree(&gl_rgxLauncherExecArg) except at end
- if (regcomp(&gl_rgxLauncherExecArg, gl_sLauncherExecArg, REG_EXTENDED))
-  errorExit("failed to compile regular expression");
+ if (compile_regex(&gl_rgxLauncherExecArg, gl_sLauncherExecArg, REG_EXTENDED))
+  errorExit("failed to compile 'launcher' regex");
 
 #endif // #if  !defined(_GTKMENUPLUS_NO_LAUNCHERS_)
 
@@ -436,11 +436,11 @@ If this check causes you problems, take it out.
  *gl_sActivationLogfile = '\0';
 #endif
 
- if (regcomp(&gl_rgxIconExt, gl_sIconRegexPat, REG_EXTENDED | REG_ICASE))
-  errorExit("failed to compile regular expression");
+ if (compile_regex(&gl_rgxIconExt, gl_sIconRegexPat, REG_EXTENDED|REG_ICASE))
+  errorExit("failed to compile 'icon' regex");
 
- if (regcomp(&gl_rgxUriSchema, gl_sUriSchema , REG_EXTENDED | REG_ICASE))
-  errorExit("failed to compile regular expression");
+ if (compile_regex(&gl_rgxUriSchema, gl_sUriSchema, REG_EXTENDED|REG_ICASE))
+  errorExit("failed to compile 'URI' regex");
 
  if (compile_regex(&gl_rgxSharpIsntComment, gl_sSharpIsntComment, REG_EXTENDED|REG_ICASE))
   errorExit("failed to compile 'comment' regex");
