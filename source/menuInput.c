@@ -6,7 +6,7 @@
 
 #include "menuInput.h"
 
-extern gboolean gl_nOptQuiet;
+extern guint gl_nOptQuiet;
 
 //required because __USE_GNU
 char * strcasestr (const char *haystack, const char *needle);
@@ -1356,9 +1356,9 @@ FILE* open_menu_desc_file(INOUT struct MenuDescFile* pMenuDescFile) // , OUT gbo
  if (strcmp(pMenuDescFile->sName, "-") == 0)
  {
 //  *pbIsConfigFileArg = FALSE;
-  if(!gl_nOptQuiet)
+  if(0 == gl_nOptQuiet)
    g_print("%s\n", "Reading stdin");
-   
+
   return (pMenuDescFile->fp = stdin);
  }
  else
@@ -1369,13 +1369,13 @@ FILE* open_menu_desc_file(INOUT struct MenuDescFile* pMenuDescFile) // , OUT gbo
   {
 //   if (strcasestr(sFileName, "include") && strchr(sFileName, '='))
    strcpy(gl_sCmdLineConfig, pMenuDescFile->sName);
-   if(!gl_nOptQuiet)
+   if(0 == gl_nOptQuiet)
     g_print("assuming a command string: %s\n", pMenuDescFile->sName);
 //   else
 //    fprintf(stderr, "Can't open the file.\n");
 //   *pbIsConfigFileArg = FALSE;
   }
-  else if(!gl_nOptQuiet)
+  else if(0 == gl_nOptQuiet)
    g_print("reading the file: %s\n", pMenuDescFile->sName);
 
   return pMenuDescFile->fp;
@@ -1415,7 +1415,8 @@ enum LineParseResult checkIconSize(IN guint nSize, OUT gchar* sErrMsg)  // acces
   return lineParseWarn;
  }
  gl_iH = gl_iW = nSize;
- printf("New icon size = %d.\n", gl_iW);
+ if(0 == gl_nOptQuiet)
+  g_print("New icon size = %d.\n", gl_iW);
  return lineParseOk;
 }
 

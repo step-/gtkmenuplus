@@ -267,7 +267,7 @@ void        onGatherComments();
 void        onHelp();
 guint       gl_nOptInfo = 0;
 void        onInfo();
-gboolean    gl_nOptQuiet = FALSE;
+gboolean    gl_nOptQuiet = 0;
 void        onQuiet();
 void        onVersion();
 
@@ -865,7 +865,7 @@ gboolean initDirectory(OUT gchar* sDirBuff, IN guint nBuffSize, IN gchar* sFileN
  if (strcmp(sFileName, "-") == 0) // piped in
  {
   strcpy(sDirBuff, getenv("HOME"));
-  if(!gl_nOptQuiet)
+  if(0 == gl_nOptQuiet)
    g_print("getting input from stdin, using %s as working directory\n", sDirBuff);
   strcat(sDirBuff, "/");
 
@@ -940,7 +940,7 @@ static void RunItem(IN const gchar *sCmd)
  gchar *sCmdExpanded = NULL;
  gchar *sCmdExpandedWithPAL = NULL;
 
- if(!gl_nOptQuiet)
+ if(0 == gl_nOptQuiet)
   g_print("Run: %s\n", sCmd);
 
  sCmdExpanded = expand_path_tilda_dot(sCmd, gl_sScriptDirectory);
@@ -997,7 +997,7 @@ gchar* get_cmdline_menu_desc_file(IN gint argc, IN gchar *argv[]) // , OUT gbool
 //  *pbIsConfigFileArg = FALSE;
   fprintf(stderr, gl_sHelpMsg);
   fprintf(stderr, "%s","Missing the menu-description filename.\n");
-  if(!gl_nOptQuiet)
+  if(0 == gl_nOptQuiet)
    g_print("%s","Will try to open the default file.\n");
   memset(gl_sLinePostEq, 0, sizeof(gl_sLinePostEq));
   strncpy(gl_sLinePostEq, argv[0], sizeof(gl_sLinePostEq) - 1);    // Get gtkmenuplus path
@@ -1025,7 +1025,7 @@ gchar* get_cmdline_menu_desc_file(IN gint argc, IN gchar *argv[]) // , OUT gbool
 // ----------------------------------------------------------------------
 static void QuitMenu(IN gchar *Msg) {
 // ----------------------------------------------------------------------
- if(!gl_nOptQuiet)
+ if(0 == gl_nOptQuiet)
   g_print("Menu was deactivated.\n");
  gtk_main_quit();
  doOnExit();
@@ -2047,7 +2047,7 @@ enum LineParseResult onPosition(INOUT struct MenuEntry* pMenuEntryPending)
  if (parseInts(gl_sLinePostEq, &gl_uiMenuX, &gl_uiMenuY) == lineParseOk)
  {
   gl_bSetMenuPos = TRUE;
-  if(!gl_nOptQuiet)
+  if(0 == gl_nOptQuiet)
    g_print("Menu position = %d, %d.\n", gl_uiMenuX, gl_uiMenuY);
   return lineParseOk;
  }
@@ -2269,7 +2269,7 @@ enum LineParseResult getMenuPosArg(IN gchar* sBuff, OUT gchar* sErrMsg)
  enum LineParseResult lineParseResult = parseInts(sBuff, &gl_uiMenuX, &gl_uiMenuY);
 
  if (lineParseResult == lineParseOk) {
-  if(!gl_nOptQuiet)
+  if(0 == gl_nOptQuiet)
    g_print("Menu position = %d, %d.\n", gl_uiMenuX, gl_uiMenuY);
  }
  else
@@ -3921,8 +3921,8 @@ enum LineParseResult onEof(INOUT struct MenuEntry* pMenuEntryPending)
 
  glong uliTime = (clock() * 1000) / CLOCKS_PER_SEC;
 
- if(!gl_nOptQuiet)
-  printf("%lu msec since programme start.\n", uliTime );
+ if(0 == gl_nOptQuiet)
+  g_print("%lu msec since programme start.\n", uliTime );
 // gtk_menu_set_title(GTK_MENU(gl_gtkWmenu[0]), "yes it is"); DOES NOTHING
  while(!gtk_widget_get_visible(gl_gtkWmenu[0]))  // Keep trying until startup
  {
@@ -4025,7 +4025,10 @@ void onInfo()
 void onQuiet()
 // ----------------------------------------------------------------------
 {
- gl_nOptQuiet = TRUE; // no stats
+ gl_nOptQuiet++;
+ // 1(suppress stats)
+ if (2 == gl_nOptQuiet)
+  gl_bErrorsInConsoleOnly = TRUE;
 }
 
 // ---------------------------------------------------------------------- AC
