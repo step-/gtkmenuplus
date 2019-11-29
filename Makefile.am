@@ -7,7 +7,8 @@ bin_PROGRAMS = gtkmenuplus
 gtkmenuplus_SOURCES = \
 	source/gtkmenuplus.c \
 	source/common.c source/common.h \
-	source/menuInput.c source/menuInput.h
+	source/menuInput.c source/menuInput.h \
+	source/regex_comment.c
 
 if FEATURE_LAUNCHERS
 gtkmenuplus_SOURCES += source/launcher.h source/launcher.c

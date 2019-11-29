@@ -15,19 +15,6 @@ gboolean             checkConfigKeyword(IN gchar* sSwitch, IN gboolean bCheckNeg
 
 const gchar*  gl_sIconRegexPat = "\\.[a-z]{3,4}$";
 const gchar*  gl_sUriSchema = "^[a-z]+://";
-const gchar*  gl_sSharpIsntComment =
-  "^\\s*cmd\\s*" // cmd=
-#if !defined(_GTKMENUPLUS_NO_IF_)
- "|^\\s*(else)?if\\s*=" // if= | elseif=
-#endif
-#if !defined(_GTKMENUPLUS_NO_VARIABLES_)
- "|^\\s*\\w+\\s*==" // variable_name==
- "|^\\s*\\w+\\s*=\\s*\"[^\"]*#[^\"]*\"" // variable_name="...#..."
- "|^\\s*\\w+\\s*=\\s*'[^']*#[^']*'" // variable_name='...#...'
-#endif
- "|\"#[0-9A-Fa-f]{6}\"|'#[0-9A-Fa-f]{6}'" // quoted HTML color
- "|\"#[0-9A-Fa-f]{3}\"|'#[0-9A-Fa-f]{3}'" // quoted HTML color (short form)
- ;
 
 guint         gl_uiCurDepth =              0;        // Root menu is depth = 0
 guint         gl_uiCurItem =               0;        // Count number of menu entries
@@ -836,31 +823,6 @@ void addCommentPre(OUT gchar** psCommentPre, OUT gchar* sCommentInline, INOUT gu
 }
 
 // ----------------------------------------------------------------------
-// called in readLine
-gchar* findComment(IN gchar* buf)
-// ----------------------------------------------------------------------
-{
- // Purpose: decide if a '#' character in buf is to be interpreted as
- // the start of a comment. If so return its position otherwise NULL.
- // Cases when '#' isn't a comment:
- // - Shell code that follows if=/ifelse= and variable evaluation
- // - Quoted variable assignment
- // - HTML color specification, i.e., "#123ABC"
- // FIXME: Handle multiple #s separately, and catch valid comments at EOL preceded by non-comment #s.
-
- while (' ' == *buf || '\t' == *buf)
-  ++buf;
- if(*buf == '#') return buf;
- gchar *sharp =  strchr(buf, '#');
- if (sharp == NULL) return(NULL);
-
- if (0 == regexec(&gl_rgxSharpIsntComment, buf, 0, NULL, 0))
-  return(NULL);
-
- return sharp;
-}
-
-// ----------------------------------------------------------------------
 // drive main loop
 
 enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint* piDepth,
@@ -873,6 +835,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
 // doesn't write error messages, that's decided by mainloop
 // jumps over comment lines, doesn't return them
 {
+ extern const char * find_comment(const char * buf, regex_t *);
  gchar *chop;
  gint i, len, count;
  enum LineType linetype = LINE_UNDEFINED;
@@ -938,7 +901,7 @@ enum LineType readLine(IN FILE* pFile, OUT gboolean* pbIndentMatters, OUT guint*
   } // if (pFile)
 
 // Chop trailing comment
-  chop = findComment(tmp);
+  chop = (gchar *) find_comment(tmp, &gl_rgxSharpIsntComment);
   if (chop != NULL)
   {
    if (sCommentInline) strcpy(sCommentInline, chop);

@@ -346,7 +346,8 @@ guint gl_nLastOption = 0; // command-line menu arguments start at this index +1
 
 extern const gchar*  gl_sIconRegexPat;
 extern const gchar*  gl_sUriSchema;
-extern const gchar*  gl_sSharpIsntComment;
+extern const  char*  gl_sSharpIsntComment;
+extern int compile_regex (regex_t *, const char *, int);
 
 //TO DO not same in launchers_to_menu
 
@@ -441,8 +442,8 @@ If this check causes you problems, take it out.
  if (regcomp(&gl_rgxUriSchema, gl_sUriSchema , REG_EXTENDED | REG_ICASE))
   errorExit("failed to compile regular expression");
 
- if (regcomp(&gl_rgxSharpIsntComment, gl_sSharpIsntComment , REG_EXTENDED | REG_ICASE))
-  errorExit("failed to compile regular expression");
+ if (compile_regex(&gl_rgxSharpIsntComment, gl_sSharpIsntComment, REG_EXTENDED|REG_ICASE))
+  errorExit("failed to compile 'comment' regex");
 
  if(!initPathRegex())
   exit(EXIT_FAILURE);
@@ -500,9 +501,7 @@ If this check causes you problems, take it out.
 #endif
  regfree(&gl_rgxIconExt);
  regfree(&gl_rgxUriSchema);
-#if !defined(_GTKMENUPLUS_NO_IF_) || !defined(_GTKMENUPLUS_NO_VARIABLES_)
  regfree(&gl_rgxSharpIsntComment);
-#endif
 #if !defined(_GTKMENUPLUS_NO_FORMAT_)
  regfree(&gl_rgxMarkupMnemonic);
 #endif
