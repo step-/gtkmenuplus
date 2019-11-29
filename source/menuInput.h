@@ -380,8 +380,6 @@ enum LineParseResult commitInclude(INOUT struct MenuEntry* pMenuEntryPending);
 
 enum LineParseResult expand_path(INOUT gchar *sIconPath, IN gchar *sBasePath, IN const gchar* sLabelForErr, OUT gchar* sErrMsg);
 
-//const gchar*  gl_sIconRegexPat = "\\.(png|svg|xpm|gif|jpg|jpeg)$";
-//const gchar*  gl_sIconRegexPat = "\\.[:alpha:]{3,4}$";
 regex_t       gl_rgxIconExt;
 regex_t       gl_rgxUriSchema;
 regex_t       gl_rgxSharpIsntComment;

@@ -790,7 +790,7 @@ void  msgToUser(IN enum LineParseResult lineParseResult,
   uiLineNum, sLineAsRead,
   bRealFile ? "file: " : "", bRealFile ? fname : "");
 
- if (lineParseResult == lineParseOk)
+ if (lineParseResult == lineParseOk) //shouldn't happen
   fprintf(stderr, "%s: in msgToUser at line %d\n", gl_sLineParseLabel[lineParseResult], uiLineNum);
  else if (gl_nOptInfo > 0 || lineParseResult != lineParseWarn)
  {

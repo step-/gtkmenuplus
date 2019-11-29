@@ -22,9 +22,9 @@ guint         gl_uiRecursionDepth =        0;
 
 gchar*        gl_sCmdLineConfigNext =      NULL;
 gboolean      gl_bConfigKeywordIcons = TRUE,  gl_bConfigKeywordUseEndSubMenu = FALSE, gl_bConfigKeywordFormattingLocal = FALSE,
-	      gl_bConfigKeywordLauncherNoDisplay = TRUE,
-	      gl_bConfigKeywordLauncherNullCategory = TRUE,
-	      gl_bConfigKeywordLauncherListFirst = FALSE,
+              gl_bConfigKeywordLauncherNoDisplay = TRUE,
+              gl_bConfigKeywordLauncherNullCategory = TRUE,
+              gl_bConfigKeywordLauncherListFirst = FALSE,
               gl_bErrorsInConsoleOnly = FALSE;
 
 /*
