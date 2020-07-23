@@ -77,7 +77,7 @@ The remaining directives are new in gtkmenuplus:
     activationlogfile=logfile_path
 
     include=menu_configuration_file or
-    include=path_to_directory[/file_glob] [directory_glob] 
+    include=path_to_directory[/file_glob] [directory_glob]
 
     if=condition
     elseif=condition or elif=condition
@@ -158,21 +158,21 @@ its input from stdin.  Reference `$0` is invalid in included files.
 
 The following lines may contain a path or paths:
 
-    cmd=command                
+    cmd=command
     icondirectory=path_to_icon_directory
-    icon=path_to_image_file    
+    icon=path_to_image_file
     launcherdirectory=path_to_launcher_directory
     launcher=path_to_launcher(s)
     launchersub=path_to_directory
-    include=menu_configuration_file 
-    include=path_to_directory 
+    include=menu_configuration_file
+    include=path_to_directory
 
 Paths may be absolute (beginning with "/") or relative.  They may begin with
 the tilde ("~"), which in all cases will be expanded into `$HOME`, as it would
 be by the shell.
 
 Relative paths may begin with "./" and/or include "../", begin with the name of
-a directory or simply name a file.  With some expections noted below, such
+a directory or simply name a file.  With some exceptions noted below, such
 paths will be taken to be relative to the path of the directory that contains
 the menu configuration file as specified on the gtkmenuplus command line.
 
@@ -188,7 +188,7 @@ note applies to the remainder of this section.
     launcher=     directory in the last non-null launcherdirectory= line, if any
     launchersub=  directory in the last non-null launcherdirectory= line, if any
     cmd=          assumed to be on the system's PATH.
-  
+
 The command on a `cmd=command` line in particular may contain multiple paths
 requiring expansion (typically multiple arguments to the specified executable).
 After expansion the entire command must be no longer than 1024 (?) characters.
@@ -229,18 +229,18 @@ shell command, or nothing.
 disabled menu item (possibly to use as a menu or section title).
 
 You can use "~" to refer to your home directory, e.g. ~/bin/myScript.sh.
-  
+
 A `cmd=` line is the only kind of line in which you can't use parameters
 originating on the gtkmenuplus command line, or as part of an include line,
 since `$1`, `$2`... may occur in shell one-liners and be confused with
 gtkmenuplus command line parameter references.  If you want to use a parameter
 in a command, set a variable to the parameter e.g.
-  
+
     myParam=$1
-    
-and use the variable ($myParam) in the command.   
-  
-Not everything that can work at a shell prompt will work in `cmd=`:  
+
+and use the variable ($myParam) in the command.
+
+Not everything that can work at a shell prompt will work in `cmd=`:
 
 * You can't specify more than one command on a line (using ;, && or |).
 * You can't use environmental variables (e.g. $WINEPREFIX, $HOME).
@@ -262,7 +262,7 @@ directory), or be a relative or absolute path.
 
 If a `cmd=` begins with a `non_executable_file`, its MIME type is used to
 determine which application will be used to execute that file (and any
-`path_to_other_non_executable_files` on the same line). 
+`path_to_other_non_executable_files` on the same line).
 
 ### Tooltip
 
@@ -278,8 +278,8 @@ the preceding `item=` line or submenu begun by the preceding `submenu=` line.
 
     icon=path_to_image_file | icon_name | NULL
 
-Optional.  Denotes an image to show with the menu item or submenu. 
-  
+Optional.  Denotes an image to show with the menu item or submenu.
+
 Must be preceded by an `item=`, or `submenu=` line, and possibly by an `icon=`
 and/or (if there's a preceding `item=` line) a `cmd=` line.
 
@@ -301,7 +301,7 @@ icon explicitly:
   multiple shell commands
 * a menu item where `cmd=` involves a terminal emulator to run a shell command
 * a menu item where `cmd=` involves gtksu, gksudo or equivalent to run a shell
-  command 
+  command
 * successive menu items (e.g. ones opening text files) which, based on command
   or file type would all have the same icon
 * a `cmd=` consisting of a URL to something on the net or on another machine.
@@ -315,7 +315,7 @@ method described below.
 If the most recently encountered "configure=" line in the menu configuration
 file included the word `noicons`, any item without an `icon=path_to_image_file`
 or `icon=icon_name` line will not be assigned an image.
-    
+
 A subsequent `configure=` line containing the word `icons` will cause
 gtkmenuplus to revert to its default behaviour of finding icons based on the
 application or filetype specified on the `cmd=` line.
@@ -330,7 +330,7 @@ for paths referred to in menu configuration files (see above):
   `icondirectory=path_to_icon_directory` line has a non-null
   `path_to_icon_directory`, the path is relative to that.  Otherwise it's
   relative to the path in which the configuration file was found (as specified
-on the gtkmenuplus command line, unless gtkmenuplus is reading from stdin). 
+on the gtkmenuplus command line, unless gtkmenuplus is reading from stdin).
 
 The dotted file extension indicates one of the supported image types: png, svg,
 xpm or gif.
@@ -344,19 +344,19 @@ distinguished by not including an extension for the image type.
 An `icon_name` will be recognised if icons matching it are in one of the
 standard sets of icon directories (e.g. /usr/share/pixmaps/, subdirectories of
 /usr/share/icons, etc); in particular the icon names listed in
-freedesktop.org's Icon Naming Specification: 
+freedesktop.org's Icon Naming Specification:
 
 http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
 
 ### Format
 
-    format=formatting 
+    format=formatting
 
     formatting=[ format_string [;|, format_string [;|, format_string... ]]]
 
 Menu items and submenu labels following a `format` line have the given
 `format_string`(s) applied, until the occurrence of the next
-`format=formatting` line.  
+`format=formatting` line.
 
 If more than one `format_string` occurs on a `format=` line, each
 `format_string` is applied in turn to successive following items or submenu
@@ -705,7 +705,7 @@ with a tilde or forward slash, it's assumed to be relative to
 `path_to_launcher_directory`.
 
 `path_to_launcher_directory` follows the rules for paths referred to in menu
-configuration files (see above). 
+configuration files (see above).
 
 If `path_to_launcher_directory` doesn't begin with a tilde or forward slash,
 it's assumed to be relative to the path in which the configuration file was
@@ -738,7 +738,7 @@ included in other menu configuration files with `include=logfile_path`.
 If `logfile_path` doesn't begin with a tilde or forward slash, it's assumed to
 be relative to the path in which the configuration file was found (as specified
 on command line).
-  
+
 Generally speaking the log file shouldn't be edited, although some changes are
 allowed within the limits explained in the project repository (see git commit
 message 8bd8abf, which documents log file format and application development
@@ -752,13 +752,13 @@ First form:
 
 Second form (explained further down):
 
-    include=path_to_directory[/file_glob] [directory_glob] 
+    include=path_to_directory[/file_glob] [directory_glob]
 
 The first form inserts the contents of a `menu_configuration_file` into the one
 in which the line occurs, at the point at which it occurs.
 
 `menu_configuration_file` follows the rules for paths referred to in menu
-configuration files (see above). 
+configuration files (see above).
 
 If you want the contents of a `menu_configuration_file` to appear in a submenu,
 indent the `include=` line as well as all the lines of the
@@ -802,14 +802,14 @@ This behaviour can be turned off with a `configure=` line containing the word
 
 Second form:
 
-    include=path_to_directory[/file_glob] [directory_glob] 
+    include=path_to_directory[/file_glob] [directory_glob]
 
 `path_to_directory` follows the rules for paths referred to in menu
 configuration files.
 
 The second form inserts a series of menu entries, one per file, including only
 those files to which the user has read access matching the `file_glob`
-specified (e.g. `*.txt`, `d?t*`, `[a-f]*.txt`).  
+specified (e.g. `*.txt`, `d?t*`, `[a-f]*.txt`).
 
 (??) Extended globbing patterns can be used: see
 
@@ -839,7 +839,7 @@ by the `include=` line.
 
 A line in a menu configuration file can be an absolute path to a file,
 beginning with a forward slash or tilde.  No directive is expected or required,
-nor is it to be followed by `icon=`, `tooltip=` or `cmd=` lines.  
+nor is it to be followed by `icon=`, `tooltip=` or `cmd=` lines.
 
 By default, menu items generated from such lines will display the file name
 prefixed by its immediately containing subdirectory.
@@ -893,8 +893,8 @@ A `submenu=` line marks the end of any menu item or submenu that precede it.
 Any of the keywords `endsubmenu`, `noendsubmenu`, `icons`, `noicons`,
 `formattinglocal`, `noformattinglocal`, `launchernodisplay`,
 `nolaunchernodisplay`, `launchernullcategory`, `nolaunchernullcategory`,
-`launcherlistfirst`, `nolauncherlistfirst`, `errormsgbox` , `noerrormsgbox`,
-`abspathparts`, `menuposition`, and `iconsize` can occur on this line.  
+`launcherlistfirst`, `nolauncherlistfirst`, `errorconsoleonly` , `noerrorconsoleonly`,
+`abspathparts`, `menuposition`, and `iconsize` can occur on this line.
 
 `abspathparts` and `iconsize` must be immediately followed by whitespace, then
 an integer; `menuposition` must be followed by whitespace, then two
@@ -919,14 +919,13 @@ For the effects of `abspathparts n`, see section _Plain File Path_.
 `menuposition x y` has the same effect as the `menuposition=x y` line.  Only
 one x y menu position, specified by either method, may occur in a menu
 configuration file.
-   
+
 `iconsize n` has the same effect as the `iconsize=size` line, overrides the
 effect of that line, and is overridden by any such following line.
 
 By default when gtkmenuplus is _not_ launched via a CLI, fatal errors are
 displayed in a message box.  `errorconsoleonly` prevents such message boxes
 from appearing. `noerrorconsoleonly` reverts to the default behaviour.
-  
 
 ### Onexit
 
@@ -1011,7 +1010,7 @@ lines, if `path_to_image_file`, doesn't begin with a tilde or forward slash
 it's assumed to be relative to  `path_to_icon_directory`.
 
 `path_to_icon_directory` follows the rules for paths referred to in menu
-configuration files (see above). 
+configuration files (see above).
 
 `icondirectory=` followed by no text reverts the base path for icons to the
 path in which the configuration file was found (as specified on command line).
@@ -1128,7 +1127,7 @@ Test if the partition `$HOME` resides on is more than 90% full:
 Please report defects in the _Issues_ page of the gtkmenuplus project home.
 
 ## AUTHOR
- 
+
 copyright (C) 2013 Alan Campbell, (C) 2016-2018 step
 
 step is the current maintainer.
