@@ -785,7 +785,7 @@ void  msgToUser(IN enum LineParseResult lineParseResult,
   }
  }
  gboolean bRealFile = fname && strcmp(fname, sLineAsRead); // not command-line expression
- snprintf(ctx, MAX_LINE_LENGTH, "* between lines *\n% 4d: %s% 4d: %s%s%s\n",
+ snprintf(ctx, MAX_LINE_LENGTH, "* in line range *\n% 4d: %s% 4d: %s%s%s\n",
   errorStartLineNum, i == errorStartLineNum && *start ? start : "-",
   uiLineNum, sLineAsRead,
   bRealFile ? "file: " : "", bRealFile ? fname : "");
