@@ -15,6 +15,9 @@ const char * gl_sSharpIsntComment =
 "|" "\\\\#"                                              // escaped #
 "|" "\"#([[:xdigit:]]{3}){1,2}\""                        // " quoted HTML color spec - short and long forms
 "|" "'#([[:xdigit:]]{3}){1,2}'"                          // ' quoted HTML color spec - short and long forms
+
+"|" "&#[[:digit:]]{1,6};"                                // decimal HTML entity
+"|" "&#x[[:xdigit:]]{1,4};"                              // hex HTML entity
 ;
 
 #include <stdlib.h>
