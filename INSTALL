@@ -25,7 +25,7 @@ need to explicitly install manual pages with `install-man`.
 3. Build with debugging symbols, and install the package into the build directory:
 
 ```sh
-( mkdir -p build-debug && cd build-debug && ../configure --prefix=`pwd` CFLAGS='-g' && make all install)
+( mkdir -p build-debug && cd build-debug && ../configure --prefix=`pwd` CFLAGS='-g -O0' && make all install )
 ```
 
 4. Build and install for GTK3 with standard options enabled:
