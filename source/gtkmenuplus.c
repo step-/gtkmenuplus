@@ -3654,8 +3654,11 @@ enum LineParseResult includeDirectory(IN gint argc, IN  gchar** argvp, INOUT str
  }
  else // !argc > 2; filespec part of first arg
  {
-//http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_13_01
-  gchar* sSpecPattern = strpbrk(sDirectorySpec, "*?[@+!"); // includes extended globs
+  /* TODO review */
+  /* simplistic first-level "tokenizer" (caveat: no backslash escapes) */
+  /* - POSIX special "opening" characters *?[+ why ! */
+  /* - GNU fnmatch(3) extended globbing characters @ why not | and () */
+  gchar* sSpecPattern = strpbrk(sDirectorySpec, "*?[@+!");
 
   if (sSpecPattern)
   {
