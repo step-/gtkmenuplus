@@ -372,7 +372,7 @@ A `format_string` consists of a string of whitespace-separated
 attribute="value" pairs, attributes and their values must be appropriate for
 placement within a `<span>` tag in the Pango Text Attribute Markup Language,
 see https://developer.gnome.org/pango/stable/PangoMarkupFormat.html for details
-(the "convenience tags" mentioned aren't supported).
+(the "convenience tags" mentioned there aren't supported).
 
 An additional non-Pango attribute="value" pair is supported, `mnemonic`, see
 further down for details.
@@ -380,13 +380,18 @@ further down for details.
 Examples:
 
     format= font_desc="Sans Italic 12"
-    format= style="bold" underline="single"
+
+    format= style="italic" underline="single"
+
     format= foreground="blue"  # color names see /usr/share/X11/rgb.txt
+
     format= weight="bold"      # also possible: "ultralight", "light", "normal",
                                # "ultrabold", "heavy", or a numeric weight
+
     format= size='12800'       # in 1024ths of a point, or one of 'xx-small',
-                               # 'x-small', # 'small', 'medium', 'large',
+                               # 'x-small', 'small', 'medium', 'large',
                                # 'x-large', 'xx-large'
+
     format= color="RoyalBlue";color="DodgerBlue"  # alternate two shades
 
 A `format=` with a null `format_string` causes all subsequent menu and submenu
