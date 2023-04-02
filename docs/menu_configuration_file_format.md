@@ -352,7 +352,8 @@ http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
 
     format=formatting
 
-    formatting=[ format_string [;|, format_string [;|, format_string... ]]]
+    formatting=[ format_string [; format_string [; format_string... ]]]
+    formatting=[ format_string [, format_string [, format_string... ]]]
 
 Menu items and submenu labels following a `format` line have the given
 `format_string`(s) applied, until the occurrence of the next
