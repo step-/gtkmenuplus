@@ -888,8 +888,8 @@ gboolean initDirectory(OUT gchar* sDirBuff, IN guint nBuffSize, IN gchar* sFileN
   guint nLen = pLastSep - sAbsPath + 1;
   if (nLen < nBuffSize - 1)
   {
-   strncpy(sDirBuff, sAbsPath, nLen++);
-   *(sDirBuff + nLen) = '\0'; // TO DO CORRECT?
+   strncpy(sDirBuff, sAbsPath, nLen);
+   sDirBuff[nLen] = '\0';
   }
   else
   {
