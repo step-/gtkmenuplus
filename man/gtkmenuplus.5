@@ -455,6 +455,8 @@ formatting=[ format_string [;|, format_string [;|, format_string... ]]]
 Menu items and submenu labels following a «\fCformat\fR» line have the given
 «\fCformat_string\fR»(s) applied, until the occurrence of the next
 «\fCformat=formatting\fR» line.  
+.br
+CAVEAT: However, «\fCformatting\fR» is not applied to items for which a corresponding non-empty command exists («\fCitem=\fR, «\fCcmd=\fR). This should probably be considered a bug.
 .LP
 If more than one «\fCformat_string\fR» occurs on a «\fCformat=\fR» line, each
 «\fCformat_string\fR» is applied in turn to successive following items or submenu
@@ -1248,7 +1250,7 @@ menuposition=x y
 .fi
 .LP
 An optional line to force the menu to open at a given x-y position (the program
-xev can help you find coordinates - see its man page).  If no «\fCmenupos=\fR» in
+xev can help you find coordinates - see its man page).  If no «\fCmenupos=\fR» is
 encountered, the menu is shown at the mouse cursor position.  Only one
 «\fCmenupos=\fR» is allowed per configuration file.
 .LP

@@ -816,17 +816,16 @@ configuration files.
 The second form inserts a series of menu entries, one per file, including only
 those files to which the user has read access matching the `file_glob`
 specified (e.g. `*.txt`, `d?t*`, `[a-f]*.txt`).
-
-(??) Extended globbing patterns can be used: see
-
-http://www.linuxjournal.com/content/bash-extended-globbing
+GNU fnmatch(3)
+[extended globbing patterns](http://www.linuxjournal.com/content/bash-extended-globbing)
+can be used too.
 
 The generated menu item name will be the file name; if chosen the command
 executed will be the full path to the file.
 
 There is no recursion into subdirectories under `path_to_directory` unless
 there's a `directory_glob`.  If one exists it's applied only to subdirectories
-within `path_to_directory`, not to the matching of subdirectories further down
+within `path_to_directory`, not to the subdirectories matched further down
 the directory tree.
 
 Only subdirectories containing a file matching `file_glob` appear in the
@@ -900,8 +899,9 @@ Any of the keywords `endsubmenu`, `noendsubmenu`, `icons`, `noicons`,
 `formattinglocal`, `noformattinglocal`, `launchernodisplay`,
 `nolaunchernodisplay`, `launchernullcategory`, `nolaunchernullcategory`,
 `launcherlistfirst`, `nolauncherlistfirst`, `errorconsoleonly` , `noerrorconsoleonly`,
-`abspathparts`, `menuposition`, and `iconsize` can occur on this line.
+`abspathparts`¹, `menuposition`¹, and `iconsize`¹ can occur on this line.
 
+(¹) Don't add an equal sign after these keywords:
 `abspathparts` and `iconsize` must be immediately followed by whitespace, then
 an integer; `menuposition` must be followed by whitespace, then two
 whitespace-separated integers.
@@ -998,7 +998,7 @@ You can get the same result by putting `iconsize size` on a `configure=` line.
     menuposition=x y
 
 An optional line to force the menu to open at a given x-y position (the program
-xev can help you find coordinates - see its man page).  If no `menupos=` in
+xev can help you find coordinates - see its man page).  If no `menupos=` is
 encountered, the menu is shown at the mouse cursor position.  Only one
 `menupos=` is allowed per configuration file.
 
