@@ -81,7 +81,7 @@ GdkPixbuf* fileToPixBuf(gchar* sPathToIcon, IN guint uiIconSize, IN gboolean bSu
  return pGdkPixbuf;
 }
 
-// Update: {{{
+// Update: {{{ TODO delete this stuff
 // make_absolute_path isn't needed after all. The reason is that version
 // 1.00 defines all script paths to be relative to the path of the menu
 // configuration file.  So, specifying argv[1] as a relative path might
@@ -96,8 +96,8 @@ GdkPixbuf* fileToPixBuf(gchar* sPathToIcon, IN guint uiIconSize, IN gboolean bSu
 
 #if NEVER_DEFINED
 
-// Make an absolute path. This is a work around for a problem in
-// expand_path, which I, step, don't want to touch at the moment.
+// step: Make an absolute path. This is a work around for a problem in
+// expand_path, which I don't want to touch at the moment.
 // expand_path returns an invalid path when argv[1] and the path
 // after a "keyword=" are both relative paths.
 // Note: GNU realpath(1) command chosen because, unlike realpath(3),
