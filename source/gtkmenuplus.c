@@ -6,7 +6,7 @@
 /*
  * gtkmenuplus - read a description file and generate a menu.
  * version 1.00, 2013-04-24, by Alan Campbell, 2013
- * Versions after 1.00 by step, 2016-2019, forked from Alan Campbell's 1.00
+ * Versions after 1.00 by step, 2016-2023, forked from Alan Campbell's 1.00
  *
  * based partially on code in myGtkMenu, copyright (C) 2004-2011 John Vorthman
  * (https://sites.google.com/site/jvinla/home).
@@ -170,7 +170,7 @@ const gchar*              gl_sHelpMsg =
 "\nGtkmenuplus comes with ABSOLUTELY NO WARRANTY"
 "\nGNU GPLv2 license applies - see license file COPYING."
 "\nCopyright (C) 2013 Alan Campbell - forked from myGtkMenu"
-"\nCopyright (C) 2016-2019 step"
+"\nCopyright (C) 2016-2023 step"
 "\nHome page: " PACKAGE_URL
 "\n";
 //"\ntest_menu.txt is an example menu_configuration_file.\n"
