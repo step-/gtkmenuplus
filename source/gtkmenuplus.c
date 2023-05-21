@@ -80,7 +80,7 @@
 
 #define PARAM_REF_TAG '$'
 
-#define VERSION_TEXT VERSION ", WIP, 2019-11-29"
+#define VERSION_TEXT VERSION ", WIP, 2023-05-21"
 
 #define DEFAULT_CONFIG_FILE  "test_menu.txt"
 
