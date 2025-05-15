@@ -1,0 +1,89 @@
+{
+  "count": 12,
+  "children": [
+    {
+      "label": "10 PASS if you see submenu s10 holding items i101 an i102."
+    },
+    {
+      "label": "s10",
+      "count": 2,
+      "children": [
+        {
+          "label": "i11",
+          "cmd": "true"
+        },
+        {
+          "label": "i12",
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "20 PASS if you see submenu s20...i201"
+    },
+    {
+      "label": ".                           |....s21...i211"
+    },
+    {
+      "label": ".                           |....i22"
+    },
+    {
+      "label": ".                           |....s23...i231"
+    },
+    {
+      "label": ".                           |- separator -"
+    },
+    {
+      "label": "s20",
+      "count": 5,
+      "children": [
+        {
+          "label": "i201",
+          "cmd": "true"
+        },
+        {
+          "label": "s21",
+          "count": 1,
+          "children": [
+            {
+              "label": "i211",
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "i22"
+        },
+        {
+          "label": "s23",
+          "count": 1,
+          "children": [
+            {
+              "label": "i231",
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "",
+          "is_separator": true
+        }
+      ]
+    },
+    {
+      "label": "30 PASS if you see item 30"
+    },
+    {
+      "label": "30",
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

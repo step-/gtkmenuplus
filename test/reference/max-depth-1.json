@@ -1,0 +1,114 @@
+{
+  "count": 6,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if 3 submenus w/o items \"A\">\"B\">\"C\"> then 2 globbed levels of \"./nest/\""
+    },
+    {
+      "label": "(glob *.desktop and directories only)"
+    },
+    {
+      "label": "A",
+      "count": 1,
+      "children": [
+        {
+          "label": "B",
+          "count": 1,
+          "children": [
+            {
+              "label": "C",
+              "count": 5,
+              "children": [
+                {
+                  "label": "1a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "2",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "2b (different)",
+                      "tooltip": "different tooltip",
+                      "icon": "/usr/share/pixmaps/midi-icons/go48.png",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                },
+                {
+                  "label": "2-1",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Geany",
+                      "tooltip": "Geany editor",
+                      "icon": "geany",
+                      "icon_rendered": true,
+                      "cmd": "geany"
+                    }
+                  ]
+                },
+                {
+                  "label": "2-2",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Leafpad",
+                      "tooltip": "Simple text editor",
+                      "icon": "leafpad",
+                      "icon_rendered": true,
+                      "cmd": "leafpad   "
+                    }
+                  ]
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

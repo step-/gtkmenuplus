@@ -1,0 +1,58 @@
+{
+  "count": 15,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 1 expect item: 1 \"\" is FALSE\n# -----\n# 2 expect item: \"\" is FALSE | \"1\" is TRUE | \"0\" is FALSE\n#   given $1 = :    &lt;empty&gt;  |   1         |   0\n# -----\n# 3.0 expect menu item: \"$c0\" is FALSE\n#   because variable c0 is undefined\n# -----\n# 3.1 expect menu item: \"\" is FALSE\n#   because variable c1 (replaced) is empty\n# -----\n# 4 expect item: `echo \"\"` is FALSE | `echo \"1\"` is TRUE | `echo \"0\"` is FALSE\n#   given $1 = :    &lt;empty&gt;       |   1                |   0\n# -----\n# 5 expect no menu item and stderr messages:\n#   sh: line 1: x5invalid: command not found\n#   [3] error: `elseif` exit status 127: x5invalid\n# -----\n# 6 expect menu item: 'echo \"true\" is TRUE' after stderr messages:\n#   sh: line 1: x6true: command not found\n#   [3] error: `elseif` exit status 127: x6true\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 \"\" is FALSE"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "2 \"\" is FALSE"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "3.0 \"$c0\" is FALSE"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "3.1 \"\" is FALSE"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "4 `echo \"\"` is FALSE"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "6 echo \"true\" is TRUE"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

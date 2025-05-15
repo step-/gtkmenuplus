@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Calculators
+Icon=/usr/share/pixmaps/mini-icons/mini-calc.xpm
+Type=Directory
+Comment[fi]=Laskimet
+Name[es]=Calculadoras
+Name[fi]=Laskimet
+Name[hu]=Számológépek
+Name[it]=Calcolatrici
+Name[pt]=Calculadores
+
+Categories=Calculator

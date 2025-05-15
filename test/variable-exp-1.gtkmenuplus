@@ -1,0 +1,71 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#mDIR = nest/2/3/4/5A
+configure=noerrorconsoleonly
+# SKIP_JSON because test verification involves pushing buttons.
+#-------------------------------------------
+
+#% Test activationlogfile= directive.
+#% Also old non-regression test.
+#
+# Before 1fc37a58 the last line in this file (cmd=) triggered a segmentation fault.
+# Back then max line size was <= 512.
+#
+#% After 1fc37a58 this test displays a dialog for error
+#% "line too long after expanding variable $APPLY_SORT_BY_ALPHA_ASC"
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+BLACKLIST="@blacklist@|Item=Shutdown"
+
+A0==echo '\$'0 # enter $0 as $A0
+BEGIN=BEGIN{RS=\"#[{]}\";IGNORECASE=1}
+SELECT={gsub(/^\n|\n$/,X);a[++n]=$A0\"\n\"RT}
+END_BLACKLIST=END{delete a[n];for(i=1;i<n;i++)print a[i]>FILENAME}
+APPLY_BLACKLIST=gawk '$BEGIN/$BLACKLIST/{next}$SELECT$END_BLACKLIST' '$RECENTFILE'
+
+END_SORT=END{delete a[n];asort(a,b,\"cmp\");for(i=1;i<n;i++)print b[i]>FILENAME}
+ALPHA_CMP_FUNC=function cmp(i1,v1,i2,v2,  a1,a2){split(v1,a1,/item=|\n/);split(v2,a2,/item=|\n/);gsub(/_/,X,a1[2]);gsub(/_/,X,a2[2])
+BY_ALPHA_ASC =$ALPHA_CMP_FUNC;return a1[3]<a2[3]?-1:(a1[3]==a2[3]?0:1)}
+APPLY_SORT_BY_ALPHA_ASC   =gawk -o/tmp/by-alpha-asc.awk '$BEGIN$SELECT$END_SORT$BY_ALPHA_ASC' '$RECENTFILE'
+
+# 0 expect AN ERROR DIALOG, and stderr message:
+#   "line too long after expanding variable $APPLY____SORT____BY____ALPHA____ASC".
+# -----
+RECENTFILE == echo "/tmp/$(basename "$mTESTFILE").log"
+activationlogfile = $RECENTFILE
+activationlogexclude = @blacklist@
+
+# 1 expect item "1 PASS if you just saw the error dialog "...".
+# -----
+item = <span $mag_whi_nrm_>_1 PASS if you just saw the error dialog "line too long after expanding variable $_APPLY__SORT__BY__ALPHA__ASC"</span>
+icon = gtk-yes
+# db8878e increased max line size to 1023: append multiple times.
+cmd = sh -nc ": -----------;""$APPLY_BLACKLIST;""$APPLY_SORT_BY_ALPHA_ASC;""$APPLY_SORT_BY_ALPHA_ASC;""$APPLY_SORT_BY_ALPHA_ASC;"
+tooltip = The activation log file captures this tooltip.
+
+info_ == printf '%s %s\n' 'This script also tests `activationlog=` file:' '$RECENTFILE' 'To view it activate item 1 then run: cat' '$RECENTFILE'
+item = <span bgcolor="yellow" fgcolor="black">$info_</span>
+
+separator # ----------------------------------------------------
+
+item = <span $mag_whi_nrm_>_2 PASS if the activation log file will NOT capture this entry</span>
+icon = gtk-yes
+cmd = sh -xc ": @blacklist@;echo THIS ENTRY SHOULD NOT BE LOGGED"
+
+info_ == printf '%s\n' 'the activation is not captured due to an active activationlogexclude= filter' '(verify that the entry counter in the log file was not incremented)' '(see also stdout messages after the activation)'
+item = <span bgcolor="pink" fgcolor="black">$info_</span>
+
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

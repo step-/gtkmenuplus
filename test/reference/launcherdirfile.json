@@ -1,0 +1,271 @@
+{
+  "count": 28,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Visit submenus and verify they look as the \"PASS\" statements say.\n# Launcher items are labeled by {Name=} '(' {Categories=} ')'\n# You can click the PASS entry to edit the launcherdirfile file.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">10 PASS if all entries have <span bgcolor=\"gold\">gold bg</span> and you see 3 \"yes\" and 0 \"no\" entries,</span>",
+      "cmd": "defaulttexteditor ldf/0.directory"
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">and submenu \"dirfile...\" holding 3 sub-levels with 3 \"yes\"</span>",
+      "tooltip": "click to edit ldf/0.directory"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1/1a (c1)",
+      "tooltip": "category c1",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "1/1c (c2)",
+      "tooltip": "category c2",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "1/1d (empty category)",
+      "tooltip": "this entry's {Categories=} exists and is empty",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "dirfile 0.directory Categories=c1;c2;",
+      "tooltip": "Categories=c1;c2;",
+      "icon_rendered": true,
+      "count": 4,
+      "children": [
+        {
+          "label": "2/1a (c1)",
+          "tooltip": "category c1",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "2/1c (c2)",
+          "tooltip": "category c2",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "2/2d (null category)",
+          "tooltip": "this entry's {Categories=} property does not exist",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "dirfile 0.directory Categories=c1;c2;",
+          "tooltip": "Categories=c1;c2;",
+          "icon_rendered": true,
+          "count": 4,
+          "children": [
+            {
+              "label": "3/1a (c1)",
+              "tooltip": "category c1",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "3/1c (c2)",
+              "tooltip": "category c2",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "3/4d (null category)",
+              "tooltip": "this entry's {Categories=} property does not exist",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "dirfile 0.directory Categories=c1;c2;",
+              "tooltip": "Categories=c1;c2;",
+              "icon_rendered": true,
+              "count": 3,
+              "children": [
+                {
+                  "label": "4/1a (c1)",
+                  "tooltip": "category c1",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "4/1c (c2)",
+                  "tooltip": "category c2",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "4/3d (empty category)",
+                  "tooltip": "this entry's {Categories=} exists and is empty",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">20 PASS if all entries have <span bgcolor=\"lime\">lime bg</span> and if you see 1 \"no\" and 1 \"yes\" entry,</span>",
+      "cmd": "defaulttexteditor ldf/1/2/2.directory"
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">and submenu \"launcherdirfile...\" holding 2 sub-levels with 1 no and 1 \"yes\" entry</span>",
+      "tooltip": "click to edit ldf/1/2/2.directory"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "2/1b no (other)",
+      "tooltip": "category other",
+      "icon": "gtk-no",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/2d (null category)",
+      "tooltip": "this entry's {Categories=} property does not exist",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "launcherdirfile= 1/2/2.directory Categories=other;",
+      "tooltip": "dirfile 2.directory Categories=other;",
+      "icon_rendered": true,
+      "count": 3,
+      "children": [
+        {
+          "label": "3/1b no (other)",
+          "tooltip": "category other",
+          "icon": "gtk-no",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3/4d (null category)",
+          "tooltip": "this entry's {Categories=} property does not exist",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcherdirfile= 1/2/2.directory Categories=other;",
+          "tooltip": "dirfile 2.directory Categories=other;",
+          "icon_rendered": true,
+          "count": 2,
+          "children": [
+            {
+              "label": "4/1b no (other)",
+              "tooltip": "category other",
+              "icon": "gtk-no",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4/3d (empty category)",
+              "tooltip": "this entry's {Categories=} exists and is empty",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">30 PASS if you see 3 \"yes\" and 0 \"no\" entries on <span bgcolor=\"gold\">gold bg</span></span>",
+      "tooltip": "click to edit ldf/0.directory",
+      "cmd": "defaulttexteditor ldf/0.directory"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1/1a (c1)",
+      "tooltip": "category c1",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "1/1c (c2)",
+      "tooltip": "category c2",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "1/1d (empty category)",
+      "tooltip": "this entry's {Categories=} exists and is empty",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">40 PASS if you see 1 \"no\" and 1 \"yes\" entries on <span bgcolor=\"lime\">lime bg</span></span>",
+      "tooltip": "click to edit ldf/1/2/2.directory",
+      "cmd": "defaulttexteditor ldf/1/2/2.directory"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "2/1b no (other)",
+      "tooltip": "category other",
+      "icon": "gtk-no",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/2d (null category)",
+      "tooltip": "this entry's {Categories=} property does not exist",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

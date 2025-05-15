@@ -1,0 +1,54 @@
+{
+  "count": 9,
+  "children": [
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if I'm a submenu with 1 item",
+      "icon_rendered": true,
+      "count": 1,
+      "children": [
+        {
+          "label": "item",
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span bgcolor=\"gold\">PASS if I'm OUTSIDE the submenu</span>",
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if I'm a submenu without items",
+      "icon_rendered": true,
+      "count": 1,
+      "children": [
+        {
+          "label": ""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span bgcolor=\"gold\">PASS if I'm OUTSIDE the submenu</span>",
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

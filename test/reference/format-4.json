@@ -1,0 +1,66 @@
+{
+  "count": 10,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 100 instructions: verify the interleaving of green/red colors according to the descriptions.\n# -----\n# 200 instructions: also verify that the submenu entry looks as described.\n# -----\n# 300 instructions: then visit the submenu and verify interleaved background colors.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "green Monospace bold font"
+    },
+    {
+      "label": "red Sans normal font size 15"
+    },
+    {
+      "label": "green Monospace bold font"
+    },
+    {
+      "label": "red Sans normal font size 15"
+    },
+    {
+      "label": "<span bgcolor=\"pink\" variant=\"small-caps\" size=\"x-large\" underline=\"single\" overline=\"single\">Submenu (green on pink Monospace bold x-large small-caps underlined &amp; overlined)...</span>",
+      "count": 5,
+      "children": [
+        {
+          "label": "red bg white fg, size 20"
+        },
+        {
+          "label": "green bg white fg, bold"
+        },
+        {
+          "label": "red bg white fg, size 20"
+        },
+        {
+          "label": "green bg white fg, bold"
+        },
+        {
+          "label": "<span foreground=\"darkmagenta\" background=\"white\">ENTER THIS MENU</span> Submenu red bg white fg, size 20...",
+          "count": 2,
+          "children": [
+            {
+              "label": "PASS if these two items display the default formatting because nested",
+              "cmd": "true"
+            },
+            {
+              "label": "<span weight=\"800\">submenus</span> do not inherit <span weight=\"800\">multi-section</span> formatting from the level above.",
+              "cmd": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "red Sans normal font size 15"
+    },
+    {
+      "label": "green Monospace bold font"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

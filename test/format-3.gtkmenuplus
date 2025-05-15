@@ -1,0 +1,152 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = format
+#-------------------------------------------
+
+#% Test launcherdirfile[index].
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify the PASS conditions.
+# -----
+
+#######################################################################
+#                launcherdirfile[0..4] + launchersub                  #
+#######################################################################
+
+item = 100 PASS if <span $fg_blue_>blue</span> is the text color of all entries in the section below,
+item = except for the last submenu entry, which is <span $fg_maroon_>maroon</span>.
+separator
+
+# Properties from each .desktop.directory file only
+# apply to launcher entries at the given level.
+launcherdirfile[0] = $mDIR/.desktop.directory
+launcherdirfile[1] = $mDIR/1/.desktop.directory
+launcherdirfile[2] = $mDIR/1/2/.desktop.directory
+launcherdirfile[3] = $mDIR/1/2/3/.desktop.directory
+launcherdirfile[4] = $mDIR/1/2/3/.desktop.directory
+# Launchersub is embedded at the current menu level (0 in this case). Launcher
+# files located immediately under $mDIR are inserted at the current menu level.
+format        = $fg_blue_
+  launchersub = $mDIR
+format        =
+separator # ----------------------------------------------------
+
+#######################################################################
+#                    launchersubmenu + launchersub                    #
+#######################################################################
+
+# The launchersubmenu entry should display an
+# icon but the nested submenu entries should not.
+item = 200 PASS if the submenu label below and all its child entries use the default color.
+# This is a key point of this test case. The other one is passing the
+# Launchersubmenu directive a .desktop file instead of a .directory file.
+launcherdirfile= # reset all levels
+
+# Launchersubmenu starts a submenu wrapping the next
+# launchersub and its children. The properties of the submenu
+# entry are read from from the launcherdirfile argument.
+launchersubmenu=$mDIR/0a.desktop
+launchersub=$mDIR
+endsubmenu
+separator # ----------------------------------------------------
+
+#######################################################################
+#       launchersubmenu + launcherdirfile[1..4] + launchersub         #
+#######################################################################
+
+item = 300 PASS if the submenu label in the section below is <span $fg_maroon_>maroon</span> with a leafpad icon;
+item = and each sub-level contains a submenu as follows:
+format = font="Monospace" size="large"
+  item = ICON       LABEL
+  item = gtk-ok     "label in ./.desktop.directory"
+  item = leafpad    "label in 1/.desktop.directory"
+  item = gtk-ok     "label in 1/2/.desktop.directory"
+format =
+separator
+item = 301 Also PASS if the tooltips of the submenu entries
+item = follow the same pattern as their corresponding labels.
+separator
+
+launcherdirfile= # reset all levels
+# Launchersubmenu starts a submenu wrapping the next
+# launchersub and its children. The properties of the submenu
+# entry are read from from the launcherdirfile argument.
+launchersubmenu=$mDIR/1/2/3/.desktop.directory
+# Because launcher files located immediately under $mDIR are wrapped
+# inside the submenu, their menu level starts one level below the
+# submenu's level, that is, the launchers start at level 1 (in this case).
+launcherdirfile[1] = $mDIR/.desktop.directory
+launcherdirfile[2] = $mDIR/1/.desktop.directory
+launcherdirfile[3] = $mDIR/1/2/.desktop.directory
+launcherdirfile[4] = $mDIR/1/2/3/.desktop.directory
+
+launchersub=$mDIR
+endsubmenu
+separator # ----------------------------------------------------
+
+#######################################################################
+#         launchersubmenu + launcherdirfile[3] + launchersub          #
+#######################################################################
+
+item = 400 PASS if the sequence of submenu entries is as follows:
+format = font="Monospace" size="large"
+  item = ICON       LABEL                              TOOLTIP
+  item = gtk-yes    "Yes symlink"                      "Green dot"
+  item = -          "1"                                -
+  item = -          "2"                                -
+  item = gtk-ok     "label in 1/2/.desktop.directory"  similar to the label
+format =
+
+# Launchersubmenu starts a submenu wrapping the next
+# launchersub and its children. The properties of the submenu
+# entry are read from from the launcherdirfile argument.
+launchersubmenu=$mDIR/0a.desktop
+# Because launcher files located immediately under $mDIR are wrapped
+# inside the submenu, their menu level starts one level below the
+# submenu's level, that is, the launchers start at level 1 (in this case).
+launcherdirfile[1] =
+launcherdirfile[2] =
+launcherdirfile[3] = $mDIR/1/2/.desktop.directory
+launcherdirfile[4] =
+
+launchersub=$mDIR
+endsubmenu
+separator # ----------------------------------------------------
+
+#######################################################################
+#           submenu + launcherdirfile[1..4] + launchersub             #
+#######################################################################
+
+item = 500 PASS if the "submenu label" in the section below uses the default color,
+item = and the sequence of submenu entries follows the same description at \#300
+separator
+
+launcherdirfile= # reset all levels
+# Launchersubmenu starts a submenu wrapping the next
+# launchersub and its children. The properties of the submenu
+# entry are read from from the launcherdirfile argument.
+submenu=submenu label
+# Because launcher files located immediately under $mDIR are wrapped
+# inside the submenu, their menu level starts one level below the
+# submenu's level, that is, the launchers start at level 1 (in this case).
+launcherdirfile[1] = $mDIR/.desktop.directory
+launcherdirfile[2] = $mDIR/1/.desktop.directory
+launcherdirfile[3] = $mDIR/1/2/.desktop.directory
+launcherdirfile[4] = $mDIR/1/2/3/.desktop.directory
+
+launchersub=$mDIR
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

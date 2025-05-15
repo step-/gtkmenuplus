@@ -1,0 +1,59 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = include=
+#-------------------------------------------
+
+#% Test cmd=, icon=, tooltip= after include=dirpath.
+
+# Display this menu in a loop. Use e_xit item (further down) to exit.
+item = <span bgcolor="pink">  AUTO-RESTARTING MENU - SELECT "e__xit menu" TO END THE LOOP  </span>
+include = lib/restart.entry '!' # set _cmdline_
+onexit = $_cmdline_ &
+
+item = e_xit menu
+icon = gtk-quit
+cmd  = pkill -n gtkmenuplus
+separator # ----------------------------------------------------
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Visit each submenu to verify that it includes all and only the
+# described items.
+# -----
+
+submenu = 1 submenu holding 2 iconless .[ch] files that open with the "leafpad" editor
+include = $mDIR/f0.[ch]
+cmd = leafpad
+endsubmenu
+separator # ----------------------------------------------------
+
+submenu = 2 submenu holding 4 .x files spread across submenu + 3 subsubmenus, all entries display the "gtk-ok" icon
+include = $mDIR/*.x d2.h
+icon = gtk-ok
+endsubmenu
+separator # ----------------------------------------------------
+
+submenu = 3 submenu holding 7 iconless .c files spread across the submenu + 4 subsubmenus, all entries provide a "howdy" tooltip
+include = $mDIR/*.c d1
+tooltip = howdy
+endsubmenu
+separator # ----------------------------------------------------
+
+submenu = 4 submenu in which all tooltips, icons, and commands scream "leafpad"
+include = $mDIR/*.c d1
+tooltip = leafpad
+icon = leafpad
+cmd = leafpad
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

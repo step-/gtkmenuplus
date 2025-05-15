@@ -1,0 +1,125 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#mDIR = nest/2/3/4/5A
+configure=errorconsoleonly
+#-------------------------------------------
+
+#% Test if-then-elseif for empty or invalid test conditions.
+#
+# Version 1.50.0 was corrected as follows:
+# * Accept empty conditions, which yield FALSE.
+# * Report invalid intermediate values.
+# * Skip from an `if` or `elseif` whose condition is invalid through to the closing `endif`.
+# * Skip evaluating conditions after the first TRUE condition in an `if`...`endif` block.
+#
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 1 expect item: 1 "" is FALSE
+# -----
+if =
+  item = 1 "" is TRUE
+else
+  item = 1 "" is FALSE
+endif
+separator # ----------------------------------------------------
+
+# 2 expect item: "" is FALSE | "1" is TRUE | "0" is FALSE
+#   given $1 = :    &lt;empty&gt;  |   1         |   0
+# -----
+if = $1
+  item = 2 "$1" is TRUE
+else
+  item = 2 "$1" is FALSE
+endif
+separator # ----------------------------------------------------
+
+# 3.0 expect menu item: "$c0" is FALSE
+#   because variable c0 is undefined
+# -----
+if = $c0
+  item = 3.0 "$c0" is TRUE
+else
+  item = 3.0 "$c0" is FALSE
+endif
+separator # ----------------------------------------------------
+
+# 3.1 expect menu item: "" is FALSE
+#   because variable c1 (replaced) is empty
+# -----
+c1 =
+if = $c1
+  item = 3.1 "$c1" is TRUE
+else
+  item = 3.1 "$c1" is FALSE
+endif
+separator # ----------------------------------------------------
+
+# 4 expect item: `echo ""` is FALSE | `echo "1"` is TRUE | `echo "0"` is FALSE
+#   given $1 = :    &lt;empty&gt;       |   1                |   0
+# -----
+if = echo $1
+  item = 4 `echo "$1"` is TRUE
+else
+  item = 4 `echo "$1"` is FALSE
+endif
+separator # ----------------------------------------------------
+
+# 5 expect no menu item and stderr messages:
+#   sh: line 1: x5invalid: command not found
+#   [3] error: `elseif` exit status 127: x5invalid
+# -----
+c5 = invalid
+if = $c5
+  item = 5 "$c5" is TRUE
+# invalid => invalidates through endif
+elseif = x5$c5
+  item = 5 "x5$c5" is TRUE
+else
+  if = y5$c5
+    item = 5 "y5$c5" is TRUE
+  else
+    item = 5 "y5$c5" is FALSE
+  endif
+  item = 5 "$c5" is TRUE
+endif
+separator # ----------------------------------------------------
+
+# 6 expect menu item: 'echo "true" is TRUE' after stderr messages:
+#   sh: line 1: x6true: command not found
+#   [3] error: `elseif` exit status 127: x6true
+# -----
+c6 = true
+# valid (true is a no-output command) => empty string => FALSE
+if = $c6
+  item = 6 "$c6" is TRUE
+# invalid => invalidates through endif
+elseif = x6$c6
+  item = 6 "x6a$c6" is TRUE
+elseif = y6$c6             # skipped
+  item = 6 "x6b$c6" is TRUE
+else
+  if = z6$c6               # skipped
+    item = 6 "y6$c6" is TRUE
+  else
+    if = echo $c6          # valid but skipped
+      item = 6 "$c6" is TRUE
+    else
+      item = 6 "$c6" is FALSE
+    endif
+  endif
+endif
+item = 6 echo "$c6" is TRUE
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

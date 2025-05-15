@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=Personal
+Icon=/usr/share/pixmaps/midi-icons/date48.png
+Type=Directory
+Comment[fi]=Henkilökohtainen
+Name[bg]=Лични приложения
+Name[ca_ES]=Personal
+Name[de]=Persönlich
+Name[es]=Personal
+Name[fi]=Henkilökohtainen
+Name[fr]=Personnel
+Name[hu]=Személyes
+Name[it]=Ufficio
+Name[ja]=パーソナル
+Name[ko]=개인
+Name[nl]=Persoonlijk
+Name[pl]=Osobiste
+Name[pt]=Pessoal
+Name[ru]=Личные
+Name[zh_CN]=个人工具
+Name[zh_TW]=個人工具
+Name[de]=Persönlich
+
+Categories=;X-Personal;Calendar;ContactManagement;X-PersonalUtility

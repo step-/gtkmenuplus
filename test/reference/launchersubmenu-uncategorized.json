@@ -1,0 +1,89 @@
+{
+  "count": 13,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify PASS conditions as described by item labels.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">10 PASS if \"Uncategorized\" contains two items: \"Empty category\" and \"Null category\".</span>",
+      "cmd": "defaulttexteditor launchersubmenu=/multi/uncategorized.directory"
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">(Click PASS above to view the .directory file)</span>"
+    },
+    {
+      "label": "_Uncategorized",
+      "tooltip": "All and ONLY the .desktop files with null or empty {Categories=}",
+      "icon_rendered": true,
+      "count": 2,
+      "children": [
+        {
+          "label": "Empty category",
+          "tooltip": "the category property exists and is empty",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "Null category",
+          "tooltip": "the category property does not exist",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">20 PASS if \"Uncategorized\" contains two items: \"Empty category\" and \"Null category\".</span>",
+      "cmd": "defaulttexteditor launchersubmenu=/multi/uncategorized.directory"
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">(Click PASS above to view the .directory file)</span>"
+    },
+    {
+      "label": "_Uncategorized",
+      "tooltip": "All and ONLY the .desktop files with null or empty {Categories=}",
+      "icon_rendered": true,
+      "count": 2,
+      "children": [
+        {
+          "label": "Empty category",
+          "tooltip": "the category property exists and is empty",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "Null category",
+          "tooltip": "the category property does not exist",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">30 PASS if there is no \"Uncategorized\" submenu.</span>",
+      "cmd": "defaulttexteditor launchersubmenu=/multi/uncategorized.directory"
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">(Click PASS above to view the .directory file)</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

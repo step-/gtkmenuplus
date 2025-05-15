@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Multimedia
+Icon=/usr/share/pixmaps/mini-icons/Animation.xpm
+Type=Directory
+Name[hu]=Multimédia
+Name[ja]=マルチメディア
+Name[pt]=Multimédia
+
+Categories=X-Multimedia;AudioVideo;Video;Player;AudioVideoEditing;Recorder;Music;Audio;Midi;Mixer;Sequencer;Tuner;Video;TV

@@ -1,0 +1,18 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = NOendsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+# SKIP_JSON because test verification involves stderr.
+#-------------------------------------------
+
+#% (stderr, no GUI) Test invalid indentation error
+
+item = $mTESTFILE
+separator # PASS if the level[3] error above concerns incorrect indentation
+    submenu = this directive is wrongly indented
+separator # ----------------------------------------------------
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

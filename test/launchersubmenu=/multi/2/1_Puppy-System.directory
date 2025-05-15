@@ -1,0 +1,23 @@
+[Desktop Entry]
+Name=System
+Icon=/usr/share/pixmaps/midi-icons/pc48.png
+Type=Directory
+Comment[fi]=Järjestelmä
+Name[bg]=Системни приложения
+Name[ca_ES]=Sistema
+Name[es_ES]=Sistema
+Name[es]=Sistema
+Name[fi]=Järjestelmä
+Name[fr]=Système
+Name[hu]=Rendszer
+Name[it]=Sistema
+Name[ja]=システム
+Name[ko]=시스템 도구
+Name[nl]=Systeem
+Name[pl]=System
+Name[pt]=Sistema
+Name[ru]=Система
+Name[zh_CN]=系统
+Name[zh_TW]=系統
+
+Categories=;System;Monitor;Security;HardwareSettings;Core;X-SystemMemory;X-SystemSchedule

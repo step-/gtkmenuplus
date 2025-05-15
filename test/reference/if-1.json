@@ -1,0 +1,16 @@
+{
+  "count": 3,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 expect NO items\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

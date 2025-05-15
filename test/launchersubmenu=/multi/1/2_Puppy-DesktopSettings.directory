@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Desktop Settings
+Icon=/usr/share/pixmaps/mini-icons/mini.window3d.xpm
+Type=Directory
+Comment[fi]=Työpöydän asetukset
+Name[es]=Config. de Escritorio
+Name[fi]=Työpöydän asetukset
+Name[hu]=Asztal beállításai
+Name[ja]=デスクトップの設定
+
+Categories=X-Desktop;DesktopSettings;Screensaver;Accessibility

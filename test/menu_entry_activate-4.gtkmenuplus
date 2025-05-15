@@ -1,0 +1,29 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+# SKIP_JSON because test verification involves pushing buttons and stdout.
+#-------------------------------------------
+
+#% Test running `cmd=` with path expansion.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Activate the entry then verify PASS statements on stdout.
+# -----
+
+passif=PASS if stdout displays expanded ~\/ and .\/ end with "/++" and non-expanded ~\/ and .\/ end with "/--".
+
+# 1
+item=_1 activate me
+cmd=printf %b\\n  '\n$passif\n1\n└ ~/++ .\/--\n2\n└ ~\/-- ./++\n3\n└ ./++ ~/++\n4\n└ ~\/-- .\/--\n5\n└ .\/-- ~\/-- .\/-- ~\/--\n6\n└ ~/++ ./++ ~/++ ./++'
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Internet dialup
+Icon=/usr/share/pixmaps/mini-icons/mini-connect.xpm
+Type=Directory
+Comment[fi]=Internet yhteysohjelmat
+Name[es]=Marcación a Internet
+Name[fi]=Internet yhteysohjelmat
+
+Categories=Dialup

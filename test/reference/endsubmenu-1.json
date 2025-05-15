@@ -1,0 +1,60 @@
+{
+  "count": 9,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 10 expect block with instructions.\n# Visit block items to verify PASS labels.\n# -----\n# 20 expect block with instruction.\n# Visit block items to verify PASS labels.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "10 PASS if submenu label \"A\" is <span fgcolor=\"green\" overline=\"single\">green</span> and \"A>\" contains two <span fgcolor=\"red\" underline=\"single\">red</span> items only."
+    },
+    {
+      "label": "A",
+      "count": 2,
+      "children": [
+        {
+          "label": "5a",
+          "tooltip": "Tooltip",
+          "icon": "gtk-about",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "Yes symlink",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "20 PASS if two <span fgcolor=\"dodgerblue\" font-weight=\"800\">blue</span> items follow this item"
+    },
+    {
+      "label": "5a",
+      "tooltip": "Tooltip",
+      "icon": "gtk-about",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "Yes symlink",
+      "tooltip": "green dot",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#mDIR = nest/2/3/4/5A
+configure=errorconsoleonly
+#-------------------------------------------
+
+#% Old non-regression test.
+
+# Before ca4437a3 nested if=condition/endif blocks trigger an error
+# message 'endif without if' when the outer condition value is false.
+#
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 expect NO items
+# -----
+if=sh -xc ": '>'; echo true"
+else
+  if=sh -xc ": '>>'; echo false"
+  else
+    # We shouldn't evaluate statements in this block unless:
+    # A. new bug: level 1 else (false) body is being executed
+    item=<span color="red" size="x-large">else FAIL CASE A.1</span>
+    icon=gtk-dialog-error
+    if=sh -xc ": '>>>'; echo true"
+    else
+      # We shouldn't evaluate statements in this block unless:
+      # A. new bug: level 1 else (false) body is being executed
+      item=<span color="red" size="x-large">else FAIL CASE A.2</span>
+      icon=gtk-dialog-error
+    endif
+  endif
+  # We shouldn't evaluate statements in this block unless either:
+  # A. legacy bug: level 2 endif closes level 1 else
+  # B. new bug: level 1 else (false) body is being executed
+  item=<span color="red" size="x-large">else FAIL CASES A,B</span>
+  icon=gtk-dialog-error
+endif
+
+separator # ----------------------------------------------------
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

@@ -1,0 +1,58 @@
+{
+  "count": 12,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 1 expect item: 1 PASS 'if'\n# 2 expect item: 2 PASS 'if'\n# 3 expect item: 3 PASS 'if'\n# -----\n# 4 expect item: 4 PASS 'elseif'\n# -----\n# 5 expect item: 5 PASS 'else'\n# -----\n# 6 expect item: 6 PASS 'elseif'\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 PASS 'if'",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "2 PASS 'if'",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "3 PASS 'if'",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "4 PASS 'elseif'",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "5 PASS 'else'",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "6 PASS 'elseif'",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

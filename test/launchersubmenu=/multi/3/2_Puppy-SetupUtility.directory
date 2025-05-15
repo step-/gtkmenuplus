@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Setup Utilities
+Icon=/usr/share/pixmaps/mini-icons/mini-ray.xpm
+Type=Directory
+Comment[fi]=Asennus apuohjelmat
+Name[es]=Herramientas de Instalación
+Name[fi]=Asennus apuohjelmat
+Name[hu]=Telepítés varázslók
+Name[it]=Strumenti Installazione
+Name[ja]=インストーラー
+Name[pt]=Ferramentas de Instalação
+
+Categories=X-SetupUtility

@@ -1,0 +1,50 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = include=
+# SKIP_JSON because test verification involves stderr.
+#-------------------------------------------
+
+#% Test invalid dirpath in include=dirpath.
+
+# Display this menu in a loop. Use e_xit item (further down) to exit.
+item = <span bgcolor="pink">  AUTO-RESTARTING MENU - SELECT "e__xit menu" TO END THE LOOP  </span>
+include = lib/restart.entry '!' # set _cmdline_
+onexit = $_cmdline_ &
+
+item = e_xit menu
+icon = gtk-quit
+cmd  = pkill -n gtkmenuplus
+separator # ----------------------------------------------------
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Activate items and verify that stderr corresponds to the description.
+# -----
+
+# 1 expect an empty submenu and stderr message
+# [3] error: `include= /not/a/dir/include`: No such file or directory.
+# -----
+submenu = 1 empty submenu
+include = /not/a/dir/$mDIR
+item    =
+endsubmenu
+
+# 2 expect an empty submenu and stderr message
+# [3] error: `include= /not/a/dir/include/*.c`: No such file or directory.
+# -----
+submenu = 2 empty submenu
+include = /not/a/dir/$mDIR/*.c
+item    =
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

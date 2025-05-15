@@ -1,0 +1,72 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = abspath=
+#-------------------------------------------
+
+#% Test `include=dirpath` with `configure={,no}{,launcher}icons`
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Visit each submenu to verify PASS statements.
+# -----
+
+configure=noicons
+submenu = 1 PASS if this submenu entry shows NO icon and for all its contained entries...
+	item = 1 PASS if NO icons below
+	include = $mDIR/!(*.desktop)
+endsubmenu
+separator # ----------------------------------------------------
+
+configure=noicons
+submenu = 2 PASS if this submenu shows NO icon and for its contained entries...
+	item = 2 PASS if NO icons below
+	include = $mDIR/!(*.desktop)
+endsubmenu
+separator # ----------------------------------------------------
+
+configure=icons
+submenu = 3 PASS if this submenu shows GTK-OK icon, and for its contained entries...
+icon = gtk-ok
+	item = 3 PASS if ALL icons below
+	include = $mDIR/!(*.desktop)
+endsubmenu
+separator # ----------------------------------------------------
+
+configure=icons
+submenu = 4 PASS if this submenu shows NO icon, and for its contained entries...
+	item = 4 PASS if ALL icons below
+	include = $mDIR/!(*.desktop)
+endsubmenu
+separator # ----------------------------------------------------
+
+basedir_ == dirname "$mTESTFILE"
+logo_icon_ = $basedir_/icondirectory=/XPM/gtkmenuplus.xpm
+
+configure=icons
+submenu = 5 PASS if this submenu shows NO icon, and for its contained entries...
+	item = 5 PASS if ALL logo icons below
+	include = $mDIR/!(*.desktop)
+		tooltip = icon file path = $logo_icon_
+		icon = $logo_icon_
+
+endsubmenu
+separator # ----------------------------------------------------
+
+configure=icons
+submenu = 6 PASS if this submenu shows NO icon, and for its contained entries...
+	item = 6 PASS if NO icons below
+	include = $mDIR/!(*.desktop)
+	icon =
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

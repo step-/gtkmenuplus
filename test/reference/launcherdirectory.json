@@ -1,0 +1,50 @@
+{
+  "count": 11,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 leafpad item located in /usr/share/applications"
+    },
+    {
+      "label": "Leafpad",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "2 leafpad item located in ./abspath="
+    },
+    {
+      "label": "Leafpad in ./abspath=",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if two leafpad items above, one located in"
+    },
+    {
+      "label": "/usr/share/applications, the other one in ./abspath="
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

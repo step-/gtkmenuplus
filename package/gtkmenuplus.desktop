@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=gtkmenuplus
+GenericName=gtkmenuplus
+Comment=Display popup menus from description text
+Exec=gtkmenuplus -h
+Icon=gtkmenuplus
+Terminal=false
+Categories=GNOME;GTK;Utility;
+StartupNotify=true

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=4/1b no (other)
+Comment=category other
+Exec=true
+Terminal=false
+Icon=gtk-no
+Categories=other;

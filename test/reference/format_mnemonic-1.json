@@ -1,0 +1,112 @@
+{
+  "count": 19,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Validate PASS statements.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if the next 3 entries start with plain T (no underline).</span>"
+    },
+    {
+      "label": "<span mnemonic=\"1\">This item (tranparent bg)</span>",
+      "cmd": "true"
+    },
+    {
+      "label": "<span bgcolor=\"gold\" mnemonic=\"1\">This item (gold bg)</span>",
+      "cmd": "true"
+    },
+    {
+      "label": "<span mnemonic=\"1\" bgcolor=\"pink\">This item (pink bg)</span>",
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if the next 3 entries start with underlined __T, and their font is larger than mine, and the colors are R,G,B.</span>"
+    },
+    {
+      "label": "<span foreground=\"red\">This item</span>",
+      "cmd": "true"
+    },
+    {
+      "label": "<span foreground=\"green\" size=\"large\">This item</span>",
+      "cmd": "true"
+    },
+    {
+      "label": "<span mnemonic=\"1\" foreground=\"blue\">This item</span>",
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if the leafpad launcher starts with underlined __L</span>"
+    },
+    {
+      "label": "Leafpad",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if all launchers in the Launchers submenu start with an underlined letter[*]</span>"
+    },
+    {
+      "label": "<span>[*] except launchers that are already memoized; you might need to scroll the submenu to enable underlines</span>"
+    },
+    {
+      "label": "_Launchers",
+      "count": 4,
+      "children": [
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

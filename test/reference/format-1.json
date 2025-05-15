@@ -1,0 +1,957 @@
+{
+  "count": 42,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span bgcolor=\"pink\">10 PASS if the color of all tooltips, regardless of their menu level, is <span foreground=\"darkmagenta\" background=\"white\">magenta on white</span>    </span>",
+      "tooltip": "the tooltip"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "20 PASS if the color of \"A\" and all labels under \"A\" is <span fgcolor=\"dodgerblue\" font-weight=\"800\">blue</span>",
+      "tooltip": "the tooltip"
+    },
+    {
+      "label": "A",
+      "tooltip": "the tooltip",
+      "count": 1,
+      "children": [
+        {
+          "label": "B",
+          "tooltip": "the tooltip",
+          "count": 1,
+          "children": [
+            {
+              "label": "C",
+              "tooltip": "the tooltip",
+              "count": 1,
+              "children": [
+                {
+                  "label": "last item"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "30 PASS if \"A\" and \"B\" within are <span fgcolor=\"dodgerblue\" font-weight=\"800\">blue</span>, then \"C\" and its item are <span fgcolor=\"red\" underline=\"single\">red</span>",
+      "tooltip": "the tooltip"
+    },
+    {
+      "label": "A",
+      "tooltip": "the tooltip",
+      "count": 1,
+      "children": [
+        {
+          "label": "B",
+          "tooltip": "the tooltip",
+          "count": 1,
+          "children": [
+            {
+              "label": "C",
+              "tooltip": "the tooltip",
+              "count": 1,
+              "children": [
+                {
+                  "label": "last item"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "40 PASS if all levels of \"A\" are <span fgcolor=\"dodgerblue\" font-weight=\"800\">blue</span>",
+      "tooltip": "the tooltip"
+    },
+    {
+      "label": "A",
+      "tooltip": "the tooltip",
+      "count": 1,
+      "children": [
+        {
+          "label": "B",
+          "tooltip": "the tooltip",
+          "count": 1,
+          "children": [
+            {
+              "label": "C",
+              "tooltip": "the tooltip",
+              "count": 5,
+              "children": [
+                {
+                  "label": "1a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "2",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "2b (different)",
+                      "tooltip": "different tooltip",
+                      "icon": "/usr/share/pixmaps/midi-icons/go48.png",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                },
+                {
+                  "label": "2-1",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Geany",
+                      "tooltip": "Geany editor",
+                      "icon": "geany",
+                      "icon_rendered": true,
+                      "cmd": "geany"
+                    }
+                  ]
+                },
+                {
+                  "label": "2-2",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Leafpad",
+                      "tooltip": "Simple text editor",
+                      "icon": "leafpad",
+                      "icon_rendered": true,
+                      "cmd": "leafpad   "
+                    }
+                  ]
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "50 PASS if all levels of \"A\" are <span fgcolor=\"dodgerblue\" font-weight=\"800\">blue</span>",
+      "tooltip": "the tooltip"
+    },
+    {
+      "label": "A",
+      "tooltip": "the tooltip",
+      "count": 1,
+      "children": [
+        {
+          "label": "B",
+          "tooltip": "the tooltip",
+          "count": 1,
+          "children": [
+            {
+              "label": "C",
+              "tooltip": "the tooltip",
+              "count": 2,
+              "children": [
+                {
+                  "label": "1a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "60 PASS if \"A\" and \"B\" within are <span fgcolor=\"dodgerblue\" font-weight=\"800\">blue</span>, then lower-level entries are <span fgcolor=\"red\" underline=\"single\">red</span>",
+      "tooltip": "the tooltip"
+    },
+    {
+      "label": "A",
+      "tooltip": "the tooltip",
+      "count": 1,
+      "children": [
+        {
+          "label": "B",
+          "tooltip": "the tooltip",
+          "count": 1,
+          "children": [
+            {
+              "label": "C",
+              "tooltip": "the tooltip",
+              "count": 5,
+              "children": [
+                {
+                  "label": "1a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "2",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "2b (different)",
+                      "tooltip": "different tooltip",
+                      "icon": "/usr/share/pixmaps/midi-icons/go48.png",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                },
+                {
+                  "label": "2-1",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Geany",
+                      "tooltip": "Geany editor",
+                      "icon": "geany",
+                      "icon_rendered": true,
+                      "cmd": "geany"
+                    }
+                  ]
+                },
+                {
+                  "label": "2-2",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Leafpad",
+                      "tooltip": "Simple text editor",
+                      "icon": "leafpad",
+                      "icon_rendered": true,
+                      "cmd": "leafpad   "
+                    }
+                  ]
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "70 PASS if all labels are the default color regardless of their level",
+      "tooltip": "the tooltip"
+    },
+    {
+      "label": "1a",
+      "tooltip": "Tooltip",
+      "icon": "gtk-about",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2",
+      "count": 3,
+      "children": [
+        {
+          "label": "2a",
+          "tooltip": "Tooltip",
+          "icon": "gtk-about",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "2b (different)",
+          "tooltip": "different tooltip",
+          "icon": "/usr/share/pixmaps/midi-icons/go48.png",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3",
+          "count": 1,
+          "children": [
+            {
+              "label": "4",
+              "count": 3,
+              "children": [
+                {
+                  "label": "4a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "4b",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "5A",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "5a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "2-1",
+      "count": 3,
+      "children": [
+        {
+          "label": "2a",
+          "tooltip": "Tooltip",
+          "icon": "gtk-about",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3",
+          "count": 1,
+          "children": [
+            {
+              "label": "4",
+              "count": 3,
+              "children": [
+                {
+                  "label": "4a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "4b",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "5A",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "5a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Geany",
+          "tooltip": "Geany editor",
+          "icon": "geany",
+          "icon_rendered": true,
+          "cmd": "geany"
+        }
+      ]
+    },
+    {
+      "label": "2-2",
+      "count": 3,
+      "children": [
+        {
+          "label": "2a",
+          "tooltip": "Tooltip",
+          "icon": "gtk-about",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3",
+          "count": 1,
+          "children": [
+            {
+              "label": "4",
+              "count": 3,
+              "children": [
+                {
+                  "label": "4a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "4b",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "5A",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "5a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Leafpad",
+          "tooltip": "Simple text editor",
+          "icon": "leafpad",
+          "icon_rendered": true,
+          "cmd": "leafpad   "
+        }
+      ]
+    },
+    {
+      "label": "Yes symlink",
+      "tooltip": "green dot",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "80 PASS if all labels are <span fgcolor=\"dodgerblue\" font-weight=\"800\">blue</span> regardless of their level",
+      "tooltip": "the tooltip"
+    },
+    {
+      "label": "1a",
+      "tooltip": "Tooltip",
+      "icon": "gtk-about",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2",
+      "count": 3,
+      "children": [
+        {
+          "label": "2a",
+          "tooltip": "Tooltip",
+          "icon": "gtk-about",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "2b (different)",
+          "tooltip": "different tooltip",
+          "icon": "/usr/share/pixmaps/midi-icons/go48.png",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3",
+          "count": 1,
+          "children": [
+            {
+              "label": "4",
+              "count": 3,
+              "children": [
+                {
+                  "label": "4a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "4b",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "5A",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "5a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "2-1",
+      "count": 3,
+      "children": [
+        {
+          "label": "2a",
+          "tooltip": "Tooltip",
+          "icon": "gtk-about",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3",
+          "count": 1,
+          "children": [
+            {
+              "label": "4",
+              "count": 3,
+              "children": [
+                {
+                  "label": "4a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "4b",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "5A",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "5a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Geany",
+          "tooltip": "Geany editor",
+          "icon": "geany",
+          "icon_rendered": true,
+          "cmd": "geany"
+        }
+      ]
+    },
+    {
+      "label": "2-2",
+      "count": 3,
+      "children": [
+        {
+          "label": "2a",
+          "tooltip": "Tooltip",
+          "icon": "gtk-about",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3",
+          "count": 1,
+          "children": [
+            {
+              "label": "4",
+              "count": 3,
+              "children": [
+                {
+                  "label": "4a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "4b",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "5A",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "5a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Leafpad",
+          "tooltip": "Simple text editor",
+          "icon": "leafpad",
+          "icon_rendered": true,
+          "cmd": "leafpad   "
+        }
+      ]
+    },
+    {
+      "label": "Yes symlink",
+      "tooltip": "green dot",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "90 PASS if the labels of the first half (nested) entries are <span fgcolor=\"dodgerblue\" font-weight=\"800\">blue</span>, and the remaining (nested) labels are <span fgcolor=\"red\" underline=\"single\">red</span>",
+      "tooltip": "the tooltip"
+    },
+    {
+      "label": "2a",
+      "tooltip": "Tooltip",
+      "icon": "gtk-about",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2b (different)",
+      "tooltip": "different tooltip",
+      "icon": "/usr/share/pixmaps/midi-icons/go48.png",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "3",
+      "count": 1,
+      "children": [
+        {
+          "label": "4",
+          "count": 4,
+          "children": [
+            {
+              "label": "4a",
+              "tooltip": "Tooltip",
+              "icon": "gtk-about",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4b",
+              "tooltip": "Tooltip",
+              "icon": "gtk-about",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "5A",
+              "count": 2,
+              "children": [
+                {
+                  "label": "5a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            },
+            {
+              "label": "5B",
+              "count": 1,
+              "children": [
+                {
+                  "label": "6C",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "6a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "_____________________________",
+      "tooltip": "the tooltip"
+    },
+    {
+      "label": "2a",
+      "tooltip": "Tooltip",
+      "icon": "gtk-about",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2b (different)",
+      "tooltip": "different tooltip",
+      "icon": "/usr/share/pixmaps/midi-icons/go48.png",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "3",
+      "count": 1,
+      "children": [
+        {
+          "label": "4",
+          "count": 4,
+          "children": [
+            {
+              "label": "4a",
+              "tooltip": "Tooltip",
+              "icon": "gtk-about",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4b",
+              "tooltip": "Tooltip",
+              "icon": "gtk-about",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "5A",
+              "count": 2,
+              "children": [
+                {
+                  "label": "5a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            },
+            {
+              "label": "5B",
+              "count": 1,
+              "children": [
+                {
+                  "label": "6C",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "6a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

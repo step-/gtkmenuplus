@@ -1,0 +1,34 @@
+{
+  "count": 6,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 1 expect PASS if the first label is \"restart\", icon \"gtk-refresh\", tooltip \"repeat this menu again\".\n# -----\n# 2 expect PASS if the second label is \"testing label\", icon \"gtk-ok\", tooltip \"testing tooltip\".\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "_restart",
+      "tooltip": "repeat this menu again",
+      "icon": "gtk-refresh",
+      "icon_rendered": true,
+      "cmd": " \"{gtkmenuplus}\" \"-j\" \"-f\" \"{pwd}/if-6.gtkmenuplus\""
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "testing label",
+      "tooltip": "testing tooltip",
+      "icon": "gtk-ok",
+      "icon_rendered": true,
+      "cmd": " \"{gtkmenuplus}\" \"-j\" \"-f\" \"{pwd}/if-6.gtkmenuplus\""
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

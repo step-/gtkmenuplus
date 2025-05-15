@@ -1,0 +1,114 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+configure = errorconsoleonly
+#-------------------------------------------
+
+#% Test `icon=` of `submenu=`.
+# As documented in docs/scripting_guide.md, sections
+# "### Icon" and "#### Hiding item and submenu icons".
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS statements. There are 10 empty submenus below.
+# -----
+
+basedir_ == dirname "$mTESTFILE"
+logo_icon_ = $basedir_/icondirectory=/XPM/gtkmenuplus.xpm
+
+# Since we are at it, let's also verify that the deprecated method of making a
+# submenu by indentation, that is, without configure = endsubmenu still works.
+configure = noendsubmenu
+
+### Basic test
+
+#--------------
+configure = icons
+#--------------
+
+# icon file
+submenu = 1 PASS if logo icon
+	icon = $logo_icon_
+	item =
+
+# stock icon
+submenu = 2 PASS if gtk-ok icon
+	icon = gtk-ok
+	item =
+
+# named icon
+submenu = 3 PASS if leafpad icon
+	icon = leafpad
+	item =
+
+separator # ----------------------------------------------------
+
+# ---------------
+configure = noicons
+# ---------------
+
+submenu = 4 PASS if gtk-ok icon
+	icon = gtk-ok
+	item =
+
+submenu = 5 PASS if NO icon
+
+separator # ----------------------------------------------------
+
+#--------------
+configure = icons
+#--------------
+
+submenu = 6 PASS if NO icon
+
+	item = PASS item w/o icon
+	item =
+
+separator # ----------------------------------------------------
+
+### not an icon
+
+#--------------
+configure = icons
+#--------------
+
+submenu = 7 PASS if NO icon
+	icon = /non-existent-icon.png
+	item =
+
+submenu = 8 PASS if NO icon
+	icon = $a0
+	item =
+
+### empty icon
+
+#--------------
+configure = icons
+#--------------
+
+submenu = 9 PASS if NO icon
+	icon =
+	item =
+
+separator # ----------------------------------------------------
+
+### DEPRECATED THEN UNDOCUMENTED
+
+#--------------
+configure = icons
+#--------------
+
+submenu = 10 PASS if NO icon
+	icon = NULL
+	item =
+
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

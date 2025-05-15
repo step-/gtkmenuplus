@@ -1,0 +1,66 @@
+{
+  "count": 16,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Validate PASS statements.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if the next entries start with an underlined number vertically aligned with the matching indentation stop",
+      "cmd": "true"
+    },
+    {
+      "label": " 0 1 2 3 4 5 6 7 8 9"
+    },
+    {
+      "label": " │ │ │ │ │ │ │ │ │ │ (white space highlighted below)"
+    },
+    {
+      "label": " 0",
+      "cmd": "true"
+    },
+    {
+      "label": "   1",
+      "cmd": "true"
+    },
+    {
+      "label": "     2",
+      "cmd": "true"
+    },
+    {
+      "label": "       3",
+      "cmd": "true"
+    },
+    {
+      "label": "         4",
+      "cmd": "true"
+    },
+    {
+      "label": "           5",
+      "cmd": "true"
+    },
+    {
+      "label": "             6",
+      "cmd": "true"
+    },
+    {
+      "label": "               7",
+      "cmd": "true"
+    },
+    {
+      "label": "                 8",
+      "cmd": "true"
+    },
+    {
+      "label": "                   9",
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

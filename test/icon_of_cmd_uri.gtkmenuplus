@@ -1,0 +1,32 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#-------------------------------------------
+
+#% Test resolving `cmd=`file://URI icon.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify "PASS" statements.
+# -----
+
+basedir_== dirname '$mTESTFILE'
+
+# 1
+uri_ = file://$basedir_/icondirectory=/PNG/sound.png
+item = PASS if this entry shows the icon of an image/* MIME-type app
+tooltip  = $uri_
+# Possibly some Linux distributions can run such a command.
+# Fatdog64 can but running command isn't the point of this test.
+cmd  = $uri_
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

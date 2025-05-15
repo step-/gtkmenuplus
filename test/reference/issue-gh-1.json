@@ -1,0 +1,81 @@
+{
+  "count": 7,
+  "children": [
+    {
+      "label": "PASS if you see two submenus, 1 item, 2 submenus; all submenus include the leafpad launcher"
+    },
+    {
+      "label": "submenu with leafpad",
+      "count": 2,
+      "children": [
+        {
+          "label": "Leafpad",
+          "tooltip": "Simple text editor",
+          "icon": "leafpad",
+          "icon_rendered": true,
+          "cmd": "leafpad   "
+        },
+        {
+          "label": "",
+          "is_separator": true
+        }
+      ]
+    },
+    {
+      "label": "submenu with leafpad",
+      "count": 3,
+      "children": [
+        {
+          "label": ""
+        },
+        {
+          "label": "Leafpad",
+          "tooltip": "Simple text editor",
+          "icon": "leafpad",
+          "icon_rendered": true,
+          "cmd": "leafpad   "
+        },
+        {
+          "label": "",
+          "is_separator": true
+        }
+      ]
+    },
+    {
+      "label": "item"
+    },
+    {
+      "label": "submenu with leafpad",
+      "count": 1,
+      "children": [
+        {
+          "label": "Leafpad",
+          "tooltip": "Simple text editor",
+          "icon": "leafpad",
+          "icon_rendered": true,
+          "cmd": "leafpad   "
+        }
+      ]
+    },
+    {
+      "label": "submenu with leafpad",
+      "count": 2,
+      "children": [
+        {
+          "label": ""
+        },
+        {
+          "label": "Leafpad",
+          "tooltip": "Simple text editor",
+          "icon": "leafpad",
+          "icon_rendered": true,
+          "cmd": "leafpad   "
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

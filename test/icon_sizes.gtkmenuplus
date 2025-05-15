@@ -1,0 +1,138 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+configure = errorconsoleonly
+# GTKMENUPLUS_OPTIONS=-v
+# SKIP_JSON because test verification involves visual comparisons.
+#-------------------------------------------
+
+#% Test various icon sizes.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify icon size of stock/named/pathed icons.
+# -----
+
+istock = gtk-quit
+iname  = leafpad
+ipath  = icondirectory=/PNG/sound.png
+
+iconsize = 16
+item = 16
+icon = $istock
+cmd = true
+
+iconsize = 22
+item = 22
+icon = $istock
+cmd = true
+
+iconsize = 24
+item = 24
+icon = $istock
+cmd = true
+
+iconsize = 32
+item = 32
+icon = $istock
+cmd = true
+
+iconsize = 48
+item = 48
+icon = $istock
+cmd = true
+
+iconsize = 64
+item = 64
+icon = $istock
+cmd = true
+
+iconsize = 96
+item = 96
+icon = $istock
+cmd = true
+
+iconsize = 128
+item = 128
+icon = $istock
+cmd = true
+
+iconsize = 96
+item = 96
+icon = $istock
+cmd = true
+
+iconsize = 96
+item = 96
+icon = $iname
+cmd = true
+
+separator # ----------------------------------------------------
+
+iconsize = 16
+item = 16 stock
+icon = $istock
+cmd = true
+
+iconsize = 16
+item = 16 named
+icon = $iname
+cmd = true
+
+iconsize = 16
+item = 16 path
+icon = $ipath
+cmd = true
+
+iconsize = 32
+item = 32 stock
+icon = $istock
+cmd = true
+
+item = 32 named
+icon = $iname
+cmd = true
+
+item = 32 path
+icon = $ipath
+cmd = true
+
+iconsize = 64
+item = 64 stock
+icon = $istock
+cmd = true
+
+iconsize = 64
+item = 64 named
+icon = $iname
+cmd = true
+
+item = 64 path
+icon = $ipath
+cmd = true
+
+iconsize = 96
+item = 96 stock
+icon = $istock
+cmd = true
+
+iconsize = 96
+item = 96 named
+icon = $iname
+cmd = true
+
+item = 96 path
+icon = $ipath
+cmd = true
+
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+iconsize  = 16
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Null category
+Comment=the category property does not exist
+Exec=true
+Terminal=false
+Icon=gtk-yes

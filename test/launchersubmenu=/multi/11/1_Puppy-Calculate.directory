@@ -1,0 +1,19 @@
+[Desktop Entry]
+Name=Calculate
+Icon=/usr/share/pixmaps/midi-icons/spread48.png
+Type=Directory
+Comment[fi]=Laskenta
+Name[de]=Kalkulation
+Name[es]=Negocios
+Name[fi]=Laskenta
+Name[fr]=Calculs
+Name[hu]=Üzleti
+Name[it]=Affari
+Name[ja]=会計
+Name[pt]=Negócios
+Name[ru]=Бизнес
+Name[zh_CN]=计算器
+Name[zh_TW]=計算工具
+Name[de]=Kalkulation
+
+Categories=;X-Calculate;Finance;Spreadsheet;ProjectManagement;Calculator;X-CalculateUtility

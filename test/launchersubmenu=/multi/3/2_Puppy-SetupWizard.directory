@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Setup Wizards
+Icon=/usr/share/pixmaps/mini-icons/wizard16.xpm
+Type=Directory
+Comment[fi]=Asennusvelhot
+Name[es]=Asistentes de Configuración
+Name[fi]=Asennusvelhot
+Name[hu]=Beállítás varázslók
+
+Categories=X-SetupWizard

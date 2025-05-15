@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=System Schedule
+Icon=/usr/share/pixmaps/mini-icons/mini-clock.xpm
+Type=Directory
+Comment[fi]=Ajoitetut tehtävät
+Name[fi]=Ajoitetut tehtävät
+Name[hu]=Feladatütemező
+
+Categories=X-SystemSchedule

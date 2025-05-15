@@ -1,0 +1,26 @@
+[Desktop Entry]
+Name=Utility
+Icon=/usr/share/pixmaps/midi-icons/utility48.png
+Type=Directory
+Comment[fi]=Apuohjelmat
+Name[bg]=Инструменти
+Name[ca_ES]=Utilitats
+Name[de]=Werkzeuge
+Name[es_ES]=Herramientas
+Name[es]=Herramientas
+Name[fi]=Apuohjelmat
+Name[fr]=Utilitaires
+Name[hu]=Eszközök
+Name[it]=Strumenti
+Name[ja]=ユーティリティ
+Name[ko]=유틸리티
+Name[nl]=Hulpmiddelen
+Name[pl]=Narzędzia
+Name[pt_BR]=Utilitários
+Name[pt]=Ferramentas
+Name[ru]=Утилиты
+Name[zh_CN]=实用程序
+Name[zh_TW]=實用程式
+Name[de]=Werkzeuge
+
+Categories=;Utility;Viewer;Development;Building;Debugger;IDE;Profiling;Translation;GUIDesigner;Archiving;TerminalEmulator;Shell

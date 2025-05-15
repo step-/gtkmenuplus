@@ -1,0 +1,81 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#mDIR = nest/2/3/4/5A
+#-------------------------------------------
+
+#% Test recycling mnemonic (2) + with launchers.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Validate PASS statements.
+# -----
+# ----- test case
+# This test case was taken from ../docs/scripting_guide.md.
+# Expect: global mnemonic= formatting applied.
+format =
+item = <span $blu_azu_sml_>PASS if the __Countries submenu expands to[*]</span>
+item = <span $blu_azu_sml_>│    __A England</span>
+item = <span $blu_azu_sml_>│       __A London, __B Birmingham, __C Liverpool, __A Manchester</span>
+item = <span $blu_azu_sml_>│    __B Scotland</span>
+item = <span $blu_azu_sml_>│       __A Glasgow, __B Edingburgh, __C Aberdeen, __A Inverness</span>
+item = <span font="small">[*] you might need to scroll the submenu to enable underlines</span>
+# -----
+format = mnemonic="ABC"
+submenu = Countries
+submenu = England
+item = London
+cmd  = true
+item = Birmingham
+cmd  = true
+item = Liverpool
+cmd  = true
+item = Manchester
+cmd  = true
+endsubmenu
+submenu = Scotland
+item = Glasgow
+cmd  = true
+item = Edingburgh
+cmd  = true
+item = Aberdeen
+cmd  = true
+item = Inverness
+cmd  = true
+endsubmenu
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+# launcher with formatting
+# Expect: global mnemonic= formatting applied.
+format =
+item = <span $blu_azu_lrg_>PASS if the leafpad launcher entry starts with mnemonic __Y</span>
+# -----
+format = mnemonic="YZX"
+launcher = /usr/share/applications/leafpad.desktop
+
+# ----- test case
+# launchersub with formatting
+# Expect: mnemonic= in global formatting is applied.
+format =
+launcherdirfile =
+item = <span $blu_azu_lrg_>PASS if all launchers in the Launchers submenu start with underlined __0 through __2 (with reuse)[*]</span>
+item = <span font="small">[*] except launchers that are already memoized; you might need to scroll the submenu to enable underlines</span>
+# -----
+submenu = _Launchers
+format = mnemonic="012"
+launchersub=scanner/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

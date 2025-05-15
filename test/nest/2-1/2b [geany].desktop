@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Geany
+Icon=geany
+Comment=Geany editor
+Exec=geany
+Terminal=false
+Categories=Utility
+GenericName=Geany text editor

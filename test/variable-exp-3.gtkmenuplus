@@ -1,0 +1,38 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#mDIR = nest/2/3/4/5A
+configure=errorconsoleonly
+#-------------------------------------------
+
+#% Test line length limit appending text after a large variable.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+
+# 0 expect no items.
+# -----
+
+i = 1234
+x = $i$i$i$i # 16
+c = $x$x$x$x # 64
+L = $c$c$c$c # 256
+L = $L$L$L$c$c$c$x$x$x # 960
+
+# 1 expect item 1 with red icon "1 $L tail text too long" and stderr message
+#  "line too long while expanding parameter or variable"
+# -----
+item = 1 $L tail text too long
+icon=gtk-dialog-error
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

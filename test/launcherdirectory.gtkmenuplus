@@ -1,0 +1,33 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = abspath=
+#-------------------------------------------
+
+#% Test `launcherdirectory=`.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+item              = 1 leafpad item located in /usr/share/applications
+launcherdirectory = /usr/share/applications
+launcher          = leafpad.desktop
+separator # ----------------------------------------------------
+
+item              = 2 leafpad item located in ./abspath=
+launcherdir       = $mDIR
+launcher          = leafpad.desktop
+separator # ----------------------------------------------------
+
+item = PASS if two leafpad items above, one located in
+item = /usr/share/applications, the other one in ./abspath=
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

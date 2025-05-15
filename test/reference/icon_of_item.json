@@ -1,0 +1,168 @@
+{
+  "count": 34,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify PASS statements.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "section `configure=icons`"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if logo icon",
+      "tooltip": "icon file path = {pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
+      "icon": "{pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "PASS if gtk-ok icon",
+      "tooltip": "stock icon = gtk-ok",
+      "icon": "gtk-ok",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "PASS if leafpad icon",
+      "tooltip": "named icon = leafpad",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if inode/directory MIME-type icon",
+      "tooltip": "`cmd=/` => icon of inode/directory MIME-type",
+      "icon_rendered": true,
+      "cmd": "/"
+    },
+    {
+      "label": "PASS if image/* file type icon",
+      "tooltip": "`cmd={pwd}/icondirectory=/XPM/gtkmenuplus.xpm` => icon of image/png MIME-type",
+      "icon_rendered": true,
+      "cmd": "{pwd}/icondirectory=/XPM/gtkmenuplus.xpm"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "section `configure=noicons`"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if logo icon",
+      "tooltip": "icon file path = {pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
+      "icon": "{pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "PASS if gtk-ok icon",
+      "tooltip": "stock icon = gtk-ok",
+      "icon": "gtk-ok",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "PASS if leafpad icon",
+      "tooltip": "named icon = leafpad",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if NO icon",
+      "tooltip": "`configure=noicons` && omitted `icon=` => NO icon (even if `cmd={pwd}/icondirectory=/XPM/gtkmenuplus.xpm)",
+      "cmd": "{pwd}/icondirectory=/XPM/gtkmenuplus.xpm"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "section `configure=icons`"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if NO icon",
+      "tooltip": "`configure=icons` && omitted `icon=` => NO icon (with `cmd=true`)",
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "three invalid icons follow: if verbose option (-v) is set"
+    },
+    {
+      "label": "gtkmenuplus will report the offending `icon=` directives"
+    },
+    {
+      "label": "PASS if NO icon",
+      "tooltip": "`icon=/non-existent-icon.png` => NO icon",
+      "icon": "/non-existent-icon.png",
+      "cmd": "true"
+    },
+    {
+      "label": "PASS if NO icon",
+      "tooltip": "`icon={pwd}/icon_of_item.gtkmenuplus` => NO icon",
+      "icon": "{pwd}/icon_of_item.gtkmenuplus",
+      "cmd": "true"
+    },
+    {
+      "label": "PASS if NO icon",
+      "tooltip": "`icon=InVaLiDiCoN` => NO icon",
+      "icon": "InVaLiDiCoN",
+      "cmd": "true"
+    },
+    {
+      "label": "PASS if NO icon",
+      "tooltip": "empty `icon=` => NO icon",
+      "icon": "NULL",
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "section `configure=icons`"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if NO icon",
+      "tooltip": "deprecated, undocumented `icon=NULL` => NO icon",
+      "icon": "NULL",
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

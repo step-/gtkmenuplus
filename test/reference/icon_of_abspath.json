@@ -1,0 +1,47 @@
+{
+  "count": 11,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify PASS statements\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 PASS if the next entry DOES show an icon"
+    },
+    {
+      "label": "abspath=/readme.md",
+      "tooltip": "{pwd}/abspath=/readme.md",
+      "icon_rendered": true,
+      "cmd": "{pwd}/abspath=/readme.md"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "2 PASS if the next entry does NOT show an icon"
+    },
+    {
+      "label": "abspath=/readme.md",
+      "tooltip": "{pwd}/abspath=/readme.md",
+      "cmd": "{pwd}/abspath=/readme.md"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "3 PASS if the next entry (an empty entry) does NOT show an icon"
+    },
+    {
+      "label": ""
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Personal Utilities
+Icon=/usr/share/pixmaps/mini-icons/mini-happy.xpm
+Type=Directory
+Comment[fi]=Henkilökohtaiset apuohjelmat
+Name[es]=Herramientas Personales
+Name[fi]=Henkilökohtaiset apuohjelmat
+Name[hu]=Személyi eszközök
+Name[it]=Strumenti Personali
+Name[pt]=Ferramentas Pessoais
+
+Categories=X-PersonalUtility

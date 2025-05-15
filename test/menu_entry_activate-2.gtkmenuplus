@@ -1,0 +1,34 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+# SKIP_JSON because test verification involves pushing buttons and stdout.
+#-------------------------------------------
+
+#% Test MIME-type execution.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify "PASS" statements.
+# -----
+
+# 1
+datafile_ = icondirectory=/PNG/coast.png
+item = 10 PASS if the icon below is an image viewing app's #'
+item = _10 coast.png
+cmd  = $datafile_
+separator # ----------------------------------------------------
+
+item = 20 PASS if activating the entry starts the image viewing app
+item = _20 coast.png
+cmd  = $datafile_
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

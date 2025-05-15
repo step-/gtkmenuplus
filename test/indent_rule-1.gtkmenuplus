@@ -1,0 +1,44 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = NOendsubmenu noicons errorconsoleonly
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#-------------------------------------------
+
+#% Test indentation sets submenu boundaries
+
+format=font-family="mono"
+
+item = 10 PASS if you see submenu s10 holding items i101 an i102.
+submenu = s10
+    item = i11
+    cmd = true
+	item = i12
+	cmd = true
+separator # ----------------------------------------------------
+
+item = 20 PASS if you see submenu s20...i201
+item = .                           |....s21...i211
+item = .                           |....i22
+item = .                           |....s23...i231
+item = .                           |- separator -
+submenu = s20
+    item = i201
+    cmd = true
+    submenu = s21
+        item = i211
+        cmd = true
+    item = i22
+    submenu = s23
+        item = i231
+        cmd = true
+    separator # ----( at s20's bottom )-----------------------------
+
+item = 30 PASS if you see item 30
+item = 30
+cmd = true
+separator # ----------------------------------------------------
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

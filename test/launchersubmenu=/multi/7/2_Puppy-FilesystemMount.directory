@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Drive Mounters
+Icon=/usr/share/pixmaps/mini-icons/mini-diskette.xpm
+Type=Directory
+Comment[fi]=Levyasemien liittäminen
+Name[es]=Montadores de Unidad
+Name[fi]=Levyasemien liittäminen
+Name[hu]=Lemez-csatolók
+Name[it]=Montatori Unità
+Name[pt]=Montadores de Unidade
+
+Categories=X-FilesystemMount

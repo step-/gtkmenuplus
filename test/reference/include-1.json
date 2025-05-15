@@ -1,0 +1,943 @@
+{
+  "count": 23,
+  "children": [
+    {
+      "label": "<span bgcolor=\"pink\">  AUTO-RESTARTING MENU - SELECT \"e__xit menu\" TO END THE LOOP  </span>"
+    },
+    {
+      "label": "e_xit menu",
+      "icon": "gtk-quit",
+      "icon_rendered": true,
+      "cmd": "pkill -n gtkmenuplus"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Visit each submenu to verify that it includes all and only the\n# described items.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 submenu holding 5 files: f0.{c,h,x} f1.{c,h}",
+      "count": 5,
+      "children": [
+        {
+          "label": "f0.c",
+          "cmd": "\"{pwd}/include=/f0.c\""
+        },
+        {
+          "label": "f0.h",
+          "cmd": "\"{pwd}/include=/f0.h\""
+        },
+        {
+          "label": "f0.x",
+          "cmd": "\"{pwd}/include=/f0.x\""
+        },
+        {
+          "label": "f1.c",
+          "cmd": "\"{pwd}/include=/f1.c\""
+        },
+        {
+          "label": "f1.h",
+          "cmd": "\"{pwd}/include=/f1.h\""
+        }
+      ]
+    },
+    {
+      "label": "2 submenu holding 5 files: f0.{c,h,x} f1.{c,h}",
+      "count": 5,
+      "children": [
+        {
+          "label": "f0.c",
+          "cmd": "\"{pwd}/include=/f0.c\""
+        },
+        {
+          "label": "f0.h",
+          "cmd": "\"{pwd}/include=/f0.h\""
+        },
+        {
+          "label": "f0.x",
+          "cmd": "\"{pwd}/include=/f0.x\""
+        },
+        {
+          "label": "f1.c",
+          "cmd": "\"{pwd}/include=/f1.c\""
+        },
+        {
+          "label": "f1.h",
+          "cmd": "\"{pwd}/include=/f1.h\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "2 submenu holding 4 files: f{0,1}.{c,h}",
+      "count": 4,
+      "children": [
+        {
+          "label": "f0.c",
+          "cmd": "\"{pwd}/include=/f0.c\""
+        },
+        {
+          "label": "f0.h",
+          "cmd": "\"{pwd}/include=/f0.h\""
+        },
+        {
+          "label": "f1.c",
+          "cmd": "\"{pwd}/include=/f1.c\""
+        },
+        {
+          "label": "f1.h",
+          "cmd": "\"{pwd}/include=/f1.h\""
+        }
+      ]
+    },
+    {
+      "label": "2 submenu holding 4 files: f{0,1}.{c,h}",
+      "count": 4,
+      "children": [
+        {
+          "label": "f0.c",
+          "cmd": "\"{pwd}/include=/f0.c\""
+        },
+        {
+          "label": "f0.h",
+          "cmd": "\"{pwd}/include=/f0.h\""
+        },
+        {
+          "label": "f1.c",
+          "cmd": "\"{pwd}/include=/f1.c\""
+        },
+        {
+          "label": "f1.h",
+          "cmd": "\"{pwd}/include=/f1.h\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "3 submenu holding 0 files",
+      "count": 1,
+      "children": [
+        {
+          "label": ""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"darkmagenta\" background=\"white\">_click me to show the data folder \"include=\"</span>",
+      "cmd": "lib/common.sh tree \"include=\""
+    },
+    {
+      "label": "4 submenu mirroring folder \"include=\"",
+      "count": 9,
+      "children": [
+        {
+          "label": "d1",
+          "count": 7,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1/d2.c/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d1/d2.c/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1/d2.c/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1/d2.h/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d1/d2.h/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1/d2.h/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1/d2.x/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d1/d2.x/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1/d2.x/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "cmd": "\"{pwd}/include=/d1/f2.c\""
+            },
+            {
+              "label": "f2.h",
+              "cmd": "\"{pwd}/include=/d1/f2.h\""
+            },
+            {
+              "label": "f3.c",
+              "cmd": "\"{pwd}/include=/d1/f3.c\""
+            },
+            {
+              "label": "f3.h",
+              "cmd": "\"{pwd}/include=/d1/f3.h\""
+            }
+          ]
+        },
+        {
+          "label": "d1.c",
+          "count": 7,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.c/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.c/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.c/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.h/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.h/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.h/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.x/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.x/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.x/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "cmd": "\"{pwd}/include=/d1.c/f2.c\""
+            },
+            {
+              "label": "f2.h",
+              "cmd": "\"{pwd}/include=/d1.c/f2.h\""
+            },
+            {
+              "label": "f3.c",
+              "cmd": "\"{pwd}/include=/d1.c/f3.c\""
+            },
+            {
+              "label": "f3.h",
+              "cmd": "\"{pwd}/include=/d1.c/f3.h\""
+            }
+          ]
+        },
+        {
+          "label": "d2",
+          "count": 7,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2/d2.c/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d2/d2.c/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2/d2.c/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2/d2.h/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d2/d2.h/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2/d2.h/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2/d2.x/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d2/d2.x/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2/d2.x/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "cmd": "\"{pwd}/include=/d2/f2.c\""
+            },
+            {
+              "label": "f2.h",
+              "cmd": "\"{pwd}/include=/d2/f2.h\""
+            },
+            {
+              "label": "f3.c",
+              "cmd": "\"{pwd}/include=/d2/f3.c\""
+            },
+            {
+              "label": "f3.h",
+              "cmd": "\"{pwd}/include=/d2/f3.h\""
+            }
+          ]
+        },
+        {
+          "label": "d2.h",
+          "count": 7,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.c/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.c/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.c/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.h/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.h/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.h/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 3,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.x/f.c\""
+                },
+                {
+                  "label": "f.h",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.x/f.h\""
+                },
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.x/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "cmd": "\"{pwd}/include=/d2.h/f2.c\""
+            },
+            {
+              "label": "f2.h",
+              "cmd": "\"{pwd}/include=/d2.h/f2.h\""
+            },
+            {
+              "label": "f3.c",
+              "cmd": "\"{pwd}/include=/d2.h/f3.c\""
+            },
+            {
+              "label": "f3.h",
+              "cmd": "\"{pwd}/include=/d2.h/f3.h\""
+            }
+          ]
+        },
+        {
+          "label": "f0.c",
+          "cmd": "\"{pwd}/include=/f0.c\""
+        },
+        {
+          "label": "f0.h",
+          "cmd": "\"{pwd}/include=/f0.h\""
+        },
+        {
+          "label": "f0.x",
+          "cmd": "\"{pwd}/include=/f0.x\""
+        },
+        {
+          "label": "f1.c",
+          "cmd": "\"{pwd}/include=/f1.c\""
+        },
+        {
+          "label": "f1.h",
+          "cmd": "\"{pwd}/include=/f1.h\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "5 submenus holding 22 f*.c files overall",
+      "count": 6,
+      "children": [
+        {
+          "label": "d1",
+          "count": 5,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1/d2.c/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1/d2.h/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1/d2.x/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "cmd": "\"{pwd}/include=/d1/f2.c\""
+            },
+            {
+              "label": "f3.c",
+              "cmd": "\"{pwd}/include=/d1/f3.c\""
+            }
+          ]
+        },
+        {
+          "label": "d1.c",
+          "count": 5,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.c/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.h/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.x/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "cmd": "\"{pwd}/include=/d1.c/f2.c\""
+            },
+            {
+              "label": "f3.c",
+              "cmd": "\"{pwd}/include=/d1.c/f3.c\""
+            }
+          ]
+        },
+        {
+          "label": "d2",
+          "count": 5,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2/d2.c/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2/d2.h/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2/d2.x/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "cmd": "\"{pwd}/include=/d2/f2.c\""
+            },
+            {
+              "label": "f3.c",
+              "cmd": "\"{pwd}/include=/d2/f3.c\""
+            }
+          ]
+        },
+        {
+          "label": "d2.h",
+          "count": 5,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.c/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.h/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.x/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "cmd": "\"{pwd}/include=/d2.h/f2.c\""
+            },
+            {
+              "label": "f3.c",
+              "cmd": "\"{pwd}/include=/d2.h/f3.c\""
+            }
+          ]
+        },
+        {
+          "label": "f0.c",
+          "cmd": "\"{pwd}/include=/f0.c\""
+        },
+        {
+          "label": "f1.c",
+          "cmd": "\"{pwd}/include=/f1.c\""
+        }
+      ]
+    },
+    {
+      "label": "5 submenus holding 12 f*.c files overall",
+      "count": 4,
+      "children": [
+        {
+          "label": "d1.c",
+          "count": 5,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.c/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.h/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.x/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "cmd": "\"{pwd}/include=/d1.c/f2.c\""
+            },
+            {
+              "label": "f3.c",
+              "cmd": "\"{pwd}/include=/d1.c/f3.c\""
+            }
+          ]
+        },
+        {
+          "label": "d2.h",
+          "count": 5,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.c/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.h/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.x/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "cmd": "\"{pwd}/include=/d2.h/f2.c\""
+            },
+            {
+              "label": "f3.c",
+              "cmd": "\"{pwd}/include=/d2.h/f3.c\""
+            }
+          ]
+        },
+        {
+          "label": "f0.c",
+          "cmd": "\"{pwd}/include=/f0.c\""
+        },
+        {
+          "label": "f1.c",
+          "cmd": "\"{pwd}/include=/f1.c\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "6 submenus holding 12 \"f.x\" files overall",
+      "count": 4,
+      "children": [
+        {
+          "label": "d1",
+          "count": 3,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1/d2.c/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1/d2.h/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1/d2.x/f.x\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "d1.c",
+          "count": 3,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.c/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.h/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d1.c/d2.x/f.x\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "d2",
+          "count": 3,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2/d2.c/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2/d2.h/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2/d2.x/f.x\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "d2.h",
+          "count": 3,
+          "children": [
+            {
+              "label": "d2.c",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.c/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.h/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "cmd": "\"{pwd}/include=/d2.h/d2.x/f.x\""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "7 submenu holding 0 files",
+      "count": 1,
+      "children": [
+        {
+          "label": ""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

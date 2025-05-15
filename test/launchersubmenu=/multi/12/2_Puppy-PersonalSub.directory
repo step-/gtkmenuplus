@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Personal Information
+Icon=/usr/share/pixmaps/mini-icons/mini.stick.xpm
+Type=Directory
+Comment[fi]=Henkilökohtaiset tiedot
+Name[es]=Información Personal
+Name[fi]=Henkilökohtaiset tiedot
+Name[hu]=Személyi információk
+Name[ja]=個人情報
+
+Categories=X-Personal;Calendar;ContactManagement

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=General Utilities
+Icon=/usr/share/pixmaps/mini-icons/kde_16x16.xpm
+Type=Directory
+Comment[fi]=Yleiset apuohjelmat
+Name[es]=Herramientas Generales
+Name[fi]=Yleiset apuohjelmat
+Name[hu]=Általános Eszközök
+Name[it]=Strumenti Generali
+Name[ja]=一般ユーティリティ
+Name[pt]=Ferramentas Gerais
+
+Categories=Utility;Viewer;Development;Building;Debugger;IDE;Profiling;Translation;GUIDesigner

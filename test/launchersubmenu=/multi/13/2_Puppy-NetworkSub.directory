@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Network applications
+Icon=/usr/share/pixmaps/mini-icons/pc-2x.xpm
+Type=Directory
+Comment[fi]=Verkkoyhteysohjelmistot
+Name[es]=Aplicaciones de Red
+Name[fi]=Verkkoyhteysohjelmistot
+Name[hu]=Hálózati alkalmazások
+
+Categories=Network;HamRadio;RemoteAccess

@@ -1,0 +1,811 @@
+{
+  "count": 42,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify that each submenu matches the layout for the given configuration.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"darkmagenta\" background=\"white\">followsymlink is a bitmask: 0(nofollow) 1(file) 2(directory)</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "11 ignorehidden followsymlink 1 (default)  »  4 items (1 dir/file) ÷ 4 items (1 dir/launcher)",
+      "count": 11,
+      "children": [
+        {
+          "label": "Include"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/dir/file\""
+            }
+          ]
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/Include/file2\""
+        },
+        {
+          "label": "ln--dir--file",
+          "cmd": "\"{pwd}/scanner/Include/ln--dir--file\""
+        },
+        {
+          "label": "ln--file2",
+          "cmd": "\"{pwd}/scanner/Include/ln--file2\""
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "Launchersub"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "10 ignorehidden followsymlink 0  »  2 items (1 dir/file) ÷ 2 items (1 dir/launcher)",
+      "count": 7,
+      "children": [
+        {
+          "label": "Include"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/dir/file\""
+            }
+          ]
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/Include/file2\""
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "Launchersub"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "12 ignorehidden followsymlink 2  »  3 items (2 dir/file) ÷ 3 items (2 dir/launcher)",
+      "count": 9,
+      "children": [
+        {
+          "label": "Include"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/dir/file\""
+            }
+          ]
+        },
+        {
+          "label": "ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/ln--dir/file\""
+            }
+          ]
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/Include/file2\""
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "Launchersub"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "13 ignorehidden followsymlink 3  »  5 items (2 dir/file) ÷ 5 items (2 dir/launcher)",
+      "count": 13,
+      "children": [
+        {
+          "label": "Include"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/dir/file\""
+            }
+          ]
+        },
+        {
+          "label": "ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/ln--dir/file\""
+            }
+          ]
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/Include/file2\""
+        },
+        {
+          "label": "ln--dir--file",
+          "cmd": "\"{pwd}/scanner/Include/ln--dir--file\""
+        },
+        {
+          "label": "ln--file2",
+          "cmd": "\"{pwd}/scanner/Include/ln--file2\""
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "Launchersub"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "00 noignorehidden followsymlink 0  »  3 items (1 dir/file) ÷ 3 items (1 dir/launcher) ÷ 2 launchers",
+      "count": 13,
+      "children": [
+        {
+          "label": "Include"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/dir/file\""
+            }
+          ]
+        },
+        {
+          "label": ".file1",
+          "cmd": "\"{pwd}/scanner/Include/.file1\""
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/Include/file2\""
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "Launchersub"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": ".launcher1",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "Launcher"
+        },
+        {
+          "label": ".launcher1",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "01 noignorehidden followsymlink 1  »  6 items (1 dir/file) ÷ 6 items (1 dir/launcher)",
+      "count": 15,
+      "children": [
+        {
+          "label": "Include"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/dir/file\""
+            }
+          ]
+        },
+        {
+          "label": ".file1",
+          "cmd": "\"{pwd}/scanner/Include/.file1\""
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/Include/file2\""
+        },
+        {
+          "label": ".ln--dir--file",
+          "cmd": "\"{pwd}/scanner/Include/.ln--dir--file\""
+        },
+        {
+          "label": "ln--dir--file",
+          "cmd": "\"{pwd}/scanner/Include/ln--dir--file\""
+        },
+        {
+          "label": "ln--file2",
+          "cmd": "\"{pwd}/scanner/Include/ln--file2\""
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "Launchersub"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": ".launcher1",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "02 noignorehidden followsymlink 2  »  5 items (3 dir/file) ÷ 5 items (3 dir/launcher)",
+      "count": 13,
+      "children": [
+        {
+          "label": "Include"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/dir/file\""
+            }
+          ]
+        },
+        {
+          "label": "ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/ln--dir/file\""
+            }
+          ]
+        },
+        {
+          "label": ".ln--ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/.ln--ln--dir/file\""
+            }
+          ]
+        },
+        {
+          "label": ".file1",
+          "cmd": "\"{pwd}/scanner/Include/.file1\""
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/Include/file2\""
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "Launchersub"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": ".launcher1",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": ".ln--ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "03 noignorehidden followsymlink 3  »  8 items (3 dir/file) ÷ 8 items (3 dir/launcher)",
+      "count": 19,
+      "children": [
+        {
+          "label": "Include"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/dir/file\""
+            }
+          ]
+        },
+        {
+          "label": "ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/ln--dir/file\""
+            }
+          ]
+        },
+        {
+          "label": ".ln--ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/Include/.ln--ln--dir/file\""
+            }
+          ]
+        },
+        {
+          "label": ".file1",
+          "cmd": "\"{pwd}/scanner/Include/.file1\""
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/Include/file2\""
+        },
+        {
+          "label": ".ln--dir--file",
+          "cmd": "\"{pwd}/scanner/Include/.ln--dir--file\""
+        },
+        {
+          "label": "ln--dir--file",
+          "cmd": "\"{pwd}/scanner/Include/ln--dir--file\""
+        },
+        {
+          "label": "ln--file2",
+          "cmd": "\"{pwd}/scanner/Include/ln--file2\""
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "Launchersub"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": ".launcher1",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": ".ln--ln--dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"darkmagenta\" background=\"white\">scanner directory layout</span>"
+    },
+    {
+      "label": "Include/"
+    },
+    {
+      "label": "├── dir/"
+    },
+    {
+      "label": "│   └── file"
+    },
+    {
+      "label": "├── .file1"
+    },
+    {
+      "label": "├── file2"
+    },
+    {
+      "label": "├── ln--dir <span fgcolor=\"red\">→</span> dir/"
+    },
+    {
+      "label": "├── .ln--dir--file <span fgcolor=\"red\">→</span> ln--dir--file"
+    },
+    {
+      "label": "├── ln--dir--file <span fgcolor=\"red\">→</span> dir/file"
+    },
+    {
+      "label": "├── ln--file2 <span fgcolor=\"red\">→</span> file2"
+    },
+    {
+      "label": "└── .ln--ln--dir <span fgcolor=\"red\">→</span> ln--dir/"
+    },
+    {
+      "label": "Launcher/"
+    },
+    {
+      "label": "├── dir/"
+    },
+    {
+      "label": "│   └── launcher"
+    },
+    {
+      "label": "├── .launcher1"
+    },
+    {
+      "label": "├── launcher2"
+    },
+    {
+      "label": "├── ln--dir <span fgcolor=\"red\">→</span> dir/"
+    },
+    {
+      "label": "├── .ln--dir--launcher <span fgcolor=\"red\">→</span> ln--dir--launcher"
+    },
+    {
+      "label": "├── ln--dir--launcher <span fgcolor=\"red\">→</span> dir/launcher"
+    },
+    {
+      "label": "├── ln--launcher2 <span fgcolor=\"red\">→</span> launcher2"
+    },
+    {
+      "label": "└── .ln--ln--dir <span fgcolor=\"red\">→</span> ln--dir/"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

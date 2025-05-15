@@ -1,0 +1,135 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = scanner
+#-------------------------------------------
+
+#% Configure ignorehidden and followsymlink for the Launcher and directory Include scanner.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify that each submenu matches the layout for the given configuration.
+# -----
+menuposition = 50 20
+item = <span $mag_whi_nrm_>followsymlink is a bitmask: 0(nofollow) 1(file) 2(directory)</span>
+separator # ----------------------------------------------------
+
+# ----- test case
+submenu = 11 ignorehidden followsymlink 1 (default)  »  4 items (1 dir/file) ÷ 4 items (1 dir/launcher)
+  item = Include
+  include = $mDIR/Include *
+separator
+  item = Launchersub
+  launchersub = $mDIR/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+conf = ignorehidden followsymlink 0
+configure = $conf
+submenu = 10 $conf  »  2 items (1 dir/file) ÷ 2 items (1 dir/launcher)
+  item = Include
+  include = $mDIR/Include *
+separator
+  item = Launchersub
+  launchersub = $mDIR/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+conf = ignorehidden followsymlink 2
+configure = $conf
+submenu = 12 $conf  »  3 items (2 dir/file) ÷ 3 items (2 dir/launcher)
+  item = Include
+  include = $mDIR/Include *
+separator
+  item = Launchersub
+  launchersub = $mDIR/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+conf = ignorehidden followsymlink 3
+configure = $conf
+submenu = 13 $conf  »  5 items (2 dir/file) ÷ 5 items (2 dir/launcher)
+  item = Include
+  include = $mDIR/Include *
+separator
+  item = Launchersub
+  launchersub = $mDIR/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+conf = noignorehidden followsymlink 0
+configure = $conf
+submenu = 00 $conf  »  3 items (1 dir/file) ÷ 3 items (1 dir/launcher) ÷ 2 launchers
+  item = Include
+  include = $mDIR/Include *
+separator
+  item = Launchersub
+  launchersub = $mDIR/Launcher
+separator
+  item = Launcher
+  launcher = $mDIR/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+conf = noignorehidden followsymlink 1
+configure = $conf
+submenu = 01 $conf  »  6 items (1 dir/file) ÷ 6 items (1 dir/launcher)
+  item = Include
+  include = $mDIR/Include *
+separator
+  item = Launchersub
+  launchersub = $mDIR/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+conf = noignorehidden followsymlink 2
+configure = $conf
+submenu = 02 $conf  »  5 items (3 dir/file) ÷ 5 items (3 dir/launcher)
+  item = Include
+  include = $mDIR/Include *
+separator
+  item = Launchersub
+  launchersub = $mDIR/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+conf = noignorehidden followsymlink 3
+configure = $conf
+submenu = 03 $conf  »  8 items (3 dir/file) ÷ 8 items (3 dir/launcher)
+  item = Include
+  include = $mDIR/Include *
+separator
+  item = Launchersub
+  launchersub = $mDIR/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# Display directory layout by converting tree(1)'s output to Item directives.
+item = <span $mag_whi_nrm_>$mDIR directory layout</span>
+format = font-family = "Monospace 10" $fg_blue_
+fpath_  == echo "$TMPDIR/.$(basename '$mTESTFILE')"
+tree_    = tree -aF Include Launcher --noreport
+arrow_   = <span fgcolor="red">→</span>
+sed_     = sed -e 's!\.desktop!!g; s! \[.*]!!g; s!->!$arrow_!g'
+report_ == (cd $mDIR && ($tree_ | $sed_ -e 's/^/item = /'))  > "$fpath_"
+include = $fpath_
+format =
+separator # ----------------------------------------------------
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

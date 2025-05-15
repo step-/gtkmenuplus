@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Setup Puppy
+Icon=/usr/share/pixmaps/mini-icons/mini-dog.xpm
+Type=Directory
+Comment[fi]=Puppyn asennus
+Name[es]=Configurar Puppy
+Name[fi]=Puppyn asennus
+Name[hu]=Puppy beállítás
+Name[ja]=パピーの設定
+
+Categories=X-SetupEntry;PackageManager

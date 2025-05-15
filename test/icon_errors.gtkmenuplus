@@ -1,0 +1,77 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+# GTKMENUPLUS_OPTIONS=-vvv
+# SKIP_JSON because test verification involves stderr.
+#-------------------------------------------
+
+#% Test error messages about `icon=` cases
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS statements.
+# -----
+
+bin_ls_=/bin/ls
+
+# 1
+iconsize = 25
+item = 1 PASS if no ICON and stderr message
+cmd = true
+icon = NoNeXisTeNtFiLe.png
+item = info: named icon 'NoNeXisTeNtFiLe.png' not found
+separator # ----------------------------------------------------
+
+# 2
+iconsize = 25
+item = 2 PASS if leafpad icon
+cmd = true
+icon = leafpad.png
+separator # ----------------------------------------------------
+
+# 3
+iconsize = 25
+item = 3 PASS if no ICON and stderr message
+cmd = true
+icon = NoNeXisTeNtNaMe
+item = info: icon 'NoNeXisTeNtNaMe' not found
+separator # ----------------------------------------------------
+
+# 4
+iconsize = 25
+item = 4 PASS if no ICON and stderr message
+cmd = true
+icon = $bin_ls_.png
+item = info: icon file error: Failed to open file “$bin_ls_.png”: No such file or directory
+separator # ----------------------------------------------------
+
+test_png_dir_ = /tmp/test.png
+junk_ == mkdir -p $test_png_dir_
+junk_ == cp -u $bin_ls_ $test_png_dir_
+junk_ = $junk_
+
+# 5
+iconsize = 25
+item = 5 PASS if no ICON and stderr message
+cmd = true
+icon = $test_png_dir_/ls
+item = info: icon file error: Couldn’t recognize the image file format for file “$test_png_dir_/ls”
+separator # ----------------------------------------------------
+
+# 6
+iconsize = 25
+item = 6 PASS if no ICON and stderr message
+cmd = true
+icon = $test_png_dir_
+item = info: icon file error: Couldn’t recognize the image file format for file “$test_png_dir_”
+separator # ----------------------------------------------------
+
+# 999 expect verbose (-v) output usage stats or sh -x on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

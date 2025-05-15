@@ -1,0 +1,11 @@
+### gtkmenuplus include file
+# Purpose: Add a menu entry that matches and displays instructions
+# embedded as comment lines in $mTESTFILE.
+# Usage:
+#     include = operator_instructions.entry
+# Instructions are blocks of comment lines. Each block is delimited
+# by the awk regex patterns below.
+
+_instructions_ == awk '/^# [0-9.]+ (expect|instructions)/,/^# -----$/' "$mTESTFILE"
+item = <span font-desc="Monospace">$_instructions_</span>
+

@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=Network
+Icon=/usr/share/pixmaps/midi-icons/connect48.png
+Type=Directory
+Comment[fi]=Verkkoyhteydet
+Name[bg]=Мрежови приложения
+Name[ca_ES]=Xarxa
+Name[de]=Netzwerk
+Name[es_ES]=Redes
+Name[es]=Red
+Name[fi]=Verkkoyhteydet
+Name[fr]=Réseau
+Name[hu]=Internet tárcsázó
+Name[it]=Rete
+Name[ja]=ネットワーク
+Name[nl]=Netwerk
+Name[pl]=Sieć
+Name[pt]=Rede
+Name[ru]=Сеть
+Name[zh_CN]=网络
+Name[zh_TW]=網路
+Name[de]=Netzwerk
+
+Categories=;Dialup;Network;HamRadio;RemoteAccess

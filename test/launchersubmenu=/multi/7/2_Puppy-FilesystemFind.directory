@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Filesystem Find
+Icon=/usr/share/pixmaps/mini-icons/mini-zoom.xpm
+Type=Directory
+Comment[fi]=Tiedostojärjestelmä, hakuohjelmat
+Name[fi]=Tiedostojärjestelmä, hakuohjelmat
+Name[hu]=Fájlrendszer kereső
+
+Categories=X-FilesystemFind

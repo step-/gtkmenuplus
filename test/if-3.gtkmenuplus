@@ -1,0 +1,96 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#mDIR = nest/2/3/4/5A
+configure=errorconsoleonly
+#-------------------------------------------
+
+#% Old non-regression test.
+
+#ca4437a3
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 1 expect item: 1 PASS 'if'
+# 2 expect item: 2 PASS 'if'
+# 3 expect item: 3 PASS 'if'
+# -----
+if=sh -xc ": '>'; echo true"
+  item=1 PASS 'if'
+  icon=gtk-yes
+  if=sh -xc ": '>>'; echo true"
+    item=2 PASS 'if'
+    icon=gtk-yes
+    if=sh -xc ": '>>>'; echo true"
+      item=3 PASS 'if'
+      icon=gtk-yes
+    else
+      item=<span color="red">3 FAIL 'else'</span>
+      icon=gtk-dialog-error
+    endif
+  else
+    item=<span color="red">2 FAIL 'else'</span>
+    icon=gtk-dialog-error
+  endif
+else
+  item=<span color="red">1 FAIL 'else'</span>
+  icon=gtk-dialog-error
+endif
+separator # ----------------------------------------------------
+
+# 4 expect item: 4 PASS 'elseif'
+# -----
+if=sh -xc ": '>'; echo false"
+  item=<span color="red">4 FAIL 'if'</span>
+  icon=gtk-dialog-error
+elseif=sh -xc ": '>>'; echo true"
+  item=4 PASS 'elseif'
+  icon=gtk-yes
+else
+  item=<span color="red">4 FAIL 'else'</span>
+  icon=gtk-dialog-error
+endif
+separator # ----------------------------------------------------
+
+# 5 expect item: 5 PASS 'else'
+# -----
+if=sh -xc ": '>'; echo false"
+  item=<span color="red">5 FAIL 'if'</span>
+  icon=gtk-dialog-error
+elseif=sh -xc ": '>'; echo false"
+  item=<span color="red">5 FAIL 'elseif'</span>
+  icon=gtk-dialog-error
+else
+  if=sh -xc ": '>>'; echo true"
+    item=5 PASS 'else'
+    icon=gtk-yes
+  endif
+endif
+separator # ----------------------------------------------------
+
+# 6 expect item: 6 PASS 'elseif'
+# -----
+if=sh -xc ": '>'; echo false"
+  item=<span color="red">6 FAIL 'if'</span>
+  icon=gtk-dialog-error
+elseif=sh -xc ": '>'; echo true"
+  item=6 PASS 'elseif'
+  icon=gtk-yes
+else
+  if=sh -xc ": ERROR: SHOULD NOT EVALUATE 'else>if'; echo true"
+    item=<span color="red">6 ERROR: SHOULD NOT EVALUATE 'else>if'</span>
+    icon=gtk-dialog-error
+  endif
+endif
+
+separator # ----------------------------------------------------
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

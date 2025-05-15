@@ -1,0 +1,101 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#-------------------------------------------
+
+#% Test recycling UTF8 mnemonic with item/launcher.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Validate PASS statements.
+# -----
+
+submenu = List of UTF8 mnemonics in this test
+format = font-family="monospace" fgcolor="#800000"
+bo_ = font-weight="800"
+# {{{
+item = <span $bo_ font-size="large">10 commonly used UTF-8 characters</span>
+item = <span $bo_>1-Byte ASCII Characters</span>
+item = These are ASCII characters that map directly to UTF-8.
+item = 1. `A` (U+0041): Latin Capital Letter A
+item = 2. `!` (U+0021): Exclamation Mark
+item = <span $bo_>1-Byte Non-ASCII Characters</span>
+item = 3. `é` (U+00E9): Latin Small Letter E with Acute
+item = 4. `ü` (U+00FC): Latin Small Letter U with Diaeresis
+item = <span $bo_>2-Byte Characters</span>
+item = 5. `¡` (U+00A1): Inverted Exclamation Mark
+item = 6. `¢` (U+00A2): Cent Sign
+item = <span $bo_>3-Byte Characters</span>
+item = 7. `€` (U+20AC): Euro Sign
+item = 8. `★` (U+2605): Black Star
+item = <span $bo_>4-Byte Characters</span>
+item = 9. `😀` (U+1F600): Grinning Face Emoji
+item = 0. `🌍` (U+1F30D): Earth Globe Europe-Africa Emoji
+item = <span $bo_>UTF8 Encoding:</span>
+item = <span $bo_>1-byte: Encodes ASCII and some Latin characters directly.</span>
+item = <span $bo_>2-byte: Covers Latin-based characters with accents and special symbols.</span>
+item = <span $bo_>3-byte: Includes broader Unicode ranges like Greek, Cyrillic, and common symbols.</span>
+item = <span $bo_>4-byte: Handles supplementary planes, such as emojis and historic scripts.</span>
+# }}}
+endsubmenu
+
+# Python randomizer {{{
+# import random
+# chars = ['A', '!', '¡', '¢', '€', '★', '😀', '🌍', 'é', 'ü']
+# random.shuffle(chars)
+# randomized_string = ''.join(chars)
+# print(randomized_string)
+#}}}
+
+mnemonic = 🌍ü!€😀A¢é¡★
+list = { 🌍, ü, !, €, 😀, A, ¢, é, ¡, ★ } (10 characters)
+
+# ----- test case
+item = PASS if items and submenus correctly
+item = recycle mnemonics in $list
+format = mnemonic="$mnemonic" fgcolor="#800000" font-weight="800"
+submenu = Enter this submenu (12 items)
+# {{{
+item = 1
+cmd = true
+item = 2
+cmd = true
+item = 3
+cmd = true
+item = 4
+cmd = true
+item = 5
+cmd = true
+item = 6
+cmd = true
+item = 7
+cmd = true
+item = 8
+cmd = true
+item = 9
+cmd = true
+item = 0
+cmd = true
+item = 1
+cmd = true
+item = 2
+cmd = true
+# }}}
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+submenu = Enter this submenu (12 launchers)
+launcher = scanner/Launcher:scanner/Launcher:scanner/Launcher:scanner/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=File Managers
+Icon=/usr/share/pixmaps/mini-icons/mini-filemgr.xpm
+Type=Directory
+Comment[fi]=Tiedostonhallintaohjelmat
+Name[fi]=Tiedostonhallintaohjelmat
+Name[hu]=Fájlkezelők
+Name[ja]=ファイルマネージャ
+
+Categories=FileSystem;FileManager

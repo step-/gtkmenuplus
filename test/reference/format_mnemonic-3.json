@@ -1,0 +1,142 @@
+{
+  "count": 16,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Validate PASS statements.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if the __Countries submenu expands to[*]</span>"
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">│    __A England</span>"
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">│       __A London, __B Birmingham, __C Liverpool, __A Manchester</span>"
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">│    __B Scotland</span>"
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">│       __A Glasgow, __B Edingburgh, __C Aberdeen, __A Inverness</span>"
+    },
+    {
+      "label": "<span font=\"small\">[*] you might need to scroll the submenu to enable underlines</span>"
+    },
+    {
+      "label": "Countries",
+      "count": 2,
+      "children": [
+        {
+          "label": "England",
+          "count": 4,
+          "children": [
+            {
+              "label": "London",
+              "cmd": "true"
+            },
+            {
+              "label": "Birmingham",
+              "cmd": "true"
+            },
+            {
+              "label": "Liverpool",
+              "cmd": "true"
+            },
+            {
+              "label": "Manchester",
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "Scotland",
+          "count": 4,
+          "children": [
+            {
+              "label": "Glasgow",
+              "cmd": "true"
+            },
+            {
+              "label": "Edingburgh",
+              "cmd": "true"
+            },
+            {
+              "label": "Aberdeen",
+              "cmd": "true"
+            },
+            {
+              "label": "Inverness",
+              "cmd": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"large\">PASS if the leafpad launcher entry starts with mnemonic __Y</span>"
+    },
+    {
+      "label": "Leafpad",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "<span foreground=\"blue\" background=\"azure\" size=\"large\">PASS if all launchers in the Launchers submenu start with underlined __0 through __2 (with reuse)[*]</span>"
+    },
+    {
+      "label": "<span font=\"small\">[*] except launchers that are already memoized; you might need to scroll the submenu to enable underlines</span>"
+    },
+    {
+      "label": "_Launchers",
+      "count": 4,
+      "children": [
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--launcher",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

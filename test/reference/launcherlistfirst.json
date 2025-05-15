@@ -1,0 +1,355 @@
+{
+  "count": 30,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify PASS conditions as described by item labels.\n# Launcher items are labeled by {Name=} '(' {Categories=} ')'\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "10 PASS if there are 2 identical launchers below"
+    },
+    {
+      "label": "Leafpad",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "Leafpad",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "20 PASS if there is 1 launcher below"
+    },
+    {
+      "label": "Leafpad",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "30 PASS if there are 2 identical sections below"
+    },
+    {
+      "label": "(there is no separator between the two sections)"
+    },
+    {
+      "label": "2/1a (c1)",
+      "tooltip": "category c1",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/1b no (other)",
+      "tooltip": "category other",
+      "icon": "gtk-no",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/1c (c2)",
+      "tooltip": "category c2",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/2d (null category)",
+      "tooltip": "this entry's {Categories=} property does not exist",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "3",
+      "count": 5,
+      "children": [
+        {
+          "label": "3/1a (c1)",
+          "tooltip": "category c1",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3/1b no (other)",
+          "tooltip": "category other",
+          "icon": "gtk-no",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3/1c (c2)",
+          "tooltip": "category c2",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3/4d (null category)",
+          "tooltip": "this entry's {Categories=} property does not exist",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "4",
+          "count": 4,
+          "children": [
+            {
+              "label": "4/1a (c1)",
+              "tooltip": "category c1",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4/1b no (other)",
+              "tooltip": "category other",
+              "icon": "gtk-no",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4/1c (c2)",
+              "tooltip": "category c2",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4/3d (empty category)",
+              "tooltip": "this entry's {Categories=} exists and is empty",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "2/1a (c1)",
+      "tooltip": "category c1",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/1b no (other)",
+      "tooltip": "category other",
+      "icon": "gtk-no",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/1c (c2)",
+      "tooltip": "category c2",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/2d (null category)",
+      "tooltip": "this entry's {Categories=} property does not exist",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "3",
+      "count": 5,
+      "children": [
+        {
+          "label": "3/1a (c1)",
+          "tooltip": "category c1",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3/1b no (other)",
+          "tooltip": "category other",
+          "icon": "gtk-no",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3/1c (c2)",
+          "tooltip": "category c2",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3/4d (null category)",
+          "tooltip": "this entry's {Categories=} property does not exist",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "4",
+          "count": 4,
+          "children": [
+            {
+              "label": "4/1a (c1)",
+              "tooltip": "category c1",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4/1b no (other)",
+              "tooltip": "category other",
+              "icon": "gtk-no",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4/1c (c2)",
+              "tooltip": "category c2",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4/3d (empty category)",
+              "tooltip": "this entry's {Categories=} exists and is empty",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "40 PASS if there is 1 section below"
+    },
+    {
+      "label": "(the section is identical to one of the sections in 30)"
+    },
+    {
+      "label": "2/1a (c1)",
+      "tooltip": "category c1",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/1b no (other)",
+      "tooltip": "category other",
+      "icon": "gtk-no",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/1c (c2)",
+      "tooltip": "category c2",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "2/2d (null category)",
+      "tooltip": "this entry's {Categories=} property does not exist",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "3",
+      "count": 5,
+      "children": [
+        {
+          "label": "3/1a (c1)",
+          "tooltip": "category c1",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3/1b no (other)",
+          "tooltip": "category other",
+          "icon": "gtk-no",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3/1c (c2)",
+          "tooltip": "category c2",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "3/4d (null category)",
+          "tooltip": "this entry's {Categories=} property does not exist",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "4",
+          "count": 4,
+          "children": [
+            {
+              "label": "4/1a (c1)",
+              "tooltip": "category c1",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4/1b no (other)",
+              "tooltip": "category other",
+              "icon": "gtk-no",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4/1c (c2)",
+              "tooltip": "category c2",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "4/3d (empty category)",
+              "tooltip": "this entry's {Categories=} exists and is empty",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

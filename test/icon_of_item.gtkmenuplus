@@ -1,0 +1,172 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+configure = errorconsoleonly
+# GTKMENUPLUS_OPTIONS=-v
+#-------------------------------------------
+
+#% Test `icon=` of `item=`.
+# As documented in ../docs/scripting_guide.txt
+# sections "### Icon" and "#### Hiding item and submenu icons".
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS statements.
+# -----
+
+basedir_ == dirname "$mTESTFILE"
+logo_icon_ = $basedir_/icondirectory=/XPM/gtkmenuplus.xpm
+
+### Basic test
+
+#--------------
+configure = icons
+item = section `configure=icons`
+separator # ----------------------------------------------------
+#--------------
+
+# icon file
+item = PASS if logo icon
+cmd = true
+tooltip = icon file path = $logo_icon_
+icon = $logo_icon_
+
+# stock icon
+item = PASS if gtk-ok icon
+cmd = true
+tooltip = stock icon = gtk-ok
+icon = gtk-ok
+
+# named icon
+item = PASS if leafpad icon
+cmd = true
+tooltip = named icon = leafpad
+icon = leafpad
+
+separator # ----------------------------------------------------
+
+# from MIME-type of `datafile` in `cmd = datafile`
+# Fatdog64-900 provides an "inode/directory" file type icon
+item = PASS if inode/directory MIME-type icon
+tooltip = `cmd=/` => icon of inode/directory MIME-type
+cmd = /
+
+# from MIME-type associated with datafile in `cmd = datafile`
+# Fatdog64-900 provides an "image" file type icon
+item = PASS if image/* file type icon
+tooltip = `cmd=$logo_icon_` => icon of image/png MIME-type
+cmd = $logo_icon_
+
+separator # ----------------------------------------------------
+
+# ---------------
+configure = noicons
+item = section `configure=noicons`
+separator # ----------------------------------------------------
+# ---------------
+
+item = PASS if logo icon
+cmd = true
+tooltip = icon file path = $logo_icon_
+icon = $logo_icon_
+
+item = PASS if gtk-ok icon
+cmd = true
+tooltip = stock icon = gtk-ok
+icon = gtk-ok
+
+# named icon
+item = PASS if leafpad icon
+cmd = true
+tooltip = named icon = leafpad
+icon = leafpad
+
+separator # ----------------------------------------------------
+
+### omitted icon
+
+#--------------
+configure = noicons
+#--------------
+
+# from MIME-type: no `icon=` therefore NO icon
+item = PASS if NO icon
+tooltip = `configure=noicons` && omitted `icon=` => NO icon (even if `cmd=$logo_icon_)
+cmd = $logo_icon_
+
+separator # ----------------------------------------------------
+
+### omitted icon
+
+#--------------
+configure = icons
+item = section `configure=icons`
+separator # ----------------------------------------------------
+#--------------
+
+item = PASS if NO icon
+tooltip = `configure=icons` && omitted `icon=` => NO icon (with `cmd=true`)
+# "true" isn't a data file path (no "/").
+cmd = true
+
+separator # ----------------------------------------------------
+
+### invalid icon
+
+#--------------
+configure = icons
+item = three invalid icons follow: if verbose option (-v) is set
+item = gtkmenuplus will report the offending `icon=` directives
+#--------------
+
+item = PASS if NO icon
+icon = /non-existent-icon.png
+tooltip = `icon=/non-existent-icon.png` => NO icon
+cmd = true
+
+item = PASS if NO icon
+icon = $a0
+tooltip = `icon=$a0` => NO icon
+cmd = true
+
+item = PASS if NO icon
+icon = InVaLiDiCoN
+tooltip = `icon=InVaLiDiCoN` => NO icon
+cmd = true
+
+### empty icon
+
+#--------------
+configure = icons
+#--------------
+
+item = PASS if NO icon
+icon =
+tooltip = empty `icon=` => NO icon
+cmd = true
+
+separator # ----------------------------------------------------
+
+### DEPRECATED THEN UNDOCUMENTED
+
+#--------------
+configure = icons
+item = section `configure=icons`
+separator # ----------------------------------------------------
+#--------------
+
+item = PASS if NO icon
+icon = NULL
+tooltip = deprecated, undocumented `icon=NULL` => NO icon
+cmd = true
+
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

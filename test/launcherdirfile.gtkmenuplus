@@ -1,0 +1,69 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = ldf
+#-------------------------------------------
+
+#% Test `launcherdirfile=` in various contexts.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Visit submenus and verify they look as the "PASS" statements say.
+# Launcher items are labeled by {Name=} '(' {Categories=} ')'
+# You can click the PASS entry to edit the launcherdirfile file.
+# -----
+
+item = <span $blu_azu_sml_>10 PASS if all entries have <span $bg_gold_>gold bg</span> and you see 3 "yes" and 0 "no" entries,</span>
+cmd = defaulttexteditor $mDIR/0.directory
+item = <span $blu_azu_sml_>and submenu "dirfile..." holding 3 sub-levels with 3 "yes"</span>
+tooltip = click to edit $mDIR/0.directory
+separator # ----------------------------------------------------
+launcherdirfile = $mDIR/0.directory
+format = $bg_gold_
+launchersub=$mDIR/1
+separator # ----------------------------------------------------
+
+format =
+launcherdirfile =
+item = <span $blu_azu_sml_>20 PASS if all entries have <span $bg_lime_>lime bg</span> and if you see 1 "no" and 1 "yes" entry,</span>
+cmd = defaulttexteditor $mDIR/1/2/2.directory
+item = <span $blu_azu_sml_>and submenu "launcherdirfile..." holding 2 sub-levels with 1 no and 1 "yes" entry</span>
+tooltip = click to edit $mDIR/1/2/2.directory
+separator # ----------------------------------------------------
+launcherdirfile = $mDIR/1/2/2.directory
+format = $bg_lime_
+launchersub=$mDIR/1/2
+separator # ----------------------------------------------------
+
+format =
+launcherdirfile=
+item = <span $blu_azu_sml_>30 PASS if you see 3 "yes" and 0 "no" entries on <span $bg_gold_>gold bg</span></span>
+cmd = defaulttexteditor $mDIR/0.directory
+tooltip = click to edit $mDIR/0.directory
+separator # ----------------------------------------------------
+launcherdirfile = $mDIR/0.directory
+format = $bg_gold_
+launcher=$mDIR/1
+separator # ----------------------------------------------------
+
+format =
+launcherdirfile =
+item = <span $blu_azu_sml_>40 PASS if you see 1 "no" and 1 "yes" entries on <span $bg_lime_>lime bg</span></span>
+cmd = defaulttexteditor $mDIR/1/2/2.directory
+tooltip = click to edit $mDIR/1/2/2.directory
+separator # ----------------------------------------------------
+launcherdirfile = $mDIR/1/2/2.directory
+format = $bg_lime_
+launcher=$mDIR/1/2
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

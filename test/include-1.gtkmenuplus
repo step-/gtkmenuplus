@@ -1,0 +1,82 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = include=
+#-------------------------------------------
+
+#% Test include=dirpath[/file_glob] [dir_glob]. No extended globs.
+
+# Display this menu in a loop. Use e_xit item (further down) to exit.
+item = <span bgcolor="pink">  AUTO-RESTARTING MENU - SELECT "e__xit menu" TO END THE LOOP  </span>
+include = lib/restart.entry '!' # set _cmdline_
+onexit = $_cmdline_ &
+
+item = e_xit menu
+icon = gtk-quit
+cmd  = pkill -n gtkmenuplus
+separator # ----------------------------------------------------
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Visit each submenu to verify that it includes all and only the
+# described items.
+# -----
+
+submenu = 1 submenu holding 5 files: f0.{c,h,x} f1.{c,h}
+include = $mDIR/*.[chx]
+endsubmenu
+submenu = 2 submenu holding 5 files: f0.{c,h,x} f1.{c,h}
+include = $mDIR
+endsubmenu
+separator # ----------------------------------------------------
+
+submenu = 2 submenu holding 4 files: f{0,1}.{c,h}
+include = $mDIR/*.[chX]
+endsubmenu
+submenu = 2 submenu holding 4 files: f{0,1}.{c,h}
+include = $mDIR/*.[ch]
+endsubmenu
+separator # ----------------------------------------------------
+
+submenu = 3 submenu holding 0 files
+include = $mDIR/*.[CHX]
+item =
+endsubmenu
+separator # ----------------------------------------------------
+
+include = lib/data_tree.entry "$mDIR"
+
+submenu = 4 submenu mirroring folder "$mDIR"
+include = $mDIR *
+endsubmenu
+separator # ----------------------------------------------------
+
+submenu = 5 submenus holding 22 f*.c files overall
+include = $mDIR/*.c *
+endsubmenu
+submenu = 5 submenus holding 12 f*.c files overall
+include = $mDIR/*.[cX] *.[chxX]
+endsubmenu
+separator # ----------------------------------------------------
+
+submenu = 6 submenus holding 12 "f.x" files overall
+include = $mDIR/f.x *
+endsubmenu
+separator # ----------------------------------------------------
+
+submenu = 7 submenu holding 0 files
+include = $mDIR/*.X *
+item    =
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

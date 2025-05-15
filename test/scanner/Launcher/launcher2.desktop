@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=launcher2
+Comment=green dot
+Exec=true
+Terminal=false
+Icon=gtk-yes
+Categories=Utility;

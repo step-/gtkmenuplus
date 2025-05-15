@@ -1,0 +1,137 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = nest
+#-------------------------------------------
+
+#% Test `format=` and `tooltipformat=`.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+tooltipformat= $mag_whi_nrm_
+item = <span $bg_pink_>10 PASS if the color of all tooltips, regardless of their menu level, is <span $mag_whi_nrm_>magenta on white</span>    </span>
+tooltip = the tooltip
+separator # ----------------------------------------------------
+
+format=
+item = 20 PASS if the color of "A" and all labels under "A" is <span $fg_blue_>blue</span>
+tooltip = the tooltip
+format = $fg_blue_
+submenu = A
+tooltip = the tooltip
+submenu = B
+tooltip = the tooltip
+submenu = C
+tooltip = the tooltip
+          item = last item
+endsubmenu # C
+endsubmenu # B
+endsubmenu # A
+separator # ----------------------------------------------------
+
+format=
+item = 30 PASS if "A" and "B" within are <span $fg_blue_>blue</span>, then "C" and its item are <span $fg_red_>red</span>
+tooltip = the tooltip
+format = $fg_blue_
+  submenu = A
+  tooltip = the tooltip
+  submenu = B
+  tooltip = the tooltip
+format = $fg_red_
+  submenu = C
+  tooltip = the tooltip
+  item = last item
+  endsubmenu # C
+  endsubmenu # B
+  endsubmenu # A
+separator # ----------------------------------------------------
+
+format=
+item = 40 PASS if all levels of "A" are <span $fg_blue_>blue</span>
+tooltip = the tooltip
+format = $fg_blue_
+  submenu = A
+  tooltip = the tooltip
+  submenu = B
+  tooltip = the tooltip
+  submenu = C
+  tooltip = the tooltip
+           launchersub=nest
+ endsubmenu # C
+ endsubmenu # B
+ endsubmenu # A
+separator # ----------------------------------------------------
+
+format=
+launcherdirfile=
+item = 50 PASS if all levels of "A" are <span $fg_blue_>blue</span>
+tooltip = the tooltip
+format = $fg_blue_
+  submenu = A
+  tooltip = the tooltip
+  submenu = B
+  tooltip = the tooltip
+  submenu = C
+  tooltip = the tooltip
+           launcher=nest
+endsubmenu # C
+endsubmenu # B
+endsubmenu # A
+separator # ----------------------------------------------------
+
+format=
+launcherdirfile=
+item = 60 PASS if "A" and "B" within are <span $fg_blue_>blue</span>, then lower-level entries are <span $fg_red_>red</span>
+tooltip = the tooltip
+format = $fg_blue_
+  submenu = A
+  tooltip = the tooltip
+  submenu = B
+  tooltip = the tooltip
+format = $fg_red_
+  submenu = C
+  tooltip = the tooltip
+            launchersub=nest
+  endsubmenu # C
+  endsubmenu # B
+  endsubmenu # A
+separator # ----------------------------------------------------
+
+format =
+launcherdirfile =
+item = 70 PASS if all labels are the default color regardless of their level
+tooltip = the tooltip
+launchersub=nest
+separator # ----------------------------------------------------
+
+format=
+item = 80 PASS if all labels are <span $fg_blue_>blue</span> regardless of their level
+tooltip = the tooltip
+format = $fg_blue_
+launchersub=nest
+separator # ----------------------------------------------------
+
+format=
+launcherdirfile =
+item = 90 PASS if the labels of the first half (nested) entries are <span $fg_blue_>blue</span>, and the remaining (nested) labels are <span $fg_red_>red</span>
+tooltip = the tooltip
+format = $fg_blue_
+launchersub=nest/2
+format =
+launcherdirfile =
+item = _____________________________
+tooltip = the tooltip
+format = $fg_red_
+launchersub=nest/2
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

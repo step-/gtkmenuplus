@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Filesystem Config
+Icon=/usr/share/pixmaps/mini-icons/mini-hdisk.xpm
+Type=Directory
+Comment[fi]=Tiedostojärjestelmän apuohjelmat
+Name[es]=Config. Sist. de Archivos
+Name[fi]=Tiedostojärjestelmän apuohjelmat
+Name[hu]=Fájlrendszer konfigurálás
+
+Categories=X-FilesystemUtility

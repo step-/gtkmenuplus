@@ -1,0 +1,31 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = launchersubmenu=/basic
+#-------------------------------------------
+
+#% Basic `launchersubmenu=` test.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS conditions as described by item labels.
+# -----
+
+configure        = endsubmenu
+
+item = PASS Basic submenu if it includes 3 items: Customize..., Empty category, Null category.
+launchersubmenu  = $mDIR/Basic.directory  # submenu label, icon and tooltip
+launcherdirfile  = $mDIR/Basic.directory  # show items matching Categories
+launcher         = $mDIR                    # examine launchers in this directory
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

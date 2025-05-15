@@ -1,0 +1,33 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+configure=errorconsoleonly
+#-------------------------------------------
+
+
+#
+#% Test `if ?=`.
+#
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 1 expect PASS if the first label is "restart", icon "gtk-refresh", tooltip "repeat this menu again".
+# -----
+include = ./lib/restart.entry
+separator # ----------------------------------------------------
+
+# 2 expect PASS if the second label is "testing label", icon "gtk-ok", tooltip "testing tooltip".
+# -----
+include = ./lib/restart.entry "testing label" gtk-ok "testing tooltip"
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

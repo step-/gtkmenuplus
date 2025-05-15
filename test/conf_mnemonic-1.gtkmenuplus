@@ -1,0 +1,48 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#-------------------------------------------
+
+#% Enable/disable manual mnemonic.
+#% This test should PASS even if FEATURE_FORMAT is not built.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Validate PASS statements.
+# -----
+
+# ----- test case
+# default configuration
+item = PASS if the next entry starts with an underlined T.
+cmd = true
+item = _This entry starts with underlined T
+cmd = true
+separator # ----------------------------------------------------
+
+# ----- test case
+configure = mnemonic # default
+item = PASS if the next entry starts with underscore followed by T.
+cmd = true
+item = __This entry starts with undescore followed by T
+cmd = true
+separator # ----------------------------------------------------
+
+# ----- test case
+configure = nomnemonic
+item = PASS if the next entry starts with underscore followed by T.
+cmd = true
+item = _This entry starts with undescore followed by T
+cmd = true
+configure = mnemonic
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

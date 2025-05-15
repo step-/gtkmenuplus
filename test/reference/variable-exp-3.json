@@ -1,0 +1,21 @@
+{
+  "count": 4,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 expect no items.\n# -----\n# 1 expect item 1 with red icon \"1 $L tail text too long\" and stderr message\n#  \"line too long while expanding parameter or variable\"\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 $L tail text too long",
+      "icon": "gtk-dialog-error",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

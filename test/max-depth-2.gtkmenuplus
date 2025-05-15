@@ -1,0 +1,126 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR=nest
+configure = errorconsoleonly
+#-------------------------------------------
+
+#% Test exceeding max menu nesting hard limit.
+#% Edit test file to enable error dialog test too.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 INSTRUCTIONS: select "test tools>tree" to view "./nest/".
+# Verify PASS conditions as described by item labels.
+# Exceeding menu nesting hard limit=5 will trigger several error messages.
+# -----
+
+item = <span $mag_whi_nrm_>10 PASS if this section's structure is 2>3>4>5>two items</span> #'
+format = size="small"
+item = 10 expect stderr messages:
+item =  realpath .../invalid_symlink.desktop: Too many levels of symbolic links
+item =  [3] error: {}/nest/2: maximum submenu depth exceeded
+item =  .   (+ line info submenu 5 and launchersub=nest)
+item =  [3] error: {}/nest/2-1: maximum submenu depth exceeded
+item =  [3] error: {}/nest/2-2: maximum submenu depth exceeded
+item =  [2] warning: @.../max-depth-2.gtkmenuplus
+item =  .   (+ line info submenu 5 and launchersub=nest)
+format =
+submenu = 2
+submenu = 3
+submenu = 4
+submenu = 5
+          launchersub=nest
+endsubmenu
+endsubmenu
+endsubmenu
+endsubmenu
+separator # ----------------------------------------------------
+
+item = <span $mag_whi_nrm_>20 PASS if this section's structure is 2>3>4>5>two items</span> #'
+submenu = 2
+submenu = 3
+submenu = 4
+submenu = 5
+          launcher=nest
+endsubmenu
+endsubmenu
+endsubmenu
+endsubmenu
+separator # ----------------------------------------------------
+
+item = <span $mag_whi_nrm_>30 PASS if this section's structure is 2>3>4>5>four items</span> #'
+format = size="small"
+item = 30 expect stderr messages:
+item =  [3] error: {}/nest/2: maximum submenu depth exceeded
+item =  .   (+ line info submenu 5 and launchersub=nest)
+item =  [3] error: {}/nest/2-1: maximum submenu depth exceeded
+item =  [3] error: {}/nest/2-2: maximum submenu depth exceeded
+item =  [2] warning: @.../max-depth-2.gtkmenuplus
+item =  .   (+ line info submenu 5 and launchersub=nest)
+format =
+submenu = 2
+submenu = 3
+submenu = 4
+submenu = 5
+          launchersub=nest
+item = ___________________________________
+          launcher=nest
+endsubmenu
+endsubmenu
+endsubmenu
+endsubmenu
+separator # ----------------------------------------------------
+
+format=
+item = <span $mag_whi_nrm_>40 PASS if submenu labels "A">"B" are <span $fg_green_>green</span> then lower level entries are <span $fg_red_>red</span></span>
+format = $fg_green_
+   submenu = A
+   submenu = B
+format = $fg_red_
+   submenu = C
+   launchersub=nest
+   endsubmenu # C
+   endsubmenu # B
+   endsubmenu # A
+separator # ----------------------------------------------------
+
+format =
+item = <span $mag_whi_nrm_>50 PASS if this section's structure is 2>3>4>5>four items</span> #'
+format = size="small"
+item = 50 expect stderr messages:
+item =  [3] error: maximum submenu depth exceeded
+item =  .   (+ line info submenu 5 and submenu 6)
+item =  [3] error: {}/nest/2: maximum submenu depth exceeded
+item =  .   (+ line info launcher=nest and launchersub=nest)
+item =  [3] error: {}/nest/2-1: maximum submenu depth exceeded
+item =  [3] error: {}/nest/2-2: maximum submenu depth exceeded
+item =  [2] warning: @.../max-depth-2.gtkmenuplus
+item =  .   (+ line info launcher=nest and launchersub=nest)
+item =  [3] error: `endsubmenu` without `submenu` or `launchersubmenu`
+item =  .   (+ line info endsubmenu \# 3 and endsubmenu \# 2)
+format =
+submenu = 2
+  submenu = 3
+    submenu = 4
+      submenu = 5
+        submenu = 6
+          launcher=nest
+          launchersub=nest
+        endsubmenu # 6
+      endsubmenu # 5
+    endsubmenu # 4
+  endsubmenu # 3 expect submenu close error
+endsubmenu # 2 expect submenu close error
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

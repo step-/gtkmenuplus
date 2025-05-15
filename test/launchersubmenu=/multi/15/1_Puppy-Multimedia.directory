@@ -1,0 +1,18 @@
+[Desktop Entry]
+Name=Multimedia
+Icon=/usr/share/pixmaps/midi-icons/multimedia48.png
+Type=Directory
+Comment[fi]=Multimedia
+Name[bg]=Мултимедия
+Name[ca_ES]=Multimèdia
+Name[fr]=Multimédia
+Name[hu]=Multimédia
+Name[ja]=マルチメディア
+Name[ko]=멀티미디어
+Name[pt_BR]=Multimídia
+Name[pt]=Multimédia
+Name[ru]=Мультимедиа
+Name[zh_CN]=多媒体
+Name[zh_TW]=多媒體
+
+Categories=;X-Multimedia;AudioVideo;Video;Player;AudioVideoEditing;Recorder;Music;Audio;Midi;Mixer;Sequencer;Tuner;Video;TV;DiskBurning

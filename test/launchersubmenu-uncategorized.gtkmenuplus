@@ -1,0 +1,69 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = launchersubmenu=/multi
+#-------------------------------------------
+
+#% Test null/empty {Categories=} with `launchersubmenu=`.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS conditions as described by item labels.
+# -----
+
+configure = errorconsoleonly endsubmenu noicons
+
+# --------------------------------------------------------------------
+
+item = <span $blu_azu_sml_>10 PASS if "Uncategorized" contains two items: "Empty category" and "Null category".</span>
+cmd = defaulttexteditor $mDIR/uncategorized.directory
+item = <span $blu_azu_sml_>(Click PASS above to view the .directory file)</span>
+
+format =
+launcherdirfile=
+configure = nolaunchernodisplay launchernullcategory
+launchersubmenu = $mDIR/uncategorized.directory
+launcherdirfile = $mDIR/uncategorized.directory
+launchersub=$mDIR/../basic
+endsubmenu
+
+separator # ----------------------------------------------------
+
+item = <span $blu_azu_sml_>20 PASS if "Uncategorized" contains two items: "Empty category" and "Null category".</span>
+cmd = defaulttexteditor $mDIR/uncategorized.directory
+item = <span $blu_azu_sml_>(Click PASS above to view the .directory file)</span>
+
+format =
+launcherdirfile=
+configure = launchernodisplay launchernullcategory
+launchersubmenu = $mDIR/uncategorized.directory
+launcherdirfile = $mDIR/uncategorized.directory
+launchersub=$mDIR/../basic
+endsubmenu
+
+separator # ----------------------------------------------------
+
+item = <span $blu_azu_sml_>30 PASS if there is no "Uncategorized" submenu.</span>
+cmd = defaulttexteditor $mDIR/uncategorized.directory
+item = <span $blu_azu_sml_>(Click PASS above to view the .directory file)</span>
+
+format =
+launcherdirfile=
+configure = launchernodisplay nolaunchernullcategory
+launchersubmenu = $mDIR/uncategorized.directory
+launcherdirfile = $mDIR/uncategorized.directory
+launchersub=$mDIR/../basic
+endsubmenu
+
+separator # ----------------------------------------------------
+configure = launchernodisplay nolaunchernullcategory
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

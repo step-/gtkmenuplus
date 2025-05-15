@@ -1,0 +1,66 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+# SKIP_JSON because test verification involves pushing buttons and stdout.
+#-------------------------------------------
+
+#% Test shell-like execution.
+
+# Display this menu in a loop. Use e_xit item (further down) to exit.
+item = <span bgcolor="pink">  AUTO-RESTARTING MENU - SELECT "e__xit menu" TO END THE LOOP  </span>
+include = lib/restart.entry '!' # set _cmdline_
+onexit = $_cmdline_ &
+
+item = e_xit menu
+icon = gtk-quit
+cmd  = pkill -n gtkmenuplus
+separator # ----------------------------------------------------
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Activate each entry to verify "PASS" statements.
+# -----
+
+# 1
+command_ = date
+item = PASS if stdout displays the date
+item = _1 $command_
+cmd  = $command_
+separator # ----------------------------------------------------
+
+# 2
+command_  = /usr/bin/env date +%F
+item = PASS if stdout displays YYYY-mm-dd date
+item = _2 $command_
+cmd  = $command_
+separator # ----------------------------------------------------
+
+# 3
+command_ = "sh -c 'set -- `find -name *.png`; echo $# PNG files found; echo $*'"
+item = PASS if stdout displays the count and pathnames of PNG files under $(pwd)
+item = _3 $command_
+cmd = $command_
+separator # ----------------------------------------------------
+
+# 4
+command_ = /tmp
+item = PASS if the /tmp directory opens in your file manager
+item = _4 /tmp
+cmd = /tmp
+
+# 5
+command_ = /tmp
+item = PASS if your $HOME directory opens
+item = _5 ~/
+cmd = ~/
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

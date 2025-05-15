@@ -1,0 +1,31 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = icondirectory=
+#-------------------------------------------
+
+#% Test `icondirectory=`.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+_basedir_ == dirname "$mTESTFILE"
+
+icondirectory = $_basedir_/$mDIR/
+item          = 1 PASS if gold A icon
+icon          = a/A.svg
+separator # ----------------------------------------------------
+
+icondir       = $_basedir_/$mDIR/b
+item          = 2 PASS if pink B icon
+icon          = B.svg
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

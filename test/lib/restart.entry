@@ -1,0 +1,37 @@
+### gtkmenuplus include file
+# Purpose: Add a menu entry that automatically restarts the menu.
+# This entry could be useful to other test files when the operator
+# is asked to validate command invocations over and over again.
+# Usage:
+#     include = restart.entry ["LABEL"] ["ICON"] ["TOOLTIP"]
+# If LABEL starts with "!" no item is added but variables are still set.
+
+if ?= $1
+_label_ = $1
+else
+_label_ = _restart
+fi
+if ?= $2
+_icon_ = $2
+else
+_icon_ = gtk-refresh
+fi
+if ?= $3
+_tooltip_ = $3
+else
+_tooltip_ = repeat this menu again
+fi
+# $PPID is a POSIX shell variable; $(0) is an awk variable
+_cmdline_ == tr '\0' '\n' < /proc/$PPID/cmdline | awk '{printf " \"%s\"", $(0)}'
+
+if =  case "$_label_" in ("!"*) echo 0;; (*) echo 1;; esac
+item      = $_label_
+icon      = $_icon_
+tooltip   = $_tooltip_
+cmd       = $_cmdline_
+else
+# Here's a way to keep the "defined but never used" warnings quiet
+___ = $_icon_ $_tooltip_ $_cmdline_ ...
+___ = $___
+endif
+# vim: set filetype=gtkmenuplus:

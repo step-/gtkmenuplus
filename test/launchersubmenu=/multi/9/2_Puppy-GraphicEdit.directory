@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Graphics Editors
+Icon=/usr/share/pixmaps/mini-icons/mini-palette.xpm
+Type=Directory
+Comment[fi]=Kuvankäsittelyohjelmat
+Name[es]=Editores Gráficos
+Name[fi]=Kuvankäsittelyohjelmat
+Name[hu]=Grafikus szerkesztők
+
+Categories=VectorGraphics;RasterGraphics

@@ -1,0 +1,400 @@
+{
+  "count": 43,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"darkmagenta\" background=\"white\">10 PASS if this section's structure is 2>3>4>5>two items</span>"
+    },
+    {
+      "label": "10 expect stderr messages:"
+    },
+    {
+      "label": "realpath .../invalid_symlink.desktop: Too many levels of symbolic links"
+    },
+    {
+      "label": "[3] error: {}/nest/2: maximum submenu depth exceeded"
+    },
+    {
+      "label": ".   (+ line info submenu 5 and launchersub=nest)"
+    },
+    {
+      "label": "[3] error: {}/nest/2-1: maximum submenu depth exceeded"
+    },
+    {
+      "label": "[3] error: {}/nest/2-2: maximum submenu depth exceeded"
+    },
+    {
+      "label": "[2] warning: @.../max-depth-2.gtkmenuplus"
+    },
+    {
+      "label": ".   (+ line info submenu 5 and launchersub=nest)"
+    },
+    {
+      "label": "2",
+      "count": 1,
+      "children": [
+        {
+          "label": "3",
+          "count": 1,
+          "children": [
+            {
+              "label": "4",
+              "count": 1,
+              "children": [
+                {
+                  "label": "5",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "1a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"darkmagenta\" background=\"white\">20 PASS if this section's structure is 2>3>4>5>two items</span>"
+    },
+    {
+      "label": "2",
+      "count": 1,
+      "children": [
+        {
+          "label": "3",
+          "count": 1,
+          "children": [
+            {
+              "label": "4",
+              "count": 1,
+              "children": [
+                {
+                  "label": "5",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "1a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"darkmagenta\" background=\"white\">30 PASS if this section's structure is 2>3>4>5>four items</span>"
+    },
+    {
+      "label": "30 expect stderr messages:"
+    },
+    {
+      "label": "[3] error: {}/nest/2: maximum submenu depth exceeded"
+    },
+    {
+      "label": ".   (+ line info submenu 5 and launchersub=nest)"
+    },
+    {
+      "label": "[3] error: {}/nest/2-1: maximum submenu depth exceeded"
+    },
+    {
+      "label": "[3] error: {}/nest/2-2: maximum submenu depth exceeded"
+    },
+    {
+      "label": "[2] warning: @.../max-depth-2.gtkmenuplus"
+    },
+    {
+      "label": ".   (+ line info submenu 5 and launchersub=nest)"
+    },
+    {
+      "label": "2",
+      "count": 1,
+      "children": [
+        {
+          "label": "3",
+          "count": 1,
+          "children": [
+            {
+              "label": "4",
+              "count": 1,
+              "children": [
+                {
+                  "label": "5",
+                  "count": 5,
+                  "children": [
+                    {
+                      "label": "1a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "___________________________________"
+                    },
+                    {
+                      "label": "1a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"darkmagenta\" background=\"white\">40 PASS if submenu labels \"A\">\"B\" are <span fgcolor=\"green\" overline=\"single\">green</span> then lower level entries are <span fgcolor=\"red\" underline=\"single\">red</span></span>"
+    },
+    {
+      "label": "A",
+      "count": 1,
+      "children": [
+        {
+          "label": "B",
+          "count": 1,
+          "children": [
+            {
+              "label": "C",
+              "count": 5,
+              "children": [
+                {
+                  "label": "1a",
+                  "tooltip": "Tooltip",
+                  "icon": "gtk-about",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                },
+                {
+                  "label": "2",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "2b (different)",
+                      "tooltip": "different tooltip",
+                      "icon": "/usr/share/pixmaps/midi-icons/go48.png",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                },
+                {
+                  "label": "2-1",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Geany",
+                      "tooltip": "Geany editor",
+                      "icon": "geany",
+                      "icon_rendered": true,
+                      "cmd": "geany"
+                    }
+                  ]
+                },
+                {
+                  "label": "2-2",
+                  "count": 2,
+                  "children": [
+                    {
+                      "label": "2a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Leafpad",
+                      "tooltip": "Simple text editor",
+                      "icon": "leafpad",
+                      "icon_rendered": true,
+                      "cmd": "leafpad   "
+                    }
+                  ]
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"darkmagenta\" background=\"white\">50 PASS if this section's structure is 2>3>4>5>four items</span>"
+    },
+    {
+      "label": "50 expect stderr messages:"
+    },
+    {
+      "label": "[3] error: maximum submenu depth exceeded"
+    },
+    {
+      "label": ".   (+ line info submenu 5 and submenu 6)"
+    },
+    {
+      "label": "[3] error: {}/nest/2: maximum submenu depth exceeded"
+    },
+    {
+      "label": ".   (+ line info launcher=nest and launchersub=nest)"
+    },
+    {
+      "label": "[3] error: {}/nest/2-1: maximum submenu depth exceeded"
+    },
+    {
+      "label": "[3] error: {}/nest/2-2: maximum submenu depth exceeded"
+    },
+    {
+      "label": "[2] warning: @.../max-depth-2.gtkmenuplus"
+    },
+    {
+      "label": ".   (+ line info launcher=nest and launchersub=nest)"
+    },
+    {
+      "label": "[3] error: `endsubmenu` without `submenu` or `launchersubmenu`"
+    },
+    {
+      "label": ".   (+ line info endsubmenu \\# 3 and endsubmenu \\# 2)"
+    },
+    {
+      "label": "2",
+      "count": 1,
+      "children": [
+        {
+          "label": "3",
+          "count": 1,
+          "children": [
+            {
+              "label": "4",
+              "count": 1,
+              "children": [
+                {
+                  "label": "5",
+                  "count": 4,
+                  "children": [
+                    {
+                      "label": "1a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "1a",
+                      "tooltip": "Tooltip",
+                      "icon": "gtk-about",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    },
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

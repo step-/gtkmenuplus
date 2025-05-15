@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Calculate
+Icon=/usr/share/pixmaps/mini-icons/spreadsheet.xpm
+Type=Directory
+Comment[fi]=Laskenta
+Name[es]=Cálculos
+Name[fi]=Laskenta
+Name[hu]=Számítások
+Name[it]=Calcoli
+Name[ja]=計算
+Name[pt]=Cálculos
+
+Categories=X-Calculate;Finance;Spreadsheet;ProjectManagement

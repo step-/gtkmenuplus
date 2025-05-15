@@ -1,0 +1,36 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+# SKIP_JSON because test verification involves a system-specific directory.
+#-------------------------------------------
+
+#% Test launchers in /usr/share/applications with and without icons.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 1 expect submenu "1 Applications with icons" containing a flat list
+# of launchers in /usr/share/applications.
+# -----
+submenu = 1 Applications with icons
+launchersub=/usr/share/applications
+endsubmenu
+separator # ----------------------------------------------------
+
+# 2 expect submenu "2 Applications without icons" containing the same
+# list, this time without icons.
+# -----
+configure = nolaunchericons
+submenu = 2 Applications without icons
+launchersub=/usr/share/applications
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

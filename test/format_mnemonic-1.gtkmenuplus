@@ -1,0 +1,93 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#-------------------------------------------
+
+#% Mix global/inline item and launcher mnemonic.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Validate PASS statements.
+# -----
+
+# =====
+# Three test cases involving local formatting only.
+# Local formatting doesn't support mnemonic="...", which is silently erased.
+format =
+item = <span $blu_azu_sml_>PASS if the next 3 entries start with plain T (no underline).</span>
+
+# ----- test case
+format =
+item = <span mnemonic="1">This item (tranparent bg)</span>
+cmd = true
+
+# ----- test case
+format =
+item = <span $bg_gold_ mnemonic="1">This item (gold bg)</span>
+cmd = true
+
+# ----- test case
+format =
+item = <span mnemonic="1" $bg_pink_>This item (pink bg)</span>
+cmd = true
+separator # ----------------------------------------------------
+
+
+# =====
+# Three test cases involving mixed local/global formatting.
+# Expect: mnemonic= in global formatting is applied.
+format =
+item = <span $blu_azu_sml_>PASS if the next 3 entries start with underlined __T, and their font is larger than mine, and the colors are R,G,B.</span>
+# -----
+
+# ----- test case
+# want mnemonic="1" NOT at end-of-line
+format = mnemonic="1" size="large"
+item = <span foreground="red">This item</span>
+cmd = true
+
+# ----- test case
+# want mnemonic="1" AT end-of-line
+format = mnemonic="1"
+item = <span foreground="green" size="large">This item</span>
+cmd = true
+
+# ----- test case
+# want mnemonic="1" AT end-of-line
+format = size="large" mnemonic="1"
+item = <span mnemonic="1" foreground="blue">This item</span>
+cmd = true
+separator # ----------------------------------------------------
+
+# ----- test case
+# launcher with formatting
+format =
+item = <span $blu_azu_sml_>PASS if the leafpad launcher starts with underlined __L</span>
+# -----
+format = mnemonic="1"
+launcher = /usr/share/applications/leafpad.desktop
+separator # ----------------------------------------------------
+
+# ----- test case
+# launchersub with formatting
+# Expect: mnemonic= in global formatting is applied.
+format =
+item = <span $blu_azu_sml_>PASS if all launchers in the Launchers submenu start with an underlined letter[*]</span>
+item = <span>[*] except launchers that are already memoized; you might need to scroll the submenu to enable underlines</span>
+# -----
+submenu = _Launchers
+format = mnemonic="1"
+launchersub=scanner/Launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

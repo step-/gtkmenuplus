@@ -1,0 +1,36 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+configure=noerrorconsoleonly
+#-------------------------------------------
+
+#% Test very long #comment.
+#
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS conditions as described by item labels.
+# -----
+# first long comment
+#sh -c ": @blacklist@;""gawk 'BEGIN{RS=\"#[{]}\";IGNORECASE=1}/@blacklist@|Item=Shutdown/{next}{gsub(/^\n|\n$/,X);a[++n]=\$0\"\n\"RT}END{for(i=1;i<n;i++)print a[i]>FILENAME}' '/root/.gmenu2.log';""gawk -o/tmp/by-alpha-asc.awk 'BEGIN{RS=\"#[{]}\";IGNORECASE=1}{gsub(/^\n|\n$/,X);a[++n]=\$0\"\n\"RT}END{de;asort(a,b,\"cmp\");for(i=1;i<n;i++)print b[i]>FILENAME}function cmp(i1,v1,i2,v2,  a1,a2){split(v1,a1,/item=|\n/);split(v2,a2,/item=|\n/);gsub(/_/,X,a1[2]);gsub(/_/,X,a2[2]);return a1[2]<a2[2]?-1:(a1[2]==a2[2]?0:1)}' '/tmp/the-end-of-this-comment-line';"
+
+# second long comment (concatenates twice the first one, and it's longer than 1024 characters)
+#sh -c ": @blacklist@;""gawk 'BEGIN{RS=\"#[{]}\";IGNORECASE=1}/@blacklist@|Item=Shutdown/{next}{gsub(/^\n|\n$/,X);a[++n]=\$0\"\n\"RT}END{for(i=1;i<n;i++)print a[i]>FILENAME}' '/root/.gmenu2.log';""gawk -o/tmp/by-alpha-asc.awk 'BEGIN{RS=\"#[{]}\";IGNORECASE=1}{gsub(/^\n|\n$/,X);a[++n]=\$0\"\n\"RT}END{de;asort(a,b,\"cmp\");for(i=1;i<n;i++)print b[i]>FILENAME}function cmp(i1,v1,i2,v2,  a1,a2){split(v1,a1,/item=|\n/);split(v2,a2,/item=|\n/);gsub(/_/,X,a1[2]);gsub(/_/,X,a2[2]);return a1[2]<a2[2]?-1:(a1[2]==a2[2]?0:1)}' '/tmp/the-end-of-this-comment-line';"#sh -c ": @blacklist@;""gawk 'BEGIN{RS=\"#[{]}\";IGNORECASE=1}/@blacklist@|Item=Shutdown/{next}{gsub(/^\n|\n$/,X);a[++n]=\$0\"\n\"RT}END{for(i=1;i<n;i++)print a[i]>FILENAME}' '/root/.gmenu2.log';""gawk -o/tmp/by-alpha-asc.awk 'BEGIN{RS=\"#[{]}\";IGNORECASE=1}{gsub(/^\n|\n$/,X);a[++n]=\$0\"\n\"RT}END{de;asort(a,b,\"cmp\");for(i=1;i<n;i++)print b[i]>FILENAME}function cmp(i1,v1,i2,v2,  a1,a2){split(v1,a1,/item=|\n/);split(v2,a2,/item=|\n/);gsub(/_/,X,a1[2]);gsub(/_/,X,a2[2]);return a1[2]<a2[2]?-1:(a1[2]==a2[2]?0:1)}' '/tmp/the-end-of-this-comment-line';"
+
+submenu=1 visit this submenu
+GREEN="#00FF00"
+format = foreground="#AA4400" background="$GREEN"
+item=PASS long comments if red on green
+cmd=true
+endsubmenu
+
+separator # ----------------------------------------------------
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=4b
+Comment=Tooltip
+Exec=true
+Terminal=false
+Icon=gtk-about
+Categories=Utility;

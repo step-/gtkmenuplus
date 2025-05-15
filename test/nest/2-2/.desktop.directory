@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Directory
+Name=submenu label (2-2 subtree)
+Comment=this tooltip was set by a .desktop.directory file
+Name[es]=example localized label
+Comment[es]=example localized tooltip
+Icon=gtk-media-play

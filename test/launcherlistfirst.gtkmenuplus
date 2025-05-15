@@ -1,0 +1,45 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = ldf
+#-------------------------------------------
+
+#% Test `configure=launcherdirfirst`.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS conditions as described by item labels.
+# Launcher items are labeled by {Name=} '(' {Categories=} ')'
+# -----
+
+item = 10 PASS if there are 2 identical launchers below
+configure=nolauncherlistfirst
+launcher=/usr/share/applications/leafpad.desktop:/usr/share/applications/leafpad.desktop
+separator # ----------------------------------------------------
+
+item = 20 PASS if there is 1 launcher below
+configure=launcherlistfirst
+launcher=/usr/share/applications/leafpad.desktop:/usr/share/applications/leafpad.desktop
+separator # ----------------------------------------------------
+
+item = 30 PASS if there are 2 identical sections below
+item = (there is no separator between the two sections)
+configure=nolauncherlistfirst
+launchersub=$mDIR/1/2:$mDIR/1/2
+separator # ----------------------------------------------------
+
+item = 40 PASS if there is 1 section below
+item = (the section is identical to one of the sections in 30)
+configure=launcherlistfirst
+launchersub=$mDIR/1/2:$mDIR/1/2
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

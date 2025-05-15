@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Desktop Applets
+Icon=/usr/share/pixmaps/mini-icons/x16.xpm
+Type=Directory
+Comment[fi]=Työpöydän ohjelmat
+Name[es]=Applets de Escritorio
+Name[fi]=Työpöydän ohjelmat
+Name[hu]=Asztali alkalmazások
+Name[it]=Applets Desktop
+Name[pt]=Applets da Á. Trabalho
+
+Categories=X-DesktopApplets

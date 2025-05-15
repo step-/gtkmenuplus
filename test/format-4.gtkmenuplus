@@ -1,0 +1,56 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#mDIR =
+#-------------------------------------------
+
+#% Test formatting nested submenus.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 100 instructions: verify the interleaving of green/red colors according to the descriptions.
+# -----
+format = $fg_green_ font-desc="Monospace bold"; $fg_red_ font-desc="15"
+item = green Monospace bold font
+item = red Sans normal font size 15
+item = green Monospace bold font
+item = red Sans normal font size 15
+
+# 200 instructions: also verify that the submenu entry looks as described.
+# -----
+# 300 instructions: then visit the submenu and verify interleaved background colors.
+# -----
+# enter nested formatting scope
+submenu = <span $bg_pink_ variant="small-caps" size="x-large" underline="single" overline="single">Submenu (green on pink Monospace bold x-large small-caps underlined &amp; overlined)...</span>
+format = $fg_white_ $bg_red_ font-desc="20", $fg_white_ $bg_green_ font-desc="bold"
+item = red bg white fg, size 20
+item = green bg white fg, bold
+item = red bg white fg, size 20
+item = green bg white fg, bold
+submenu = <span $mag_whi_nrm_>ENTER THIS MENU</span> Submenu red bg white fg, size 20...
+item = PASS if these two items display the default formatting because nested
+cmd = true
+item = <span weight="800">submenus</span> do not inherit <span weight="800">multi-section</span> formatting from the level above.
+cmd = true
+endsubmenu
+endsubmenu
+# leave nested formatting scope
+
+# back to the main formatting scope
+item = red Sans normal font size 15
+item = green Monospace bold font
+
+# reset formatting
+format=
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

@@ -1,0 +1,238 @@
+{
+  "count": 9,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Validate PASS statements.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "List of UTF8 mnemonics in this test",
+      "count": 22,
+      "children": [
+        {
+          "label": "<span font-weight=\"800\" font-size=\"large\">10 commonly used UTF-8 characters</span>"
+        },
+        {
+          "label": "<span font-weight=\"800\">1-Byte ASCII Characters</span>"
+        },
+        {
+          "label": "These are ASCII characters that map directly to UTF-8."
+        },
+        {
+          "label": "1. `A` (U+0041): Latin Capital Letter A"
+        },
+        {
+          "label": "2. `!` (U+0021): Exclamation Mark"
+        },
+        {
+          "label": "<span font-weight=\"800\">1-Byte Non-ASCII Characters</span>"
+        },
+        {
+          "label": "3. `é` (U+00E9): Latin Small Letter E with Acute"
+        },
+        {
+          "label": "4. `ü` (U+00FC): Latin Small Letter U with Diaeresis"
+        },
+        {
+          "label": "<span font-weight=\"800\">2-Byte Characters</span>"
+        },
+        {
+          "label": "5. `¡` (U+00A1): Inverted Exclamation Mark"
+        },
+        {
+          "label": "6. `¢` (U+00A2): Cent Sign"
+        },
+        {
+          "label": "<span font-weight=\"800\">3-Byte Characters</span>"
+        },
+        {
+          "label": "7. `€` (U+20AC): Euro Sign"
+        },
+        {
+          "label": "8. `★` (U+2605): Black Star"
+        },
+        {
+          "label": "<span font-weight=\"800\">4-Byte Characters</span>"
+        },
+        {
+          "label": "9. `😀` (U+1F600): Grinning Face Emoji"
+        },
+        {
+          "label": "0. `🌍` (U+1F30D): Earth Globe Europe-Africa Emoji"
+        },
+        {
+          "label": "<span font-weight=\"800\">UTF8 Encoding:</span>"
+        },
+        {
+          "label": "<span font-weight=\"800\">1-byte: Encodes ASCII and some Latin characters directly.</span>"
+        },
+        {
+          "label": "<span font-weight=\"800\">2-byte: Covers Latin-based characters with accents and special symbols.</span>"
+        },
+        {
+          "label": "<span font-weight=\"800\">3-byte: Includes broader Unicode ranges like Greek, Cyrillic, and common symbols.</span>"
+        },
+        {
+          "label": "<span font-weight=\"800\">4-byte: Handles supplementary planes, such as emojis and historic scripts.</span>"
+        }
+      ]
+    },
+    {
+      "label": "PASS if items and submenus correctly"
+    },
+    {
+      "label": "recycle mnemonics in { 🌍, ü, !, €, 😀, A, ¢, é, ¡, ★ } (10 characters)"
+    },
+    {
+      "label": "Enter this submenu (12 items)",
+      "count": 12,
+      "children": [
+        {
+          "label": "1",
+          "cmd": "true"
+        },
+        {
+          "label": "2",
+          "cmd": "true"
+        },
+        {
+          "label": "3",
+          "cmd": "true"
+        },
+        {
+          "label": "4",
+          "cmd": "true"
+        },
+        {
+          "label": "5",
+          "cmd": "true"
+        },
+        {
+          "label": "6",
+          "cmd": "true"
+        },
+        {
+          "label": "7",
+          "cmd": "true"
+        },
+        {
+          "label": "8",
+          "cmd": "true"
+        },
+        {
+          "label": "9",
+          "cmd": "true"
+        },
+        {
+          "label": "0",
+          "cmd": "true"
+        },
+        {
+          "label": "1",
+          "cmd": "true"
+        },
+        {
+          "label": "2",
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "Enter this submenu (12 launchers)",
+      "count": 12,
+      "children": [
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "dir--launcher",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

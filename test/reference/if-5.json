@@ -1,0 +1,36 @@
+{
+  "count": 7,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 1 expect item: 1 PASS 'if'\n# 2 expect item: 2 PASS 'if'\n# 3 expect no item 3\n# 4 expect item  4 \"new level\" and stderr message:\n#    sh: -c: line 1: unexpected EOF while looking for matching `\"'\n#    `elseif` error status 2: sh -xc \": '>>>>'; : unbalanced double quote\n# 0 expect item: 0 END\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 PASS 'if'",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "2 PASS 'if'",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "4 \"new level\"",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "0 END",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

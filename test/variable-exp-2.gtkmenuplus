@@ -1,0 +1,78 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#mDIR = nest/2/3/4/5A
+configure=errorconsoleonly
+#-------------------------------------------
+
+#% Test actual line length limit for a theoretical limit of 1023 characters.
+#% The limit depends on the length of the name of variable VA.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+
+# 0 expect very wide items.
+# -----
+separator # ----------------------------------------------------
+
+# 1 expect item "1 a".
+# -----
+VA == printf a%512s/
+item = 1 $VA
+icon = gtk-yes
+separator # ----------------------------------------------------
+
+# 2 expect item "2 b".
+# -----
+# The following lengths are chosen to be just short of triggering
+# a "value-too-long" error.
+# They depend on the size of #define MAX_LINE_LENGTH 1023 in the source code.
+# Changing that #define would demand to also change the values below.
+#  with VA => ${max0}; with X => ${max1}.
+max0=1017
+max1=1018
+item = '<span bgcolor="pink">   #define MAX_LINE_LENGTH 1023 => max0==$max0, max1==$max1   </span>'
+
+VA == printf b%${max0}s/
+item = 2 $VA
+icon = gtk-yes
+separator # ----------------------------------------------------
+
+# 3 expect item "3 printf c%${max1}s/" with error icon
+#   and red item "3 FAIL" and stderr message:
+#   "value of evaluated variable VA too long".
+# -----
+VA == printf c%${max1}s/
+item=3 $VA
+icon=gtk-dialog-error
+item=<span color="red">3 FAIL</span>
+icon=gtk-dialog-error
+separator # ----------------------------------------------------
+
+# 4 expect item "4 d"
+# -----
+# Ref item 2, we can increase the limit from ${max0} to ${max0}+1 because len("VA) = len("X")+1.
+X == printf d%${max1}s/
+item=4 $X
+icon=gtk-yes
+separator # ----------------------------------------------------
+
+# 5 expect red item "5 $X" and stderr message:
+#   "line too long after expanding variable $X".
+#   Because of this, $X remains unexpanded.
+# -----
+X == printf d%${max1}s/
+item=<span color="red">5 $X</span>
+icon=gtk-dialog-error
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

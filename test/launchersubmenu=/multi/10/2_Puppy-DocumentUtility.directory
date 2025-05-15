@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Document Utilities
+Icon=/usr/share/pixmaps/mini-icons/mini-doc.xpm
+Type=Directory
+Comment[fi]=Tekstinkäsittelyn apuohjelmat
+Name[es]=Herramientas de Documento
+Name[fi]=Tekstinkäsittelyn apuohjelmat
+Name[hu]=Dokumantum kezelők
+Name[it]=Strumenti Documento
+Name[pt]=Ferramentas de Documento
+
+Categories=X-DocumentUtility;Dictionary

@@ -1,0 +1,50 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+configure=noerrorconsoleonly
+# SKIP_JSON because test verification involves command activation.
+#-------------------------------------------
+
+#% Test #comment.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS conditions as described by item labels.
+# -----
+
+
+label = '10 PASS if next line includes string "#sharp" (including double quotes)'
+item = $label
+# $PPID is a POSIX shell variable
+cmdline_ == tr '\0' ' ' < /proc/$PPID/cmdline
+label = '11 PASS if my `cmd` outputs "#sharp" (including double quotes) to stdout'
+item = $label
+# the command in `cmd=command` is run directly, not by the shell
+cmd = /bin/sh -c 'echo \"#sharp\"; set -- $cmdline_; "$@" &'
+item = (The menu will be automatically restarted afterwards)
+separator # ----------------------------------------------------
+
+label = '20 PASS if next line is the string "#sharp" (including quotes)'
+item = $label
+label == /bin/echo '"#sharp"'
+item = $label
+cmd = true
+separator # ----------------------------------------------------
+
+item = 30 PASS if next line is the number 123
+# the command in `varname==command` is run by the shell
+label == x=0123; echo ${x#0}
+item = $label
+cmd = true
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

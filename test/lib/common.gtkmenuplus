@@ -1,0 +1,68 @@
+### gtkmenuplus include file
+# Purpose: Provide the "test tools" submenu for the test/*.gtkmenuplus scripts.
+# Usage:
+#  - with script var mTESTFILE:    include = lib/common.gtkmenuplus
+#  - with script var mDIR:         include = lib/common.gtkmenuplus
+#  - with script var mSINGLE_TEST: include = lib/common.gtkmenuplus
+# Refer to test/lib/common.sh for overall usage.
+
+cwd_ == pwd
+cmdline_ ==  tr '\0' '\10' < /proc/$PPID/cmdline | sed -e 's/\x8/" "/g; s/^/"/; s/"$//'
+gtkmenuplus_ == printenv GTKMENUPLUS || which gtkmenuplus
+
+configure = endsubmenu noicons formattinglocal
+format    = font-desc="Monospace Bold"
+
+submenu = _test tools
+icon    = gtkmenuplus
+
+item    = _select
+icon    = gtk-select-color
+tooltip = select and run a different test
+cmd     = env TESTFILE=$mTESTFILE ./lib/common.sh list
+
+if = [ -n "$mTESTFILE" ] && echo yes || echo no
+	basename_ == basename "$mTESTFILE"
+	item       = _edit
+	icon       = gtk-edit
+	tooltip    = edit $mTESTFILE
+	cmd        = defaulttexteditor $basename_
+endif
+
+include = restart.entry
+
+if = [ -n "$mDIR" ] && echo yes || echo no
+	item    = _tree
+	icon    = gtk-indent
+	tooltip = show directory tree $mDIR
+	cmd     = env TESTFILE=$mTESTFILE ./lib/common.sh tree $mDIR
+endif
+
+reference_ == s='$mTESTFILE'; r="$(dirname "$s")/reference/$(basename "$s" .gtkmenuplus).json"; echo "$r"
+to_json_   == echo '$cmdline_' | sed -e 's/"-f"/-j &/'
+to_json_    = :; $to_json_ '>' "$reference_"
+sh_         = $to_json_ && ./lib/post_write_ref.sh "$reference_"
+item        = _write reference file
+tooltip     = Save the menu as JSON to '$reference_' (unconditional overwrite!)
+icon        = gtk-convert
+cmd         = sh -xc '$sh_'
+
+item    = _kill
+icon    = gtk-quit
+tooltip = kill all running menus
+cmd     = pkill -e gtkmenuplus
+
+submenu = about test
+icon    = gtk-about
+	item  = cwd: $cwd_
+	via_env == [ "$GTKMENUPLUS" ] && echo yes || echo no
+	if = $via_env
+		item = binary: (env var) $gtkmenuplus_
+	else
+		item = binary: $gtkmenuplus_ (set env var GTKMENUPLUS to change)
+	endif
+	item = script: $mTESTFILE
+	item = cmdline: $cmdline_
+endsubmenu
+
+endsubmenu

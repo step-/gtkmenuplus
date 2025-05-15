@@ -1,0 +1,21 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons errorconsoleonly
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#-------------------------------------------
+
+#% Test `endsubmenu=` followed by `launcher=`.
+
+format=
+item = 10 PASS if you see two items: submenu "A" (holding "item 1"), and leafpad.
+submenu = _A
+item = item 1
+cmd = true
+endsubmenu # _menu
+launcher=/root/.local/share/applications/leafpad.desktop:/usr/share/applications/leafpad.desktop:/usr/local/share/applications/leafpad.desktop
+separator # ----------------------------------------------------
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=System Memory
+Icon=/usr/share/pixmaps/mini-icons/mini-hdisk.xpm
+Type=Directory
+Comment[fi]=Järjestelmän muisti
+Name[es]=Memoria del Sistema
+Name[fi]=Järjestelmän muisti
+Name[hu]=Rendszermemória
+
+Categories=X-SystemMemory

@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Usage: test/BATCH
+#
+# Compare the existing reference JSON files with new JSON files obtained
+# by running gtkmenuplus -j on the corresponding gtkmenuplus test scripts.
+
+# must run in the same cwd as the START script in GUI mode
+cd "${0%/BATCH}" || exit 1
+
+td="$PWD"
+workd="${TMPDIR:-/tmp}/test_BATCH"
+rm -fr "$workd" && mkdir -p "$workd" || exit 1
+
+fail= failcnt=0 passcnt=0 nl="
+"
+for jp in "$td/reference/"*.json; do
+	jn="${jp##*/}"
+	gp="$td/${jn%.json}.gtkmenuplus"
+	if ! [ -e "$gp" ]; then
+		echo "$0: $gp: File not found" >&2
+		continue
+	fi
+	sp="$workd/$jn"
+	if env GTKMENUPLUS_OPTIONS=-j "$td/START" "$gp" > "$sp" &&
+		"$td/lib/post_write_ref.sh" "$sp" &&
+		diff -q "$jp" "$sp"
+	then
+		: PASS "$gp"
+		passcnt=$(($passcnt + 1))
+	else
+		printf "\033[7m  %s %s  \033[0m\n" "$jp" "$sp"
+		diff -y --suppress-common-lines "$jp" "$sp"
+		fail="$fail${nl}FAIL $gp"
+		failcnt=$(($failcnt + 1))
+	fi
+done
+if [ -z "$fail" ]; then
+	echo "$0: PASS $passcnt of $passcnt"
+else
+	echo "$0: result: PASS $passcnt - FAIL $failcnt"
+	echo "$fail"
+	exit 1
+fi

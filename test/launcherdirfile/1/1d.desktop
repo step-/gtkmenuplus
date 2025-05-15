@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=1/1d (empty category)
+Comment=this entry's {Categories=} exists and is empty
+Exec=true
+Terminal=false
+Icon=gtk-yes
+Categories=

@@ -1,0 +1,75 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#-------------------------------------------
+
+#% Test recycling mnemonic.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Validate PASS statements.
+# -----
+# Three test cases involving mixed local/global formatting.
+# Expect: global mnemonic= formatting applied.
+
+# ----- test case
+format =
+item = <span $blu_azu_sml_>PASS if the next 4 entries start with underlined __A,__B,__C,__A and their font is larger than mine.</span>
+# -----
+
+# ----- test case
+# want mnemonic="ABC" NOT at end-of-line
+format = mnemonic="ABC" size="large"
+
+item = Item 1
+cmd  = true
+item = Item 2
+cmd  = true
+item = Item 3
+cmd  = true
+item = Item 4
+cmd  = true
+
+# ----- test case
+format =
+item = <span $blu_azu_sml_>PASS if the next 4 entries start with underlined __a,__b,__a,__b, their font is larger than mine, and the colors are R,G,B,purple.</span>
+# -----
+
+# want mnemonic="ab" AT end-of-line
+format = mnemonic="ab"
+item = <span foreground="red" size="large">item 1</span>
+cmd  = true
+item = <span foreground="green" size="large">item 2</span>
+cmd  = true
+item = <span foreground="blue" size="large">item 3</span>
+cmd  = true
+item = <span foreground="purple" size="large">item 4</span>
+cmd  = true
+separator # ----------------------------------------------------
+
+# ----- test case
+format =
+item = <span $blu_azu_sml_>PASS if the next 4 entries start with underlined __x,__x,__x,__x, and their font is large.</span>
+# -----
+
+format = size="large" mnemonic="xx"
+item = mnemonic x sic
+cmd  = true
+item = mnemonic x sic
+cmd  = true
+item = mnemonic x sic
+cmd  = true
+item = mnemonic x sic
+cmd  = true
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=Desktop
+Icon=/usr/share/pixmaps/midi-icons/x48.png
+Type=Directory
+Comment[fi]=Työpöytä
+Name[bg]=Работен Плот
+Name[ca_ES]=Escriptori
+Name[de]=Desktop
+Name[es]=Escritorio
+Name[fi]=Työpöytä
+Name[fr]=Bureau
+Name[hu]=Asztal
+Name[it]=Desktop
+Name[ja]=デスクトップ
+Name[nl]=Bureaublad
+Name[pl]=Pulpit
+Name[pt]=Área de Trabalho
+Name[pt_PT]=Ambiente de trabalho
+Name[ru]=Рабочий стол
+Name[zh_CN]=桌面
+Name[zh_TW]=桌面
+Name[de]=Desktop
+
+Categories=;X-Desktop;DesktopSettings;Screensaver;Accessibility;X-DesktopCountry;X-DesktopApplets

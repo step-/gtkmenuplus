@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=System Status and Config
+Icon=/usr/share/pixmaps/mini-icons/mini-term.xpm
+Type=Directory
+Comment[fi]=Järjestelmän tila ja asetukset
+Name[es]=Estado y Config. del Sistema
+Name[fi]=Järjestelmän tila ja asetukset
+Name[hu]=Rendszer állapot és beállítás
+Name[ja]=システムの状態と設定
+
+Categories=System;Monitor;Security;HardwareSettings;Core

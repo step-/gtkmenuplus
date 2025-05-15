@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Graphics Processing
+Icon=/usr/share/pixmaps/mini-icons/mini-cave.xpm
+Type=Directory
+Comment[fi]=Kuvankäsittelyohjelmat
+Name[es]=Procesamiento Gráfico
+Name[fi]=Kuvankäsittelyohjelmat
+Name[hu]=Képkezelés
+Name[it]=Processo Grafico
+Name[ja]=画像処理
+Name[pt]=Processamento Gráfico
+
+Categories=X-Graphic;Graphics;2DGraphics;3DGraphics;Photography;Presentation;Chart;FlowChart

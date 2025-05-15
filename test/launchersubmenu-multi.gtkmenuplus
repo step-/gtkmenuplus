@@ -1,0 +1,135 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = launchersubmenu=/multi
+# SKIP_JSON because test verification involves customized system directories.
+#-------------------------------------------
+
+#% Test multiple `=launchersubmenu`s (gmenu2 subset).
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS conditions as described by item labels.
+# Applications categories reflect the Fatdog64-900 system menu layout.
+# They are unlikely to match the categories of other Linux distributions.
+# -----
+
+
+# --------------------------------------------------------------------
+
+launcher_dirs_ == sh -c 'IFS=: x=; for a in $0; do p="$a/applications"; [ -e "$p" ] && x="$x:$p"; done; echo "$x"' $XDG_DATA_HOME:$XDG_DATA_DIRS
+
+configure = errorconsoleonly endsubmenu noicons
+configure = launchernodisplay nolaunchernullcategory
+icondirectory = /usr/share/pixmaps
+iconsize=16
+
+outerm_ = ABCDEFGHIJKLMN
+item = <span $blu_azu_sml_> 10 PASS if 14 non-empty submenus follow.</span>
+item = <span $blu_azu_sml_>    This menu uses the mnemonic list "$outerm_".</span>
+item = <span $blu_azu_sml_>    10.1 Enter submenu "A" to verify another mnemonic list.</span>
+format = mnemonic="ABCDEFGHIJKLMN"
+
+# Groups 4 and 6 do not exist in Fatdog64.
+# ----------------------------------------
+
+# Group 1 '/etc/xdg/menus/puppy-desktop.menu'
+launchersubmenu = $mDIR/1/1_Puppy-Desktop.directory
+format =
+item = <span $mag_whi_nrm_>Below the mnemonic list is "1"; hover over to check.</span>
+format = mnemonic="1"
+launcherdirfile = $mDIR/1/1_Puppy-Desktop.directory
+launcher=$launcher_dirs_
+format =
+item = <span $mag_whi_nrm_>The remaining sibling submenus reuse the outer mnemonic list.</span>
+endsubmenu
+
+# Group 2 '/etc/xdg/menus/puppy-system.menu'
+launchersubmenu = $mDIR/2/1_Puppy-System.directory
+launcherdirfile = $mDIR/2/1_Puppy-System.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 3 '/etc/xdg/menus/puppy-setup.menu'
+launchersubmenu = $mDIR/3/1_Puppy-Setup.directory
+launcherdirfile = $mDIR/3/1_Puppy-Setup.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 5 '/etc/xdg/menus/puppy-utility.menu'
+launchersubmenu = $mDIR/5/1_Puppy-Utility.directory
+launcherdirfile = $mDIR/5/1_Puppy-Utility.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 7 '/etc/xdg/menus/puppy-filesystem.menu'
+launchersubmenu = $mDIR/7/1_Puppy-Filesystem.directory
+launcherdirfile = $mDIR/7/1_Puppy-Filesystem.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 8 '/etc/xdg/menus/puppy-development.menu'
+launchersubmenu = $mDIR/8/2_Puppy-Development.directory
+launcherdirfile = $mDIR/8/2_Puppy-Development.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 9 '/etc/xdg/menus/puppy-graphic.menu'
+launchersubmenu = $mDIR/9/1_Puppy-Graphic.directory
+launcherdirfile = $mDIR/9/1_Puppy-Graphic.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 10 '/etc/xdg/menus/puppy-document.menu'
+launchersubmenu = $mDIR/10/1_Puppy-Document.directory
+launcherdirfile = $mDIR/10/1_Puppy-Document.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 11 '/etc/xdg/menus/puppy-calculate.menu'
+launchersubmenu = $mDIR/11/1_Puppy-Calculate.directory
+launcherdirfile = $mDIR/11/1_Puppy-Calculate.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 12 '/etc/xdg/menus/puppy-personal.menu'
+launchersubmenu = $mDIR/12/1_Puppy-Personal.directory
+launcherdirfile = $mDIR/12/1_Puppy-Personal.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 13 '/etc/xdg/menus/puppy-network.menu'
+launchersubmenu = $mDIR/13/1_Puppy-Network.directory
+launcherdirfile = $mDIR/13/1_Puppy-Network.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 14 '/etc/xdg/menus/puppy-internet.menu'
+launchersubmenu = $mDIR/14/2_Puppy-Internet.directory
+launcherdirfile = $mDIR/14/2_Puppy-Internet.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 15 '/etc/xdg/menus/puppy-multimedia.menu'
+launchersubmenu = $mDIR/15/1_Puppy-Multimedia.directory
+launcherdirfile = $mDIR/15/1_Puppy-Multimedia.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+# Group 16 '/etc/xdg/menus/puppy-fun.menu'
+launchersubmenu = $mDIR/16/2_Puppy-Fun.directory
+launcherdirfile = $mDIR/16/2_Puppy-Fun.directory
+launcher=$launcher_dirs_
+endsubmenu
+
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

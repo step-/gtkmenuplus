@@ -1,0 +1,269 @@
+{
+  "count": 13,
+  "children": [
+    {
+      "label": "<span bgcolor=\"pink\">  AUTO-RESTARTING MENU - SELECT \"e__xit menu\" TO END THE LOOP  </span>"
+    },
+    {
+      "label": "e_xit menu",
+      "icon": "gtk-quit",
+      "icon_rendered": true,
+      "cmd": "pkill -n gtkmenuplus"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Visit each submenu to verify that it includes all and only the\n# described items.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 submenu holding 2 iconless .[ch] files that open with the \"leafpad\" editor",
+      "count": 2,
+      "children": [
+        {
+          "label": "f0.c",
+          "cmd": "leafpad \"{pwd}/include=/f0.c\""
+        },
+        {
+          "label": "f0.h",
+          "cmd": "leafpad \"{pwd}/include=/f0.h\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "2 submenu holding 4 .x files spread across submenu + 3 subsubmenus, all entries display the \"gtk-ok\" icon",
+      "count": 2,
+      "children": [
+        {
+          "label": "d2.h",
+          "icon_rendered": true,
+          "count": 3,
+          "children": [
+            {
+              "label": "d2.c",
+              "icon_rendered": true,
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "icon": "gtk-ok",
+                  "icon_rendered": true,
+                  "cmd": "\"{pwd}/include=/d2.h/d2.c/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "icon_rendered": true,
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "icon": "gtk-ok",
+                  "icon_rendered": true,
+                  "cmd": "\"{pwd}/include=/d2.h/d2.h/f.x\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "icon_rendered": true,
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.x",
+                  "icon": "gtk-ok",
+                  "icon_rendered": true,
+                  "cmd": "\"{pwd}/include=/d2.h/d2.x/f.x\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "f0.x",
+          "icon": "gtk-ok",
+          "icon_rendered": true,
+          "cmd": "\"{pwd}/include=/f0.x\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "3 submenu holding 7 iconless .c files spread across the submenu + 4 subsubmenus, all entries provide a \"howdy\" tooltip",
+      "count": 3,
+      "children": [
+        {
+          "label": "d1",
+          "tooltip": "howdy",
+          "count": 5,
+          "children": [
+            {
+              "label": "d2.c",
+              "tooltip": "howdy",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "tooltip": "howdy",
+                  "cmd": "\"{pwd}/include=/d1/d2.c/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "tooltip": "howdy",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "tooltip": "howdy",
+                  "cmd": "\"{pwd}/include=/d1/d2.h/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "tooltip": "howdy",
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "tooltip": "howdy",
+                  "cmd": "\"{pwd}/include=/d1/d2.x/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "tooltip": "howdy",
+              "cmd": "\"{pwd}/include=/d1/f2.c\""
+            },
+            {
+              "label": "f3.c",
+              "tooltip": "howdy",
+              "cmd": "\"{pwd}/include=/d1/f3.c\""
+            }
+          ]
+        },
+        {
+          "label": "f0.c",
+          "tooltip": "howdy",
+          "cmd": "\"{pwd}/include=/f0.c\""
+        },
+        {
+          "label": "f1.c",
+          "tooltip": "howdy",
+          "cmd": "\"{pwd}/include=/f1.c\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "4 submenu in which all tooltips, icons, and commands scream \"leafpad\"",
+      "count": 3,
+      "children": [
+        {
+          "label": "d1",
+          "tooltip": "leafpad",
+          "icon_rendered": true,
+          "count": 5,
+          "children": [
+            {
+              "label": "d2.c",
+              "tooltip": "leafpad",
+              "icon_rendered": true,
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "tooltip": "leafpad",
+                  "icon": "leafpad",
+                  "icon_rendered": true,
+                  "cmd": "leafpad \"{pwd}/include=/d1/d2.c/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.h",
+              "tooltip": "leafpad",
+              "icon_rendered": true,
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "tooltip": "leafpad",
+                  "icon": "leafpad",
+                  "icon_rendered": true,
+                  "cmd": "leafpad \"{pwd}/include=/d1/d2.h/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "d2.x",
+              "tooltip": "leafpad",
+              "icon_rendered": true,
+              "count": 1,
+              "children": [
+                {
+                  "label": "f.c",
+                  "tooltip": "leafpad",
+                  "icon": "leafpad",
+                  "icon_rendered": true,
+                  "cmd": "leafpad \"{pwd}/include=/d1/d2.x/f.c\""
+                }
+              ]
+            },
+            {
+              "label": "f2.c",
+              "tooltip": "leafpad",
+              "icon": "leafpad",
+              "icon_rendered": true,
+              "cmd": "leafpad \"{pwd}/include=/d1/f2.c\""
+            },
+            {
+              "label": "f3.c",
+              "tooltip": "leafpad",
+              "icon": "leafpad",
+              "icon_rendered": true,
+              "cmd": "leafpad \"{pwd}/include=/d1/f3.c\""
+            }
+          ]
+        },
+        {
+          "label": "f0.c",
+          "tooltip": "leafpad",
+          "icon": "leafpad",
+          "icon_rendered": true,
+          "cmd": "leafpad \"{pwd}/include=/f0.c\""
+        },
+        {
+          "label": "f1.c",
+          "tooltip": "leafpad",
+          "icon": "leafpad",
+          "icon_rendered": true,
+          "cmd": "leafpad \"{pwd}/include=/f1.c\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

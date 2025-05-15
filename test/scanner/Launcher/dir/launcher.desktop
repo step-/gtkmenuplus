@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=dir--launcher
+Exec=true
+Terminal=false
+Icon=gtk-yes
+Categories=Test;

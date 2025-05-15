@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Country Settings
+Icon=/usr/share/pixmaps/mini-icons/mini-clock.xpm
+Type=Directory
+Comment[fi]=Maakohtaiset asetukset
+Name[es]=Config. de País
+Name[fi]=Maakohtaiset asetukset
+Name[hu]=Területi beállítások
+Name[it]=Impostazione di Paese
+Name[pt]=Config. de País
+
+Categories=X-DesktopCountry

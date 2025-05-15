@@ -1,0 +1,46 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = abspath=
+configure=errorconsoleonly
+#-------------------------------------------
+
+#% Test `launcher{,sub}=` with configure={,no}{,launcher}icon
+
+# 0 instructions: Verify PASS statements.
+# -----
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+configure=icons
+item = PASS if two entries with leafpad icon
+launcher=$mDIR/leafpad.desktop
+launchersub=$mDIR
+separator # ----------------------------------------------------
+
+configure=nolaunchericons
+item = PASS if two entries WITHOUT icon
+launcher=$mDIR/leafpad.desktop
+launchersub=$mDIR
+separator # ----------------------------------------------------
+
+configure=launchericons
+item = PASS if two entries with leafpad icon
+launcher=$mDIR/leafpad.desktop
+launchersub=$mDIR
+separator # ----------------------------------------------------
+
+configure=noicons
+item = PASS if two entries with leafpad icon
+launcher=$mDIR/leafpad.desktop
+launchersub=$mDIR
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

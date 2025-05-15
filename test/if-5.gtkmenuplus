@@ -1,0 +1,81 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons
+configure=endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#mDIR = nest/2/3/4/5A
+configure=errorconsoleonly
+#-------------------------------------------
+
+
+#
+#% Test complex, nested if-elseif-else-endif.
+#
+
+# 27b7c81..
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 1 expect item: 1 PASS 'if'
+# 2 expect item: 2 PASS 'if'
+# 3 expect no item 3
+# 4 expect item  4 "new level" and stderr message:
+#    sh: -c: line 1: unexpected EOF while looking for matching `"'
+#    `elseif` error status 2: sh -xc ": '>>>>'; : unbalanced double quote
+# 0 expect item: 0 END
+# -----
+if=sh -xc ": '>'; echo true"
+  item=1 PASS 'if'
+  icon=gtk-yes
+  if=sh -xc ": '>>'; echo true"
+    item=2 PASS 'if'
+    icon=gtk-yes
+    if=sh -xc ": '>>>'; echo false"
+      item=<span color="red">3 FAIL 'if'</span>
+      icon=gtk-dialog-error
+    else
+      True=true
+      label = new level
+      item = 4 "$label"
+      icon = gtk-yes
+      if = $c0 # FALSE because $c0 is undefined
+        item = <span color="red">4.1 FAIL "$c0" is TRUE</span>
+        icon=gtk-dialog-error
+      elseif=sh -xc ": '>>>>'; echo $c0" # FALSE intermediate value
+        item = <span color="red">4.2 FAIL `echo $c0` is TRUE</span>
+        icon=gtk-dialog-error
+    # INVALID intermediate value: shell error 'unexpected EOF' due to unbalanced double quote
+      elseif=sh -xc ": '>>>>'; : unbalanced double quote
+# SHOULD SKIP TO ENDIF AFTER INVALID
+        item = <span color="red">4.3 FAIL `echo invalid` is TRUE</span>
+        icon=gtk-dialog-error
+      elseif = $True
+        item = <span color="red">4.4 FAIL SHOULD NOT EVALUATE "$True"</span>
+        icon=gtk-dialog-error
+      elseif = /tmp # INVALID intermediate value
+        item = <span color="red">4.5 FAIL SHOULD NOT EVALUATE /tmp</span>
+      elseif = $True
+        item = <span color="red">4.6 FAIL SHOULD NOT EVALUATE "$True"</span>
+        icon=gtk-dialog-error
+      endif
+    endif
+  else
+    item=<span color="red">2 FAIL 'else'</span>
+    icon=gtk-dialog-error
+  endif
+else
+  item=<span color="red">1 FAIL 'else'</span>
+  icon=gtk-dialog-error
+endif
+item = 0 END
+icon=gtk-yes
+
+separator # ----------------------------------------------------
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

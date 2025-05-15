@@ -1,0 +1,29 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+# SKIP_JSON because test verification involves pushing buttons and stdout.
+#-------------------------------------------
+
+#% Test URI execution.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify "PASS" statements.
+# -----
+
+# 1
+uri_ = https://www.example.com
+item = PASS if activating the entry starts your browser (entry without icon).
+item = _1 $uri_
+cmd  = $uri_
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

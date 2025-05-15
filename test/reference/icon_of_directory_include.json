@@ -1,0 +1,151 @@
+{
+  "count": 14,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Visit each submenu to verify PASS statements.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 PASS if this submenu entry shows NO icon and for all its contained entries...",
+      "count": 3,
+      "children": [
+        {
+          "label": "1 PASS if NO icons below"
+        },
+        {
+          "label": "readme.md",
+          "cmd": "\"{pwd}/abspath=/readme.md\""
+        },
+        {
+          "label": "text_file.txt",
+          "cmd": "\"{pwd}/abspath=/text_file.txt\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "2 PASS if this submenu shows NO icon and for its contained entries...",
+      "count": 3,
+      "children": [
+        {
+          "label": "2 PASS if NO icons below"
+        },
+        {
+          "label": "readme.md",
+          "cmd": "\"{pwd}/abspath=/readme.md\""
+        },
+        {
+          "label": "text_file.txt",
+          "cmd": "\"{pwd}/abspath=/text_file.txt\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "3 PASS if this submenu shows GTK-OK icon, and for its contained entries...",
+      "icon_rendered": true,
+      "count": 3,
+      "children": [
+        {
+          "label": "3 PASS if ALL icons below"
+        },
+        {
+          "label": "readme.md",
+          "icon_rendered": true,
+          "cmd": "\"{pwd}/abspath=/readme.md\""
+        },
+        {
+          "label": "text_file.txt",
+          "icon_rendered": true,
+          "cmd": "\"{pwd}/abspath=/text_file.txt\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "4 PASS if this submenu shows NO icon, and for its contained entries...",
+      "count": 3,
+      "children": [
+        {
+          "label": "4 PASS if ALL icons below"
+        },
+        {
+          "label": "readme.md",
+          "icon_rendered": true,
+          "cmd": "\"{pwd}/abspath=/readme.md\""
+        },
+        {
+          "label": "text_file.txt",
+          "icon_rendered": true,
+          "cmd": "\"{pwd}/abspath=/text_file.txt\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "5 PASS if this submenu shows NO icon, and for its contained entries...",
+      "count": 3,
+      "children": [
+        {
+          "label": "5 PASS if ALL logo icons below"
+        },
+        {
+          "label": "readme.md",
+          "tooltip": "icon file path = {pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
+          "icon": "{pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
+          "icon_rendered": true,
+          "cmd": "\"{pwd}/abspath=/readme.md\""
+        },
+        {
+          "label": "text_file.txt",
+          "tooltip": "icon file path = {pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
+          "icon": "{pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
+          "icon_rendered": true,
+          "cmd": "\"{pwd}/abspath=/text_file.txt\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "6 PASS if this submenu shows NO icon, and for its contained entries...",
+      "count": 3,
+      "children": [
+        {
+          "label": "6 PASS if NO icons below"
+        },
+        {
+          "label": "readme.md",
+          "icon": "NULL",
+          "cmd": "\"{pwd}/abspath=/readme.md\""
+        },
+        {
+          "label": "text_file.txt",
+          "icon": "NULL",
+          "cmd": "\"{pwd}/abspath=/text_file.txt\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+case $1 in
+	-h|--help) cat <<- EOF
+	usage: [env GTKMENUPLUS=/abs/path/to/gtkmenuplus [GTKMENUPLUS_OPTIONS=...]] $0 [ [path/to/]single_test.gtkmenuplus ]
+EOF
+	exit;;
+esac
+if [ -n "$1" ]; then
+	exec env TESTFILE="$1" "${0%/*}/lib/common.sh" single-test
+fi
+
+exec env TESTFILE=/dev/null "${0%/*}/lib/common.sh" list

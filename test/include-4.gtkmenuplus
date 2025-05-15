@@ -1,0 +1,48 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mBASENAME == basename '$a0' .gtkmenuplus
+mDIR      == echo "${TMPDIR:-/tmp}/test/$mBASENAME"
+mTARFILE   = data/$mBASENAME.tgz
+#-------------------------------------------
+
+#% Test directory include with MAX_MENU_DEPTH limit.
+
+#-------------------------------------------
+# TEST DATA SETUP
+if = mkdir -p '$mDIR' && tar -C '$mDIR' -vxzf '$mTARFILE' >&2; echo $(($?))
+error = TEST DATA SETUP FAILED
+else # SUCCESSFUL TEST DATA SETUP {{{
+#-------------------------------------------
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS conditions as described by item labels.
+# -----
+
+configure=ignorehidden
+item = <span $passif_>PASS if this section is empty</span>
+include=$mDIR *
+separator
+
+configure=noignorehidden
+item = <span $passif_>PASS if this section contains nested 1>2>3>.item</span>
+include=$mDIR *
+separator
+
+configure=ignorehidden
+item = <span $passif_>PASS if this section contains nested 2>3>4>5>item</span>
+include=$mDIR/1 *
+separator
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+endif # SUCCESSFUL TEST DATA SETUP }}}
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Directory
+Icon=folder
+Name=_Uncategorized
+Comment=All and ONLY the .desktop files with null or empty {Categories=}
+# and, for Type=Application, regardless of the {NoDisplay=}true property.
+Categories=NULL

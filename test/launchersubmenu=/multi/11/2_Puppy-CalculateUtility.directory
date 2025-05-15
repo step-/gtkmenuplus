@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Calculate Utilities
+Icon=/usr/share/pixmaps/mini-icons/spreadsheet.xpm
+Type=Directory
+Comment[fi]=Laskennan apuohjelmat
+Name[es]=Herramientas de Cálculo
+Name[fi]=Laskennan apuohjelmat
+Name[hu]=Számítási eszközök
+Name[it]=Strumenti di Calcolo
+Name[pt]=Ferramentas de Cálculo
+
+Categories=X-CalculateUtility

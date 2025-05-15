@@ -1,0 +1,94 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = scanner/argument
+#-------------------------------------------
+
+#% Hidden and symbolic link path restrictions don't apply to directive args.
+#  If the argument is a hidden file or a symbolic link, it is processed
+#  even if the current configuration inhibits accessing hidden files and
+#  symbolic links. In essence, `ignorehidden` and `followsymlink` settings
+#  applies within scanned directories and not to directive arguments.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify that each submenu matches the layout for the given configuration.
+# -----
+menuposition = 50 20
+item = <span $mag_whi_nrm_>followsymlink is a bitmask: 0(nofollow) 1(file) 2(directory)</span>
+separator # ----------------------------------------------------
+
+# ----- test case
+
+conf = ignorehidden followsymlink 0
+configure = $conf
+submenu = 10 $conf
+  item = Include .ln--dir *  »  2 items (1 dir/file)
+  include = $mDIR/Include/.ln--dir *
+  item = Include .ln--dir  »  1 item
+  include = $mDIR/Include/.ln--dir
+  item = Include ln--dir *  »  2 items (1 dir/file)
+  include = $mDIR/Include/ln--dir *
+  item = Include ln--dir  »  1 item
+  include = $mDIR/Include/ln--dir
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+
+conf = ignorehidden followsymlink 0
+configure = $conf
+submenu = 10 $conf
+  item = Launchersub .ln--dir  »  2 items (1 dir/dir--dir--launcher3)
+  launchersub = $mDIR/Launcher/.ln--dir
+  item = Launchersub ln--dir  »  2 items (1 dir/dir--dir--launcher3)
+  launchersub = $mDIR/Launcher/ln--dir
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+
+conf = ignorehidden followsymlink 0
+configure = $conf
+submenu = 10 $conf
+  item = Launcher .ln--dir  »  1 launcher
+  launcher = $mDIR/Launcher/.ln--dir
+  item = Launcher ln--dir  »  1 launcher
+  launcher = $mDIR/Launcher/ln--dir
+endsubmenu
+separator # ----------------------------------------------------
+
+# ----- test case
+
+conf = ignorehidden followsymlink 0
+configure = $conf
+submenu = 10 $conf
+  item = Launcher .launcher.desktop  »  1 launcher
+  launcher = $mDIR/Launcher/.launcher.desktop
+  item = Launcher .ln--launcher  »  1 launcher
+  launcher = $mDIR/Launcher/.ln--launcher
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# Display directory layout by converting tree(1)'s output to Item directives.
+item = <span $mag_whi_nrm_>$mDIR directory layout</span>
+format = font-family = "Monospace 10" $fg_blue_
+fpath_  == echo "$TMPDIR/.$(basename '$mTESTFILE')"
+tree_    = tree -aF Include Launcher --noreport
+arrow_   = <span fgcolor="red">→</span>
+sed_     = sed -e 's!\.desktop!!g; s! \[.*]!!g; s!->!$arrow_!g'
+report_ == (cd $mDIR && ($tree_ | $sed_ -e 's/^/item = /'))  > "$fpath_"
+include = $fpath_
+format =
+separator # ----------------------------------------------------
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

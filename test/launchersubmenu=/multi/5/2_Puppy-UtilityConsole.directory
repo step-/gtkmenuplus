@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Shell Utilities
+Icon=/usr/share/pixmaps/mini-icons/mini-sh1.xpm
+Type=Directory
+Comment[fi]=Pääteikkunat
+Name[es]=Herramientas de Terminal
+Name[fi]=Pääteikkunat
+Name[hu]=Parancssori eszközök
+Name[it]=Strumenti Consola
+Name[pt]=Ferramentas de Terminal
+
+Categories=TerminalEmulator;Shell

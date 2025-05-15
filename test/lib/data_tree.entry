@@ -1,0 +1,9 @@
+### gtkmenuplus include file
+# Purpose: Add a menu entry that shows `tree $1` in a YAD window.
+# Usage:
+#     include = data_tree.entry /path/to/folder (typically $mDIR)
+
+_ddir= $1
+item = <span $mag_whi_nrm_>_click me to show the data folder "$_ddir"</span>
+cmd  = lib/common.sh tree "$_ddir"
+# vim: set filetype=gtkmenuplus:

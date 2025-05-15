@@ -1,0 +1,39 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = abspath=
+#-------------------------------------------
+
+#% Test absolute path with configure={,no}icons
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS statements
+# -----
+
+dir_== pwd
+
+configure = icons
+item = 1 PASS if the next entry DOES show an icon
+     = $dir_/$mDIR/readme.md
+separator # ----------------------------------------------------
+
+configure = noicons
+item = 2 PASS if the next entry does NOT show an icon
+     = $dir_/$mDIR/readme.md
+separator # ----------------------------------------------------
+
+configure = icons
+item = 3 PASS if the next entry (an empty entry) does NOT show an icon
+     =
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

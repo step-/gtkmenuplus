@@ -1,0 +1,44 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons errorconsoleonly
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#-------------------------------------------
+
+#% Non-regression test for https://github.com/step-/gtkmenuplus/issues/1.
+
+item = PASS if you see two submenus, 1 item, 2 submenus; all submenus include the leafpad launcher
+
+configure = noendsubmenu
+# Indent submenu items with \t; submenu ends at /^[^\t]/
+submenu = submenu with leafpad
+	launcher = /usr/share/applications/leafpad.desktop
+	separator
+
+submenu = submenu with leafpad
+	item = # attempt work-around
+	launcher = /usr/share/applications/leafpad.desktop
+	separator
+
+# The next directive matches /^[^\t]/ therefore it ends the current
+# submenu when configure=noendsubmenu is in effect (default).
+# Note that this is only necessary if you want to switch to using
+# configure=endsubmenu in the middle of the script, like in this test.
+item = item
+
+configure = endsubmenu
+# No need to indent submenu items; submenu ends at 'endsubmenu'
+submenu = submenu with leafpad
+launcher = /usr/share/applications/leafpad.desktop
+endsubmenu
+
+submenu = submenu with leafpad
+item = # attempt work-around
+launcher = /usr/share/applications/leafpad.desktop
+endsubmenu
+
+separator # ----------------------------------------------------
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

@@ -1,0 +1,400 @@
+{
+  "count": 36,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify the PASS conditions.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "100 PASS if <span fgcolor=\"dodgerblue\" font-weight=\"800\">blue</span> is the text color of all entries in the section below,"
+    },
+    {
+      "label": "except for the last submenu entry, which is <span fgcolor=\"maroon\" font-weight=\"800\">maroon</span>."
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "label in ./.desktop.directory",
+      "tooltip": "tooltip in ./.desktop.directory",
+      "icon_rendered": true,
+      "count": 2,
+      "children": [
+        {
+          "label": "label in 1/.desktop.directory",
+          "tooltip": "tooltip in 1/.desktop.directory",
+          "icon_rendered": true,
+          "count": 2,
+          "children": [
+            {
+              "label": "label in 1/2/.desktop.directory",
+              "tooltip": "tooltip in 1/2/.desktop.directory",
+              "icon_rendered": true,
+              "count": 2,
+              "children": [
+                {
+                  "label": "<span foreground=\"maroon\" weight=\"800\">maroon submenu label in 1/2/3/.desktop.directory</span>",
+                  "tooltip": "tooltip in 1/2/3/.desktop.directory",
+                  "icon_rendered": true,
+                  "count": 1,
+                  "children": [
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            },
+            {
+              "label": "Yes symlink",
+              "tooltip": "green dot",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "Yes symlink",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "Yes symlink",
+      "tooltip": "green dot",
+      "icon": "gtk-yes",
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "200 PASS if the submenu label below and all its child entries use the default color."
+    },
+    {
+      "label": "Yes symlink",
+      "tooltip": "green dot",
+      "icon_rendered": true,
+      "count": 2,
+      "children": [
+        {
+          "label": "1",
+          "count": 2,
+          "children": [
+            {
+              "label": "2",
+              "count": 2,
+              "children": [
+                {
+                  "label": "3",
+                  "count": 1,
+                  "children": [
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            },
+            {
+              "label": "Yes symlink",
+              "tooltip": "green dot",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "Yes symlink",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "300 PASS if the submenu label in the section below is <span fgcolor=\"maroon\" font-weight=\"800\">maroon</span> with a leafpad icon;"
+    },
+    {
+      "label": "and each sub-level contains a submenu as follows:"
+    },
+    {
+      "label": "ICON       LABEL"
+    },
+    {
+      "label": "gtk-ok     \"label in ./.desktop.directory\""
+    },
+    {
+      "label": "leafpad    \"label in 1/.desktop.directory\""
+    },
+    {
+      "label": "gtk-ok     \"label in 1/2/.desktop.directory\""
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "301 Also PASS if the tooltips of the submenu entries"
+    },
+    {
+      "label": "follow the same pattern as their corresponding labels."
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"maroon\" weight=\"800\">maroon submenu label in 1/2/3/.desktop.directory</span>",
+      "tooltip": "tooltip in 1/2/3/.desktop.directory",
+      "icon_rendered": true,
+      "count": 2,
+      "children": [
+        {
+          "label": "label in ./.desktop.directory",
+          "tooltip": "tooltip in ./.desktop.directory",
+          "icon_rendered": true,
+          "count": 2,
+          "children": [
+            {
+              "label": "label in 1/.desktop.directory",
+              "tooltip": "tooltip in 1/.desktop.directory",
+              "icon_rendered": true,
+              "count": 2,
+              "children": [
+                {
+                  "label": "label in 1/2/.desktop.directory",
+                  "tooltip": "tooltip in 1/2/.desktop.directory",
+                  "icon_rendered": true,
+                  "count": 1,
+                  "children": [
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            },
+            {
+              "label": "Yes symlink",
+              "tooltip": "green dot",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "Yes symlink",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "400 PASS if the sequence of submenu entries is as follows:"
+    },
+    {
+      "label": "ICON       LABEL                              TOOLTIP"
+    },
+    {
+      "label": "gtk-yes    \"Yes symlink\"                      \"Green dot\""
+    },
+    {
+      "label": "-          \"1\"                                -"
+    },
+    {
+      "label": "-          \"2\"                                -"
+    },
+    {
+      "label": "gtk-ok     \"label in 1/2/.desktop.directory\"  similar to the label"
+    },
+    {
+      "label": "Yes symlink",
+      "tooltip": "green dot",
+      "icon_rendered": true,
+      "count": 2,
+      "children": [
+        {
+          "label": "1",
+          "count": 2,
+          "children": [
+            {
+              "label": "2",
+              "count": 2,
+              "children": [
+                {
+                  "label": "label in 1/2/.desktop.directory",
+                  "tooltip": "tooltip in 1/2/.desktop.directory",
+                  "icon_rendered": true,
+                  "count": 1,
+                  "children": [
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            },
+            {
+              "label": "Yes symlink",
+              "tooltip": "green dot",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "Yes symlink",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "500 PASS if the \"submenu label\" in the section below uses the default color,"
+    },
+    {
+      "label": "and the sequence of submenu entries follows the same description at \\#300"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "submenu label",
+      "count": 2,
+      "children": [
+        {
+          "label": "label in ./.desktop.directory",
+          "tooltip": "tooltip in ./.desktop.directory",
+          "icon_rendered": true,
+          "count": 2,
+          "children": [
+            {
+              "label": "label in 1/.desktop.directory",
+              "tooltip": "tooltip in 1/.desktop.directory",
+              "icon_rendered": true,
+              "count": 2,
+              "children": [
+                {
+                  "label": "label in 1/2/.desktop.directory",
+                  "tooltip": "tooltip in 1/2/.desktop.directory",
+                  "icon_rendered": true,
+                  "count": 1,
+                  "children": [
+                    {
+                      "label": "Yes symlink",
+                      "tooltip": "green dot",
+                      "icon": "gtk-yes",
+                      "icon_rendered": true,
+                      "cmd": "true"
+                    }
+                  ]
+                },
+                {
+                  "label": "Yes symlink",
+                  "tooltip": "green dot",
+                  "icon": "gtk-yes",
+                  "icon_rendered": true,
+                  "cmd": "true"
+                }
+              ]
+            },
+            {
+              "label": "Yes symlink",
+              "tooltip": "green dot",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "Yes symlink",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

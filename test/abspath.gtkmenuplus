@@ -1,0 +1,84 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = abspath=
+#-------------------------------------------
+
+#% Test absolute path as directive and as `cmd=` value.
+
+# Display this menu in a loop. Use e_xit item (further down) to exit.
+item = <span bgcolor="pink">  AUTO-RESTARTING MENU - SELECT "e__xit menu" TO END THE LOOP  </span>
+include = lib/restart.entry '!' # set _cmdline_
+onexit = $_cmdline_ &
+
+item = e_xit menu
+icon = gtk-quit
+cmd  = pkill -n gtkmenuplus
+separator # ----------------------------------------------------
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify that activating each menu item in turn produces the
+# result that the item label describes.
+# -----
+
+item = 1 open root folder
+/
+separator # ----------------------------------------------------
+
+item = 2.1 open home folder
+~/
+
+item = 2.2 open base directory folder
+= ./
+separator # ----------------------------------------------------
+
+dir_== pwd
+
+item = 3.1 open README.md located in the base directory
+     # The tooltip will display "./README.md".
+     = ./README.md
+
+item = 3.2 open the same document
+     # The tooltip will display a full path.
+     = $dir_/README.md
+separator # ----------------------------------------------------
+
+icondirectory = $dir_
+item = 4 open markdown document located in $mDIR
+     # A leading `=` is required if the pathname includes "=" as in this case.
+     # However, the leading `=` is here to expand variables in the first place.
+     = $dir_/$mDIR/readme.md
+separator # ----------------------------------------------------
+
+item = 5.1 leafpad launcher located in /usr/share/applications
+     # A leading `=` can be omitted because no expansion is needed and the
+     # absolute pathname doesn't include "=".
+/usr/share/applications/leafpad.desktop
+
+item = 5.2 leafpad launcher located in $mDIR
+= $dir_/$mDIR/leafpad.desktop
+separator # ----------------------------------------------------
+
+configure = abspathparts 4
+item = 6 open the leafpad executable path (item displays NO icon)
+tooltip = for an icon to be displayed use  `icon=`+`cmd=` instead of an absolute path
+= /usr/bin/leafpad
+separator # ----------------------------------------------------
+
+item = 7.1 open the file:// URI of the system icon folder
+= file:///usr/share/icons
+
+item = 7.2 open the www.example.com site (item displays NO icon)
+= http://www.example.com
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

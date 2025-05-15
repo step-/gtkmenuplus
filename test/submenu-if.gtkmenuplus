@@ -1,0 +1,50 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#mDIR =
+#-------------------------------------------
+
+#% Combine submenu= and if=.
+
+separator # ----------------------------------------------------
+
+launcherdirfile=
+submenu = PASS if I'm a submenu with 1 item #'
+icon = gtk-preferences
+if= echo true
+  Item = item
+  Cmd = true
+endif
+endsubmenu # _Gmenu2
+
+separator # ----------------------------------------------------
+
+Item = <span bgcolor="gold">PASS if I'm OUTSIDE the submenu</span> #'
+Cmd = true
+
+separator # ----------------------------------------------------
+
+launcherdirfile=
+submenu = PASS if I'm a submenu without items #'
+icon = gtk-preferences
+if= echo false
+  Item = item
+  Cmd = true
+endif
+item =
+endsubmenu # _Gmenu2
+
+separator # ----------------------------------------------------
+
+Item = <span bgcolor="gold">PASS if I'm OUTSIDE the submenu</span> #'
+Cmd = true
+
+separator # ----------------------------------------------------
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

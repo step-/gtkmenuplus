@@ -1,0 +1,270 @@
+{
+  "count": 38,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify that each submenu matches the layout for the given configuration.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"darkmagenta\" background=\"white\">followsymlink is a bitmask: 0(nofollow) 1(file) 2(directory)</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "10 ignorehidden followsymlink 0",
+      "count": 10,
+      "children": [
+        {
+          "label": "Include .ln--dir *  »  2 items (1 dir/file)"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/argument/Include/.ln--dir/dir/file\""
+            }
+          ]
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/argument/Include/.ln--dir/file2\""
+        },
+        {
+          "label": "Include .ln--dir  »  1 item"
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/argument/Include/.ln--dir/file2\""
+        },
+        {
+          "label": "Include ln--dir *  »  2 items (1 dir/file)"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "file",
+              "cmd": "\"{pwd}/scanner/argument/Include/ln--dir/dir/file\""
+            }
+          ]
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/argument/Include/ln--dir/file2\""
+        },
+        {
+          "label": "Include ln--dir  »  1 item"
+        },
+        {
+          "label": "file2",
+          "cmd": "\"{pwd}/scanner/argument/Include/ln--dir/file2\""
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "10 ignorehidden followsymlink 0",
+      "count": 6,
+      "children": [
+        {
+          "label": "Launchersub .ln--dir  »  2 items (1 dir/dir--dir--launcher3)"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--dir--launcher3",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "dir--launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "Launchersub ln--dir  »  2 items (1 dir/dir--dir--launcher3)"
+        },
+        {
+          "label": "dir",
+          "count": 1,
+          "children": [
+            {
+              "label": "dir--dir--launcher3",
+              "icon": "gtk-yes",
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "dir--launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "10 ignorehidden followsymlink 0",
+      "count": 4,
+      "children": [
+        {
+          "label": "Launcher .ln--dir  »  1 launcher"
+        },
+        {
+          "label": "dir--launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "Launcher ln--dir  »  1 launcher"
+        },
+        {
+          "label": "dir--launcher2",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "10 ignorehidden followsymlink 0",
+      "count": 4,
+      "children": [
+        {
+          "label": "Launcher .launcher.desktop  »  1 launcher"
+        },
+        {
+          "label": "launcher",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "Launcher .ln--launcher  »  1 launcher"
+        },
+        {
+          "label": "launcher",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span foreground=\"darkmagenta\" background=\"white\">scanner/argument directory layout</span>"
+    },
+    {
+      "label": "Include/"
+    },
+    {
+      "label": "├── dir/"
+    },
+    {
+      "label": "│   ├── dir/"
+    },
+    {
+      "label": "│   │   └── file"
+    },
+    {
+      "label": "│   ├── file2"
+    },
+    {
+      "label": "│   ├── ln--dir <span fgcolor=\"red\">→</span> dir/"
+    },
+    {
+      "label": "│   ├── ln--dir--file <span fgcolor=\"red\">→</span> dir/file"
+    },
+    {
+      "label": "│   └── ln--file2 <span fgcolor=\"red\">→</span> file2"
+    },
+    {
+      "label": "├── .ln--dir <span fgcolor=\"red\">→</span> dir/"
+    },
+    {
+      "label": "└── ln--dir <span fgcolor=\"red\">→</span> dir/"
+    },
+    {
+      "label": "Launcher/"
+    },
+    {
+      "label": "├── dir/"
+    },
+    {
+      "label": "│   ├── dir/"
+    },
+    {
+      "label": "│   │   └── launcher3"
+    },
+    {
+      "label": "│   ├── .launcher1"
+    },
+    {
+      "label": "│   ├── launcher2"
+    },
+    {
+      "label": "│   ├── ln--dir <span fgcolor=\"red\">→</span> dir/"
+    },
+    {
+      "label": "│   ├── ln--dir--launcher3 <span fgcolor=\"red\">→</span> ln--dir/launcher3"
+    },
+    {
+      "label": "│   └── ln--launcher2 <span fgcolor=\"red\">→</span> launcher2"
+    },
+    {
+      "label": "├── .launcher"
+    },
+    {
+      "label": "├── .ln--dir <span fgcolor=\"red\">→</span> dir/"
+    },
+    {
+      "label": "├── ln--dir <span fgcolor=\"red\">→</span> dir/"
+    },
+    {
+      "label": "├── .ln--launcher <span fgcolor=\"red\">→</span> .launcher"
+    },
+    {
+      "label": "└── .ln--ln--dir <span fgcolor=\"red\">→</span> ln--dir/"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

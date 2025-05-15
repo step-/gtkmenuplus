@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Graphic Utilities
+Icon=/usr/share/pixmaps/mini-icons/mini.rainbow.xpm
+Type=Directory
+Comment[fi]=Kuvankäsittelyn apuohjelmat
+Name[es]=Herramientas Gráficas
+Name[fi]=Kuvankäsittelyn apuohjelmat
+Name[hu]=Grafikus eszközök
+Name[it]=Strumenti Grafici
+Name[pt]=Ferramentas Gráficas
+
+Categories=X-GraphicUtility

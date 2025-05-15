@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Archiving Utilities
+Icon=/usr/share/pixmaps/mini-icons/mini-cd.xpm
+Type=Directory
+Comment[fi]=Arkistointiohjelmat
+Name[es]=Herramientas de Archivación
+Name[fi]=Arkistointiohjelmat
+Name[hu]=Archiváló eszközök
+Name[it]=Strumenti Archiviazione
+Name[pt]=Ferramentas de Arquivamento
+
+Categories=Archiving

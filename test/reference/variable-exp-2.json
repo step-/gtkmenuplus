@@ -1,0 +1,69 @@
+{
+  "count": 15,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 expect very wide items.\n# -----\n# 1 expect item \"1 a\".\n# -----\n# 2 expect item \"2 b\".\n# -----\n# 3 expect item \"3 printf c%${max1}s/\" with error icon\n#   and red item \"3 FAIL\" and stderr message:\n#   \"value of evaluated variable VA too long\".\n# -----\n# 4 expect item \"4 d\"\n# -----\n# 5 expect red item \"5 $X\" and stderr message:\n#   \"line too long after expanding variable $X\".\n#   Because of this, $X remains unexpanded.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                /",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "'<span bgcolor=\"pink\">   #define MAX_LINE_LENGTH 1023 => max0==1017, max1==1018   </span>'"
+    },
+    {
+      "label": "2 b                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         /",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "3 printf c%1018s/",
+      "icon": "gtk-dialog-error",
+      "icon_rendered": true
+    },
+    {
+      "label": "<span color=\"red\">3 FAIL</span>",
+      "icon": "gtk-dialog-error",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "4 d                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          /",
+      "icon": "gtk-yes",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span color=\"red\">5 $X</span>",
+      "icon": "gtk-dialog-error",
+      "icon_rendered": true
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

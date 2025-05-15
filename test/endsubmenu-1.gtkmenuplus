@@ -1,0 +1,43 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = nest/2/3/4/5A
+#-------------------------------------------
+
+#% Test `submenu=` should not swallow next `launchersub=`'s items.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 10 expect block with instructions.
+# Visit block items to verify PASS labels.
+# -----
+format=
+item = 10 PASS if submenu label "A" is <span $fg_green_>green</span> and "A>" contains two <span $fg_red_>red</span> items only.
+
+format = $fg_green_
+submenu = A
+format = $fg_red_
+launchersub=nest/2/3/4/5A
+endsubmenu # A
+separator # ----------------------------------------------------
+
+# 20 expect block with instruction.
+# Visit block items to verify PASS labels.
+# -----
+format=
+item = 20 PASS if two <span $fg_blue_>blue</span> items follow this item
+format= $fg_blue_
+launchersub=nest/2/3/4/5A
+format=
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

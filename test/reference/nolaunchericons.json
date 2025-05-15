@@ -1,0 +1,94 @@
+{
+  "count": 18,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify PASS statements.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if two entries with leafpad icon"
+    },
+    {
+      "label": "Leafpad in ./abspath=",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "Leafpad in ./abspath=",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if two entries WITHOUT icon"
+    },
+    {
+      "label": "Leafpad in ./abspath=",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "Leafpad in ./abspath=",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if two entries with leafpad icon"
+    },
+    {
+      "label": "Leafpad in ./abspath=",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "Leafpad in ./abspath=",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if two entries with leafpad icon"
+    },
+    {
+      "label": "Leafpad in ./abspath=",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "Leafpad in ./abspath=",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

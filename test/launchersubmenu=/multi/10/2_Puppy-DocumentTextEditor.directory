@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Text Editors
+Icon=/usr/share/pixmaps/mini-icons/mini-edit.xpm
+Type=Directory
+Comment[fi]=Tekstieditorit
+Name[es]=Editores de Texto
+Name[fi]=Tekstieditorit
+Name[hu]=Szövegszerkesztők
+
+Categories=TextEditor

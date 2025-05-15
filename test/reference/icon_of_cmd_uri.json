@@ -1,0 +1,22 @@
+{
+  "count": 4,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify \"PASS\" statements.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS if this entry shows the icon of an image/* MIME-type app",
+      "tooltip": "file://{pwd}/icondirectory=/PNG/sound.png",
+      "icon_rendered": true,
+      "cmd": "file://{pwd}/icondirectory=/PNG/sound.png"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

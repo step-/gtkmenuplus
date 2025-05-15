@@ -1,0 +1,39 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = nest
+#-------------------------------------------
+
+#% Test launchersub nesting limits,
+#% .directory.desktop file,
+#% (in)valid symlinks.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 INSTRUCTIONS: select "test tools>tree" to view "./nest/".
+# Verify PASS conditions as described by item labels.
+# - Menus nesting hard limit=5 will prune deeper menus SILENTLY.
+# - .directory.desktop files will apply various properties - RTFM.
+# -----
+
+Item = PASS if 3 submenus w/o items "A">"B">"C"> then 2 globbed levels of "./nest/"
+Item = (glob *.desktop and directories only)
+# -----
+submenu = A
+submenu = B
+submenu = C
+          launchersub=$mDIR
+endsubmenu
+endsubmenu
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

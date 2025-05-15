@@ -1,0 +1,65 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = noicons noerrorconsoleonly endsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#-------------------------------------------
+
+#% Test shape menu with mnemonic.
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Validate PASS statements.
+# -----
+
+# ----- test case
+item = PASS if the next entries start with an underlined number vertically aligned with the matching indentation stop
+cmd  = true
+mark	= │ │ │ │ │ │ │ │ │ │
+stop	= 0 1 2 3 4 5 6 7 8 9
+s0	=""
+s1	="  "
+s2	="    "
+s3	="      "
+s4	="        "
+s5	="          "
+s6	="            "
+s7	="              "
+s8	="                "
+s9	="                  "
+mark=" $mark"
+stop=" $stop"
+format = font="monospace"
+item=$stop
+item=$mark (white space highlighted below)
+format = font="monospace" show="spaces" mnemonic="1"
+item=$s0 0
+cmd=true
+item=$s1 1
+cmd=true
+item=$s2 2
+cmd=true
+item=$s3 3
+cmd=true
+item=$s4 4
+cmd=true
+item=$s5 5
+cmd=true
+item=$s6 6
+cmd=true
+item=$s7 7
+cmd=true
+item=$s8 8
+cmd=true
+item=$s9 9
+cmd=true
+format =
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

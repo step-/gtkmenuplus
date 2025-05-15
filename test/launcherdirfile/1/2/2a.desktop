@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=2/1a (c1)
+Comment=category c1
+Exec=true
+Terminal=false
+Icon=gtk-yes
+Categories=c1;

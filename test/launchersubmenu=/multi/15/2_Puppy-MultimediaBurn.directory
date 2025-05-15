@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=CD/DVD Burning
+Icon=/usr/share/pixmaps/mini-icons/mini-cd.xpm
+Type=Directory
+Comment[fi]=CD/DVD poltto-ohjelmat
+Name[es]=Grabación CD/DVD
+Name[fi]=CD/DVD poltto-ohjelmat
+Name[hu]=CD/DVD írás
+
+Categories=DiskBurning

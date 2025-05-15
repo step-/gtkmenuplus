@@ -1,0 +1,47 @@
+{
+  "count": 5,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify PASS conditions as described by item labels.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "PASS Basic submenu if it includes 3 items: Customize..., Empty category, Null category."
+    },
+    {
+      "label": "Basic submenu",
+      "icon_rendered": true,
+      "count": 3,
+      "children": [
+        {
+          "label": "Customize Look and Feel",
+          "tooltip": "Customizes look and feel of your desktop and applications",
+          "icon": "preferences-desktop-theme",
+          "icon_rendered": true,
+          "cmd": "lxappearance"
+        },
+        {
+          "label": "Empty category",
+          "tooltip": "the category property exists and is empty",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "Null category",
+          "tooltip": "the category property does not exist",
+          "icon": "gtk-yes",
+          "icon_rendered": true,
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

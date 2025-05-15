@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Document/Publishing
+Icon=/usr/share/pixmaps/mini-icons/mini-edit.xpm
+Type=Directory
+Comment[fi]=Tekstinkäsittely/julkaisut
+Name[es]=Documento/Publicación
+Name[fi]=Tekstinkäsittely/julkaisut
+Name[hu]=Dokumentum/közzététel
+Name[it]=Documento/Pubblicazione
+Name[ja]=ドキュメント/出版
+Name[pt]=Documento/Publicação
+
+Categories=X-Document;WordProcessor;WebDevelopment

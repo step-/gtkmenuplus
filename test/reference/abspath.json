@@ -1,0 +1,153 @@
+{
+  "count": 34,
+  "children": [
+    {
+      "label": "<span bgcolor=\"pink\">  AUTO-RESTARTING MENU - SELECT \"e__xit menu\" TO END THE LOOP  </span>"
+    },
+    {
+      "label": "e_xit menu",
+      "icon": "gtk-quit",
+      "icon_rendered": true,
+      "cmd": "pkill -n gtkmenuplus"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify that activating each menu item in turn produces the\n# result that the item label describes.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 open root folder"
+    },
+    {
+      "label": "/",
+      "tooltip": "/",
+      "icon_rendered": true,
+      "cmd": "/"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "2.1 open home folder"
+    },
+    {
+      "label": "~/",
+      "tooltip": "~/",
+      "icon_rendered": true,
+      "cmd": "/root/"
+    },
+    {
+      "label": "2.2 open base directory folder"
+    },
+    {
+      "label": "./",
+      "tooltip": "./",
+      "icon_rendered": true,
+      "cmd": "{pwd}/"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "3.1 open README.md located in the base directory"
+    },
+    {
+      "label": "./README.md",
+      "tooltip": "./README.md",
+      "icon_rendered": true,
+      "cmd": "{pwd}/README.md"
+    },
+    {
+      "label": "3.2 open the same document"
+    },
+    {
+      "label": "test/README.md",
+      "tooltip": "{pwd}/README.md",
+      "icon_rendered": true,
+      "cmd": "{pwd}/README.md"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "4 open markdown document located in abspath="
+    },
+    {
+      "label": "abspath=/readme.md",
+      "tooltip": "{pwd}/abspath=/readme.md",
+      "icon_rendered": true,
+      "cmd": "{pwd}/abspath=/readme.md"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "5.1 leafpad launcher located in /usr/share/applications"
+    },
+    {
+      "label": "Leafpad",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "5.2 leafpad launcher located in abspath="
+    },
+    {
+      "label": "Leafpad in ./abspath=",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "6 open the leafpad executable path (item displays NO icon)",
+      "tooltip": "for an icon to be displayed use  `icon=`+`cmd=` instead of an absolute path"
+    },
+    {
+      "label": "/usr/bin/leafpad",
+      "tooltip": "/usr/bin/leafpad",
+      "cmd": "/usr/bin/leafpad"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "7.1 open the file:// URI of the system icon folder"
+    },
+    {
+      "label": "file:///usr/share/icons",
+      "tooltip": "file:///usr/share/icons",
+      "icon_rendered": true,
+      "cmd": "file:///usr/share/icons"
+    },
+    {
+      "label": "7.2 open the www.example.com site (item displays NO icon)"
+    },
+    {
+      "label": "http://www.example.com",
+      "tooltip": "http://www.example.com",
+      "cmd": "http://www.example.com"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+[Desktop Entry]
+Name=Fun
+Icon=/usr/share/pixmaps/midi-icons/games48.png
+Type=Directory
+Comment[fi]=Pelit
+Name[bg]=Развлечение
+Name[ca_ES]=Jocs
+Name[de]=Spiel
+Name[es]=Juegos
+Name[fi]=Pelit
+Name[fr]=Loisirs
+Name[hu]=Játékok
+Name[it]=Giochi
+Name[ja]=お楽しみ
+Name[ko]=게임
+Name[nl]=Spel
+Name[pl]=Rozrywka
+Name[pt]=Diversão
+Name[pt_PT]=Jogos
+Name[ru]=Развлечения
+Name[zh_CN]=娱乐
+Name[zh_TW]=娛樂
+Name[de]=Spiel
+
+Categories=Game;Amusement;ActionGame;AdventureGame;ArcadeGame;BlocksGame;BoardGame;CardGame;KidsGame;LogicGame;RolePlaying;Simulation;SportsGame;StrategyGame

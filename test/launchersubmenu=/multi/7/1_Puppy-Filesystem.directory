@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=Filesystem
+Icon=/usr/share/pixmaps/midi-icons/folder48.png
+Type=Directory
+Comment[fi]=Tiedostojärjestelmä
+Name[bg]=Работа с файлове
+Name[ca_ES]=Sistema de fitxers
+Name[de]=Dateisystem
+Name[es]=Sistema de Archivos
+Name[fi]=Tiedostojärjestelmä
+Name[fr]=Fichiers
+Name[hu]=Fájlrendszer
+Name[it]=Utilita'
+Name[ja]=ファイルシステム
+Name[nl]=Bestandssysteem
+Name[pl]=System plików
+Name[pt_BR]=Sistema de arquivos
+Name[pt]=Sistema de Ficheiros
+Name[ru]=Файловая система
+Name[zh_CN]=文件系统
+Name[zh_TW]=檔案系統
+Name[de]=Dateisystem
+
+Categories=;FileSystem;FileManager;X-FilesystemMount;X-FilesystemUtility;X-FilesystemFind

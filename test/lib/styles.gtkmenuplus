@@ -1,0 +1,18 @@
+bg_gold_         = bgcolor="gold"
+bg_green_        = bgcolor="green"
+bg_lime_         = bgcolor="lime"
+bg_pink_         = bgcolor="pink"
+bg_red_          = bgcolor="red"
+#
+fg_red_          = fgcolor="red" underline="single"
+fg_green_        = fgcolor="green" overline="single"
+fg_blue_         = fgcolor="dodgerblue" font-weight="800"
+fg_magenta_      = fgcolor="darkmagenta"
+fg_maroon_       = fgcolor="maroon" font-weight="800"
+fg_white_        = fgcolor="white"
+#
+blu_azu_sml_     = foreground="blue" background="azure" size="small"
+blu_azu_lrg_     = foreground="blue" background="azure" size="large"
+mag_whi_nrm_     = foreground="darkmagenta" background="white"
+passif_          = $mag_whi_nrm_
+#

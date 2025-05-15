@@ -1,0 +1,37 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mBASENAME == basename '$a0' .gtkmenuplus
+mDIR      == echo "${TMPDIR:-/tmp}/test/$mBASENAME"
+mTARFILE   = data/$mBASENAME.tgz
+#-------------------------------------------
+
+#% Test directory include with file_glob.
+
+#-------------------------------------------
+# TEST DATA SETUP
+if = mkdir -p '$mDIR' && tar -C '$mDIR' -vxzf '$mTARFILE' >&2; echo $(($?))
+error = TEST DATA SETUP FAILED
+else # SUCCESSFUL TEST DATA SETUP {{{
+#-------------------------------------------
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Verify PASS conditions as described by item labels.
+# -----
+
+item = <span $passif_>10 PASS if the entry below is "test.gtkmenuplus"</span>
+include=$mDIR
+separator
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+endif # SUCCESSFUL TEST DATA SETUP }}}
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

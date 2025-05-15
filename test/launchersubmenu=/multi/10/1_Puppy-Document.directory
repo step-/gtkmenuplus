@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=Document
+Icon=/usr/share/pixmaps/midi-icons/word48.png
+Type=Directory
+Comment[fi]=Tekstinkäsittely
+Name[bg]=Обработка на документи
+Name[ca_ES]=Ofimàtica
+Name[de]=Dokument
+Name[es]=Documentos
+Name[fi]=Tekstinkäsittely
+Name[fr]=Documents
+Name[hu]=Dokumentum
+Name[it]=Documenti
+Name[ja]=文書
+Name[ko]=문서 자료
+Name[nl]=Document
+Name[pl]=Dokument
+Name[pt]=Documentos
+Name[ru]=Офис
+Name[zh_CN]=文档编辑
+Name[zh_TW]=文書
+Name[de]=Dokument
+
+Categories=;X-Document;WordProcessor;WebDevelopment;TextEditor;X-DocumentUtility;Dictionary

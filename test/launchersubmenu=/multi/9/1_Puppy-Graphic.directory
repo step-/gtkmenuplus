@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=Graphic
+Icon=/usr/share/pixmaps/midi-icons/paint48.png
+Type=Directory
+Comment[fi]=Kuvankäsittely
+Name[bg]=Графични приложения
+Name[ca_ES]=Gràfic
+Name[de]=Grafik
+Name[es]=Gráficos
+Name[fi]=Kuvankäsittely
+Name[fr]=Graphisme
+Name[hu]=Grafika
+Name[it]=Grafica
+Name[ja]=グラフィック
+Name[ko]=그래픽
+Name[nl]=Grafisch
+Name[pl]=Grafika
+Name[pt]=Gráficos
+Name[ru]=Графика
+Name[zh_CN]=图像处理
+Name[zh_TW]=圖像
+Name[de]=Grafik
+
+Categories=;X-Graphic;Graphics;2DGraphics;3DGraphics;Photography;Presentation;Chart;FlowChart;VectorGraphics;RasterGraphics;X-GraphicUtility

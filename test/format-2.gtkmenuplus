@@ -1,0 +1,37 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+#-------------------------------------------
+
+#% Basic `format=` test.
+
+include = lib/styles.gtkmenuplus
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 expect green items and submenus
+# -----
+
+format = $fg_green_
+item = 1a green item
+item = 1b green item
+submenu = 2a green submenu > 1 item, 1 submenu
+  item = 3 green item
+  submenu = 4a green submenu > 0 items
+  endsubmenu
+endsubmenu
+submenu = 2b green submenu > 0 items, 1 submenu
+  submenu = 4b green submenu > 0 items
+  endsubmenu
+endsubmenu
+separator # ----------------------------------------------------
+
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

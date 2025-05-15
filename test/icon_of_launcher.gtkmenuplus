@@ -1,0 +1,55 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = endsubmenu errorconsoleonly noicons
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR = abspath=
+#-------------------------------------------
+
+#% Test `launcher=` with `configure={,no}{,launcher}icons`
+
+include = lib/operator_instructions.entry
+separator # ----------------------------------------------------
+
+# 0 instructions: Visit each submenu to verify PASS statements.
+# -----
+
+configure=noicons
+configure=nolaunchericons
+submenu = 1 PASS if this submenu entry shows NO icon and for all its contained entries...
+	item = 1 PASS if NO icons below
+	launcher= $mDIR
+endsubmenu
+separator # ----------------------------------------------------
+
+configure=noicons
+configure=launchericons
+submenu = 2 PASS if this submenu shows NO icon and for its contained entries...
+	item = 2 PASS if ALL icons below
+	launcher= $mDIR
+endsubmenu
+separator # ----------------------------------------------------
+
+configure=icons
+configure=nolaunchericons
+submenu = 3 PASS if this submenu shows GTK-OK icon, and for its contained entries...
+icon = gtk-ok
+	item = 3 PASS if NO icons below
+	launcher= $mDIR
+endsubmenu
+separator # ----------------------------------------------------
+
+configure=icons
+configure=launchericons
+submenu = 4 PASS if this submenu shows NO icon, and for its contained entries...
+	item = 4 PASS if ALL icons below
+	launcher= $mDIR
+endsubmenu
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

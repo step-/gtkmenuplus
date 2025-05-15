@@ -1,0 +1,29 @@
+{
+  "count": 4,
+  "children": [
+    {
+      "label": "10 PASS if you see two items: submenu \"A\" (holding \"item 1\"), and leafpad."
+    },
+    {
+      "label": "_A",
+      "count": 1,
+      "children": [
+        {
+          "label": "item 1",
+          "cmd": "true"
+        }
+      ]
+    },
+    {
+      "label": "Leafpad",
+      "tooltip": "Simple text editor",
+      "icon": "leafpad",
+      "icon_rendered": true,
+      "cmd": "leafpad   "
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}
