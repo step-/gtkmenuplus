@@ -217,6 +217,7 @@ print_menu_as_json (GtkMenu *menu,
  GList *children = gtk_container_get_children (GTK_CONTAINER (menu));
  const guint count = g_list_length (children);
  const guint off = iw * IW;
+ gchar *json = NULL;
 
  printf ("\n%*s\"count\": %d", off , "", count);
  if (count)
@@ -229,13 +230,14 @@ print_menu_as_json (GtkMenu *menu,
    gboolean is_separator = GTK_IS_SEPARATOR_MENU_ITEM (w);
 
    const gchar *label = gtk_menu_item_get_label (GTK_MENU_ITEM (w));
-   const gchar *tooltip = gtk_widget_get_tooltip_text (w);
+   gchar *tooltip = gtk_widget_get_tooltip_text (w);
    const struct Entry *eptr =
    (struct Entry *) g_object_get_data (G_OBJECT (w), "entry");
 
    printf ("\n%*s{", off + IW, "");
    printf ("\n%*s\"label\": %s", off + 2 * IW, "",
-           (label ? utf8_to_json (label) : "\"\""));
+           (label ? json = utf8_to_json (label) : "\"\""));
+   g_clear_pointer (&json, free);
    if (label[0] == 0)
    {
     if (is_separator)
@@ -245,11 +247,16 @@ print_menu_as_json (GtkMenu *menu,
    }
    if (tooltip)
    {
-    printf (",\n%*s\"tooltip\": %s", off + 2 * IW, "", utf8_to_json (tooltip));
+    json = utf8_to_json (tooltip);
+    g_free (tooltip);
+    printf (",\n%*s\"tooltip\": %s", off + 2 * IW, "", json);
+    free (json);
    }
    if (eptr && eptr->icon[0])
    {
-     printf (",\n%*s\"icon\": %s", off + 2 * IW, "", utf8_to_json (eptr->icon));
+    json = utf8_to_json (eptr->icon);
+    printf (",\n%*s\"icon\": %s", off + 2 * IW, "", json);
+    free (json);
    }
    if (!is_separator)
    {
@@ -262,7 +269,9 @@ print_menu_as_json (GtkMenu *menu,
    }
    if (eptr && eptr->cmd[0])
    {
-    printf (",\n%*s\"cmd\": %s", off + 2 * IW, "", utf8_to_json (eptr->cmd));
+    json = utf8_to_json (eptr->cmd);
+    printf (",\n%*s\"cmd\": %s", off + 2 * IW, "", json);
+    free (json);
    }
    if (submenu && GTK_IS_MENU (submenu))
    {
@@ -300,7 +309,9 @@ print_strv_as_json (const gchar **sv,
   printf ("[\n");
   for (gint i = 0; i < sc; i++)
   {
-   printf ("%*s%s", off + IW, "", utf8_to_json (sv[i]));
+   gchar *json = utf8_to_json (sv[i]);
+   printf ("%*s%s", off + IW, "", json);
+   free (json);
    if (i < sc - 1)
    {
     putchar (',');
