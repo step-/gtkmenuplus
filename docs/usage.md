@@ -43,9 +43,6 @@ option is used.
 Display this help text and exit. The text is printed to stdout and, if
 stdin is closed, also shown in a dialog.
 
-**-j**, **--json**  
-Dump the menu as a JSON object and exit.
-
 **-L**, **--license**  
 Display license information and exit.
 
