@@ -116,7 +116,7 @@ a_activationlogfile (struct Entry *entry)
   if ((log = activation_log_fetch (_dat)))
   {
    /* Touch the file so the calling application can include it. */
-   if ((fd = open (log->path, O_CREAT | O_WRONLY, 0600) >= 0))
+   if ((fd = open (log->path, O_CREAT | O_WRONLY, 0600)) >= 0)
    {
     close (fd);
    }
