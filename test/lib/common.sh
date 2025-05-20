@@ -110,15 +110,14 @@ cd_to_base_dir () {
 ####### MAIN #######
 
 if [ -n "$GTKMENUPLUS" ]; then
-  x="$(realpath "$GTKMENUPLUS")"
+  x="$GTKMENUPLUS"
+  if [ "${x#/}" == "$x" ]; then
+    die "Error: GTKMENUPLUS='$x' used but GTKMENUPLUS requires an absolute path"
+  fi
 else
-  x=gtkmenuplus
-fi
-if ! x="$(which "$x")"; then
-  echo "Try passing an absolute path." >&2
-fi
-if [ $? -ne 0 -o ! -x "$x" ]; then
-  die "Error: program not found: '${GTKMENUPLUS:-"$x"}'"
+  if ! x="$(command -v gtkmenuplus)"; then
+    die "Error: gtkmenuplus program not found"
+  fi
 fi
 export GTKMENUPLUS="$x"
 
