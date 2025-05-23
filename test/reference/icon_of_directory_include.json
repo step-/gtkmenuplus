@@ -52,6 +52,7 @@
     },
     {
       "label": "3 PASS if this submenu shows GTK-OK icon, and for its contained entries...",
+      "icon": "gtk-ok",
       "icon_rendered": true,
       "count": 3,
       "children": [

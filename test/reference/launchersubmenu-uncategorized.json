@@ -18,6 +18,7 @@
     {
       "label": "_Uncategorized",
       "tooltip": "All and ONLY the .desktop files with null or empty {Categories=}",
+      "icon": "folder",
       "icon_rendered": true,
       "count": 2,
       "children": [
@@ -51,6 +52,7 @@
     {
       "label": "_Uncategorized",
       "tooltip": "All and ONLY the .desktop files with null or empty {Categories=}",
+      "icon": "folder",
       "icon_rendered": true,
       "count": 2,
       "children": [

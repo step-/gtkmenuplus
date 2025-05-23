@@ -45,11 +45,13 @@
       "children": [
         {
           "label": "d2.h",
+          "icon": "gtk-ok",
           "icon_rendered": true,
           "count": 3,
           "children": [
             {
               "label": "d2.c",
+              "icon": "gtk-ok",
               "icon_rendered": true,
               "count": 1,
               "children": [
@@ -63,6 +65,7 @@
             },
             {
               "label": "d2.h",
+              "icon": "gtk-ok",
               "icon_rendered": true,
               "count": 1,
               "children": [
@@ -76,6 +79,7 @@
             },
             {
               "label": "d2.x",
+              "icon": "gtk-ok",
               "icon_rendered": true,
               "count": 1,
               "children": [
@@ -181,13 +185,17 @@
         {
           "label": "d1",
           "tooltip": "leafpad",
+          "icon": "leafpad",
           "icon_rendered": true,
+          "cmd": "leafpad",
           "count": 5,
           "children": [
             {
               "label": "d2.c",
               "tooltip": "leafpad",
+              "icon": "leafpad",
               "icon_rendered": true,
+              "cmd": "leafpad",
               "count": 1,
               "children": [
                 {
@@ -202,7 +210,9 @@
             {
               "label": "d2.h",
               "tooltip": "leafpad",
+              "icon": "leafpad",
               "icon_rendered": true,
+              "cmd": "leafpad",
               "count": 1,
               "children": [
                 {
@@ -217,7 +227,9 @@
             {
               "label": "d2.x",
               "tooltip": "leafpad",
+              "icon": "leafpad",
               "icon_rendered": true,
+              "cmd": "leafpad",
               "count": 1,
               "children": [
                 {

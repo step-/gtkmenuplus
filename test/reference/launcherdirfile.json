@@ -44,6 +44,7 @@
     {
       "label": "dirfile 0.directory Categories=c1;c2;",
       "tooltip": "Categories=c1;c2;",
+      "icon": "gtk-media-play",
       "icon_rendered": true,
       "count": 4,
       "children": [
@@ -71,6 +72,7 @@
         {
           "label": "dirfile 0.directory Categories=c1;c2;",
           "tooltip": "Categories=c1;c2;",
+          "icon": "gtk-media-play",
           "icon_rendered": true,
           "count": 4,
           "children": [
@@ -98,6 +100,7 @@
             {
               "label": "dirfile 0.directory Categories=c1;c2;",
               "tooltip": "Categories=c1;c2;",
+              "icon": "gtk-media-play",
               "icon_rendered": true,
               "count": 3,
               "children": [
@@ -161,6 +164,7 @@
     {
       "label": "launcherdirfile= 1/2/2.directory Categories=other;",
       "tooltip": "dirfile 2.directory Categories=other;",
+      "icon": "gtk-media-play",
       "icon_rendered": true,
       "count": 3,
       "children": [
@@ -181,6 +185,7 @@
         {
           "label": "launcherdirfile= 1/2/2.directory Categories=other;",
           "tooltip": "dirfile 2.directory Categories=other;",
+          "icon": "gtk-media-play",
           "icon_rendered": true,
           "count": 2,
           "children": [

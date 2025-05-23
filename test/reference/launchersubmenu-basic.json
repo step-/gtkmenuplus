@@ -13,6 +13,7 @@
     },
     {
       "label": "Basic submenu",
+      "icon": "gtk-ok",
       "icon_rendered": true,
       "count": 3,
       "children": [
