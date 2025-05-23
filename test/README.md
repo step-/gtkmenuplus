@@ -39,18 +39,18 @@ A few test scripts assume that the test system runs on [Fatdog64] Linux.
     test/BATCH
 ```
 
-Batch tests run without displaying the menu. They compare
-a JSON serialization of the menu with a reference file
-obtained by invoking gtkmenuplus with options `-j`.
+Batch tests run without displaying the menu. They compare a
+JSON serialization of the menu with a reference serialization.
+
+To create a reference serialization for a test script, your must use a
+gtkmenuplus binary built `--with-serialize`. Select and run the test
+script **from the GUI launcher**, then enter the "test tools" submenu,
+and activate the "write reference file" menu entry.
 
 ## Test files and resources
 
 Test scripts are located in the `test` directory. JSON serializations
 of the test scripts are located in the `test/reference` directory.
-
-To create a new serialization for a test script, run
-the script from the GUI launcher and select the "write
-reference file" menu entry in the "tools" submenu.
 
 In addition to the test scripts and reference files, The `test` directory
 also includes (some hidden) files and directories containing test data.
