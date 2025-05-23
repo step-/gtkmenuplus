@@ -126,7 +126,7 @@ To disallow the Cmd, Icon and Tooltip directives in the context of the
 current menu entry, assign ENTRY_DISALLOW_DIRECTIVE to the first byte of
 the .cmd, .icon, and .tooltip members of the current Entry.
 */
-#define ENTRY_DISALLOW_DIRECTIVE '\xFF'
+#define ENTRY_DISALLOW_DIRECTIVE '\x01'
 
 struct Entry *
 entry_new ();

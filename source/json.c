@@ -245,14 +245,14 @@ print_menu_as_json (GtkMenu *menu,
      printf (",\n%*s\"is_separator\": true", off + 2 * IW, "");
     }
    }
-   if (tooltip)
+   if (tooltip && tooltip[0] != ENTRY_DISALLOW_DIRECTIVE)
    {
     json = utf8_to_json (tooltip);
     g_free (tooltip);
     printf (",\n%*s\"tooltip\": %s", off + 2 * IW, "", json);
     free (json);
    }
-   if (eptr && eptr->icon[0])
+   if (eptr && eptr->icon[0] && eptr->icon[0] != ENTRY_DISALLOW_DIRECTIVE)
    {
     json = utf8_to_json (eptr->icon);
     printf (",\n%*s\"icon\": %s", off + 2 * IW, "", json);
@@ -267,7 +267,7 @@ print_menu_as_json (GtkMenu *menu,
     }
     G_GNUC_END_IGNORE_DEPRECATIONS;
    }
-   if (eptr && eptr->cmd[0])
+   if (eptr && eptr->cmd[0] && eptr->cmd[0] != ENTRY_DISALLOW_DIRECTIVE)
    {
     json = utf8_to_json (eptr->cmd);
     printf (",\n%*s\"cmd\": %s", off + 2 * IW, "", json);
