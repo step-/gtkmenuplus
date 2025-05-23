@@ -436,6 +436,24 @@ leave_submenu (struct Entry *entry)
   gtk_menu_shell_append (GTK_MENU_SHELL (gl_menu_w[depth]), submenu);
   ++gl_menu_counter;
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (submenu), gl_menu_w[depth + 1] = w);
+#ifdef FEATURE_SERIALIZATION
+  if (gl_opt_json_serialize)
+  {
+   struct Entry *me = entry_new_tracked ();
+   if (me == NULL)
+   {
+    result = RWARN;
+    entry_push_error (entry, result, "entry `%s': cannot serialize",
+                      entry->label);
+   }
+   else
+   {
+    memcpy (me, entry, sizeof (*entry));
+    me->error = NULL; /* disown */
+    g_object_set_data (G_OBJECT (submenu), "entry", me);
+   }
+  }
+#endif
  }
  else
  {
