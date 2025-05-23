@@ -9,20 +9,25 @@ RF="${1:?"$usage"}" # the reference file - a JSON file
 [ -f "$RF" ]
 gtkmenuplus="${GTKMENUPLUS:-$(which gtkmenuplus)}"
 
-# Sed script to make the reference file portable by replacing
-# absolute paths specific to the developer's fs with template variables.
-#
-sed -i "$RF" -e "s|$PWD|{pwd}|g; s|${gtkmenuplus:?}|{gtkmenuplus}|g"
-
 # Awk helper to allow redirecting jq output to the input file.
 # The jq script is passed as variable JQ. The script deletes the "test tools"
 # submenu and the .cmdline array to enhance portability of the reference file.
 #
 awk '###awk
-{	R[NR] = $0 }
+{
+	R[NR] = $0
+
+	# Make the reference file portable by replacing some absolute
+	# paths specific to the developer`s system with generic templates.
+	gsub (PWD, "{pwd}", R[NR])
+	gsub (GTKMENUPLUS, "{gtkmenuplus}", R[NR])
+}
 END {
 	for (i=1; i<= NR; i++) print R[i] | JQ
 	exit close(JQ) # empty input and invalid JSON are errors
 }
-###awk' "JQ=jq 'del(.children[] | select(.label == \"_test tools\"))
+###awk' \
+	"PWD=$PWD" "GTKMENUPLUS=${gtkmenuplus:?}" \
+	\
+	"JQ=jq 'del(.children[] | select(.label == \"_test tools\"))
 	| .count -= 1 | del(.cmdline)' > '$RF'" "$RF"
