@@ -1,11 +1,18 @@
 #!/bin/sh
 
-# Usage: test/BATCH
+# Usage: [env GTKMENUPLUS=/abs/path/to/gtkmenuplus] $0
 #
 # Compare the existing reference JSON files with new JSON files obtained
 # by running gtkmenuplus -j on the corresponding gtkmenuplus test scripts.
 
-# must run in the same cwd as the START script in GUI mode
+if ! "${GTKMENUPLUS:-gtkmenuplus}" -h | grep -q -- --json; then
+	echo "$0: ${GTKMENUPLUS:-gtkmenuplus}: invalid option --json" >&2
+	echo "Build gtkmenuplus --with-serialization, then run" >&2
+	echo "env GTKMENUPLUS='/abs/path/builddir/gtkmenuplus' $0" >&2
+	exit 1
+fi
+
+# Enforce the same cwd as the START script's when it runs in GUI mode.
 cd "${0%/BATCH}" || exit 1
 
 td="$PWD"
