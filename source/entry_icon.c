@@ -40,41 +40,43 @@ static GtkWidget *entry_icon_image_new_from_file (struct Entry *);
 
 /**
 entry_icon_is_to_render:
+Test if documented rules imply that an entry icon is to be rendered.
 
-Test if the icon image is to be rendered.
-(Render with #entry_icon_image_new).
+@entry:
 */
 gboolean
 entry_icon_is_to_render (const struct Entry *entry)
 {
+ gboolean ret = FALSE;
 #ifdef FEATURE_LAUNCHER
  if (entry->directive->type & LINE_GROUP_LAUNCHERS)
  {
-  return
-  conf_get_launchericons () && *entry->icon && strncmp (entry->icon, "NULL", 4);
+  ret = conf_get_launchericons () && *entry->icon;
  }
  else
 #endif
  if (entry->directive->type == LINE_ABSOLUTE_PATH)
  {
-  return conf_get_icons () && *entry->cmd;
+  ret = conf_get_icons () && *entry->cmd;
  }
  else if (!conf_get_icons ())
  {
-  return *entry->icon && strncmp (entry->icon, "NULL", 4) != 0;
+  ret = *entry->icon;
  }
- else if (!*entry->icon)
+ else if (entry->flags & ENTRY_FLAG_INCLUDE_DIR)
  {
-  if (entry->flags & ENTRY_FLAG_INCLUDE_DIR)
-  {
-   return TRUE;
-  }
+  /* `include=`DIR + `icon=`NULL hides the icons of the
+  scanner files, per the scripting guide. By contrast,
+  `include=`DIR + `icon=`"" does not hide the icons. */
 
-  /* Concerns `item=` and `submenu=`. */
-  return *entry->cmd && *entry->cmd != ENTRY_DISALLOW_DIRECTIVE;
+  /* Covers both dir `include=` and dir `include=`+`icon=`. */
+  ret = *entry->icon != ENTRY_NULL_ICON;
  }
- /*DEPRECATED*/ /*UNDOCUMENTED*/
- return strncmp (entry->icon, "NULL", 4) != 0;
+ else
+ {
+  ret = *entry->icon != ENTRY_DISALLOW_DIRECTIVE;
+ }
+ return ret;
 }
 
 /**

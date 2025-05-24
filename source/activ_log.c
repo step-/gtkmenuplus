@@ -218,6 +218,13 @@ entry_activationlog_write (struct Entry *entry,
  {
   icon = overrides->icon;
  }
+ /* Remember we are rewriting the menu widget as an `item=`
+ directive. Therefore we map NULL to "" because `icon=NULL`
+ would be interpreted as the icon name "NULL" otherwise. */
+ if (*icon == ENTRY_DISALLOW_DIRECTIVE || *icon == ENTRY_NULL_ICON)
+ {
+  icon = "";
+ }
 
  /*
  Append new or replace this log item (needle) to the log file (heystack).

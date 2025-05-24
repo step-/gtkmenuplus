@@ -176,7 +176,20 @@ a_icon (struct Entry *entry)
  entry_is_directive_allowed (entry, entry->icon);
  if (result < RFAIL)
  {
-  strcpy (entry->icon, entry->_dat[0] ? entry->_dat : "NULL");
+  if (entry->_dat[0] == '\0')
+  {
+   entry->icon[0] = '\0';
+  }
+  else if (entry->allowed_requester == LINE_INCLUDE &&
+           strncmp (entry->_dat, "NULL", 4) == 0)
+  {
+   entry->icon[0] = ENTRY_NULL_ICON;
+   entry->icon[1] = '\0';
+  }
+  else
+  {
+   strcpy (entry->icon, entry->_dat);
+  }
  }
  return result;
 }

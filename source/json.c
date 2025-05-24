@@ -254,9 +254,16 @@ print_menu_as_json (GtkMenu *menu,
    }
    if (eptr && eptr->icon[0] && eptr->icon[0] != ENTRY_DISALLOW_DIRECTIVE)
    {
-    json = utf8_to_json (eptr->icon);
-    printf (",\n%*s\"icon\": %s", off + 2 * IW, "", json);
-    free (json);
+    if (eptr->icon[0] == ENTRY_NULL_ICON)
+    {
+     printf (",\n%*s\"icon\": null", off + 2 * IW, "");
+    }
+    else
+    {
+     json = utf8_to_json (eptr->icon);
+     printf (",\n%*s\"icon\": %s", off + 2 * IW, "", json);
+     free (json);
+    }
    }
    if (!is_separator)
    {
