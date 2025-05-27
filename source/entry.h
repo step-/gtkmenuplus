@@ -114,6 +114,7 @@ struct Entry
  gchar                   label[MAX_LINE_LENGTH + 1]; /* `item/submenu` {Name} */
  gchar                   cmd[MAX_PATH_LEN + 1];               /* `cmd` {Exec} */
  gchar                   icon[MAX_PATH_LEN + 1];             /* `icon` {Icon} */
+ guint8                  icon_size;
 #ifdef FEATURE_TOOLTIP
  gchar                   tooltip[MAX_LINE_LENGTH + 1]; /* `tooltip` {Comment} */
 #endif

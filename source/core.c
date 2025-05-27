@@ -362,6 +362,10 @@ node_attach_tracked_entry (GtkWidget *node __attribute__((unused)),
    {
     strcpy ((*tracked)->icon, entry->icon);
    }
+   if ((*tracked)->icon[0])
+   {
+    (*tracked)->icon_size = conf_get_iconsize_width ();
+   }
    g_object_set_data (G_OBJECT (node), "entry", *tracked);
   }
  }

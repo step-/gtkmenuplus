@@ -263,6 +263,7 @@ print_menu_as_json (GtkMenu *menu,
      json = utf8_to_json (eptr->icon);
      printf (",\n%*s\"icon\": %s", off + 2 * IW, "", json);
      free (json);
+     printf (",\n%*s\"icon_size\": %u", off + 2 * IW, "", eptr->icon_size);
     }
    }
    if (!is_separator)
