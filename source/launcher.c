@@ -1590,7 +1590,7 @@ launcher_module_init (const int cflags)
  for (gsize i = 0; i < G_N_ELEMENTS (gl_launcher_dirfile); i++)
  {
   gl_launcher_dirfile[i].path[0] = '\0';
-  entry_init (&gl_launcher_dirfile[i].entry, NULL, LINE_LAUNCHER_DIRFILE,
+  entry_init (&gl_launcher_dirfile[i].entry, NULL, LINE_UNDEFINED,
               ENTRY_FLAG_ALLOW_ICOTIP | ENTRY_FLAG_RESET_ERROR, 0);
  }
  return 0;
