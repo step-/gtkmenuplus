@@ -1093,7 +1093,7 @@ entry_leave (struct Entry *entry,
   {
    /* If `icon=` is allowed immediately after some block directives, e.g.,
    `include=dirpath`. See the scripting guide for which are such directives. */
-   if (entry->icon[0] == '\0' && overrides->icon[0] != '\0')
+   if (entry->icon[0] == '\0' && overrides && overrides->icon[0] != '\0')
    {
     strcpy (entry->icon, overrides->icon);
    }
