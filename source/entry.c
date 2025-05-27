@@ -75,14 +75,15 @@ Initialize simple or block directive.
 @entry: target to be initialized.
 @fn_leave: function called on leaving a block directive.
 NULL for simple directives.
-@requester: allowed requester.
+@container: the directive that "contains" @entry;
+LINE_UNDEFINED if @entry is not contained.
 @feat: #EntryFlags feature bit mask.
 @depth: current menu depth.
 */
 void
 entry_init (struct Entry *entry,
             const fnEntry fn_leave,
-            const enum LineType requester,
+            const enum LineType container,
             const enum EntryFlags feat,
             const guint depth)
 {
@@ -111,7 +112,7 @@ entry_init (struct Entry *entry,
  entry->tooltip[0] =
  (feat & ENTRY_FLAG_ALLOW_ICOTIP) ? '\0' : ENTRY_DISALLOW_DIRECTIVE;
 #endif
- entry->allowed_requester = requester;
+ entry->container = container;
  entry->menu_depth = depth;
  if ((feat & ENTRY_FLAG_RESET_ERROR) && entry->error)
  {
@@ -138,12 +139,12 @@ entry_is_directive_allowed (struct Entry *entry,
  if (value[0] == ENTRY_DISALLOW_DIRECTIVE)
  {
   result = RFAIL;
-  if (entry->allowed_requester != LINE_UNDEFINED)
+  if (entry->container != LINE_UNDEFINED)
   {
-   const gchar *requester_keyword =
-   (input_fetch_directive_from_linetype (entry->allowed_requester))->keyword;
+   const gchar *container_keyword =
+   (input_fetch_directive_from_linetype (entry->container))->keyword;
    entry_push_error (entry, RFAIL, "`%s=` not allowed after `%s=`",
-                     entry->directive->keyword, requester_keyword);
+                     entry->directive->keyword, container_keyword);
   }
   else if (entry->directive->type == LINE_CMD)
   {
@@ -163,11 +164,11 @@ entry_is_directive_allowed (struct Entry *entry,
  }
  else if (value[0])
  {
-  const gchar *requester_keyword =
-  (input_fetch_directive_from_linetype (entry->allowed_requester))->keyword;
+  const gchar *container_keyword =
+  (input_fetch_directive_from_linetype (entry->container))->keyword;
   result = RFAIL;
   entry_push_error (entry, result, "found two `%s=` directives after `%s`",
-                    entry->directive->keyword, requester_keyword);
+                    entry->directive->keyword, container_keyword);
  }
 
  return result;

@@ -185,7 +185,7 @@ a_icon (struct Entry *entry)
   {
    entry->icon[0] = '\0';
   }
-  else if (entry->allowed_requester == LINE_INCLUDE &&
+  else if (entry->container == LINE_INCLUDE &&
            strncmp (entry->_dat, "NULL", 4) == 0)
   {
    entry->icon[0] = ENTRY_NULL_ICON;

@@ -98,7 +98,7 @@ struct Entry
  guint                   menu_depth;
  gint                    index;                         /* `directive[index]` */
  const struct Directive  *directive;
- enum LineType           allowed_requester;
+ enum LineType           container;        /* "context" directive to an Entry */
  fnEntry                 leave;              /* block directives define leave */
 #ifdef FEATURE_CONDITIONAL
  gboolean                is_isolated_reference;    /* true if *_dat =~ ^$ref$ */
@@ -146,7 +146,7 @@ entry_get_tracked_count ();
 void
 entry_init (struct Entry *entry,
             const fnEntry fn_leave,
-            const enum LineType requester,
+            const enum LineType container,
             const enum EntryFlags feat,
             const guint depth);
 
