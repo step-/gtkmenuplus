@@ -1518,15 +1518,17 @@ launcher_app (gchar *launcherpath,
    cmd = buf;
   }
  }
- (void) entry_append_leaf_node (entry, NULL, cmd, &widget);
+ struct Entry *tracked = NULL;
+ (void) entry_append_leaf_node (entry, NULL, cmd, &widget, &tracked);
  if (widget == NULL)
  {
   result = RFAIL;
  }
- else if (entry_icon_is_to_render (entry) && result < RWARN)
+ else if (result < RWARN && entry_icon_is_to_render (entry))
  {
   result = entry_add_icon (entry, widget);
  }
+ (void) node_attach_tracked_entry (widget, &tracked, entry);
  launcher_prop_free_values ();
  if (result < RFAIL)
  {

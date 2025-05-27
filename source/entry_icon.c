@@ -83,13 +83,19 @@ entry_icon_is_to_render (const struct Entry *entry)
 entry_icon_image_new:
 Resolve @entry->icon to a #GtkImage.
 
-Return: #GtkWidget pointer to resolved image;
-NULL, pushing an error message, otherwise.
+@entry: in
+@resolved_icon: a pre-allocated buffer large enough
+(SIZEOF_COOKED) to return the resolved icon name or path.
+The buffer is used only if @entry->icon is initially blank.
+
+Return: #GtkWidget pointer to image data, and possibly update
+@resolved_icon; NULL, and push an error message, otherwise.
 
 Call #entry_icon_is_to_render before calling this function.
 */
 GtkWidget *
-entry_icon_image_new (struct Entry *entry)
+entry_icon_image_new (struct Entry *entry,
+                      gchar *resolved_icon)
 {
  GtkWidget *img = NULL;
 
@@ -145,6 +151,11 @@ entry_icon_image_new (struct Entry *entry)
      e->error = entry->error;
      /* icon from datafile path */
      img = entry_icon_image_new_from_cmd (e);
+     if (*e->icon)
+     {
+      strcpy (resolved_icon, e->icon);
+      *e->icon = '\0';
+     }
      /* entry owns the error list */
      entry->error = e->error;
      e->error = NULL;
@@ -352,8 +363,10 @@ entry_icon_image_new_from_stock_or_name (struct Entry *entry)
 entry_icon_image_new_from_cmd:
 Infer entry's icon from its command.
 
-Return: #GtkWidget pointer to resolved image;
-NULL, pushing an error message, otherwise.
+@entry: in/out.
+
+Return: #GtkWidget pointer to resolved image and copy the inferred icon
+name or path to @entry->icon; NULL and push an error message, otherwise.
 */
 static GtkWidget *
 entry_icon_image_new_from_cmd (struct Entry *entry)
@@ -401,6 +414,10 @@ entry_icon_image_new_from_cmd (struct Entry *entry)
      else
      {
       img = gtk_image_new_from_icon_name (sicon, gw);
+     }
+     if (strlen (sicon) < SIZEOF_COOKED - 1)
+     {
+      strcpy (entry->icon, sicon);
      }
     }
     g_free (sicon);

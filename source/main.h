@@ -38,12 +38,6 @@ extern gint  gl_argc;
 extern gchar **gl_argv;
 
 enum Result
-entry_append_leaf_node (struct Entry *entry,
-                        const gchar *label,
-                        const gchar *cmd,
-                        GtkWidget **widgetptr);
-
-enum Result
 main_loop (struct InputSource *isrc,
            const gint argc,
            const gchar *argv[],

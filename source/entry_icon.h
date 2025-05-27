@@ -33,7 +33,8 @@ gboolean
 entry_icon_is_to_render (const struct Entry *);
 
 GtkWidget *
-entry_icon_image_new (struct Entry *);
+entry_icon_image_new (struct Entry *,
+                      gchar *resolved_icon);
 
 int
 entry_icon_module_init (void);

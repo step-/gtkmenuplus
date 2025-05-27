@@ -66,8 +66,13 @@ entry_add_icon (struct Entry *entry,
  GtkWidget *img;
  enum Result result = ROK;
  ErrorList *head_error = entry->error;
+ gchar resolved_icon[SIZEOF_COOKED] = "";
 
- img = entry_icon_image_new (entry);
+ img = entry_icon_image_new (entry, resolved_icon);
+ if G_UNLIKELY (!*entry->icon && *resolved_icon)
+ {
+  strcpy (entry->icon, resolved_icon);
+ }
  if (img == NULL)
  {
   result = RINFO;
@@ -213,13 +218,15 @@ a_tooltip (struct Entry *entry __attribute__((unused)))
 }
 
 /**
-entry_append_leaf_node :
+entry_append_leaf_node:
 Append a leaf node to the GTK menu.
 
 @entry: pointer to #Entry - members are not modified, except .error.
 @label: alternative menu label overriding @entry->label. Nullable.
 @cmd: alternative activation command overriding @entry->cmd. Nullable.
 @widgetptr: return location for #GtkWidget pointer.
+@trackedprt: return location for tracked struct #Entry pointer, if the
+entry was added to the tracking list because @entry->cmd is not empty.
 
 Return: %Result. Set *@widget pointing to the GTK menu item, or NULL on error.
 */
@@ -227,7 +234,8 @@ enum Result
 entry_append_leaf_node (struct Entry *entry,
                         const gchar *label,
                         const gchar *cmd,
-                        GtkWidget **widgetptr)
+                        GtkWidget **widgetptr,
+                        struct Entry **trackedptr)
 {
  GtkWidget *widget = NULL;
  enum Result result = RFAIL;
@@ -248,21 +256,6 @@ entry_append_leaf_node (struct Entry *entry,
   result = ROK;
   gtk_menu_shell_append (GTK_MENU_SHELL (gl_menu_w[entry->menu_depth]), widget);
   ++gl_menu_counter;
-#ifdef FEATURE_SERIALIZATION
-  if (gl_opt_json_serialize)
-  {
-   if ((me = entry_new_tracked ()) == NULL)
-   {
-    entry_push_error (entry, RWARN, "entry `%s': cannot serialize", lbl);
-    result = RWARN;
-   }
-   else
-   {
-    memcpy (me, entry, sizeof (*entry));
-    me->error = NULL; /* disown */
-   }
-  }
-#endif
   if (entry->cmd[0] || (cmd != NULL && cmd[0]))
   {
    if (me == NULL)
@@ -287,7 +280,6 @@ entry_append_leaf_node (struct Entry *entry,
    }
    g_signal_connect_swapped (widget, "activate", G_CALLBACK (entry_activate),
                              me);
-   g_object_set_data (G_OBJECT (widget), "entry", me);
   }
   else
   {
@@ -316,6 +308,64 @@ entry_append_leaf_node (struct Entry *entry,
 #endif
  }
  *widgetptr = widget;
+ *trackedptr = me;
+ return result;
+}
+
+/**
+node_attach_tracked_entry:
+Attach a tracked entry to a menu node.
+This function is noop unless option --json is used.
+
+@node: #GtkWidget
+@tracked: return address for a struct #Entry pointer to the tracking entry.
+@entry: initialization data source for the tracking entry.
+
+If *@tracked is initially NULL, a new struct is allocated otherwise the
+struct pointed to by *@tracked is assumed to already be in the tracking list.
+In either case the module owns the tracked memory so do not free it.
+
+On returning from this function, *@tracked is
+added to the #GObject @node's data table with key "0entry".
+
+Return: #Result and set *@tracked to the tracking entry.
+*/
+enum Result
+node_attach_tracked_entry (GtkWidget *node __attribute__((unused)),
+                           struct Entry **tracked __attribute__((unused)),
+                           struct Entry *entry __attribute__((unused)))
+{
+ enum Result result = ROK;
+#ifdef FEATURE_SERIALIZATION
+ if (gl_opt_json_serialize)
+ {
+  if (*tracked != NULL)
+  {
+   ;
+  }
+  else
+  {
+   if G_UNLIKELY ((*tracked = entry_new_tracked ()) == NULL)
+   {
+    result = RWARN;
+    entry_push_error (entry, result, "to JSON: %s", strerror (ENOMEM));
+   }
+   else
+   {
+    memcpy (*tracked, entry, sizeof (*entry));
+    (*tracked)->error = NULL; /* disown */
+   }
+  }
+  if (*tracked)
+  {
+   if (!(*tracked)->icon[0] && entry->icon[0])
+   {
+    strcpy ((*tracked)->icon, entry->icon);
+   }
+   g_object_set_data (G_OBJECT (node), "entry", *tracked);
+  }
+ }
+#endif
  return result;
 }
 
@@ -339,13 +389,16 @@ enum Result
 leave_item (struct Entry *entry)
 {
  GtkWidget *widget;
- enum Result result = entry_append_leaf_node (entry, NULL, NULL, &widget);
+ struct Entry *tracked = NULL;
+ enum Result result =
+ entry_append_leaf_node (entry, NULL, NULL, &widget, &tracked);
  if (widget != NULL)
  {
-  if (entry_icon_is_to_render (entry) && result < RWARN)
+  if (result < RWARN && entry_icon_is_to_render (entry))
   {
    result = entry_add_icon (entry, widget);
   }
+  (void) node_attach_tracked_entry (widget, &tracked, entry);
  }
  return result;
 }
@@ -426,7 +479,7 @@ All the directory-scanning directives that create submenus call leave_submenu.
 enum Result
 leave_submenu (struct Entry *entry)
 {
- enum Result result = RFAIL;
+ enum Result result = RFATAL;
  GtkWidget *w = NULL, *submenu = NULL;
  const guint depth = entry->menu_depth;
 
@@ -449,30 +502,14 @@ leave_submenu (struct Entry *entry)
   gtk_menu_shell_append (GTK_MENU_SHELL (gl_menu_w[depth]), submenu);
   ++gl_menu_counter;
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (submenu), gl_menu_w[depth + 1] = w);
-#ifdef FEATURE_SERIALIZATION
-  if (gl_opt_json_serialize)
-  {
-   struct Entry *me = entry_new_tracked ();
-   if (me == NULL)
-   {
-    result = RWARN;
-    entry_push_error (entry, result, "entry `%s': cannot serialize",
-                      entry->label);
-   }
-   else
-   {
-    memcpy (me, entry, sizeof (*entry));
-    me->error = NULL; /* disown */
-    g_object_set_data (G_OBJECT (submenu), "entry", me);
-   }
-  }
-#endif
  }
  else
  {
    gtk_widget_destroy (submenu);
+   submenu = NULL;
    goto out;
  }
+ result = RFAIL;
 #ifdef FEATURE_FORMATTING
  if (fmtg_format_widget_label (submenu) != 0)
  {
@@ -518,6 +555,11 @@ leave_submenu (struct Entry *entry)
 #endif
  result = ROK;
 out:
+ if (result <= RFAIL)
+ {
+  struct Entry *tracked = NULL;
+  (void) node_attach_tracked_entry (submenu, &tracked, entry);
+ }
  return result;
 }
 
@@ -689,7 +731,9 @@ a_absolutepath (struct Entry *entry)
  {
   cmd  = cmdx;
  }
- result = entry_append_leaf_node (entry, label, cmd, &widget);
+ entry->icon[0] = '\0';
+ struct Entry *tracked = NULL;
+ result = entry_append_leaf_node (entry, label, cmd, &widget, &tracked);
  if (widget != NULL)
  {
   entry_init (entry, NULL, LINE_ABSOLUTE_PATH, ENTRY_FLAG_ALLOW_CMD,
@@ -697,10 +741,11 @@ a_absolutepath (struct Entry *entry)
   strcpy (entry->label, label);
   strcpy (entry->cmd, _dat);
   entry->icon[0] = '\0';
-  if (entry_icon_is_to_render (entry) && result < RWARN)
+  if (result < RWARN && entry_icon_is_to_render (entry))
   {
    result = entry_add_icon (entry, widget);
   }
+  node_attach_tracked_entry (widget, &tracked, entry);
   entry_init (entry, NULL, LINE_UNDEFINED, 0, 0);
  }
  else
@@ -1180,24 +1225,29 @@ break_this_loop:
     }
 
     GtkWidget *widget;
-    (void) entry_append_leaf_node (entry, name, cmd, &widget);
+    struct Entry *tracked = NULL;
+    (void) entry_append_leaf_node (entry, name, cmd, &widget, &tracked);
+    assert (tracked != NULL);
     if (widget != NULL)
     {
      if (entry_icon_is_to_render (entry))
      {
+      tracked->error = entry->error;
       if (entry->icon[0])
       {
        /* From `icon=` directive immediately after `include=/dirpath`. */
-       result = entry_add_icon (entry, widget);
+       strcpy (tracked->icon, entry->icon);
+       result = entry_add_icon (tracked, widget);
       }
       else
       {
        /* From scanned file's MIME-type. */
-       strcpy (buf, entry->cmd);
-       strcpy (entry->cmd, fullpath);
-       result = entry_add_icon (entry, widget);
-       strcpy (entry->cmd, buf);
+       strcpy (tracked->cmd, fullpath);
+       result = entry_add_icon (tracked, widget);
+       strcpy (tracked->cmd, buf);
       }
+      entry->error = tracked->error;
+      tracked->error = NULL; /* disown */
      }
      else
      {
@@ -1207,6 +1257,7 @@ break_this_loop:
      {
       entry_push_error (entry, result, "%s", fullpath);
      }
+     (void) node_attach_tracked_entry (widget, &tracked, entry);
     }
     else
     {

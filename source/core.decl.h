@@ -21,7 +21,13 @@ enum Result
 entry_append_leaf_node (struct Entry *entry,
                         const gchar *label,
                         const gchar *cmd,
-                        GtkWidget **widgetptr);
+                        GtkWidget **widgetptr,
+                        struct Entry **trackedptr);
+
+enum Result
+node_attach_tracked_entry (GtkWidget *node,
+                           struct Entry **tracked,
+                           struct Entry *entry);
 
 enum Result
 enter_item (struct Entry *entry);
