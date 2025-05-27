@@ -1345,8 +1345,6 @@ main_options (int argc,
   }
   switch (c)
   {
-  case '-':
-   break;
   case 'd':
    opt_delimiter (optarg);
    break;
