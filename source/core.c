@@ -326,7 +326,7 @@ struct pointed to by *@tracked is assumed to already be in the tracking list.
 In either case the module owns the tracked memory so do not free it.
 
 On returning from this function, *@tracked is
-added to the #GObject @node's data table with key "0entry".
+added to the #GObject @node's data table with key "entry".
 
 Return: #Result and set *@tracked to the tracking entry.
 */

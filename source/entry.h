@@ -42,8 +42,8 @@ enum EntryFlags
  ENTRY_FLAG_QEQ          = 1 << 0, /* `directive ?=` */
  ENTRY_FLAG_INCLUDE_DIR  = 1 << 1, /* in `include=dirpath` */
  ENTRY_FLAG_ARRAY        = 1 << 2, /* `directive[index]=` */
- ENTRY_FLAG_ALLOW_CMD    = 1 << 3, /* `cmd=` can follow block directive */
- ENTRY_FLAG_ALLOW_ICOTIP = 1 << 4, /* `icon=`/`tooltip=` can follow... */
+ ENTRY_FLAG_ALLOW_CMD    = 1 << 3, /* `cmd=` may follow block directive */
+ ENTRY_FLAG_ALLOW_ICOTIP = 1 << 4, /* `icon=`/`tooltip=` may follow... */
  ENTRY_FLAG_RESET_ERROR  = 1 << 5, /* reset/preserve .error member value */
 };
 

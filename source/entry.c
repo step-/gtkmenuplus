@@ -150,12 +150,15 @@ entry_is_directive_allowed (struct Entry *entry,
    entry_push_error (entry, RFAIL,
                      "`%s=` is only allowed after `item=` "
                      "or `include=`", entry->directive->keyword);
+   /* `icon=` is allowed after `include=`FILE, where it does nothing, and
+   after `include=`DIR, to bulk set the icon of the scanned files. */
   }
   else
   {
    entry_push_error (entry, RFAIL,
                      "`%s=` is only allowed after `item=`, `submenu=` "
                      "or `include=`", entry->directive->keyword);
+   /* ditto */
   }
  }
  else if (value[0])
