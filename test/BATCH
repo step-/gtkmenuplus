@@ -37,7 +37,7 @@ for jp in "$td/reference/"*.json; do
 		passcnt=$(($passcnt + 1))
 	else
 		printf "\033[7m  %s %s  \033[0m\n" "$jp" "$sp"
-		diff -y --suppress-common-lines "$jp" "$sp"
+		diff -y -W 200 --suppress-common-lines "$jp" "$sp"
 		fail="$fail${nl}FAIL $gp"
 		failcnt=$(($failcnt + 1))
 	fi

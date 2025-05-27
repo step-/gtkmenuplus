@@ -14,6 +14,7 @@
     {
       "label": "Basic submenu",
       "icon": "gtk-ok",
+      "icon_size": 16,
       "icon_rendered": true,
       "count": 3,
       "children": [
@@ -21,6 +22,7 @@
           "label": "Customize Look and Feel",
           "tooltip": "Customizes look and feel of your desktop and applications",
           "icon": "preferences-desktop-theme",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "lxappearance"
         },
@@ -28,6 +30,7 @@
           "label": "Empty category",
           "tooltip": "the category property exists and is empty",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -35,6 +38,7 @@
           "label": "Null category",
           "tooltip": "the category property does not exist",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }

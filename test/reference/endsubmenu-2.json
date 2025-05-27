@@ -18,6 +18,7 @@
       "label": "Leafpad",
       "tooltip": "Simple text editor",
       "icon": "leafpad",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "leafpad   "
     },

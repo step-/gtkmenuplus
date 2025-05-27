@@ -87,6 +87,7 @@
       "label": "Leafpad",
       "tooltip": "Simple text editor",
       "icon": "leafpad",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "leafpad   "
     },
@@ -107,6 +108,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -115,6 +117,7 @@
         {
           "label": "dir--launcher",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -122,6 +125,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -129,6 +133,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }

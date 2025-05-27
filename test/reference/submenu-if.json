@@ -8,6 +8,7 @@
     {
       "label": "PASS if I'm a submenu with 1 item",
       "icon": "gtk-preferences",
+      "icon_size": 16,
       "icon_rendered": true,
       "count": 1,
       "children": [
@@ -32,6 +33,7 @@
     {
       "label": "PASS if I'm a submenu without items",
       "icon": "gtk-preferences",
+      "icon_size": 16,
       "icon_rendered": true,
       "count": 1,
       "children": [

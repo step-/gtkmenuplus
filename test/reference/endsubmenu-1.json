@@ -19,6 +19,7 @@
           "label": "5a",
           "tooltip": "Tooltip",
           "icon": "gtk-about",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -26,6 +27,7 @@
           "label": "Yes symlink",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }
@@ -42,6 +44,7 @@
       "label": "5a",
       "tooltip": "Tooltip",
       "icon": "gtk-about",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -49,6 +52,7 @@
       "label": "Yes symlink",
       "tooltip": "green dot",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },

@@ -1,5 +1,5 @@
 {
-  "count": 34,
+  "count": 31,
   "children": [
     {
       "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify PASS statements.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
@@ -19,6 +19,7 @@
       "label": "PASS if logo icon",
       "tooltip": "icon file path = {pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
       "icon": "{pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -26,6 +27,7 @@
       "label": "PASS if gtk-ok icon",
       "tooltip": "stock icon = gtk-ok",
       "icon": "gtk-ok",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -33,6 +35,7 @@
       "label": "PASS if leafpad icon",
       "tooltip": "named icon = leafpad",
       "icon": "leafpad",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -43,12 +46,16 @@
     {
       "label": "PASS if inode/directory MIME-type icon",
       "tooltip": "`cmd=/` => icon of inode/directory MIME-type",
+      "icon": "file-manager",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "/"
     },
     {
       "label": "PASS if image/* file type icon",
       "tooltip": "`cmd={pwd}/icondirectory=/XPM/gtkmenuplus.xpm` => icon of image/png MIME-type",
+      "icon": "gimp",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "{pwd}/icondirectory=/XPM/gtkmenuplus.xpm"
     },
@@ -67,6 +74,7 @@
       "label": "PASS if logo icon",
       "tooltip": "icon file path = {pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
       "icon": "{pwd}/icondirectory=/XPM/gtkmenuplus.xpm",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -74,6 +82,7 @@
       "label": "PASS if gtk-ok icon",
       "tooltip": "stock icon = gtk-ok",
       "icon": "gtk-ok",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -81,6 +90,7 @@
       "label": "PASS if leafpad icon",
       "tooltip": "named icon = leafpad",
       "icon": "leafpad",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -114,7 +124,7 @@
       "is_separator": true
     },
     {
-      "label": "three invalid icons follow: if verbose option (-v) is set"
+      "label": "three invalid icons follow: if verbose option (-vvv) is set"
     },
     {
       "label": "gtkmenuplus will report the offending `icon=` directives"
@@ -123,32 +133,22 @@
       "label": "PASS if NO icon",
       "tooltip": "`icon=/non-existent-icon.png` => NO icon",
       "icon": "/non-existent-icon.png",
+      "icon_size": 16,
       "cmd": "true"
     },
     {
       "label": "PASS if NO icon",
       "tooltip": "`icon={pwd}/icon_of_item.gtkmenuplus` => NO icon",
       "icon": "{pwd}/icon_of_item.gtkmenuplus",
+      "icon_size": 16,
       "cmd": "true"
     },
     {
       "label": "PASS if NO icon",
       "tooltip": "`icon=InVaLiDiCoN` => NO icon",
       "icon": "InVaLiDiCoN",
+      "icon_size": 16,
       "cmd": "true"
-    },
-    {
-      "label": "PASS if NO icon",
-      "tooltip": "empty `icon=` => NO icon",
-      "icon": "NULL",
-      "cmd": "true"
-    },
-    {
-      "label": "",
-      "is_separator": true
-    },
-    {
-      "label": "section `configure=icons`"
     },
     {
       "label": "",
@@ -156,8 +156,7 @@
     },
     {
       "label": "PASS if NO icon",
-      "tooltip": "deprecated, undocumented `icon=NULL` => NO icon",
-      "icon": "NULL",
+      "tooltip": "empty `icon=` => NO icon",
       "cmd": "true"
     },
     {

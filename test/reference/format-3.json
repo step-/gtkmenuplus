@@ -22,6 +22,7 @@
       "label": "label in ./.desktop.directory",
       "tooltip": "tooltip in ./.desktop.directory",
       "icon": "gtk-ok",
+      "icon_size": 16,
       "icon_rendered": true,
       "count": 2,
       "children": [
@@ -29,6 +30,7 @@
           "label": "label in 1/.desktop.directory",
           "tooltip": "tooltip in 1/.desktop.directory",
           "icon": "leafpad",
+          "icon_size": 16,
           "icon_rendered": true,
           "count": 2,
           "children": [
@@ -36,6 +38,7 @@
               "label": "label in 1/2/.desktop.directory",
               "tooltip": "tooltip in 1/2/.desktop.directory",
               "icon": "gtk-ok",
+              "icon_size": 16,
               "icon_rendered": true,
               "count": 2,
               "children": [
@@ -43,6 +46,7 @@
                   "label": "<span foreground=\"maroon\" weight=\"800\">maroon submenu label in 1/2/3/.desktop.directory</span>",
                   "tooltip": "tooltip in 1/2/3/.desktop.directory",
                   "icon": "leafpad",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "count": 1,
                   "children": [
@@ -50,6 +54,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     }
@@ -59,6 +64,7 @@
                   "label": "Yes symlink",
                   "tooltip": "green dot",
                   "icon": "gtk-yes",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "true"
                 }
@@ -68,6 +74,7 @@
               "label": "Yes symlink",
               "tooltip": "green dot",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -77,6 +84,7 @@
           "label": "Yes symlink",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }
@@ -86,6 +94,7 @@
       "label": "Yes symlink",
       "tooltip": "green dot",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -100,6 +109,7 @@
       "label": "Yes symlink",
       "tooltip": "green dot",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true",
       "count": 2,
@@ -120,6 +130,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     }
@@ -129,6 +140,7 @@
                   "label": "Yes symlink",
                   "tooltip": "green dot",
                   "icon": "gtk-yes",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "true"
                 }
@@ -138,6 +150,7 @@
               "label": "Yes symlink",
               "tooltip": "green dot",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -147,6 +160,7 @@
           "label": "Yes symlink",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }
@@ -192,6 +206,7 @@
       "label": "<span foreground=\"maroon\" weight=\"800\">maroon submenu label in 1/2/3/.desktop.directory</span>",
       "tooltip": "tooltip in 1/2/3/.desktop.directory",
       "icon": "leafpad",
+      "icon_size": 16,
       "icon_rendered": true,
       "count": 2,
       "children": [
@@ -199,6 +214,7 @@
           "label": "label in ./.desktop.directory",
           "tooltip": "tooltip in ./.desktop.directory",
           "icon": "gtk-ok",
+          "icon_size": 16,
           "icon_rendered": true,
           "count": 2,
           "children": [
@@ -206,6 +222,7 @@
               "label": "label in 1/.desktop.directory",
               "tooltip": "tooltip in 1/.desktop.directory",
               "icon": "leafpad",
+              "icon_size": 16,
               "icon_rendered": true,
               "count": 2,
               "children": [
@@ -213,6 +230,7 @@
                   "label": "label in 1/2/.desktop.directory",
                   "tooltip": "tooltip in 1/2/.desktop.directory",
                   "icon": "gtk-ok",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "count": 1,
                   "children": [
@@ -220,6 +238,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     }
@@ -229,6 +248,7 @@
                   "label": "Yes symlink",
                   "tooltip": "green dot",
                   "icon": "gtk-yes",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "true"
                 }
@@ -238,6 +258,7 @@
               "label": "Yes symlink",
               "tooltip": "green dot",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -247,6 +268,7 @@
           "label": "Yes symlink",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }
@@ -278,6 +300,7 @@
       "label": "Yes symlink",
       "tooltip": "green dot",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true",
       "count": 2,
@@ -294,6 +317,7 @@
                   "label": "label in 1/2/.desktop.directory",
                   "tooltip": "tooltip in 1/2/.desktop.directory",
                   "icon": "gtk-ok",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "count": 1,
                   "children": [
@@ -301,6 +325,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     }
@@ -310,6 +335,7 @@
                   "label": "Yes symlink",
                   "tooltip": "green dot",
                   "icon": "gtk-yes",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "true"
                 }
@@ -319,6 +345,7 @@
               "label": "Yes symlink",
               "tooltip": "green dot",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -328,6 +355,7 @@
           "label": "Yes symlink",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }
@@ -355,6 +383,7 @@
           "label": "label in ./.desktop.directory",
           "tooltip": "tooltip in ./.desktop.directory",
           "icon": "gtk-ok",
+          "icon_size": 16,
           "icon_rendered": true,
           "count": 2,
           "children": [
@@ -362,6 +391,7 @@
               "label": "label in 1/.desktop.directory",
               "tooltip": "tooltip in 1/.desktop.directory",
               "icon": "leafpad",
+              "icon_size": 16,
               "icon_rendered": true,
               "count": 2,
               "children": [
@@ -369,6 +399,7 @@
                   "label": "label in 1/2/.desktop.directory",
                   "tooltip": "tooltip in 1/2/.desktop.directory",
                   "icon": "gtk-ok",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "count": 1,
                   "children": [
@@ -376,6 +407,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     }
@@ -385,6 +417,7 @@
                   "label": "Yes symlink",
                   "tooltip": "green dot",
                   "icon": "gtk-yes",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "true"
                 }
@@ -394,6 +427,7 @@
               "label": "Yes symlink",
               "tooltip": "green dot",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -403,6 +437,7 @@
           "label": "Yes symlink",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }

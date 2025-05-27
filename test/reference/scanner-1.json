@@ -58,6 +58,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -66,6 +67,7 @@
         {
           "label": "dir--launcher",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -73,6 +75,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -80,6 +83,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }
@@ -124,6 +128,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -133,6 +138,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }
@@ -187,6 +193,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -196,6 +203,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -206,6 +214,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -270,6 +279,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -278,6 +288,7 @@
         {
           "label": "dir--launcher",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -285,6 +296,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -292,6 +304,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -302,6 +315,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -352,6 +366,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -361,6 +376,7 @@
           "label": ".launcher1",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -368,6 +384,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -382,6 +399,7 @@
           "label": ".launcher1",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -389,6 +407,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }
@@ -449,6 +468,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -457,12 +477,14 @@
         {
           "label": "dir--launcher",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
         {
           "label": "dir--launcher",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -470,6 +492,7 @@
           "label": ".launcher1",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -477,6 +500,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -484,6 +508,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }
@@ -552,6 +577,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -561,6 +587,7 @@
           "label": ".launcher1",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -568,6 +595,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -578,6 +606,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -590,6 +619,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -672,6 +702,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -680,12 +711,14 @@
         {
           "label": "dir--launcher",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
         {
           "label": "dir--launcher",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -693,6 +726,7 @@
           "label": ".launcher1",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -700,6 +734,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -707,6 +742,7 @@
           "label": "launcher2",
           "tooltip": "green dot",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -717,6 +753,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -729,6 +766,7 @@
             {
               "label": "dir--launcher",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }

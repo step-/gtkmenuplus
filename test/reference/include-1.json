@@ -7,6 +7,7 @@
     {
       "label": "e_xit menu",
       "icon": "gtk-quit",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "pkill -n gtkmenuplus"
     },

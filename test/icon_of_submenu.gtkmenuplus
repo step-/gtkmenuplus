@@ -95,18 +95,6 @@ submenu = 9 PASS if NO icon
 
 separator # ----------------------------------------------------
 
-### DEPRECATED THEN UNDOCUMENTED
-
-#--------------
-configure = icons
-#--------------
-
-submenu = 10 PASS if NO icon
-	icon = NULL
-	item =
-
-separator # ----------------------------------------------------
-
 # 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
 # -----
 

@@ -19,6 +19,7 @@
           "label": "Leafpad in ./abspath=",
           "tooltip": "Simple text editor",
           "icon": "leafpad",
+          "icon_size": 16,
           "cmd": "leafpad   "
         }
       ]
@@ -38,6 +39,7 @@
           "label": "Leafpad in ./abspath=",
           "tooltip": "Simple text editor",
           "icon": "leafpad",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "leafpad   "
         }
@@ -50,6 +52,7 @@
     {
       "label": "3 PASS if this submenu shows GTK-OK icon, and for its contained entries...",
       "icon": "gtk-ok",
+      "icon_size": 16,
       "icon_rendered": true,
       "count": 2,
       "children": [
@@ -60,6 +63,7 @@
           "label": "Leafpad in ./abspath=",
           "tooltip": "Simple text editor",
           "icon": "leafpad",
+          "icon_size": 16,
           "cmd": "leafpad   "
         }
       ]
@@ -79,6 +83,7 @@
           "label": "Leafpad in ./abspath=",
           "tooltip": "Simple text editor",
           "icon": "leafpad",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "leafpad   "
         }

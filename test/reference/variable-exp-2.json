@@ -15,6 +15,7 @@
     {
       "label": "1 a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                /",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {
@@ -27,6 +28,7 @@
     {
       "label": "2 b                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         /",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {
@@ -36,11 +38,13 @@
     {
       "label": "3 printf c%1018s/",
       "icon": "gtk-dialog-error",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {
       "label": "<span color=\"red\">3 FAIL</span>",
       "icon": "gtk-dialog-error",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {
@@ -50,6 +54,7 @@
     {
       "label": "4 d                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          /",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {
@@ -59,6 +64,7 @@
     {
       "label": "<span color=\"red\">5 $X</span>",
       "icon": "gtk-dialog-error",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {

@@ -20,8 +20,7 @@ basedir_== dirname '$mTESTFILE'
 uri_ = file://$basedir_/icondirectory=/PNG/sound.png
 item = PASS if this entry shows the icon of an image/* MIME-type app
 tooltip  = $uri_
-# Possibly some Linux distributions can run such a command.
-# Fatdog64 can but running command isn't the point of this test.
+# Some Linux file managers may not be able to run this cmd directly (mine can).
 cmd  = $uri_
 separator # ----------------------------------------------------
 

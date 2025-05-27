@@ -11,21 +11,25 @@
     {
       "label": "1 PASS 'if'",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {
       "label": "2 PASS 'if'",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {
       "label": "4 \"new level\"",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {
       "label": "0 END",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {

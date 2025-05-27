@@ -61,7 +61,7 @@ configure=icons
 submenu = 6 PASS if this submenu shows NO icon, and for its contained entries...
 	item = 6 PASS if NO icons below
 	include = $mDIR/!(*.desktop)
-	icon =
+	icon = NULL
 endsubmenu
 separator # ----------------------------------------------------
 

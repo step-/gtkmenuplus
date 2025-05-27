@@ -19,6 +19,7 @@
       "label": "_Uncategorized",
       "tooltip": "All and ONLY the .desktop files with null or empty {Categories=}",
       "icon": "folder",
+      "icon_size": 16,
       "icon_rendered": true,
       "count": 2,
       "children": [
@@ -26,6 +27,7 @@
           "label": "Empty category",
           "tooltip": "the category property exists and is empty",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -33,6 +35,7 @@
           "label": "Null category",
           "tooltip": "the category property does not exist",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }
@@ -53,6 +56,7 @@
       "label": "_Uncategorized",
       "tooltip": "All and ONLY the .desktop files with null or empty {Categories=}",
       "icon": "folder",
+      "icon_size": 16,
       "icon_rendered": true,
       "count": 2,
       "children": [
@@ -60,6 +64,7 @@
           "label": "Empty category",
           "tooltip": "the category property exists and is empty",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -67,6 +72,7 @@
           "label": "Null category",
           "tooltip": "the category property does not exist",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         }

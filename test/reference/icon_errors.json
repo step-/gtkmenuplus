@@ -1,0 +1,88 @@
+{
+  "count": 19,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify PASS statements.\n# -----\n# 999 expect verbose (-v) output usage stats or sh -x on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "1 PASS if no ICON and stderr message",
+      "icon": "NoNeXisTeNtFiLe.png",
+      "icon_size": 25,
+      "cmd": "true"
+    },
+    {
+      "label": "info: named icon 'NoNeXisTeNtFiLe.png' not found"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "2 PASS if leafpad icon",
+      "icon": "leafpad.png",
+      "icon_size": 25,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "3 PASS if no ICON and stderr message",
+      "icon": "NoNeXisTeNtNaMe",
+      "icon_size": 25,
+      "cmd": "true"
+    },
+    {
+      "label": "info: icon 'NoNeXisTeNtNaMe' not found"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "4 PASS if no ICON and stderr message",
+      "icon": "/bin/ls.png",
+      "icon_size": 25,
+      "cmd": "true"
+    },
+    {
+      "label": "info: icon file error: Failed to open file “/bin/ls.png”: No such file or directory"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "5 PASS if no ICON and stderr message",
+      "icon": "/tmp/test.png/ls",
+      "icon_size": 25,
+      "cmd": "true"
+    },
+    {
+      "label": "info: icon file error: Couldn’t recognize the image file format for file “/tmp/test.png/ls”"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "6 PASS if no ICON and stderr message",
+      "icon": "/tmp/test.png",
+      "icon_size": 25,
+      "cmd": "true"
+    },
+    {
+      "label": "info: icon file error: Couldn’t recognize the image file format for file “/tmp/test.png”"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

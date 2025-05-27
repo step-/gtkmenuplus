@@ -55,6 +55,7 @@
                       "label": "1a",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -62,6 +63,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     }
@@ -100,6 +102,7 @@
                       "label": "1a",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -107,6 +110,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     }
@@ -166,6 +170,7 @@
                       "label": "1a",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -173,6 +178,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -183,6 +189,7 @@
                       "label": "1a",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -190,6 +197,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     }
@@ -224,6 +232,7 @@
                   "label": "1a",
                   "tooltip": "Tooltip",
                   "icon": "gtk-about",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "true"
                 },
@@ -235,6 +244,7 @@
                       "label": "2a",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -242,6 +252,7 @@
                       "label": "2b (different)",
                       "tooltip": "different tooltip",
                       "icon": "/usr/share/pixmaps/midi-icons/go48.png",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     }
@@ -255,6 +266,7 @@
                       "label": "2a",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -262,6 +274,7 @@
                       "label": "Geany",
                       "tooltip": "Geany editor",
                       "icon": "geany",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "geany"
                     }
@@ -275,6 +288,7 @@
                       "label": "2a",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -282,6 +296,7 @@
                       "label": "Leafpad",
                       "tooltip": "Simple text editor",
                       "icon": "leafpad",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "leafpad   "
                     }
@@ -291,6 +306,7 @@
                   "label": "Yes symlink",
                   "tooltip": "green dot",
                   "icon": "gtk-yes",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "true"
                 }
@@ -360,6 +376,7 @@
                       "label": "1a",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -367,6 +384,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -374,6 +392,7 @@
                       "label": "1a",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     },
@@ -381,6 +400,7 @@
                       "label": "Yes symlink",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
+                      "icon_size": 16,
                       "icon_rendered": true,
                       "cmd": "true"
                     }

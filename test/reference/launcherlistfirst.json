@@ -15,6 +15,7 @@
       "label": "Leafpad",
       "tooltip": "Simple text editor",
       "icon": "leafpad",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "leafpad   "
     },
@@ -22,6 +23,7 @@
       "label": "Leafpad",
       "tooltip": "Simple text editor",
       "icon": "leafpad",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "leafpad   "
     },
@@ -36,6 +38,7 @@
       "label": "Leafpad",
       "tooltip": "Simple text editor",
       "icon": "leafpad",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "leafpad   "
     },
@@ -53,6 +56,7 @@
       "label": "2/1a (c1)",
       "tooltip": "category c1",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -60,6 +64,7 @@
       "label": "2/1b no (other)",
       "tooltip": "category other",
       "icon": "gtk-no",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -67,6 +72,7 @@
       "label": "2/1c (c2)",
       "tooltip": "category c2",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -74,6 +80,7 @@
       "label": "2/2d (null category)",
       "tooltip": "this entry's {Categories=} property does not exist",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -85,6 +92,7 @@
           "label": "3/1a (c1)",
           "tooltip": "category c1",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -92,6 +100,7 @@
           "label": "3/1b no (other)",
           "tooltip": "category other",
           "icon": "gtk-no",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -99,6 +108,7 @@
           "label": "3/1c (c2)",
           "tooltip": "category c2",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -106,6 +116,7 @@
           "label": "3/4d (null category)",
           "tooltip": "this entry's {Categories=} property does not exist",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -117,6 +128,7 @@
               "label": "4/1a (c1)",
               "tooltip": "category c1",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             },
@@ -124,6 +136,7 @@
               "label": "4/1b no (other)",
               "tooltip": "category other",
               "icon": "gtk-no",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             },
@@ -131,6 +144,7 @@
               "label": "4/1c (c2)",
               "tooltip": "category c2",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             },
@@ -138,6 +152,7 @@
               "label": "4/3d (empty category)",
               "tooltip": "this entry's {Categories=} exists and is empty",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -149,6 +164,7 @@
       "label": "2/1a (c1)",
       "tooltip": "category c1",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -156,6 +172,7 @@
       "label": "2/1b no (other)",
       "tooltip": "category other",
       "icon": "gtk-no",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -163,6 +180,7 @@
       "label": "2/1c (c2)",
       "tooltip": "category c2",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -170,6 +188,7 @@
       "label": "2/2d (null category)",
       "tooltip": "this entry's {Categories=} property does not exist",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -181,6 +200,7 @@
           "label": "3/1a (c1)",
           "tooltip": "category c1",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -188,6 +208,7 @@
           "label": "3/1b no (other)",
           "tooltip": "category other",
           "icon": "gtk-no",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -195,6 +216,7 @@
           "label": "3/1c (c2)",
           "tooltip": "category c2",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -202,6 +224,7 @@
           "label": "3/4d (null category)",
           "tooltip": "this entry's {Categories=} property does not exist",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -213,6 +236,7 @@
               "label": "4/1a (c1)",
               "tooltip": "category c1",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             },
@@ -220,6 +244,7 @@
               "label": "4/1b no (other)",
               "tooltip": "category other",
               "icon": "gtk-no",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             },
@@ -227,6 +252,7 @@
               "label": "4/1c (c2)",
               "tooltip": "category c2",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             },
@@ -234,6 +260,7 @@
               "label": "4/3d (empty category)",
               "tooltip": "this entry's {Categories=} exists and is empty",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }
@@ -255,6 +282,7 @@
       "label": "2/1a (c1)",
       "tooltip": "category c1",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -262,6 +290,7 @@
       "label": "2/1b no (other)",
       "tooltip": "category other",
       "icon": "gtk-no",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -269,6 +298,7 @@
       "label": "2/1c (c2)",
       "tooltip": "category c2",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -276,6 +306,7 @@
       "label": "2/2d (null category)",
       "tooltip": "this entry's {Categories=} property does not exist",
       "icon": "gtk-yes",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "true"
     },
@@ -287,6 +318,7 @@
           "label": "3/1a (c1)",
           "tooltip": "category c1",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -294,6 +326,7 @@
           "label": "3/1b no (other)",
           "tooltip": "category other",
           "icon": "gtk-no",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -301,6 +334,7 @@
           "label": "3/1c (c2)",
           "tooltip": "category c2",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -308,6 +342,7 @@
           "label": "3/4d (null category)",
           "tooltip": "this entry's {Categories=} property does not exist",
           "icon": "gtk-yes",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
@@ -319,6 +354,7 @@
               "label": "4/1a (c1)",
               "tooltip": "category c1",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             },
@@ -326,6 +362,7 @@
               "label": "4/1b no (other)",
               "tooltip": "category other",
               "icon": "gtk-no",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             },
@@ -333,6 +370,7 @@
               "label": "4/1c (c2)",
               "tooltip": "category c2",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             },
@@ -340,6 +378,7 @@
               "label": "4/3d (empty category)",
               "tooltip": "this entry's {Categories=} exists and is empty",
               "icon": "gtk-yes",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "true"
             }

@@ -118,7 +118,7 @@ separator # ----------------------------------------------------
 
 #--------------
 configure = icons
-item = three invalid icons follow: if verbose option (-v) is set
+item = three invalid icons follow: if verbose option (-vvv) is set
 item = gtkmenuplus will report the offending `icon=` directives
 #--------------
 
@@ -137,6 +137,8 @@ icon = InVaLiDiCoN
 tooltip = `icon=InVaLiDiCoN` => NO icon
 cmd = true
 
+separator # ----------------------------------------------------
+
 ### empty icon
 
 #--------------
@@ -146,21 +148,6 @@ configure = icons
 item = PASS if NO icon
 icon =
 tooltip = empty `icon=` => NO icon
-cmd = true
-
-separator # ----------------------------------------------------
-
-### DEPRECATED THEN UNDOCUMENTED
-
-#--------------
-configure = icons
-item = section `configure=icons`
-separator # ----------------------------------------------------
-#--------------
-
-item = PASS if NO icon
-icon = NULL
-tooltip = deprecated, undocumented `icon=NULL` => NO icon
 cmd = true
 
 separator # ----------------------------------------------------

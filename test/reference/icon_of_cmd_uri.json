@@ -11,6 +11,8 @@
     {
       "label": "PASS if this entry shows the icon of an image/* MIME-type app",
       "tooltip": "file://{pwd}/icondirectory=/PNG/sound.png",
+      "icon": "/root/.config/rox.sourceforge.net/SendTo-resources/feh/feh.png",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "file://{pwd}/icondirectory=/PNG/sound.png"
     },

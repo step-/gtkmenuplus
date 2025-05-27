@@ -7,6 +7,7 @@
     {
       "label": "e_xit menu",
       "icon": "gtk-quit",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "pkill -n gtkmenuplus"
     },
@@ -46,18 +47,21 @@
         {
           "label": "d2.h",
           "icon": "gtk-ok",
+          "icon_size": 16,
           "icon_rendered": true,
           "count": 3,
           "children": [
             {
               "label": "d2.c",
               "icon": "gtk-ok",
+              "icon_size": 16,
               "icon_rendered": true,
               "count": 1,
               "children": [
                 {
                   "label": "f.x",
                   "icon": "gtk-ok",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "\"{pwd}/include=/d2.h/d2.c/f.x\""
                 }
@@ -66,12 +70,14 @@
             {
               "label": "d2.h",
               "icon": "gtk-ok",
+              "icon_size": 16,
               "icon_rendered": true,
               "count": 1,
               "children": [
                 {
                   "label": "f.x",
                   "icon": "gtk-ok",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "\"{pwd}/include=/d2.h/d2.h/f.x\""
                 }
@@ -80,12 +86,14 @@
             {
               "label": "d2.x",
               "icon": "gtk-ok",
+              "icon_size": 16,
               "icon_rendered": true,
               "count": 1,
               "children": [
                 {
                   "label": "f.x",
                   "icon": "gtk-ok",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "\"{pwd}/include=/d2.h/d2.x/f.x\""
                 }
@@ -96,6 +104,7 @@
         {
           "label": "f0.x",
           "icon": "gtk-ok",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "\"{pwd}/include=/f0.x\""
         }
@@ -186,6 +195,7 @@
           "label": "d1",
           "tooltip": "leafpad",
           "icon": "leafpad",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "leafpad",
           "count": 5,
@@ -194,6 +204,7 @@
               "label": "d2.c",
               "tooltip": "leafpad",
               "icon": "leafpad",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "leafpad",
               "count": 1,
@@ -202,6 +213,7 @@
                   "label": "f.c",
                   "tooltip": "leafpad",
                   "icon": "leafpad",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "leafpad \"{pwd}/include=/d1/d2.c/f.c\""
                 }
@@ -211,6 +223,7 @@
               "label": "d2.h",
               "tooltip": "leafpad",
               "icon": "leafpad",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "leafpad",
               "count": 1,
@@ -219,6 +232,7 @@
                   "label": "f.c",
                   "tooltip": "leafpad",
                   "icon": "leafpad",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "leafpad \"{pwd}/include=/d1/d2.h/f.c\""
                 }
@@ -228,6 +242,7 @@
               "label": "d2.x",
               "tooltip": "leafpad",
               "icon": "leafpad",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "leafpad",
               "count": 1,
@@ -236,6 +251,7 @@
                   "label": "f.c",
                   "tooltip": "leafpad",
                   "icon": "leafpad",
+                  "icon_size": 16,
                   "icon_rendered": true,
                   "cmd": "leafpad \"{pwd}/include=/d1/d2.x/f.c\""
                 }
@@ -245,6 +261,7 @@
               "label": "f2.c",
               "tooltip": "leafpad",
               "icon": "leafpad",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "leafpad \"{pwd}/include=/d1/f2.c\""
             },
@@ -252,6 +269,7 @@
               "label": "f3.c",
               "tooltip": "leafpad",
               "icon": "leafpad",
+              "icon_size": 16,
               "icon_rendered": true,
               "cmd": "leafpad \"{pwd}/include=/d1/f3.c\""
             }
@@ -261,6 +279,7 @@
           "label": "f0.c",
           "tooltip": "leafpad",
           "icon": "leafpad",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "leafpad \"{pwd}/include=/f0.c\""
         },
@@ -268,6 +287,7 @@
           "label": "f1.c",
           "tooltip": "leafpad",
           "icon": "leafpad",
+          "icon_size": 16,
           "icon_rendered": true,
           "cmd": "leafpad \"{pwd}/include=/f1.c\""
         }

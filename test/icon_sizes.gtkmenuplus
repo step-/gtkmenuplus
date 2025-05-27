@@ -5,7 +5,7 @@ a0 = $0
 mTESTFILE == realpath '$a0' # required
 configure = errorconsoleonly
 # GTKMENUPLUS_OPTIONS=-v
-# SKIP_JSON because test verification involves visual comparisons.
+# Note: test verification involves visual comparisons.
 #-------------------------------------------
 
 #% Test various icon sizes.

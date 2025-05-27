@@ -12,6 +12,7 @@
       "label": "_restart",
       "tooltip": "repeat this menu again",
       "icon": "gtk-refresh",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": " \"{gtkmenuplus}\" \"-j\" \"-f\" \"{pwd}/if-6.gtkmenuplus\""
     },
@@ -23,6 +24,7 @@
       "label": "testing label",
       "tooltip": "testing tooltip",
       "icon": "gtk-ok",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": " \"{gtkmenuplus}\" \"-j\" \"-f\" \"{pwd}/if-6.gtkmenuplus\""
     },

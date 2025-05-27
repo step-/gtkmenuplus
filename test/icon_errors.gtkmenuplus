@@ -5,7 +5,7 @@ configure = endsubmenu noicons
 a0 = $0
 mTESTFILE == realpath '$a0' # required
 # GTKMENUPLUS_OPTIONS=-vvv
-# SKIP_JSON because test verification involves stderr.
+# Note: test verification involves stderr.
 #-------------------------------------------
 
 #% Test error messages about `icon=` cases

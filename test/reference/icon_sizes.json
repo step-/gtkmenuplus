@@ -1,0 +1,174 @@
+{
+  "count": 26,
+  "children": [
+    {
+      "label": "<span font-desc=\"Monospace\"># 0 instructions: Verify icon size of stock/named/pathed icons.\n# -----\n# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.\n# -----</span>"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "16",
+      "icon": "gtk-quit",
+      "icon_size": 16,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "22",
+      "icon": "gtk-quit",
+      "icon_size": 22,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "24",
+      "icon": "gtk-quit",
+      "icon_size": 24,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "32",
+      "icon": "gtk-quit",
+      "icon_size": 32,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "48",
+      "icon": "gtk-quit",
+      "icon_size": 48,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "64",
+      "icon": "gtk-quit",
+      "icon_size": 64,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "96",
+      "icon": "gtk-quit",
+      "icon_size": 96,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "128",
+      "icon": "gtk-quit",
+      "icon_size": 128,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "96",
+      "icon": "gtk-quit",
+      "icon_size": 96,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "96",
+      "icon": "leafpad",
+      "icon_size": 96,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    },
+    {
+      "label": "16 stock",
+      "icon": "gtk-quit",
+      "icon_size": 16,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "16 named",
+      "icon": "leafpad",
+      "icon_size": 16,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "16 path",
+      "icon": "icondirectory=/PNG/sound.png",
+      "icon_size": 16,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "32 stock",
+      "icon": "gtk-quit",
+      "icon_size": 32,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "32 named",
+      "icon": "leafpad",
+      "icon_size": 32,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "32 path",
+      "icon": "icondirectory=/PNG/sound.png",
+      "icon_size": 32,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "64 stock",
+      "icon": "gtk-quit",
+      "icon_size": 64,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "64 named",
+      "icon": "leafpad",
+      "icon_size": 64,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "64 path",
+      "icon": "icondirectory=/PNG/sound.png",
+      "icon_size": 64,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "96 stock",
+      "icon": "gtk-quit",
+      "icon_size": 96,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "96 named",
+      "icon": "leafpad",
+      "icon_size": 96,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "96 path",
+      "icon": "icondirectory=/PNG/sound.png",
+      "icon_size": 96,
+      "icon_rendered": true,
+      "cmd": "true"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}

@@ -14,6 +14,8 @@
     {
       "label": "abspath=/readme.md",
       "tooltip": "{pwd}/abspath=/readme.md",
+      "icon": "mdview",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "{pwd}/abspath=/readme.md"
     },

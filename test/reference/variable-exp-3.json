@@ -11,6 +11,7 @@
     {
       "label": "1 $L tail text too long",
       "icon": "gtk-dialog-error",
+      "icon_size": 16,
       "icon_rendered": true
     },
     {

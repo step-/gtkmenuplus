@@ -7,6 +7,7 @@
     {
       "label": "e_xit menu",
       "icon": "gtk-quit",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "pkill -n gtkmenuplus"
     },
@@ -27,6 +28,8 @@
     {
       "label": "/",
       "tooltip": "/",
+      "icon": "file-manager",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "/"
     },
@@ -40,6 +43,8 @@
     {
       "label": "~/",
       "tooltip": "~/",
+      "icon": "file-manager",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "/root/"
     },
@@ -49,6 +54,8 @@
     {
       "label": "./",
       "tooltip": "./",
+      "icon": "file-manager",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "{pwd}/"
     },
@@ -62,6 +69,8 @@
     {
       "label": "./README.md",
       "tooltip": "./README.md",
+      "icon": "mdview",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "{pwd}/README.md"
     },
@@ -71,6 +80,8 @@
     {
       "label": "test/README.md",
       "tooltip": "{pwd}/README.md",
+      "icon": "mdview",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "{pwd}/README.md"
     },
@@ -84,6 +95,8 @@
     {
       "label": "abspath=/readme.md",
       "tooltip": "{pwd}/abspath=/readme.md",
+      "icon": "mdview",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "{pwd}/abspath=/readme.md"
     },
@@ -98,6 +111,7 @@
       "label": "Leafpad",
       "tooltip": "Simple text editor",
       "icon": "leafpad",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "leafpad   "
     },
@@ -108,6 +122,7 @@
       "label": "Leafpad in ./abspath=",
       "tooltip": "Simple text editor",
       "icon": "leafpad",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "leafpad   "
     },
@@ -134,6 +149,8 @@
     {
       "label": "file:///usr/share/icons",
       "tooltip": "file:///usr/share/icons",
+      "icon": "file-manager",
+      "icon_size": 16,
       "icon_rendered": true,
       "cmd": "file:///usr/share/icons"
     },
