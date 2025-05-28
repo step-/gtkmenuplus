@@ -230,13 +230,14 @@ print_menu_as_json (GtkMenu *menu,
    gboolean is_separator = GTK_IS_SEPARATOR_MENU_ITEM (w);
 
    const gchar *label = gtk_menu_item_get_label (GTK_MENU_ITEM (w));
+   assert (label);
    gchar *tooltip = gtk_widget_get_tooltip_text (w);
    const struct Entry *eptr =
    (struct Entry *) g_object_get_data (G_OBJECT (w), "entry");
 
    printf ("\n%*s{", off + IW, "");
    printf ("\n%*s\"label\": %s", off + 2 * IW, "",
-           (label ? json = utf8_to_json (label) : "\"\""));
+           (label[0] ? json = utf8_to_json (label) : "\"\""));
    g_clear_pointer (&json, free);
    if (label[0] == 0)
    {
