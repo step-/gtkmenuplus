@@ -251,7 +251,7 @@ print_menu_as_json (GtkMenu *menu,
     json = utf8_to_json (tooltip);
     g_free (tooltip);
     printf (",\n%*s\"tooltip\": %s", off + 2 * IW, "", json);
-    free (json);
+    g_clear_pointer (&json, free);
    }
    if (eptr && eptr->icon[0] && eptr->icon[0] != ENTRY_DISALLOW_DIRECTIVE)
    {
@@ -263,7 +263,7 @@ print_menu_as_json (GtkMenu *menu,
     {
      json = utf8_to_json (eptr->icon);
      printf (",\n%*s\"icon\": %s", off + 2 * IW, "", json);
-     free (json);
+     g_clear_pointer (&json, free);
      printf (",\n%*s\"icon_size\": %u", off + 2 * IW, "", eptr->icon_size);
     }
    }
@@ -280,7 +280,7 @@ print_menu_as_json (GtkMenu *menu,
    {
     json = utf8_to_json (eptr->cmd);
     printf (",\n%*s\"cmd\": %s", off + 2 * IW, "", json);
-    free (json);
+    g_clear_pointer (&json, free);
    }
    if (submenu && GTK_IS_MENU (submenu))
    {
