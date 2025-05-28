@@ -717,9 +717,6 @@ a_absolutepath (struct Entry *entry)
  }
 #endif
  result = ROK;
-#ifdef FEATURE_TOOLTIP
- strcpy (entry->tooltip, _dat);
-#endif
  scheme = g_uri_peek_scheme (_dat);
  label = scheme ? _dat : path_rcomponents (_dat, conf_get_abspathparts ());
  cmd = _dat;
@@ -735,13 +732,16 @@ a_absolutepath (struct Entry *entry)
  {
   cmd  = cmdx;
  }
+ entry_init (entry, NULL, LINE_ABSOLUTE_PATH, ENTRY_FLAG_ALLOW_CMD,
+             gl_menu_depth);
+#ifdef FEATURE_TOOLTIP
+  strcpy (entry->tooltip, _dat);
+#endif
  entry->icon[0] = '\0';
  struct Entry *tracked = NULL;
  result = entry_append_leaf_node (entry, label, cmd, &widget, &tracked);
  if (widget != NULL)
  {
-  entry_init (entry, NULL, LINE_ABSOLUTE_PATH, ENTRY_FLAG_ALLOW_CMD,
-              gl_menu_depth);
   strcpy (entry->label, label);
   strcpy (entry->cmd, _dat);
   entry->icon[0] = '\0';
@@ -750,7 +750,6 @@ a_absolutepath (struct Entry *entry)
    result = entry_add_icon (entry, widget);
   }
   node_attach_tracked_entry (widget, &tracked, entry);
-  entry_init (entry, NULL, LINE_UNDEFINED, 0, 0);
  }
  else
  {

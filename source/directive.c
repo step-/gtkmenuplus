@@ -100,7 +100,7 @@ static const struct Directive gl_directives[] =
 #ifdef FEATURE_VARIABLE
  {SL("varname ="),            F, T, LINE_SET_VARNAME, T, a_variable},
 #endif
- {SL("[.~]/path"),            F, T, LINE_ABSOLUTE_PATH, T, a_absolutepath},
+ {SL("[.~]/path"),            T, T, LINE_ABSOLUTE_PATH, T, a_absolutepath},
 
        /* error message sentinel LINE_BAD
        column 1 is used for error messages */
