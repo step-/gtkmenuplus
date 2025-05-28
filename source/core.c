@@ -268,6 +268,10 @@ entry_append_leaf_node (struct Entry *entry,
     else
     {
      memcpy (me, entry, sizeof (*entry));
+     if (lbl != NULL)
+     {
+      strcpy (me->label, lbl);
+     }
      me->error = NULL; /* disown */
     }
    }
