@@ -1,0 +1,55 @@
+#!/usr/bin/env gtkmenuplus
+
+#-------------------------------------------
+configure = NOendsubmenu
+a0 = $0
+mTESTFILE == realpath '$a0' # required
+mDIR  = abspath=
+mDIR2 = launchersubmenu=/basic
+#-------------------------------------------
+
+#% Test submenu indentation rule with various directives.
+
+submenu = 10 PASS if this submenu holds 6 active entries + submenus 20 and "Basic"
+    launcher=$mDIR/leafpad.desktop
+
+    separator
+    =link_targets/yes.desktop
+    =https://www.example.com
+    =$mDIR/pbm.pbm
+    =$mDIR/readme.md
+    =$mDIR/text_file.txt
+
+    separator
+    submenu = 20 PASS if this submenu holds 4 active entries
+        include = $mDIR
+    separator
+
+    # Now use `launchersubmenu`, which requires configure=endsubmenu.
+    configure = endsubmenu
+    # In turn configure=endsubmenu disables space-based submenus.
+    # Therefore, the indentation of submenu 30 doesn't matter anymore.
+    # However, realize that submenu 30 is placed below 20, because
+    # configure=endsubmenu did not change the current submenu level.
+item = 30 PASS if "Basic" submenu is a sibling to 20 and includes 4 entries
+launchersubmenu  = $mDIR2/Basic.directory  # submenu label, icon and tooltip
+launcher         = $mDIR2                  # examine launchers in this directory
+endsubmenu
+
+    # The current menu nesting level is frozen at
+    # where the last space-based submenu left it.
+    item = 31 PASS if this entry is a sibling to 20
+
+    # To return the menu level back from where we started, we need to
+    # enable again the submenu indentation rule (configure=NOendsubmenu)
+    # then de-indent to the desired level (item 40).
+    configure = NOendsubmenu
+item = 40 PASS if this entry is a sibling to 10
+
+separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
+
+# keep this line at the end of the file
+include = lib/common.gtkmenuplus

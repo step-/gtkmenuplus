@@ -7,12 +7,19 @@ mTESTFILE == realpath '$a0' # required
 # SKIP_JSON because test verification involves stderr.
 #-------------------------------------------
 
-#% (stderr, no GUI) Test invalid indentation error
+#% (stderr, no GUI) Test submenu indentation rule error
 
+error = 10 PASS if the next error is "[3] error: `submenu=`: wrong indentation"
+
+# Trigger the error. This test uses `submenu=` as the trigger but all directives
+# for which gl_directives.enable_indent_rule == TRUE also trigger it.
 item = $mTESTFILE
-separator # PASS if the level[3] error above concerns incorrect indentation
+separator
     submenu = this directive is wrongly indented
 separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
 
 # keep this line at the end of the file
 include = lib/common.gtkmenuplus

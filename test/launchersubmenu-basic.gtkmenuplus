@@ -20,7 +20,7 @@ configure        = endsubmenu
 item = PASS Basic submenu if it includes 3 items: Customize..., Empty category, Null category.
 launchersubmenu  = $mDIR/Basic.directory  # submenu label, icon and tooltip
 launcherdirfile  = $mDIR/Basic.directory  # show items matching Categories
-launcher         = $mDIR                    # examine launchers in this directory
+launcher         = $mDIR                  # examine launchers in this directory
 endsubmenu
 separator # ----------------------------------------------------
 

@@ -6,7 +6,7 @@ a0 = $0
 mTESTFILE == realpath '$a0' # required
 #-------------------------------------------
 
-#% Test indentation sets submenu boundaries
+#% Test submenu indentation rule menu boundaries
 
 format=font-family="mono"
 
@@ -39,6 +39,9 @@ item = 30 PASS if you see item 30
 item = 30
 cmd = true
 separator # ----------------------------------------------------
+
+# 999 expect no more output (except usage stats or sh -x) on stdout and stderr.
+# -----
 
 # keep this line at the end of the file
 include = lib/common.gtkmenuplus

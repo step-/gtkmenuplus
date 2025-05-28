@@ -1,0 +1,156 @@
+{
+  "count": 3,
+  "children": [
+    {
+      "label": "10 PASS if this submenu holds 6 active entries + submenus 20 and \"Basic\"",
+      "count": 13,
+      "children": [
+        {
+          "label": "Leafpad in ./abspath=",
+          "tooltip": "Simple text editor",
+          "icon": "leafpad",
+          "icon_size": 16,
+          "icon_rendered": true,
+          "cmd": "leafpad   "
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "Yes symlink",
+          "tooltip": "green dot",
+          "icon": "gtk-yes",
+          "icon_size": 16,
+          "icon_rendered": true,
+          "cmd": "true"
+        },
+        {
+          "label": "https://www.example.com",
+          "tooltip": "https://www.example.com",
+          "cmd": "https://www.example.com"
+        },
+        {
+          "label": "abspath=/pbm.pbm",
+          "tooltip": "abspath=/pbm.pbm",
+          "icon": "/root/.config/rox.sourceforge.net/SendTo-resources/feh/feh.png",
+          "icon_size": 16,
+          "icon_rendered": true,
+          "cmd": "abspath=/pbm.pbm"
+        },
+        {
+          "label": "abspath=/readme.md",
+          "tooltip": "abspath=/readme.md",
+          "icon": "mdview",
+          "icon_size": 16,
+          "icon_rendered": true,
+          "cmd": "abspath=/readme.md"
+        },
+        {
+          "label": "abspath=/text_file.txt",
+          "tooltip": "abspath=/text_file.txt",
+          "icon": "vim",
+          "icon_size": 16,
+          "icon_rendered": true,
+          "cmd": "abspath=/text_file.txt"
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "20 PASS if this submenu holds 4 active entries",
+          "count": 4,
+          "children": [
+            {
+              "label": "leafpad.desktop",
+              "icon": "vim",
+              "icon_size": 16,
+              "icon_rendered": true,
+              "cmd": "\"{pwd}/abspath=/leafpad.desktop\""
+            },
+            {
+              "label": "pbm.pbm",
+              "icon": "/root/.config/rox.sourceforge.net/SendTo-resources/feh/feh.png",
+              "icon_size": 16,
+              "icon_rendered": true,
+              "cmd": "\"{pwd}/abspath=/pbm.pbm\""
+            },
+            {
+              "label": "readme.md",
+              "icon": "mdview",
+              "icon_size": 16,
+              "icon_rendered": true,
+              "cmd": "\"{pwd}/abspath=/readme.md\""
+            },
+            {
+              "label": "text_file.txt",
+              "icon": "vim",
+              "icon_size": 16,
+              "icon_rendered": true,
+              "cmd": "\"{pwd}/abspath=/text_file.txt\""
+            }
+          ]
+        },
+        {
+          "label": "",
+          "is_separator": true
+        },
+        {
+          "label": "30 PASS if \"Basic\" submenu is a sibling to 20 and includes 4 entries"
+        },
+        {
+          "label": "Basic submenu",
+          "icon": "gtk-ok",
+          "icon_size": 16,
+          "icon_rendered": true,
+          "count": 4,
+          "children": [
+            {
+              "label": "Avidemux",
+              "tooltip": "Multiplatform video editor",
+              "icon": "org.avidemux.Avidemux",
+              "icon_size": 16,
+              "icon_rendered": true,
+              "cmd": "avidemux3_qt5   "
+            },
+            {
+              "label": "Customize Look and Feel",
+              "tooltip": "Customizes look and feel of your desktop and applications",
+              "icon": "preferences-desktop-theme",
+              "icon_size": 16,
+              "icon_rendered": true,
+              "cmd": "lxappearance"
+            },
+            {
+              "label": "Empty category",
+              "tooltip": "the category property exists and is empty",
+              "icon": "gtk-yes",
+              "icon_size": 16,
+              "icon_rendered": true,
+              "cmd": "true"
+            },
+            {
+              "label": "Null category",
+              "tooltip": "the category property does not exist",
+              "icon": "gtk-yes",
+              "icon_size": 16,
+              "icon_rendered": true,
+              "cmd": "true"
+            }
+          ]
+        },
+        {
+          "label": "31 PASS if this entry is a sibling to 20"
+        }
+      ]
+    },
+    {
+      "label": "40 PASS if this entry is a sibling to 10"
+    },
+    {
+      "label": "",
+      "is_separator": true
+    }
+  ]
+}
