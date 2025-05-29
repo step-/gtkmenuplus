@@ -690,8 +690,8 @@ Automatic icons remain disabled until another
 
   * To hide [Launcher] icons refer to § [Hiding launcher icons].
 
-  * To hide [Include] icons refer to § [Directory
-    Include default icon, tooltip and command].
+  * To hide [Directory Include] icons refer to
+    § [Directory Include default icon, tooltip and command].
 
 ### Format
 
@@ -1887,7 +1887,7 @@ pathnames of [Icon] directives are rebased to the `icon_directory_path`.
     endif
 ```
 
-The If group of directives allows conditionally adding sections of the menu.
+The If directive group allows adding entries subject to some condition.
 
   * Elseif and Endif can also be written as Elif and Fi respectively.
 
@@ -1904,7 +1904,7 @@ Initially the `expression` argument can be one of the following:
   * A variable reference, e.g., `$sunny`.
 
   * A non-empty string, e.g., `echo true`; the string may
-  * include [Variables] and [Parameters], e.g., `[ -z "$1" ]`.
+    include [Variables] and [Parameters], e.g., `[ -z "$1" ]`.
 
   * The empty string, e.g., `""` or simply nothing after `=`.
 
@@ -2125,7 +2125,7 @@ the [Configure]`=nolaunchernullcategory` option is enabled. Note that this
 
 ##### sm1
 
-Menu depth is limited to 5 levels. This is a compile-time limit (`MAX_MENU_DEPTH`).
+Menu depth is capped at 5. This is a compile-time limit (`MAX_MENU_DEPTH`).
 When the depth limit is reached:
 
   * The [Submenu] directive displays a fatal error
