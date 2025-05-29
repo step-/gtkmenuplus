@@ -229,11 +229,30 @@ print_menu_as_json (GtkMenu *menu,
    GtkWidget *submenu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (w));
    gboolean is_separator = GTK_IS_SEPARATOR_MENU_ITEM (w);
 
-   const gchar *label = gtk_menu_item_get_label (GTK_MENU_ITEM (w));
+   const struct Entry *eptr;
+   const gchar *label = NULL;
+   const gchar *tooltip = NULL;
+   gchar *atooltip = NULL;
+
+   eptr = (struct Entry *) g_object_get_data (G_OBJECT (w), "entry");
+   if (eptr != NULL)
+   {
+    label = eptr->label;
+#if FEATURE_TOOLTIP
+    tooltip = eptr->tooltip;
+#endif
+   }
+   if (label == NULL)
+   {
+    label = gtk_menu_item_get_label (GTK_MENU_ITEM (w));
+   }
    assert (label);
-   gchar *tooltip = gtk_widget_get_tooltip_text (w);
-   const struct Entry *eptr =
-   (struct Entry *) g_object_get_data (G_OBJECT (w), "entry");
+#if FEATURE_TOOLTIP
+   if (tooltip == NULL)
+   {
+    tooltip = atooltip = gtk_widget_get_tooltip_text (w);
+   }
+#endif
 
    printf ("\n%*s{", off + IW, "");
    printf ("\n%*s\"label\": %s", off + 2 * IW, "",
@@ -246,13 +265,15 @@ print_menu_as_json (GtkMenu *menu,
      printf (",\n%*s\"is_separator\": true", off + 2 * IW, "");
     }
    }
-   if (tooltip && tooltip[0] != ENTRY_DISALLOW_DIRECTIVE)
+#if FEATURE_TOOLTIP
+   if (tooltip && *tooltip && *tooltip != ENTRY_DISALLOW_DIRECTIVE)
    {
     json = utf8_to_json (tooltip);
-    g_free (tooltip);
     printf (",\n%*s\"tooltip\": %s", off + 2 * IW, "", json);
     g_clear_pointer (&json, free);
    }
+   g_free (atooltip);
+#endif
    if (eptr && eptr->icon[0] && eptr->icon[0] != ENTRY_DISALLOW_DIRECTIVE)
    {
     if (eptr->icon[0] == ENTRY_NULL_ICON)
