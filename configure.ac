@@ -1,6 +1,6 @@
 
 # Project name, version number, bug report address, tar name, url.
-AC_INIT([gtkmenuplus], [2.0.0], [https://github.com/step-/gtkmenuplus/issues], [gtkmenuplus], [https://github.com/step-/gtkmenuplus])
+AC_INIT([gtkmenuplus], [2.1.0], [https://github.com/step-/gtkmenuplus/issues], [gtkmenuplus], [https://github.com/step-/gtkmenuplus])
 
 AC_CONFIG_HEADERS([autoconfig.h])
 
