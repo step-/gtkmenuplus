@@ -1,5 +1,5 @@
 .\" -*- mode: troff; coding: utf-8 -*-
-.TH "Gtkmenuplus Scripting Guide" "5" "2025-05-06"
+.TH "Gtkmenuplus Scripting Guide" "5" "2025-05-29"
 .SS
 NAME
 .LP
@@ -764,8 +764,8 @@ Automatic icons remain disabled until another
 .IP "\(bu" 3
 To hide [Launcher] icons refer to § [Hiding launcher icons].
 .IP "\(bu" 3
-To hide [Include] icons refer to § [Directory
-Include default icon, tooltip and command].
+To hide [Directory Include] icons refer to
+§ [Directory Include default icon, tooltip and command].
 .SS
 Format
 .LP
@@ -2185,7 +2185,7 @@ If
     endif
 .EE
 .LP
-The If group of directives allows conditionally adding sections of the menu.
+The If directive group allows adding entries subject to some condition.
 .IP "\(bu" 3
 Elseif and Endif can also be written as Elif and Fi respectively.
 .IP "\(bu" 3
@@ -2202,7 +2202,6 @@ A positional parameter reference, e.g., \f(CR$1\fR.
 A variable reference, e.g., \f(CR$sunny\fR.
 .IP "\(bu" 3
 A non-empty string, e.g., \f(CRecho true\fR; the string may
-.IP "\(bu" 3
 include [Variables] and [Parameters], e.g., \f(CR[ -z \(dq$1\(dq ]\fR.
 .IP "\(bu" 3
 The empty string, e.g., \f(CR\(dq\(dq\fR or simply nothing after \f(CR=\fR.
@@ -2471,7 +2470,7 @@ the [Configure]\f(CR=nolaunchernullcategory\fR option is enabled. Note that this
 .SS
 sm1
 .LP
-Menu depth is limited to 5 levels. This is a compile-time limit (\f(CRMAX_MENU_DEPTH\fR).
+Menu depth is capped at 5. This is a compile-time limit (\f(CRMAX_MENU_DEPTH\fR).
 When the depth limit is reached:
 .IP "\(bu" 3
 The [Submenu] directive displays a fatal error
