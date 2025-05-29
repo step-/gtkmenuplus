@@ -645,7 +645,8 @@ menu_position_cb (GtkMenu *menu __attribute__((unused)),
 entry_activate:
 Run the command of the activated menu entry. Callback.
 
-@entry: pointer to struct #Entry.
+@entry: struct #Entry tracking pointer stored in
+the #GtkMenu widget's data table with key "entry".
 
 Side effects: exits the main loop therefore must emit errors directly.
 */
@@ -672,8 +673,7 @@ entry_activate (struct Entry *entry)
   }
  }
 #ifdef FEATURE_ACTIVATION_LOG
- strcpy (e->icon, strcmp (entry->icon, "NULL") == 0 ? "" : entry->icon);
- if (entry_activationlog_write (entry, e) != 0)
+ if (activationlog_write_entry (entry) != 0)
  {
   if (entry->error)
   {

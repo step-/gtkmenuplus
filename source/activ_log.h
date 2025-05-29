@@ -44,8 +44,7 @@ int
 activation_log_exclude (const gchar *pattern);
 
 guint
-entry_activationlog_write (struct Entry *entry,
-                           const struct Entry *overrides);
+activationlog_write_entry (struct Entry *entry);
 
 int
 activation_log_module_init (void);

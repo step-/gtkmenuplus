@@ -219,7 +219,7 @@ a_tooltip (struct Entry *entry __attribute__((unused)))
 
 /**
 entry_append_leaf_node:
-Append a leaf node to the GTK menu.
+Append a leaf node to the GTK menu while applying label and tooltip formatting.
 
 @entry: pointer to #Entry - members are not modified, except .error.
 @label: alternative menu label overriding @entry->label. Nullable.
@@ -267,6 +267,7 @@ entry_append_leaf_node (struct Entry *entry,
     }
     else
     {
+     g_object_set_data (G_OBJECT (widget), "entry", me);
      memcpy (me, entry, sizeof (*entry));
      if (lbl != NULL)
      {
@@ -295,6 +296,15 @@ entry_append_leaf_node (struct Entry *entry,
    result = RWARN;
    entry_push_error (entry, result, "entry `%s': formatting error", lbl);
   }
+  else if (me != NULL)
+  {
+   GtkWidget *child = gtk_bin_get_child ((GtkBin *) widget);
+   const gchar *label = gtk_label_get_label ((GtkLabel *) child);
+   if G_LIKELY (strlen (label) < SIZEOF_COOKED -1)
+   {
+    strcpy (me->label, label);
+   }
+  }
 #endif
 #ifdef FEATURE_TOOLTIP
   if (entry->tooltip[0] != '\0')
@@ -319,7 +329,8 @@ entry_append_leaf_node (struct Entry *entry,
 /**
 node_attach_tracked_entry:
 Attach a tracked entry to a menu node.
-This function is noop unless option --json is used.
+This function is noop unless FEATURE_SERIALIZATION
+or FEATURE_ACTIVATION_LOG is defined.
 
 @node: #GtkWidget
 @tracked: return address for a struct #Entry pointer to the tracking entry.
@@ -340,14 +351,10 @@ node_attach_tracked_entry (GtkWidget *node __attribute__((unused)),
                            struct Entry *entry __attribute__((unused)))
 {
  enum Result result = ROK;
-#ifdef FEATURE_SERIALIZATION
- if (gl_opt_json_serialize)
+#if defined (FEATURE_SERIALIZATION) || defined (FEATURE_ACTIVATION_LOG)
+ if (gl_opt_json_serialize || *tracked)
  {
-  if (*tracked != NULL)
-  {
-   ;
-  }
-  else
+  if (*tracked == NULL)
   {
    if G_UNLIKELY ((*tracked = entry_new_tracked ()) == NULL)
    {

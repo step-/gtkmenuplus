@@ -149,8 +149,7 @@ EndMeta ::=
   '\n'
 */
 guint
-entry_activationlog_write (struct Entry *entry,
-                           const struct Entry *overrides)
+activationlog_write_entry (struct Entry *entry)
 {
  const gchar *exec, *name, *icon;
 #ifdef FEATURE_TOOLTIP
@@ -214,10 +213,6 @@ entry_activationlog_write (struct Entry *entry,
  comment = entry->tooltip;
 #endif
 
- if (overrides != NULL)
- {
-  icon = overrides->icon;
- }
  /* Remember we are rewriting the menu widget as an `item=`
  directive. Therefore we map NULL to "" because `icon=NULL`
  would be interpreted as the icon name "NULL" otherwise. */
