@@ -317,6 +317,18 @@ entry_append_leaf_node (struct Entry *entry,
                       lbl);
     result = RWARN;
    }
+   else if (me != NULL)
+   {
+    gchar *tooltip = gtk_widget_get_tooltip_markup (widget);
+    if (tooltip != NULL)
+    {
+     if G_LIKELY (strlen (tooltip) < SIZEOF_COOKED -1)
+     {
+      strcpy (me->tooltip, tooltip);
+     }
+     g_free (tooltip);
+    }
+   }
 #endif
   }
 #endif
