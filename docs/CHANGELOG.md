@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog],
 and this project adheres to [Semantic Versioning].
 
+## [Unreleased]
+
+### Changed
+
+- Desktop file 'Comment' property.
+
 ## [2.1.0] - 2025-05-29
 
 ### Added
@@ -13,8 +19,8 @@ and this project adheres to [Semantic Versioning].
 
 ### Changed
 
-- Report an error if the command line passed a directory path. e94735e
-- Drop support for deprecated `icon=NULL` except for Directory Include. 95e5950
+- Report an error if the command line passed a directory path. [e94735e]
+- Drop support for deprecated `icon=NULL` except for Directory Include. [95e5950]
 - (test) Update test scripts and batch test serializations.
 - (test) Refactor batch test helper.
 - (test) Stop the batch tester if gtkmenuplus cannot serialize.
@@ -47,3 +53,6 @@ First release with the new codebase and documentation.
 
 [Keep a Changelog]: <https://keepachangelog.com/en/1.1.0/>
 [Semantic Versioning]: <https://semver.org/spec/v2.0.0.html>
+
+[e94735e]: <https://github.com/step-/gtkmenuplus/commit/e94735e>
+[95e5950]: <https://github.com/step-/gtkmenuplus/commit/95e5950>
