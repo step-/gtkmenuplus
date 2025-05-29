@@ -22,6 +22,7 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 #include <ctype.h>
 #include <gdk/gdk.h>
+#include <sys/stat.h>
 #include "autoconfig.h"
 #include "comment.h"
 #include "directive.h"
@@ -30,7 +31,7 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 #define WHITESPACE_CHARS  " \t\n\r\f\v"
 
-static gchar gl_directives_sep[] = {';', '\0'};
+static gchar gl_directives_sep = ';';
 
 /**
 input_set_directive_separator:
@@ -41,7 +42,7 @@ Change the character that separates command-line directives.
 void
 input_set_directive_separator (const gchar sep)
 {
- gl_directives_sep[0] = sep;
+ gl_directives_sep = sep;
 }
 
 /**
@@ -53,7 +54,7 @@ Returns: separator character.
 gchar
 input_get_directive_separator ()
 {
- return gl_directives_sep[0];
+ return gl_directives_sep;
 }
 
 /**
@@ -420,6 +421,7 @@ input_source_open (struct InputSource *isrc,
                    struct Entry *entry)
 {
  gboolean retval = TRUE;
+ int errnum = 0;
  isrc->token = isrc->_buf = NULL;
  isrc->lineno = isrc->raw[0] = 0;
  if (isrc->fname[0] == '-' && isrc->fname[1] == '\0')
@@ -432,7 +434,8 @@ input_source_open (struct InputSource *isrc,
   isrc->fp = fopen (isrc->fname, "r");
   if (isrc->fp == NULL)
   {
-   if (isrc->fname[0] != G_DIR_SEPARATOR && isrc->fname[0] != '.')
+   if (strchr (isrc->fname, gl_directives_sep) ||
+       (isrc->fname[0] != '.' && strchr (isrc->fname, G_DIR_SEPARATOR) == NULL))
    {
     entry_push_error (entry, ROK, "no file input; assuming directives: %s",
                       isrc->fname);
@@ -440,14 +443,28 @@ input_source_open (struct InputSource *isrc,
    }
    else
    {
-    entry_push_error (entry, RFAIL, "%s: %s", isrc->fname, strerror (errno));
-    retval = FALSE;
+    errnum = errno;
    }
   }
   else
   {
-   entry_push_error (entry, ROK, "reading file '%s'", isrc->fname);
+   struct stat sb;
+   if (stat (isrc->fname, &sb) == 0 && S_ISDIR (sb.st_mode))
+   {
+    fclose (isrc->fp);
+    isrc->fp = NULL;
+    errnum = EISDIR;
+   }
+   else
+   {
+    entry_push_error (entry, ROK, "reading file '%s'", isrc->fname);
+   }
   }
+ }
+ if (errnum)
+ {
+  retval = FALSE;
+  entry_push_error (entry, RFAIL, "%s: %s", isrc->fname, strerror (errnum));
  }
  return retval;
 }
