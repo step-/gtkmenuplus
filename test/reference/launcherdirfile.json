@@ -21,7 +21,7 @@
       "is_separator": true
     },
     {
-      "label": "1/1a (c1)",
+      "label": "<span bgcolor=\"gold\">1/1a (c1)</span>",
       "tooltip": "category c1",
       "icon": "gtk-yes",
       "icon_size": 16,
@@ -29,7 +29,7 @@
       "cmd": "true"
     },
     {
-      "label": "1/1c (c2)",
+      "label": "<span bgcolor=\"gold\">1/1c (c2)</span>",
       "tooltip": "category c2",
       "icon": "gtk-yes",
       "icon_size": 16,
@@ -37,8 +37,8 @@
       "cmd": "true"
     },
     {
-      "label": "1/1d (empty category)",
-      "tooltip": "this entry's {Categories=} exists and is empty",
+      "label": "<span bgcolor=\"gold\">1/1d (empty category)</span>",
+      "tooltip": "this entry&apos;s {Categories=} exists and is empty",
       "icon": "gtk-yes",
       "icon_size": 16,
       "icon_rendered": true,
@@ -53,7 +53,7 @@
       "count": 4,
       "children": [
         {
-          "label": "2/1a (c1)",
+          "label": "<span bgcolor=\"gold\">2/1a (c1)</span>",
           "tooltip": "category c1",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -61,7 +61,7 @@
           "cmd": "true"
         },
         {
-          "label": "2/1c (c2)",
+          "label": "<span bgcolor=\"gold\">2/1c (c2)</span>",
           "tooltip": "category c2",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -69,8 +69,8 @@
           "cmd": "true"
         },
         {
-          "label": "2/2d (null category)",
-          "tooltip": "this entry's {Categories=} property does not exist",
+          "label": "<span bgcolor=\"gold\">2/2d (null category)</span>",
+          "tooltip": "this entry&apos;s {Categories=} property does not exist",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
@@ -85,7 +85,7 @@
           "count": 4,
           "children": [
             {
-              "label": "3/1a (c1)",
+              "label": "<span bgcolor=\"gold\">3/1a (c1)</span>",
               "tooltip": "category c1",
               "icon": "gtk-yes",
               "icon_size": 16,
@@ -93,7 +93,7 @@
               "cmd": "true"
             },
             {
-              "label": "3/1c (c2)",
+              "label": "<span bgcolor=\"gold\">3/1c (c2)</span>",
               "tooltip": "category c2",
               "icon": "gtk-yes",
               "icon_size": 16,
@@ -101,8 +101,8 @@
               "cmd": "true"
             },
             {
-              "label": "3/4d (null category)",
-              "tooltip": "this entry's {Categories=} property does not exist",
+              "label": "<span bgcolor=\"gold\">3/4d (null category)</span>",
+              "tooltip": "this entry&apos;s {Categories=} property does not exist",
               "icon": "gtk-yes",
               "icon_size": 16,
               "icon_rendered": true,
@@ -117,7 +117,7 @@
               "count": 3,
               "children": [
                 {
-                  "label": "4/1a (c1)",
+                  "label": "<span bgcolor=\"gold\">4/1a (c1)</span>",
                   "tooltip": "category c1",
                   "icon": "gtk-yes",
                   "icon_size": 16,
@@ -125,7 +125,7 @@
                   "cmd": "true"
                 },
                 {
-                  "label": "4/1c (c2)",
+                  "label": "<span bgcolor=\"gold\">4/1c (c2)</span>",
                   "tooltip": "category c2",
                   "icon": "gtk-yes",
                   "icon_size": 16,
@@ -133,8 +133,8 @@
                   "cmd": "true"
                 },
                 {
-                  "label": "4/3d (empty category)",
-                  "tooltip": "this entry's {Categories=} exists and is empty",
+                  "label": "<span bgcolor=\"gold\">4/3d (empty category)</span>",
+                  "tooltip": "this entry&apos;s {Categories=} exists and is empty",
                   "icon": "gtk-yes",
                   "icon_size": 16,
                   "icon_rendered": true,
@@ -163,7 +163,7 @@
       "is_separator": true
     },
     {
-      "label": "2/1b no (other)",
+      "label": "<span bgcolor=\"lime\">2/1b no (other)</span>",
       "tooltip": "category other",
       "icon": "gtk-no",
       "icon_size": 16,
@@ -171,8 +171,8 @@
       "cmd": "true"
     },
     {
-      "label": "2/2d (null category)",
-      "tooltip": "this entry's {Categories=} property does not exist",
+      "label": "<span bgcolor=\"lime\">2/2d (null category)</span>",
+      "tooltip": "this entry&apos;s {Categories=} property does not exist",
       "icon": "gtk-yes",
       "icon_size": 16,
       "icon_rendered": true,
@@ -187,7 +187,7 @@
       "count": 3,
       "children": [
         {
-          "label": "3/1b no (other)",
+          "label": "<span bgcolor=\"lime\">3/1b no (other)</span>",
           "tooltip": "category other",
           "icon": "gtk-no",
           "icon_size": 16,
@@ -195,8 +195,8 @@
           "cmd": "true"
         },
         {
-          "label": "3/4d (null category)",
-          "tooltip": "this entry's {Categories=} property does not exist",
+          "label": "<span bgcolor=\"lime\">3/4d (null category)</span>",
+          "tooltip": "this entry&apos;s {Categories=} property does not exist",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
@@ -211,7 +211,7 @@
           "count": 2,
           "children": [
             {
-              "label": "4/1b no (other)",
+              "label": "<span bgcolor=\"lime\">4/1b no (other)</span>",
               "tooltip": "category other",
               "icon": "gtk-no",
               "icon_size": 16,
@@ -219,8 +219,8 @@
               "cmd": "true"
             },
             {
-              "label": "4/3d (empty category)",
-              "tooltip": "this entry's {Categories=} exists and is empty",
+              "label": "<span bgcolor=\"lime\">4/3d (empty category)</span>",
+              "tooltip": "this entry&apos;s {Categories=} exists and is empty",
               "icon": "gtk-yes",
               "icon_size": 16,
               "icon_rendered": true,
@@ -244,7 +244,7 @@
       "is_separator": true
     },
     {
-      "label": "1/1a (c1)",
+      "label": "<span bgcolor=\"gold\">1/1a (c1)</span>",
       "tooltip": "category c1",
       "icon": "gtk-yes",
       "icon_size": 16,
@@ -252,7 +252,7 @@
       "cmd": "true"
     },
     {
-      "label": "1/1c (c2)",
+      "label": "<span bgcolor=\"gold\">1/1c (c2)</span>",
       "tooltip": "category c2",
       "icon": "gtk-yes",
       "icon_size": 16,
@@ -260,8 +260,8 @@
       "cmd": "true"
     },
     {
-      "label": "1/1d (empty category)",
-      "tooltip": "this entry's {Categories=} exists and is empty",
+      "label": "<span bgcolor=\"gold\">1/1d (empty category)</span>",
+      "tooltip": "this entry&apos;s {Categories=} exists and is empty",
       "icon": "gtk-yes",
       "icon_size": 16,
       "icon_rendered": true,
@@ -281,7 +281,7 @@
       "is_separator": true
     },
     {
-      "label": "2/1b no (other)",
+      "label": "<span bgcolor=\"lime\">2/1b no (other)</span>",
       "tooltip": "category other",
       "icon": "gtk-no",
       "icon_size": 16,
@@ -289,8 +289,8 @@
       "cmd": "true"
     },
     {
-      "label": "2/2d (null category)",
-      "tooltip": "this entry's {Categories=} property does not exist",
+      "label": "<span bgcolor=\"lime\">2/2d (null category)</span>",
+      "tooltip": "this entry&apos;s {Categories=} property does not exist",
       "icon": "gtk-yes",
       "icon_size": 16,
       "icon_rendered": true,

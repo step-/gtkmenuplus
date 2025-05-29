@@ -9,11 +9,11 @@
       "count": 2,
       "children": [
         {
-          "label": "i11",
+          "label": "<span font-family=\"mono\">i11</span>",
           "cmd": "true"
         },
         {
-          "label": "i12",
+          "label": "<span font-family=\"mono\">i12</span>",
           "cmd": "true"
         }
       ]
@@ -42,7 +42,7 @@
       "count": 5,
       "children": [
         {
-          "label": "i201",
+          "label": "<span font-family=\"mono\">i201</span>",
           "cmd": "true"
         },
         {
@@ -50,7 +50,7 @@
           "count": 1,
           "children": [
             {
-              "label": "i211",
+              "label": "<span font-family=\"mono\">i211</span>",
               "cmd": "true"
             }
           ]
@@ -63,7 +63,7 @@
           "count": 1,
           "children": [
             {
-              "label": "i231",
+              "label": "<span font-family=\"mono\">i231</span>",
               "cmd": "true"
             }
           ]
@@ -78,7 +78,7 @@
       "label": "30 PASS if you see item 30"
     },
     {
-      "label": "30",
+      "label": "<span font-family=\"mono\">30</span>",
       "cmd": "true"
     },
     {

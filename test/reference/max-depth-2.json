@@ -229,7 +229,7 @@
               "count": 5,
               "children": [
                 {
-                  "label": "1a",
+                  "label": "<span fgcolor=\"red\" underline=\"single\">1a</span>",
                   "tooltip": "Tooltip",
                   "icon": "gtk-about",
                   "icon_size": 16,
@@ -241,7 +241,7 @@
                   "count": 2,
                   "children": [
                     {
-                      "label": "2a",
+                      "label": "<span fgcolor=\"red\" underline=\"single\">2a</span>",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
                       "icon_size": 16,
@@ -249,7 +249,7 @@
                       "cmd": "true"
                     },
                     {
-                      "label": "2b (different)",
+                      "label": "<span fgcolor=\"red\" underline=\"single\">2b (different)</span>",
                       "tooltip": "different tooltip",
                       "icon": "/usr/share/pixmaps/midi-icons/go48.png",
                       "icon_size": 16,
@@ -263,7 +263,7 @@
                   "count": 2,
                   "children": [
                     {
-                      "label": "2a",
+                      "label": "<span fgcolor=\"red\" underline=\"single\">2a</span>",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
                       "icon_size": 16,
@@ -271,7 +271,7 @@
                       "cmd": "true"
                     },
                     {
-                      "label": "Geany",
+                      "label": "<span fgcolor=\"red\" underline=\"single\">Geany</span>",
                       "tooltip": "Geany editor",
                       "icon": "geany",
                       "icon_size": 16,
@@ -285,7 +285,7 @@
                   "count": 2,
                   "children": [
                     {
-                      "label": "2a",
+                      "label": "<span fgcolor=\"red\" underline=\"single\">2a</span>",
                       "tooltip": "Tooltip",
                       "icon": "gtk-about",
                       "icon_size": 16,
@@ -293,7 +293,7 @@
                       "cmd": "true"
                     },
                     {
-                      "label": "Leafpad",
+                      "label": "<span fgcolor=\"red\" underline=\"single\">Leafpad</span>",
                       "tooltip": "Simple text editor",
                       "icon": "leafpad",
                       "icon_size": 16,
@@ -303,7 +303,7 @@
                   ]
                 },
                 {
-                  "label": "Yes symlink",
+                  "label": "<span fgcolor=\"red\" underline=\"single\">Yes symlink</span>",
                   "tooltip": "green dot",
                   "icon": "gtk-yes",
                   "icon_size": 16,

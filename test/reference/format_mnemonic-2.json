@@ -12,38 +12,38 @@
       "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if the next 4 entries start with underlined __A,__B,__C,__A and their font is larger than mine.</span>"
     },
     {
-      "label": "Item 1",
+      "label": "<span  size=\"large\">_A Item 1</span>",
       "cmd": "true"
     },
     {
-      "label": "Item 2",
+      "label": "<span  size=\"large\">_B Item 2</span>",
       "cmd": "true"
     },
     {
-      "label": "Item 3",
+      "label": "<span  size=\"large\">_C Item 3</span>",
       "cmd": "true"
     },
     {
-      "label": "Item 4",
+      "label": "<span  size=\"large\">_A Item 4</span>",
       "cmd": "true"
     },
     {
       "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if the next 4 entries start with underlined __a,__b,__a,__b, their font is larger than mine, and the colors are R,G,B,purple.</span>"
     },
     {
-      "label": "<span foreground=\"red\" size=\"large\">item 1</span>",
+      "label": "<span              ><span  foreground=\"red\" size=\"large\">_a item 1</span></span>",
       "cmd": "true"
     },
     {
-      "label": "<span foreground=\"green\" size=\"large\">item 2</span>",
+      "label": "<span              ><span  foreground=\"green\" size=\"large\">_b item 2</span></span>",
       "cmd": "true"
     },
     {
-      "label": "<span foreground=\"blue\" size=\"large\">item 3</span>",
+      "label": "<span              ><span  foreground=\"blue\" size=\"large\">_a item 3</span></span>",
       "cmd": "true"
     },
     {
-      "label": "<span foreground=\"purple\" size=\"large\">item 4</span>",
+      "label": "<span              ><span  foreground=\"purple\" size=\"large\">_b item 4</span></span>",
       "cmd": "true"
     },
     {
@@ -54,19 +54,19 @@
       "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if the next 4 entries start with underlined __x,__x,__x,__x, and their font is large.</span>"
     },
     {
-      "label": "mnemonic x sic",
+      "label": "<span size=\"large\" >_x mnemonic x sic</span>",
       "cmd": "true"
     },
     {
-      "label": "mnemonic x sic",
+      "label": "<span size=\"large\" >_x mnemonic x sic</span>",
       "cmd": "true"
     },
     {
-      "label": "mnemonic x sic",
+      "label": "<span size=\"large\" >_x mnemonic x sic</span>",
       "cmd": "true"
     },
     {
-      "label": "mnemonic x sic",
+      "label": "<span size=\"large\" >_x mnemonic x sic</span>",
       "cmd": "true"
     },
     {

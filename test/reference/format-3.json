@@ -51,7 +51,7 @@
                   "count": 1,
                   "children": [
                     {
-                      "label": "Yes symlink",
+                      "label": "<span fgcolor=\"dodgerblue\" font-weight=\"800\">Yes symlink</span>",
                       "tooltip": "green dot",
                       "icon": "gtk-yes",
                       "icon_size": 16,
@@ -61,7 +61,7 @@
                   ]
                 },
                 {
-                  "label": "Yes symlink",
+                  "label": "<span fgcolor=\"dodgerblue\" font-weight=\"800\">Yes symlink</span>",
                   "tooltip": "green dot",
                   "icon": "gtk-yes",
                   "icon_size": 16,
@@ -71,7 +71,7 @@
               ]
             },
             {
-              "label": "Yes symlink",
+              "label": "<span fgcolor=\"dodgerblue\" font-weight=\"800\">Yes symlink</span>",
               "tooltip": "green dot",
               "icon": "gtk-yes",
               "icon_size": 16,
@@ -81,7 +81,7 @@
           ]
         },
         {
-          "label": "Yes symlink",
+          "label": "<span fgcolor=\"dodgerblue\" font-weight=\"800\">Yes symlink</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -91,7 +91,7 @@
       ]
     },
     {
-      "label": "Yes symlink",
+      "label": "<span fgcolor=\"dodgerblue\" font-weight=\"800\">Yes symlink</span>",
       "tooltip": "green dot",
       "icon": "gtk-yes",
       "icon_size": 16,

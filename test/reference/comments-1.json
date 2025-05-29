@@ -13,7 +13,7 @@
       "count": 1,
       "children": [
         {
-          "label": "PASS long comments if red on green",
+          "label": "<span foreground=\"#AA4400\" background=\"#00FF00\">PASS long comments if red on green</span>",
           "cmd": "true"
         }
       ]

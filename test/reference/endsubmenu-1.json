@@ -16,7 +16,7 @@
       "count": 2,
       "children": [
         {
-          "label": "5a",
+          "label": "<span fgcolor=\"red\" underline=\"single\">5a</span>",
           "tooltip": "Tooltip",
           "icon": "gtk-about",
           "icon_size": 16,
@@ -24,7 +24,7 @@
           "cmd": "true"
         },
         {
-          "label": "Yes symlink",
+          "label": "<span fgcolor=\"red\" underline=\"single\">Yes symlink</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -41,7 +41,7 @@
       "label": "20 PASS if two <span fgcolor=\"dodgerblue\" font-weight=\"800\">blue</span> items follow this item"
     },
     {
-      "label": "5a",
+      "label": "<span fgcolor=\"dodgerblue\" font-weight=\"800\">5a</span>",
       "tooltip": "Tooltip",
       "icon": "gtk-about",
       "icon_size": 16,
@@ -49,7 +49,7 @@
       "cmd": "true"
     },
     {
-      "label": "Yes symlink",
+      "label": "<span fgcolor=\"dodgerblue\" font-weight=\"800\">Yes symlink</span>",
       "tooltip": "green dot",
       "icon": "gtk-yes",
       "icon_size": 16,

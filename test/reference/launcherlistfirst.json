@@ -78,7 +78,7 @@
     },
     {
       "label": "2/2d (null category)",
-      "tooltip": "this entry's {Categories=} property does not exist",
+      "tooltip": "this entry&apos;s {Categories=} property does not exist",
       "icon": "gtk-yes",
       "icon_size": 16,
       "icon_rendered": true,
@@ -114,7 +114,7 @@
         },
         {
           "label": "3/4d (null category)",
-          "tooltip": "this entry's {Categories=} property does not exist",
+          "tooltip": "this entry&apos;s {Categories=} property does not exist",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
@@ -150,7 +150,7 @@
             },
             {
               "label": "4/3d (empty category)",
-              "tooltip": "this entry's {Categories=} exists and is empty",
+              "tooltip": "this entry&apos;s {Categories=} exists and is empty",
               "icon": "gtk-yes",
               "icon_size": 16,
               "icon_rendered": true,
@@ -186,7 +186,7 @@
     },
     {
       "label": "2/2d (null category)",
-      "tooltip": "this entry's {Categories=} property does not exist",
+      "tooltip": "this entry&apos;s {Categories=} property does not exist",
       "icon": "gtk-yes",
       "icon_size": 16,
       "icon_rendered": true,
@@ -222,7 +222,7 @@
         },
         {
           "label": "3/4d (null category)",
-          "tooltip": "this entry's {Categories=} property does not exist",
+          "tooltip": "this entry&apos;s {Categories=} property does not exist",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
@@ -258,7 +258,7 @@
             },
             {
               "label": "4/3d (empty category)",
-              "tooltip": "this entry's {Categories=} exists and is empty",
+              "tooltip": "this entry&apos;s {Categories=} exists and is empty",
               "icon": "gtk-yes",
               "icon_size": 16,
               "icon_rendered": true,
@@ -304,7 +304,7 @@
     },
     {
       "label": "2/2d (null category)",
-      "tooltip": "this entry's {Categories=} property does not exist",
+      "tooltip": "this entry&apos;s {Categories=} property does not exist",
       "icon": "gtk-yes",
       "icon_size": 16,
       "icon_rendered": true,
@@ -340,7 +340,7 @@
         },
         {
           "label": "3/4d (null category)",
-          "tooltip": "this entry's {Categories=} property does not exist",
+          "tooltip": "this entry&apos;s {Categories=} property does not exist",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
@@ -376,7 +376,7 @@
             },
             {
               "label": "4/3d (empty category)",
-              "tooltip": "this entry's {Categories=} exists and is empty",
+              "tooltip": "this entry&apos;s {Categories=} exists and is empty",
               "icon": "gtk-yes",
               "icon_size": 16,
               "icon_rendered": true,

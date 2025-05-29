@@ -19,43 +19,43 @@
       "label": " │ │ │ │ │ │ │ │ │ │ (white space highlighted below)"
     },
     {
-      "label": " 0",
+      "label": "<span font=\"monospace\" show=\"spaces\" > _0</span>",
       "cmd": "true"
     },
     {
-      "label": "   1",
+      "label": "<span font=\"monospace\" show=\"spaces\" >   _1</span>",
       "cmd": "true"
     },
     {
-      "label": "     2",
+      "label": "<span font=\"monospace\" show=\"spaces\" >     _2</span>",
       "cmd": "true"
     },
     {
-      "label": "       3",
+      "label": "<span font=\"monospace\" show=\"spaces\" >       _3</span>",
       "cmd": "true"
     },
     {
-      "label": "         4",
+      "label": "<span font=\"monospace\" show=\"spaces\" >         _4</span>",
       "cmd": "true"
     },
     {
-      "label": "           5",
+      "label": "<span font=\"monospace\" show=\"spaces\" >           _5</span>",
       "cmd": "true"
     },
     {
-      "label": "             6",
+      "label": "<span font=\"monospace\" show=\"spaces\" >             _6</span>",
       "cmd": "true"
     },
     {
-      "label": "               7",
+      "label": "<span font=\"monospace\" show=\"spaces\" >               _7</span>",
       "cmd": "true"
     },
     {
-      "label": "                 8",
+      "label": "<span font=\"monospace\" show=\"spaces\" >                 _8</span>",
       "cmd": "true"
     },
     {
-      "label": "                   9",
+      "label": "<span font=\"monospace\" show=\"spaces\" >                   _9</span>",
       "cmd": "true"
     },
     {

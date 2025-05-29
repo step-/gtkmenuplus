@@ -45,7 +45,7 @@
     },
     {
       "label": "PASS if inode/directory MIME-type icon",
-      "tooltip": "`cmd=/` => icon of inode/directory MIME-type",
+      "tooltip": "`cmd=/` =&gt; icon of inode/directory MIME-type",
       "icon": "file-manager",
       "icon_size": 16,
       "icon_rendered": true,
@@ -53,7 +53,7 @@
     },
     {
       "label": "PASS if image/* file type icon",
-      "tooltip": "`cmd={pwd}/icondirectory=/XPM/gtkmenuplus.xpm` => icon of image/png MIME-type",
+      "tooltip": "`cmd={pwd}/icondirectory=/XPM/gtkmenuplus.xpm` =&gt; icon of image/png MIME-type",
       "icon": "gimp",
       "icon_size": 16,
       "icon_rendered": true,
@@ -100,7 +100,7 @@
     },
     {
       "label": "PASS if NO icon",
-      "tooltip": "`configure=noicons` && omitted `icon=` => NO icon (even if `cmd={pwd}/icondirectory=/XPM/gtkmenuplus.xpm)",
+      "tooltip": "`configure=noicons` &amp;&amp; omitted `icon=` =&gt; NO icon (even if `cmd={pwd}/icondirectory=/XPM/gtkmenuplus.xpm)",
       "cmd": "{pwd}/icondirectory=/XPM/gtkmenuplus.xpm"
     },
     {
@@ -116,7 +116,7 @@
     },
     {
       "label": "PASS if NO icon",
-      "tooltip": "`configure=icons` && omitted `icon=` => NO icon (with `cmd=true`)",
+      "tooltip": "`configure=icons` &amp;&amp; omitted `icon=` =&gt; NO icon (with `cmd=true`)",
       "cmd": "true"
     },
     {
@@ -131,21 +131,21 @@
     },
     {
       "label": "PASS if NO icon",
-      "tooltip": "`icon=/non-existent-icon.png` => NO icon",
+      "tooltip": "`icon=/non-existent-icon.png` =&gt; NO icon",
       "icon": "/non-existent-icon.png",
       "icon_size": 16,
       "cmd": "true"
     },
     {
       "label": "PASS if NO icon",
-      "tooltip": "`icon={pwd}/icon_of_item.gtkmenuplus` => NO icon",
+      "tooltip": "`icon={pwd}/icon_of_item.gtkmenuplus` =&gt; NO icon",
       "icon": "{pwd}/icon_of_item.gtkmenuplus",
       "icon_size": 16,
       "cmd": "true"
     },
     {
       "label": "PASS if NO icon",
-      "tooltip": "`icon=InVaLiDiCoN` => NO icon",
+      "tooltip": "`icon=InVaLiDiCoN` =&gt; NO icon",
       "icon": "InVaLiDiCoN",
       "icon_size": 16,
       "cmd": "true"
@@ -156,7 +156,7 @@
     },
     {
       "label": "PASS if NO icon",
-      "tooltip": "empty `icon=` => NO icon",
+      "tooltip": "empty `icon=` =&gt; NO icon",
       "cmd": "true"
     },
     {

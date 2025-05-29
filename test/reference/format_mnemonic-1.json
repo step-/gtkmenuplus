@@ -12,15 +12,15 @@
       "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if the next 3 entries start with plain T (no underline).</span>"
     },
     {
-      "label": "<span mnemonic=\"1\">This item (tranparent bg)</span>",
+      "label": "<span             >This item (tranparent bg)</span>",
       "cmd": "true"
     },
     {
-      "label": "<span bgcolor=\"gold\" mnemonic=\"1\">This item (gold bg)</span>",
+      "label": "<span bgcolor=\"gold\"             >This item (gold bg)</span>",
       "cmd": "true"
     },
     {
-      "label": "<span mnemonic=\"1\" bgcolor=\"pink\">This item (pink bg)</span>",
+      "label": "<span              bgcolor=\"pink\">This item (pink bg)</span>",
       "cmd": "true"
     },
     {
@@ -31,15 +31,15 @@
       "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if the next 3 entries start with underlined __T, and their font is larger than mine, and the colors are R,G,B.</span>"
     },
     {
-      "label": "<span foreground=\"red\">This item</span>",
+      "label": "<span              size=\"large\"><span  foreground=\"red\">_This item</span></span>",
       "cmd": "true"
     },
     {
-      "label": "<span foreground=\"green\" size=\"large\">This item</span>",
+      "label": "<span             ><span  foreground=\"green\" size=\"large\">_This item</span></span>",
       "cmd": "true"
     },
     {
-      "label": "<span mnemonic=\"1\" foreground=\"blue\">This item</span>",
+      "label": "<span size=\"large\"             ><span               foreground=\"blue\">_This item</span></span>",
       "cmd": "true"
     },
     {
@@ -50,7 +50,7 @@
       "label": "<span foreground=\"blue\" background=\"azure\" size=\"small\">PASS if the leafpad launcher starts with underlined __L</span>"
     },
     {
-      "label": "Leafpad",
+      "label": "<span >_Leafpad</span>",
       "tooltip": "Simple text editor",
       "icon": "leafpad",
       "icon_size": 16,
@@ -76,7 +76,7 @@
           "count": 1,
           "children": [
             {
-              "label": "dir--launcher",
+              "label": "<span >_dir--launcher</span>",
               "icon": "gtk-yes",
               "icon_size": 16,
               "icon_rendered": true,
@@ -85,14 +85,14 @@
           ]
         },
         {
-          "label": "dir--launcher",
+          "label": "<span >_dir--launcher</span>",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span >_launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -100,7 +100,7 @@
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span >_launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,

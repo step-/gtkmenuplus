@@ -91,51 +91,51 @@
       "count": 12,
       "children": [
         {
-          "label": "1",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_🌍 1</span>",
           "cmd": "true"
         },
         {
-          "label": "2",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_ü 2</span>",
           "cmd": "true"
         },
         {
-          "label": "3",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_! 3</span>",
           "cmd": "true"
         },
         {
-          "label": "4",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_€ 4</span>",
           "cmd": "true"
         },
         {
-          "label": "5",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_😀 5</span>",
           "cmd": "true"
         },
         {
-          "label": "6",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_A 6</span>",
           "cmd": "true"
         },
         {
-          "label": "7",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_¢ 7</span>",
           "cmd": "true"
         },
         {
-          "label": "8",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_é 8</span>",
           "cmd": "true"
         },
         {
-          "label": "9",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_¡ 9</span>",
           "cmd": "true"
         },
         {
-          "label": "0",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_★ 0</span>",
           "cmd": "true"
         },
         {
-          "label": "1",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_🌍 1</span>",
           "cmd": "true"
         },
         {
-          "label": "2",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_ü 2</span>",
           "cmd": "true"
         }
       ]
@@ -149,14 +149,14 @@
       "count": 12,
       "children": [
         {
-          "label": "dir--launcher",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_🌍 dir--launcher</span>",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_ü launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -164,7 +164,7 @@
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_! launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -172,14 +172,14 @@
           "cmd": "true"
         },
         {
-          "label": "dir--launcher",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_€ dir--launcher</span>",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_😀 launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -187,7 +187,7 @@
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_A launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -195,14 +195,14 @@
           "cmd": "true"
         },
         {
-          "label": "dir--launcher",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_¢ dir--launcher</span>",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_é launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -210,7 +210,7 @@
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_¡ launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -218,14 +218,14 @@
           "cmd": "true"
         },
         {
-          "label": "dir--launcher",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_★ dir--launcher</span>",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_🌍 launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -233,7 +233,7 @@
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span  fgcolor=\"#800000\" font-weight=\"800\">_ü launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,

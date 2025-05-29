@@ -35,19 +35,19 @@
           "count": 4,
           "children": [
             {
-              "label": "London",
+              "label": "<span >_A London</span>",
               "cmd": "true"
             },
             {
-              "label": "Birmingham",
+              "label": "<span >_B Birmingham</span>",
               "cmd": "true"
             },
             {
-              "label": "Liverpool",
+              "label": "<span >_C Liverpool</span>",
               "cmd": "true"
             },
             {
-              "label": "Manchester",
+              "label": "<span >_A Manchester</span>",
               "cmd": "true"
             }
           ]
@@ -57,19 +57,19 @@
           "count": 4,
           "children": [
             {
-              "label": "Glasgow",
+              "label": "<span >_A Glasgow</span>",
               "cmd": "true"
             },
             {
-              "label": "Edingburgh",
+              "label": "<span >_B Edingburgh</span>",
               "cmd": "true"
             },
             {
-              "label": "Aberdeen",
+              "label": "<span >_C Aberdeen</span>",
               "cmd": "true"
             },
             {
-              "label": "Inverness",
+              "label": "<span >_A Inverness</span>",
               "cmd": "true"
             }
           ]
@@ -84,7 +84,7 @@
       "label": "<span foreground=\"blue\" background=\"azure\" size=\"large\">PASS if the leafpad launcher entry starts with mnemonic __Y</span>"
     },
     {
-      "label": "Leafpad",
+      "label": "<span >_Y Leafpad</span>",
       "tooltip": "Simple text editor",
       "icon": "leafpad",
       "icon_size": 16,
@@ -106,7 +106,7 @@
           "count": 1,
           "children": [
             {
-              "label": "dir--launcher",
+              "label": "<span >_0 dir--launcher</span>",
               "icon": "gtk-yes",
               "icon_size": 16,
               "icon_rendered": true,
@@ -115,14 +115,14 @@
           ]
         },
         {
-          "label": "dir--launcher",
+          "label": "<span >_1 dir--launcher</span>",
           "icon": "gtk-yes",
           "icon_size": 16,
           "icon_rendered": true,
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span >_2 launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
@@ -130,7 +130,7 @@
           "cmd": "true"
         },
         {
-          "label": "launcher2",
+          "label": "<span >_0 launcher2</span>",
           "tooltip": "green dot",
           "icon": "gtk-yes",
           "icon_size": 16,
