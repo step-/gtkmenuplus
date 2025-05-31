@@ -128,12 +128,20 @@ Add menu entry to the activation log file.
 The entry is NOT added if the activation log's exclusion pattern matches the
 entry's command string.
 
-Returns: 0(OK) -1(error).
+Return: 0(OK) -1(error).
 
-The activation log file is formatted as a menu configuration file for easy
-inclusion in other menus. A log record consists of the concatenation of
-Meta,Item,Cmd,Icon,[Tooltip,]EndData.  Item, Cmd, Icon and Tooltip are
-gtkmenuplus directives.
+The goal of the activation log file to provide a file that can be included
+by a main menu script to create a "Recently-used" submenu. Thus, the file is
+formatted as a menu configuration file that contains just the Item, Cmd, Icon
+(and Tooltip, if enabled) directives associated with the activated menu entry.
+
+The activation log record concatenates a Meta head comment, followed
+by the Item, Cmd, Icon (and Tooltip, only if built in) directives
+with their values, and an EndMeta tail comment. Directive values are
+variable- but not path-expanded. The Icon value is resolved to a text
+icon resource (path, name/stock). Item and Tooltip style formatting
+and Item auto-mnemonic formatting are not applied.
+
 Meta :=
   '#{'
     <num_fields>

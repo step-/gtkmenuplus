@@ -296,7 +296,8 @@ entry_append_leaf_node (struct Entry *entry,
    result = RWARN;
    entry_push_error (entry, result, "entry `%s': formatting error", lbl);
   }
-  else if (me != NULL)
+#ifdef FEATURE_SERIALIZATION
+  else if (me != NULL && gl_opt_json_serialize)
   {
    GtkWidget *child = gtk_bin_get_child ((GtkBin *) widget);
    const gchar *label = gtk_label_get_label ((GtkLabel *) child);
@@ -305,6 +306,7 @@ entry_append_leaf_node (struct Entry *entry,
     strcpy (me->label, label);
    }
   }
+#endif
 #endif
 #ifdef FEATURE_TOOLTIP
   if (entry->tooltip[0] != '\0')
@@ -317,7 +319,8 @@ entry_append_leaf_node (struct Entry *entry,
                       lbl);
     result = RWARN;
    }
-   else if (me != NULL)
+#ifdef FEATURE_SERIALIZATION
+   else if (me != NULL && gl_opt_json_serialize)
    {
     gchar *tooltip = gtk_widget_get_tooltip_markup (widget);
     if (tooltip != NULL)
@@ -329,6 +332,7 @@ entry_append_leaf_node (struct Entry *entry,
      g_free (tooltip);
     }
    }
+#endif
 #endif
   }
 #endif
