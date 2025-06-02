@@ -265,7 +265,11 @@ activationlog_write_entry (struct Entry *entry)
 
  /* Scan for line holding Meta and, optionally, <userdata>. */
  found = error = FALSE;
- while (fgets (meta, sizeof (meta), heystack) != NULL)
+ if (isatty (fileno (heystack)))
+ {
+  ; /* Using a tty as activation log file is allowed. */
+ }
+ else while (fgets (meta, sizeof (meta), heystack) != NULL)
  {
   gint i, n;
 
