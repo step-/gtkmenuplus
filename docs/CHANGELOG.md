@@ -6,9 +6,19 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
+### Added
+
+- Report when `activationlogexclude` matches.
+- Allow using tty as activation log file.
+
 ### Changed
 
+- The activation log file shall not format labels and tooltips. [4921428]
 - Desktop file 'Comment' property.
+
+### Fixed
+
+- Leaving the application log file open in some cases.
 
 ## [2.1.0] - 2025-05-29
 
@@ -54,5 +64,6 @@ First release with the new codebase and documentation.
 [Keep a Changelog]: <https://keepachangelog.com/en/1.1.0/>
 [Semantic Versioning]: <https://semver.org/spec/v2.0.0.html>
 
+[4921428]: <https://github.com/step-/gtkmenuplus/commit/4921428>
 [e94735e]: <https://github.com/step-/gtkmenuplus/commit/e94735e>
 [95e5950]: <https://github.com/step-/gtkmenuplus/commit/95e5950>
