@@ -4,7 +4,7 @@ activation_log_fetch (const gchar *path);
 int
 activation_log_exclude (const gchar *pattern);
 
-guint
+int
 activationlog_write_entry (struct Entry *entry);
 
 int

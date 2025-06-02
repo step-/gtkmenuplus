@@ -673,17 +673,24 @@ entry_activate (struct Entry *entry)
   }
  }
 #ifdef FEATURE_ACTIVATION_LOG
- if (activationlog_write_entry (entry) != 0)
  {
+  gint ret = activationlog_write_entry (entry);
   if (entry->error)
   {
-   if (logmsg_can_emit (RWARN))
+   struct EntryError *err = ENTRY_ERROR (entry->error);
+   if (logmsg_can_emit (err->level))
    {
-    logmsg_emit (RWARN, ENTRY_ERROR (entry->error)->message, NULL);
+    logmsg_emit (err->level, err->message, NULL);
    }
    entry_free_error (entry);
   }
-  logmsg_emit (RWARN, "`activationlogfile=`: no log", NULL);
+  if (ret != 0)
+  {
+   if (logmsg_can_emit (RWARN))
+   {
+    logmsg_emit (RWARN, "`activationlogfile=`: cannot log", NULL);
+   }
+  }
  }
 #endif
  if (logmsg_can_emit (ROK))

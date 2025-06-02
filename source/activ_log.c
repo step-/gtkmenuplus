@@ -156,7 +156,7 @@ EndMeta ::=
   [ <user_data> ]
   '\n'
 */
-guint
+int
 activationlog_write_entry (struct Entry *entry)
 {
  const gchar *exec, *name, *icon;
@@ -193,6 +193,9 @@ activationlog_write_entry (struct Entry *entry)
   regfree (&regex);
   if (ret == 0)
   {
+   entry_push_error (entry, RINFO,
+                     "`activationlogexclude=` pattern '%s' matched the command",
+                     activ_log->exclude);
    return 0;
   }
  }
