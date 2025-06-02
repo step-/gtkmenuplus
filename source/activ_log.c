@@ -165,7 +165,7 @@ activationlog_write_entry (struct Entry *entry)
 #endif
  gchar *p, tmpf[MAX_PATH_LEN];
  int ret = 0, fd;
- FILE *copy, *heystack;
+ FILE *copy = NULL, *heystack = NULL;
 
  if (activ_log == NULL)
  {
@@ -205,11 +205,11 @@ activationlog_write_entry (struct Entry *entry)
   return -1;
  }
 
- copy = fdopen (fd, "w+");
- heystack = fopen (activ_log->path, "r+");
- if (copy == NULL || heystack == NULL)
+ if (((copy = fdopen (fd, "w+")) == NULL)
+     || ((heystack = fopen (activ_log->path, "r+")) == NULL))
  {
-  entry_push_error (entry, RFAIL, "log fopen: %s", strerror (errno));
+  entry_push_error (entry, RFAIL, "opening the activation: %s",
+                    strerror (errno));
   ret = -1;
   goto out;
  }
@@ -365,6 +365,7 @@ activationlog_write_entry (struct Entry *entry)
   fputs (buf, heystack);
 
  ret = fclose (heystack);
+ heystack = NULL;
  if (ret)
  {
   entry_push_error (entry, RFAIL, "log fclose: %s", strerror (errno));
@@ -374,6 +375,10 @@ out:
  if (copy != NULL)
  {
   fclose (copy);
+ }
+ if (heystack != NULL)
+ {
+  fclose (heystack);
  }
  unlink (tmpf);
 
