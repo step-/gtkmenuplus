@@ -1,5 +1,5 @@
 .\" -*- mode: troff; coding: utf-8 -*-
-.TH "Gtkmenuplus Scripting Guide" "5" "2025-05-29"
+.TH "Gtkmenuplus Scripting Guide" "5" "2025-06-05"
 .SS
 NAME
 .LP
@@ -2343,6 +2343,15 @@ Then use the evaluated value as a parameter, e.g., \f(CRif= $1\fR, in the script
 .SS
 NEAT EXAMPLES
 .LP
+\fBLog command activation to standard error\fR
+.LP
+.EX
+    format = mnemonic=\(dq1\(dq                  # Add shortcuts (optional)
+    activationlogfile = /proc/self/fd/2    # The proc file system
+    item = Now
+    cmd = date
+.EE
+.PP
 \fBFind absolutely all launchers in your home directory\fR
 .PP
 The configuration below follows all symbolic links, includes all hidden
@@ -2356,7 +2365,7 @@ The first run of the script could take considerable time.
 .SS
 BUGS
 .LP
-Please report defects here: \c
+Please report bugs at \c
 .UR https://github.com/step-/gtkmenuplus/issues
 .UE \c
 \&.
