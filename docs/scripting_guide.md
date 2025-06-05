@@ -2019,6 +2019,15 @@ Then use the evaluated value as a parameter, e.g., `if= $1`, in the script file.
 
 ## NEAT EXAMPLES
 
+**Log command activation to standard error**
+
+```gtkmenuplus
+    format = mnemonic="1"                  # Add shortcuts (optional)
+    activationlogfile = /proc/self/fd/2    # The proc file system
+    item = Now
+    cmd = date
+```
+
 **Find absolutely all launchers in your home directory**
 
 The configuration below follows all symbolic links, includes all hidden
@@ -2032,7 +2041,7 @@ The first run of the script could take considerable time.
 
 ## BUGS
 
-Please report defects here: <https://github.com/step-/gtkmenuplus/issues>.
+Please report bugs at <https://github.com/step-/gtkmenuplus/issues>.
 
 ## AUTHORS
 
